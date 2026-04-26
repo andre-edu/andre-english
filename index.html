@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive English — André Lundberg</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy:      #1a2d45;
+            --navy2:     #243650;
+            --gold:      #c8922a;
+            --gold2:     #e8b44a;
+            --paper:     #f7f4ef;
+            --ink:       #1e2830;
+            --muted:     #7a8595;
+            --border:    #ddd8cf;
+            --row-hover: #f0ede8;
+            --empty:     #b5b0a8;
+            --teal:      #2a7c7c;
+            --teal2:     #3a9e9e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+
+        /* ── Header ── */
+        header {
+            background: var(--navy);
+            color: #fff;
+            padding: 3rem 2rem 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--teal), var(--teal2), var(--teal));
+        }
+        .header-inner {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+        .header-breadcrumb {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.04em;
+        }
+        .header-breadcrumb a {
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+        .header-breadcrumb a:hover { color: var(--teal2); }
+        header h1 {
+            font-family: 'Spectral', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+        header h1 span { color: var(--teal2); }
+        header p {
+            color: rgba(255,255,255,0.55);
+            font-size: 0.95rem;
+            margin-top: 0.4rem;
+        }
+        .header-meta {
+            display: flex;
+            gap: 1.25rem;
+            margin-top: 1.25rem;
+            flex-wrap: wrap;
+        }
+        .header-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.07);
+            border-radius: 4px;
+            padding: 0.25rem 0.65rem;
+        }
+
+        /* ── Main ── */
+        main {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 4rem;
+        }
+
+        .section-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        /* ── Accordion ── */
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .category {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+        .category.open {
+            box-shadow: 0 4px 20px rgba(26,45,69,0.10);
+        }
+        .category.empty { opacity: 0.6; }
+
+        .cat-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.15s;
+        }
+        .cat-header:hover { background: var(--row-hover); }
+        .category.empty .cat-header { cursor: default; }
+
+        .cat-icon {
+            font-size: 1.25rem;
+            min-width: 2rem;
+            text-align: center;
+            line-height: 1;
+        }
+        .cat-title {
+            font-family: 'Spectral', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--navy);
+            flex: 1;
+        }
+        .cat-desc {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 0.1rem;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 400;
+        }
+        .cat-count {
+            font-size: 0.8rem;
+            color: var(--muted);
+            background: var(--paper);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 0.15rem 0.6rem;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .cat-count.has-modules {
+            color: var(--teal);
+            border-color: rgba(42,124,124,0.3);
+            background: rgba(42,124,124,0.06);
+        }
+        .cat-arrow {
+            color: var(--muted);
+            font-size: 0.85rem;
+            transition: transform 0.25s;
+            margin-left: 0.25rem;
+            flex-shrink: 0;
+        }
+        .category.open .cat-arrow { transform: rotate(180deg); }
+
+        /* ── Module list ── */
+        .module-list {
+            display: none;
+            border-top: 1px solid var(--border);
+            padding: 0.5rem 0;
+        }
+        .category.open .module-list { display: block; }
+
+        .subgroup-label {
+            padding: 0.6rem 1.25rem 0.4rem 1.5rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--muted);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            background: var(--paper);
+            border-bottom: 1px solid var(--border);
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .subgroup-label:first-child { border-top: none; }
+
+        .module-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1.25rem 0.75rem 1.5rem;
+            border-bottom: 1px solid #f0ede8;
+            transition: background 0.12s;
+        }
+        .module-row:last-child { border-bottom: none; }
+        .module-row:hover { background: var(--row-hover); }
+
+        .module-icon {
+            font-size: 1.3rem;
+            min-width: 2rem;
+            text-align: center;
+        }
+        .module-info { flex: 1; min-width: 0; }
+        .module-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--ink);
+        }
+        .module-desc {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 0.1rem;
+        }
+        .module-badge {
+            font-size: 0.68rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .badge-new {
+            background: rgba(42,124,124,0.12);
+            color: var(--teal);
+            border: 1px solid rgba(42,124,124,0.25);
+        }
+        .badge-soon {
+            background: rgba(122,133,149,0.1);
+            color: var(--muted);
+            border: 1px solid var(--border);
+        }
+        .module-link {
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--navy);
+            border: 1.5px solid var(--navy2);
+            border-radius: 5px;
+            padding: 0.3rem 0.8rem;
+            white-space: nowrap;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+        .module-link:hover {
+            background: var(--navy);
+            color: var(--teal2);
+        }
+
+        .empty-note {
+            padding: 0.9rem 1.5rem;
+            font-size: 0.85rem;
+            color: var(--empty);
+            font-style: italic;
+        }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.82rem;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+        }
+        footer a { color: var(--muted); }
+
+        @media(max-width: 600px) {
+            .cat-desc { display: none; }
+            .module-row { padding-left: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="header-breadcrumb">
+            <a href="https://andre-history.github.io/history-interactive/">↗ History modules</a>
+            &nbsp;·&nbsp; English modules
+        </div>
+        <h1>Interactive <span>English</span></h1>
+        <p>Interactive modules for English 1 &amp; 2 — B1–B2 ESOL · Gymnasium</p>
+        <div class="header-meta">
+            <span class="header-tag">English 1 &amp; 2</span>
+            <span class="header-tag">B1 – B2</span>
+            <span class="header-tag">Gymnasium</span>
+            <span class="header-tag">André Lundberg</span>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="section-label">Module library — click a category to expand</div>
+    <div class="accordion">
+
+        <!-- 1. Literature -->
+        <div class="category">
+            <div class="cat-header">
+                <span class="cat-icon">📚</span>
+                <div style="flex:1;min-width:0">
+                    <div class="cat-title">Literature</div>
+                    <div class="cat-desc">Novels, film, short stories and close reading</div>
+                </div>
+                <span class="cat-count has-modules">1 module</span>
+                <span class="cat-arrow">▼</span>
+            </div>
+            <div class="module-list">
+
+                <div class="subgroup-label">📖 Novels &amp; Longer Fiction</div>
+                <div class="module-row">
+                    <span class="module-icon">💔</span>
+                    <div class="module-info">
+                        <div class="module-name">The Fault in Our Stars</div>
+                        <div class="module-desc">Assignment and reading guide — themes of mortality, love and identity</div>
+                    </div>
+                    <span class="module-badge badge-soon">Coming soon</span>
+                </div>
+                <div class="module-row">
+                    <span class="module-icon">🌀</span>
+                    <div class="module-info">
+                        <div class="module-name">Dark Matter</div>
+                        <div class="module-desc">Assignment guide — parallel worlds, identity and choice</div>
+                    </div>
+                    <span class="module-badge badge-soon">Coming soon</span>
+                </div>
+
+                <div class="subgroup-label">🎬 Film &amp; Adaptation</div>
+                <div class="module-row">
+                    <span class="module-icon">🚗</span>
+                    <div class="module-info">
+                        <div class="module-name">Back to the Future — ESOL Worksheet</div>
+                        <div class="module-desc">Vocabulary, comprehension and discussion tasks for English 2</div>
+                    </div>
+                    <span class="module-badge badge-soon">Coming soon</span>
+                </div>
+
+                <div class="subgroup-label">✍️ Short Stories &amp; Poetry</div>
+                <div class="empty-note">No modules yet — check back soon.</div>
+
+            </div>
+        </div>
+
+        <!-- 2. Grammar -->
+        <div class="category">
+            <div class="cat-header">
+                <span class="cat-icon">🔤</span>
+                <div style="flex:1;min-width:0">
+                    <div class="cat-title">Grammar</div>
+                    <div class="cat-desc">Parts of speech, sentence structure and academic style</div>
+                </div>
+                <span class="cat-count has-modules">1 module</span>
+                <span class="cat-arrow">▼</span>
+            </div>
+            <div class="module-list">
+
+                <div class="subgroup-label">🏷️ Parts of Speech</div>
+                <div class="module-row">
+                    <span class="module-icon">📊</span>
+                    <div class="module-info">
+                        <div class="module-name">Grammar Terminology — Three-Part Series</div>
+                        <div class="module-desc">Presentation slides and print-ready exercise handouts · Navy/gold visual system</div>
+                    </div>
+                    <span class="module-badge badge-soon">Coming soon</span>
+                </div>
+
+                <div class="subgroup-label">🔗 Sentence Structure</div>
+                <div class="empty-note">No modules yet — check back soon.</div>
+
+                <div class="subgroup-label">✒️ Usage &amp; Style</div>
+                <div class="empty-note">No modules yet — check back soon.</div>
+
+            </div>
+        </div>
+
+        <!-- 3. Thematic -->
+        <div class="category open">
+            <div class="cat-header">
+                <span class="cat-icon">🌐</span>
+                <div style="flex:1;min-width:0">
+                    <div class="cat-title">Thematic</div>
+                    <div class="cat-desc">Cross-curricular topics connecting English to science, media and society</div>
+                </div>
+                <span class="cat-count has-modules">1 module</span>
+                <span class="cat-arrow">▼</span>
+            </div>
+            <div class="module-list">
+
+                <div class="subgroup-label">📱 Media &amp; Society</div>
+                <div class="module-row">
+                    <span class="module-icon">🧠</span>
+                    <div class="module-info">
+                        <div class="module-name">Your Brain on Media</div>
+                        <div class="module-desc">Cognitive effects of TikTok, reading, podcasts and more — Kurzgesagt-style interactive with vocab quiz · B1–B2</div>
+                    </div>
+                    <span class="module-badge badge-new">New</span>
+                    <a href="brain-media-diet.html" class="module-link">Open</a>
+                </div>
+
+                <div class="subgroup-label">🧬 Psychology &amp; Behaviour</div>
+                <div class="empty-note">No modules yet — check back soon.</div>
+
+                <div class="subgroup-label">🗞️ Current Affairs &amp; Debate</div>
+                <div class="empty-note">No modules yet — check back soon.</div>
+
+            </div>
+        </div>
+
+        <!-- 4. Language Skills -->
+        <div class="category">
+            <div class="cat-header">
+                <span class="cat-icon">🗣️</span>
+                <div style="flex:1;min-width:0">
+                    <div class="cat-title">Language Skills</div>
+                    <div class="cat-desc">Listening, speaking, vocabulary and academic writing</div>
+                </div>
+                <span class="cat-count">0 modules</span>
+                <span class="cat-arrow">▼</span>
+            </div>
+            <div class="module-list">
+
+                <div class="subgroup-label">👂 Listening &amp; Speaking</div>
+                <div class="empty-note">No modules yet — check back soon.</div>
+
+                <div class="subgroup-label">📝 Vocabulary Building</div>
+                <div class="empty-note">No modules yet — check back soon.</div>
+
+                <div class="subgroup-label">✍️ Writing Workshops</div>
+                <div class="empty-note">No modules yet — check back soon.</div>
+
+            </div>
+        </div>
+
+    </div><!-- /accordion -->
+</main>
+
+<footer>
+    © 2026 André Lundberg · Gymnasielärare · English 1 &amp; 2 ·
+    Made with <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a>
+</footer>
+
+<script>
+    document.querySelectorAll('.category .cat-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const cat = header.closest('.category');
+            if(cat.classList.contains('empty')) return;
+            const isOpen = cat.classList.contains('open');
+            document.querySelectorAll('.category.open').forEach(c => c.classList.remove('open'));
+            if(!isOpen) cat.classList.add('open');
+        });
+    });
+</script>
+</body>
+</html>
