@@ -743,7 +743,7 @@ footer a{color:var(--muted)}
   background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.18);
 }
 /* dimmed state when a word is selected but this def is unmatched */
-.vm-def.vm-dim{opacity:.4;pointer-events:none}
+.vm-def.vm-dim{opacity:.4}
 /* matched: quiet done state */
 .vm-def.vm-matched-ok{
   background:rgba(136,217,160,.06);border-color:rgba(136,217,160,.22);
@@ -2065,10 +2065,6 @@ function vmPickWord(btn){
   document.querySelectorAll('.vm-word').forEach(b=>b.classList.remove('vm-selected'));
   vmSelected = btn;
   btn.classList.add('vm-selected');
-  // dim unmatched defs slightly to focus attention
-  document.querySelectorAll('.vm-def:not(.vm-matched-ok)').forEach(d=>d.classList.add('vm-dim'));
-  // but un-dim them all immediately so hover still works — just a brief flash
-  // Actually: keep them accessible but visually quieter
 }
 
 function vmClearDim(){
