@@ -569,12 +569,17 @@ footer a{color:var(--muted)}
 .diet-col-label.dcl-toggle{text-align:center}
 .diet-col-label.dcl-score{text-align:right}
 
+/* each item wrapper */
+.diet-item{
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.diet-item:first-child{border-top:none}
+
 /* each row */
 .diet-row{
   display:grid;grid-template-columns:160px 1fr 52px;
   gap:.5rem;align-items:center;
-  padding:.6rem .25rem;
-  border-top:1px solid rgba(255,255,255,.06);
+  padding:.6rem .25rem .35rem;
 }
 .diet-row:first-child{border-top:none}
 .diet-media{display:flex;align-items:center;gap:.55rem}
@@ -614,6 +619,17 @@ footer a{color:var(--muted)}
   line-height:1.2;text-align:center;white-space:nowrap;
 }
 .diet-scale-seg.dss-active .dss-label{color:var(--text)}
+
+/* diet note row — full width below each scale row */
+.diet-note-row{
+  display:none;grid-column:1/-1;
+  font-size:.78rem;line-height:1.5;padding:.35rem .25rem .1rem;
+  color:var(--muted);
+}
+.diet-note-row.show{display:block}
+.diet-note-row.dns-yellow{color:rgba(255,209,102,.85)}
+.diet-note-row.dns-red   {color:rgba(255,107,107,.85)}
+.diet-note-row.dns-green {color:rgba(136,217,160,.7)}
 
 /* score pill */
 .diet-score-pill{
@@ -1613,13 +1629,62 @@ function answerMq(btn,cardId,chosen){
 /* ── RANKING WIDGET ── */
 const DIET_SEGS   = ['≤15 min','~30 min','~1 hour','~90 min','2+ hours'];
 const MEDIA_DATA = {
-  1:{emoji:'🍟',name:'Short-form',  correct:7, score:'-3',   keyword:'Fragments attention',  scoreColor:'#ffaaaa',       specPct: 0,  rec:'Most addictive format',         recIdx:0, recType:'max'},
-  2:{emoji:'🍕',name:'YouTube',     correct:6, score:'+1',   keyword:'Content-dependent',    scoreColor:'var(--yellow)',  specPct:50,  rec:'Choose educational content',    recIdx:1, recType:'max'},
-  3:{emoji:'🍫',name:'Comics',      correct:4, score:'+2.5', keyword:'Visual & text skills', scoreColor:'var(--teal)',    specPct:69,  rec:'Any time, any format',          recIdx:1, recType:'min'},
-  4:{emoji:'☕',name:'Music',       correct:5, score:'+2',   keyword:'Mood & focus boost',   scoreColor:'var(--yellow)',  specPct:63,  rec:'Instrumental while studying',   recIdx:2, recType:'min'},
-  5:{emoji:'🥤',name:'Podcasts',    correct:3, score:'+3',   keyword:'Critical thinking',    scoreColor:'var(--green)',   specPct:75,  rec:'Great for commutes & exercise', recIdx:1, recType:'min'},
-  6:{emoji:'🍱',name:'Audiobooks',  correct:2, score:'+4',   keyword:'Sustained focus',      scoreColor:'var(--blue)',    specPct:88,  rec:'Commutes & hands-busy time',    recIdx:2, recType:'min'},
-  7:{emoji:'🍳',name:'Reading',     correct:1, score:'+5',   keyword:'Maximum benefit',      scoreColor:'var(--orange)',  specPct:100, rec:'Any time of day',               recIdx:2, recType:'min'},
+  1:{emoji:'🍟',name:'Short-form',  correct:7, score:'-3',   keyword:'Fragments attention',  scoreColor:'#ffaaaa',       specPct: 0,  rec:'Most addictive format',
+     segments:[
+       {status:'green',  note:''},
+       {status:'yellow', note:'At the research limit — attention effects begin to appear around 30 min of daily use.'},
+       {status:'red',    note:'Attention fragmentation is likely at this level of daily use.'},
+       {status:'red',    note:'Significantly above what research considers safe for sustained attention and focus.'},
+       {status:'red',    note:'Heavy daily use is linked to attention deficits and lower academic performance in multiple studies.'},
+     ]},
+  2:{emoji:'🍕',name:'YouTube',     correct:6, score:'+1',   keyword:'Content-dependent',    scoreColor:'var(--yellow)',  specPct:50,  rec:'Content matters enormously',
+     segments:[
+       {status:'green',  note:''},
+       {status:'green',  note:'Content matters a lot here. PBS Eons, Kurzgesagt, or a documentary = genuinely educational. Brainrot compilations or reaction videos = far less so.'},
+       {status:'yellow', note:'Getting into passive territory. Ask yourself honestly: are you actually learning? A nature documentary is fine — three hours of "funny fails" less so.'},
+       {status:'red',    note:'A lot of screen time. Even quality content has diminishing cognitive returns at this level — your brain needs active engagement too.'},
+       {status:'red',    note:'Significant passive screen time daily. Consider what you could replace even one hour of this with.'},
+     ]},
+  3:{emoji:'🍫',name:'Comics',      correct:4, score:'+2.5', keyword:'Visual & text skills', scoreColor:'var(--teal)',    specPct:69,  rec:'Any time, any format',
+     segments:[
+       {status:'yellow', note:'A little too little to build visual literacy habits — even a chapter a day makes a difference.'},
+       {status:'green',  note:''},
+       {status:'green',  note:''},
+       {status:'green',  note:''},
+       {status:'yellow', note:'Take short eye breaks every 30–45 minutes — look at something in the distance for 20 seconds to relax your eye muscles.'},
+     ]},
+  4:{emoji:'☕',name:'Music',       correct:5, score:'+2',   keyword:'Mood & focus boost',   scoreColor:'var(--yellow)',  specPct:63,  rec:'Instrumental while studying',
+     segments:[
+       {status:'yellow', note:'Too little to benefit from mood and focus effects — try instrumental music during study or commute.'},
+       {status:'green',  note:''},
+       {status:'green',  note:''},
+       {status:'green',  note:''},
+       {status:'yellow', note:'Hearing risk at prolonged listening levels — keep volume below 60% and take breaks. The WHO recommends max 1 hour at high volume per day.'},
+     ]},
+  5:{emoji:'🥤',name:'Podcasts',    correct:3, score:'+3',   keyword:'Critical thinking',    scoreColor:'var(--green)',   specPct:75,  rec:'Great for commutes & exercise',
+     segments:[
+       {status:'yellow', note:'Too little to build the habit. Even one 30-minute episode during a commute accumulates meaningfully over a week.'},
+       {status:'green',  note:''},
+       {status:'green',  note:''},
+       {status:'yellow', note:'A lot of focused listening — make sure you\'re actively absorbing it, not just using it as background noise.'},
+       {status:'yellow', note:'Hearing risk with extended earphone use — keep volume below 60% and take breaks. Are you retaining this much content?'},
+     ]},
+  6:{emoji:'🍱',name:'Audiobooks',  correct:2, score:'+4',   keyword:'Sustained focus',      scoreColor:'var(--blue)',    specPct:88,  rec:'Commutes & hands-busy time',
+     segments:[
+       {status:'yellow', note:'A bit too little to build the habit. Start with a 30-minute commute session — it adds up faster than you think.'},
+       {status:'green',  note:''},
+       {status:'green',  note:''},
+       {status:'green',  note:''},
+       {status:'yellow', note:'Keep volume below 60% to protect your hearing during extended listening sessions — the benefits are cognitive, not worth the hearing cost at high volume.'},
+     ]},
+  7:{emoji:'🍳',name:'Reading',     correct:1, score:'+5',   keyword:'Maximum benefit',      scoreColor:'var(--orange)',  specPct:100, rec:'Any time of day',
+     segments:[
+       {status:'yellow', note:'Too little to see cognitive benefits. Even 30 minutes daily makes a measurable difference to brain connectivity over time.'},
+       {status:'green',  note:''},
+       {status:'green',  note:''},
+       {status:'green',  note:''},
+       {status:'yellow', note:'Great for your brain! Give your eyes a break using the 20-20-20 rule: every 20 minutes, look at something 20 feet away for 20 seconds.'},
+     ]},
 };
 
 let rankNext = 1;
@@ -1809,60 +1874,64 @@ function buildDietGrid(){
   order.forEach((id)=>{
     const m = MEDIA_DATA[id];
     const segsHtml = DIET_SEGS.map((label,i)=>`
-      <button class="diet-scale-seg" data-idx="${i}" data-tid="${id}" data-rec="${m.recIdx}" data-rectype="${m.recType}" onclick="dietPick(this)">
+      <button class="diet-scale-seg" data-idx="${i}" data-tid="${id}" onclick="dietPick(this)">
         <span class="dss-marker" id="dsm_${id}_${i}">▾</span>
         <span class="dss-label">${label}</span>
       </button>`).join('');
-    const row = document.createElement('div');
-    row.className = 'diet-row';
-    row.dataset.tid = id;
-    row.innerHTML = `
-      <div class="diet-media">
-        <span class="diet-emoji-sm">${m.emoji}</span>
-        <div class="diet-name-col">
-          <span class="diet-name-text">${m.name}</span>
-          <span class="diet-rank-text">${m.rec}</span>
+    const item = document.createElement('div');
+    item.className = 'diet-item';
+    item.innerHTML = `
+      <div class="diet-row">
+        <div class="diet-media">
+          <span class="diet-emoji-sm">${m.emoji}</span>
+          <div class="diet-name-col">
+            <span class="diet-name-text">${m.name}</span>
+            <span class="diet-rank-text">${m.rec}</span>
+          </div>
         </div>
+        <div class="diet-scale">
+          <div class="diet-scale-track">${segsHtml}</div>
+        </div>
+        <div class="diet-score-pill" style="color:${m.scoreColor}">${m.score}</div>
       </div>
-      <div class="diet-scale">
-        <div class="diet-scale-track">${segsHtml}</div>
-      </div>
-      <div class="diet-score-pill" style="color:${m.scoreColor}">${m.score}</div>`;
-    container.appendChild(row);
+      <div class="diet-note-row" id="dsn_${id}"></div>`;
+    container.appendChild(item);
   });
 }
 
-const dietChoices = {}; // id → segment index
+const dietChoices = {};
 function dietPick(btn){
-  const tid     = parseInt(btn.dataset.tid);
-  const idx     = parseInt(btn.dataset.idx);
-  const rec     = parseInt(btn.dataset.rec);
-  const recType = btn.dataset.rectype;
+  const tid = parseInt(btn.dataset.tid);
+  const idx = parseInt(btn.dataset.idx);
+  const m   = MEDIA_DATA[tid];
+  const seg = m.segments[idx];
 
   // clear siblings
   btn.closest('.diet-scale-track').querySelectorAll('.diet-scale-seg').forEach(b=>{
     b.classList.remove('dss-active','dss-green','dss-yellow','dss-red');
   });
+  btn.classList.add('dss-active','dss-'+seg.status);
 
-  // colour logic
-  let colour;
-  if(recType === 'max'){
-    // lower is better
-    if(idx <= rec)          colour = 'dss-green';
-    else if(idx === rec+1)  colour = 'dss-yellow';
-    else                    colour = 'dss-red';
-  } else {
-    // higher is better (min)
-    if(idx >= rec)          colour = 'dss-green';
-    else if(idx === rec-1)  colour = 'dss-yellow';
-    else                    colour = 'dss-red';
+  // show ▾ markers on ALL green segments
+  btn.closest('.diet-scale-track').querySelectorAll('.dss-marker').forEach(mk=>mk.classList.remove('show'));
+  m.segments.forEach((s,i)=>{
+    if(s.status==='green'){
+      const mk = document.getElementById(`dsm_${tid}_${i}`);
+      if(mk) mk.classList.add('show');
+    }
+  });
+
+  // show note
+  const noteEl = document.getElementById(`dsn_${tid}`);
+  if(noteEl){
+    if(seg.note){
+      noteEl.textContent = seg.note;
+      noteEl.className   = `diet-note-row show dns-${seg.status}`;
+    } else {
+      noteEl.textContent = '';
+      noteEl.className   = 'diet-note-row';
+    }
   }
-  btn.classList.add('dss-active', colour);
-
-  // show recommended marker on correct segment
-  btn.closest('.diet-scale-track').querySelectorAll('.dss-marker').forEach(m=>m.classList.remove('show'));
-  const marker = document.getElementById(`dsm_${tid}_${rec}`);
-  if(marker) marker.classList.add('show');
 
   dietChoices[tid] = idx;
   if(Object.keys(dietChoices).length === 7) buildPrescription();
@@ -1870,50 +1939,42 @@ function dietPick(btn){
 
 function buildPrescription(){
   const order = [7,6,5,3,4,2,1];
-  let worstId = null, worstGap = -Infinity;
-  let bestId  = null, bestGap  = -Infinity;
+  let worstId = null, worstScore = Infinity;
+  let bestId  = null, bestScore  = -Infinity;
 
   order.forEach(id=>{
     const chosen = dietChoices[id];
     if(chosen === undefined) return;
-    const m   = MEDIA_DATA[id];
-    const rec = m.recIdx;
-    const gap = chosen - rec; // positive = over, negative = under
-
-    if(m.recType === 'max' && gap > 0){
-      // using more than recommended on a harmful/low item
-      if(gap > worstGap){ worstGap = gap; worstId = id; }
-    }
-    if(m.recType === 'min' && gap < 0){
-      // using less than recommended on a beneficial item
-      const absGap = Math.abs(gap);
-      // weight by score: reading underused is worse than comics underused
-      const weighted = absGap * parseFloat(m.score);
-      if(weighted > bestGap){ bestGap = weighted; bestId = id; }
-    }
+    const m      = MEDIA_DATA[id];
+    const status = m.segments[chosen].status;
+    const num    = parseFloat(m.score);
+    // red segment = overuse problem — prioritise by lowest cognitive score
+    if(status === 'red' && num < worstScore){ worstScore = num; worstId = id; }
+    // yellow on first segment = underuse — prioritise by highest cognitive score
+    if(status === 'yellow' && chosen === 0 && num > bestScore){ bestScore = num; bestId = id; }
   });
 
   let html = '';
   if(worstId){
-    const m = MEDIA_DATA[worstId];
-    const chosenLabel = DIET_SEGS[dietChoices[worstId]];
-    const recLabel    = DIET_SEGS[m.recIdx];
-    html += `<div class="diet-presc-row">
-      <span class="diet-presc-icon">⚠️</span>
-      <div><strong>Biggest mismatch:</strong> You use ${m.emoji} ${m.name} for <strong>${chosenLabel}</strong> — science suggests <strong style="color:${m.scoreColor}">${recLabel}</strong>. It scores ${m.score} for brain health.</div>
+    const m   = MEDIA_DATA[worstId];
+    const cl  = DIET_SEGS[dietChoices[worstId]];
+    const gl  = DIET_SEGS[m.segments.findIndex(s=>s.status==='green')];
+    html += `<div class="diet-presc-row"><span class="diet-presc-icon">⚠️</span>
+      <div><strong>Biggest mismatch:</strong> You use ${m.emoji} ${m.name} for <strong>${cl}</strong> daily — the research suggests keeping it to <strong style="color:${m.scoreColor}">${gl}</strong> or less. It scores ${m.score} for brain health.</div>
     </div>`;
   }
   if(bestId){
-    const m = MEDIA_DATA[bestId];
-    const chosenLabel = DIET_SEGS[dietChoices[bestId]];
-    const recLabel    = DIET_SEGS[m.recIdx];
-    html += `<div class="diet-presc-row">
-      <span class="diet-presc-icon">💡</span>
-      <div><strong>Best opportunity:</strong> You use ${m.emoji} ${m.name} for only <strong>${chosenLabel}</strong> — even <strong style="color:${m.scoreColor}">${recLabel}</strong> daily would make a measurable difference. It scores ${m.score}.</div>
+    const m  = MEDIA_DATA[bestId];
+    const cl = DIET_SEGS[dietChoices[bestId]];
+    const gl = DIET_SEGS[m.segments.findIndex(s=>s.status==='green')];
+    html += `<div class="diet-presc-row"><span class="diet-presc-icon">💡</span>
+      <div><strong>Best opportunity:</strong> You use ${m.emoji} ${m.name} for only <strong>${cl}</strong> — even <strong style="color:${m.scoreColor}">${gl}</strong> daily would make a measurable difference. It scores ${m.score}.</div>
     </div>`;
   }
   if(!worstId && !bestId){
-    html = `<div class="diet-presc-row"><span class="diet-presc-icon">🌟</span><div><strong>Great balance!</strong> Your usage lines up well with what the science recommends. Small consistent habits beat dramatic changes every time.</div></div>`;
+    html = `<div class="diet-presc-row"><span class="diet-presc-icon">🌟</span>
+      <div><strong>Great balance!</strong> Your usage aligns well with what the science recommends. Small consistent habits beat dramatic changes every time.</div>
+    </div>`;
   }
 
   const box = document.getElementById('dietPrescription');
