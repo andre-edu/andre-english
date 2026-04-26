@@ -125,7 +125,8 @@ h1,h2,h3,h4{font-family:'Syne',sans-serif}
 .pill{font-size:.72rem;font-weight:700;padding:.2rem .75rem;border-radius:100px}
 
 /* Layer 2 items */
-.card-body{padding:0 1.75rem;overflow:hidden;max-height:0;transition:max-height .45s ease,padding .45s ease}
+.card-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s ease}
+.card-body-inner{min-height:0;overflow:hidden;padding:0 1.75rem}
 .card-science{
   font-size:.95rem;color:var(--text);line-height:1.7;padding-top:1.25rem;
   opacity:0;transform:translateY(8px);transition:opacity .3s .1s,transform .3s .1s;
@@ -162,7 +163,7 @@ h1,h2,h3,h4{font-family:'Syne',sans-serif}
 .s1 .card-media-tag,.s2 .card-media-tag,.s3 .card-media-tag{opacity:1;transform:translateY(0)}
 .s1 .card-tagline,.s2 .card-tagline,.s3 .card-tagline{opacity:1;transform:translateY(0)}
 .s1 .card-pills,.s2 .card-pills,.s3 .card-pills{opacity:1}
-.s2 .card-body,.s3 .card-body{max-height:380px;padding:0 1.75rem}
+.s2 .card-body,.s3 .card-body{grid-template-rows:1fr}
 .s2 .card-science,.s3 .card-science{opacity:1;transform:translateY(0)}
 .s3 .card-serving{opacity:1;transform:translateY(0)}
 
@@ -427,10 +428,12 @@ footer a{color:var(--muted)}
 .rank-tile.rt-ranked{border-color:var(--teal);background:rgba(78,205,196,.1)}
 .rank-tile.rt-locked{cursor:default}
 .rank-tile.rt-correct{border-color:var(--green)!important;background:rgba(136,217,160,.13)!important}
-.rank-tile.rt-close{border-color:var(--yellow)!important;background:rgba(255,209,102,.1)!important}
-.rank-tile.rt-wrong{border-color:rgba(255,107,107,.5)!important;background:rgba(255,107,107,.07)!important}
+.rank-tile.rt-close  {border-color:var(--yellow)!important;background:rgba(255,209,102,.1)!important}
+.rank-tile.rt-wrong  {border-color:rgba(255,107,107,.5)!important;background:rgba(255,107,107,.07)!important}
 .rt-emoji{font-size:1.6rem;line-height:1;display:block;margin-bottom:.3rem}
 .rt-name{font-size:.78rem;font-weight:700;line-height:1.3}
+
+/* student's pick badge — top right */
 .rt-badge{
   position:absolute;top:-9px;right:-9px;
   width:22px;height:22px;border-radius:50%;
@@ -443,8 +446,33 @@ footer a{color:var(--muted)}
 .rt-correct .rt-badge{background:var(--green)}
 .rt-close   .rt-badge{background:var(--yellow);color:#1a1a2e}
 .rt-wrong   .rt-badge{background:rgba(255,107,107,.85)}
-.rt-pos-label{font-size:.67rem;margin-top:.35rem;min-height:.9rem;opacity:0;transition:opacity .4s .4s;line-height:1.3}
+
+/* actual correct position badge — top left, shown after reveal */
+.rt-actual-badge{
+  position:absolute;top:-9px;left:-9px;
+  min-width:22px;height:22px;border-radius:11px;padding:0 5px;
+  background:var(--card2);border:1.5px solid rgba(255,255,255,.2);
+  color:var(--text);font-size:.6rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;white-space:nowrap;
+  opacity:0;transform:scale(0);
+  transition:opacity .3s .3s,transform .3s .3s;z-index:2;
+}
+.rank-reveal-phase .rt-actual-badge{opacity:1;transform:scale(1)}
+.rt-correct .rt-actual-badge{border-color:var(--green);color:var(--green)}
+.rt-close   .rt-actual-badge{border-color:var(--yellow);color:var(--yellow)}
+.rt-wrong   .rt-actual-badge{border-color:rgba(255,107,107,.6);color:#ffaaaa}
+
+/* score + keyword line */
+.rt-score-line{
+  font-size:.65rem;font-weight:700;margin-top:.4rem;min-height:.8rem;
+  opacity:0;transition:opacity .4s .55s;line-height:1.3;
+}
+.rank-reveal-phase .rt-score-line{opacity:1}
+
+/* old pos-label — repurposed as correct/wrong label */
+.rt-pos-label{font-size:.67rem;margin-top:.2rem;min-height:.9rem;opacity:0;transition:opacity .4s .4s;line-height:1.3}
 .rank-reveal-phase .rt-pos-label{opacity:1}
+
 .rank-footer{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
 .rank-score-line{font-size:.85rem;color:var(--muted)}
 .rank-reset{
@@ -453,39 +481,160 @@ footer a{color:var(--muted)}
 }
 .rank-reset:hover{color:var(--text)}
 
+/* ── SPECTRUM BAR ── */
+.rank-spectrum{
+  display:none;position:relative;height:52px;margin-bottom:1.25rem;
+  border-radius:.6rem;overflow:visible;
+}
+.rank-spectrum.show{display:block}
+.spectrum-track{
+  position:absolute;bottom:0;left:0;right:0;height:6px;border-radius:3px;
+  background:linear-gradient(to right,
+    rgba(255,107,107,.9) 0%,
+    rgba(255,140,66,.7) 45%,
+    rgba(255,209,102,.7) 60%,
+    rgba(136,217,160,.9) 85%,
+    rgba(255,140,66,1) 100%
+  );
+}
+.spectrum-zero{
+  position:absolute;bottom:-4px;height:14px;width:2px;background:rgba(255,255,255,.3);border-radius:1px;
+}
+.spectrum-zero-label{
+  position:absolute;bottom:-18px;transform:translateX(-50%);
+  font-size:.6rem;color:var(--muted);font-weight:700;white-space:nowrap;
+}
+.spectrum-emoji{
+  position:absolute;bottom:10px;transform:translateX(-50%);
+  font-size:1.2rem;line-height:1;cursor:default;
+  transition:bottom .5s cubic-bezier(.22,1,.36,1);
+}
+.spectrum-emoji-label{
+  position:absolute;bottom:-18px;transform:translateX(-50%);
+  font-size:.58rem;font-weight:700;white-space:nowrap;color:var(--muted);
+}
+
+/* ── STRUCTURED VERDICT ── */
+.rank-verdict-box{
+  display:none;border-radius:1rem;overflow:hidden;margin-bottom:1.5rem;
+}
+.rank-verdict-box.show{display:block}
+.rv-score-bar{
+  padding:1rem 1.5rem;
+  background:rgba(255,209,102,.07);border:1px solid rgba(255,209,102,.18);
+  border-radius:1rem 1rem 0 0;
+  display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+}
+.rv-score-n{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:var(--yellow);line-height:1}
+.rv-score-label{font-size:.82rem;color:var(--muted)}
+.rv-sections{
+  display:grid;grid-template-columns:1fr 1fr;
+  border:1px solid rgba(255,255,255,.07);border-top:none;border-radius:0 0 1rem 1rem;overflow:hidden;
+}
+.rv-section{padding:1rem 1.25rem;background:rgba(255,255,255,.02)}
+.rv-section+.rv-section{border-left:1px solid rgba(255,255,255,.07)}
+.rv-section-title{
+  font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:.5rem;
+}
+.rv-section-body{font-size:.83rem;color:var(--muted);line-height:1.55}
+.rv-section-body strong{color:var(--text)}
+
+/* ── TRICKY MIDDLE CALLOUT ── */
+.tricky-callout{
+  display:none;padding:1.1rem 1.4rem;margin-bottom:1.5rem;
+  background:rgba(78,205,196,.06);border:1px solid rgba(78,205,196,.22);
+  border-left:3px solid var(--teal);border-radius:.9rem;font-size:.87rem;
+}
+.tricky-callout.show{display:block}
+.tricky-title{font-weight:700;color:var(--teal);margin-bottom:.5rem;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase}
+.tricky-body{color:var(--muted);line-height:1.6}
+.tricky-body strong{color:var(--text)}
+
 /* ── DIET SELF-CHECK ── */
 .diet-wrap{
   background:var(--card2);border:1px dashed rgba(255,255,255,.12);
   border-radius:1.3rem;padding:1.75rem 2rem;margin-bottom:1.5rem;
   animation:fadeIn .5s ease;
 }
-@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .diet-header{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.3rem}
 .diet-sub{font-size:.85rem;color:var(--muted);margin-bottom:1.25rem}
-.diet-grid{display:flex;flex-wrap:wrap;gap:.65rem}
-.diet-tile{
-  flex:1;min-width:110px;border-radius:.8rem;
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
-  padding:.75rem .7rem;text-align:center;
+
+/* column labels */
+.diet-col-labels{
+  display:grid;grid-template-columns:160px 1fr 52px;
+  gap:.5rem;margin-bottom:.5rem;padding:0 .25rem;
 }
-.diet-rank-badge{
-  font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:.2rem;
+.diet-col-label{font-size:.65rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.diet-col-label.dcl-toggle{text-align:center}
+.diet-col-label.dcl-score{text-align:right}
+
+/* each row */
+.diet-row{
+  display:grid;grid-template-columns:160px 1fr 52px;
+  gap:.5rem;align-items:center;
+  padding:.6rem .25rem;
+  border-top:1px solid rgba(255,255,255,.06);
 }
-.diet-emoji{font-size:1.4rem;margin-bottom:.2rem}
-.diet-name{font-size:.72rem;font-weight:700;margin-bottom:.6rem;line-height:1.3;color:var(--text)}
-.diet-toggles{display:flex;gap:.25rem;justify-content:center}
-.diet-btn{
-  flex:1;border:1.5px solid rgba(255,255,255,.1);border-radius:.45rem;
-  padding:.28rem .05rem;font-size:.68rem;cursor:pointer;
-  background:rgba(255,255,255,.04);color:var(--muted);
-  font-family:'Nunito',sans-serif;font-weight:700;transition:all .18s;line-height:1;
+.diet-row:first-child{border-top:none}
+.diet-media{display:flex;align-items:center;gap:.55rem}
+.diet-emoji-sm{font-size:1.25rem;line-height:1;flex-shrink:0}
+.diet-name-col{display:flex;flex-direction:column}
+.diet-name-text{font-size:.82rem;font-weight:700;line-height:1.2}
+.diet-rank-text{font-size:.63rem;color:var(--muted);line-height:1.3}
+
+/* 5-segment scale */
+.diet-scale{display:flex;flex-direction:column;gap:0}
+.diet-scale-track{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  border-radius:.55rem;overflow:hidden;
+  border:1.5px solid rgba(255,255,255,.1);
 }
-.diet-btn:hover:not(.diet-active){background:rgba(255,255,255,.1)}
-.diet-btn.db-much{border-color:rgba(255,107,107,.5);color:#ff9f9f;background:rgba(255,107,107,.12)}
-.diet-btn.db-ok  {border-color:rgba(255,209,102,.5);color:var(--yellow);background:rgba(255,209,102,.12)}
-.diet-btn.db-little{border-color:rgba(136,217,160,.5);color:var(--green);background:rgba(136,217,160,.12)}
-.diet-note{margin-top:1rem;font-size:.85rem;color:var(--muted);min-height:1.2rem}
+.diet-scale-seg{
+  display:flex;flex-direction:column;align-items:center;
+  padding:.4rem .1rem .35rem;
+  cursor:pointer;border:none;background:rgba(255,255,255,.03);
+  border-right:1px solid rgba(255,255,255,.08);
+  transition:background .15s,color .15s;
+  font-family:'Nunito',sans-serif;
+}
+.diet-scale-seg:last-child{border-right:none}
+.diet-scale-seg:hover:not(.dss-active){background:rgba(255,255,255,.08)}
+.diet-scale-seg.dss-active.dss-green {background:rgba(136,217,160,.18);border-color:rgba(136,217,160,.3)}
+.diet-scale-seg.dss-active.dss-yellow{background:rgba(255,209,102,.16);border-color:rgba(255,209,102,.3)}
+.diet-scale-seg.dss-active.dss-red   {background:rgba(255,107,107,.15);border-color:rgba(255,107,107,.3)}
+.dss-marker{
+  font-size:.65rem;height:.85rem;line-height:.85rem;
+  color:var(--teal);opacity:0;transition:opacity .3s;
+  margin-bottom:.1rem;
+}
+.dss-marker.show{opacity:1}
+.dss-label{
+  font-size:.62rem;font-weight:700;color:var(--muted);
+  line-height:1.2;text-align:center;white-space:nowrap;
+}
+.diet-scale-seg.dss-active .dss-label{color:var(--text)}
+
+/* score pill */
+.diet-score-pill{
+  text-align:right;
+  font-family:'Syne',sans-serif;font-size:.88rem;font-weight:800;
+}
+
+/* prescription box */
+.diet-prescription{
+  margin-top:1.25rem;padding:1rem 1.25rem;
+  border-radius:.85rem;border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.03);
+  font-size:.87rem;line-height:1.6;color:var(--muted);
+  display:none;
+}
+.diet-prescription.show{display:block;animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.diet-prescription strong{color:var(--text)}
+.diet-presc-row{display:flex;gap:.5rem;align-items:flex-start;margin-bottom:.35rem}
+.diet-presc-row:last-child{margin-bottom:0}
+.diet-presc-icon{font-size:1rem;flex-shrink:0;margin-top:.05rem}
 
 /* ── BAR SCORE COLUMN ── */
 .bar-score-col{
@@ -497,8 +646,7 @@ footer a{color:var(--muted)}
 /* override: 3-column chart row */
 .chart-row{grid-template-columns:150px 1fr 170px}
 
-/* override: taller card body for mini-q */
-.s2 .card-body,.s3 .card-body{max-height:540px;padding:0 1.75rem}
+/* override: taller card body for mini-q — no longer needed with grid-row approach */
 
 /* ── VOCAB STRIP ── */
 .vocab-strip{
@@ -682,7 +830,7 @@ footer a{color:var(--muted)}
         <div class="card-tagline">"Impossible to stop at just one."</div>
       </div>
       <hr style="border:none;border-top:1px solid var(--border);margin:0 1.75rem">
-      <div class="card-body">
+      <div class="card-body"><div class="card-body-inner">
         <div class="card-science">
           When you scroll through TikTok, your brain gets a small reward every few seconds. Over time, it learns to <em>expect</em> fast, exciting content. This makes slower activities such as reading or concentrating in class feel much harder and more boring. A 2025 meta-analysis of dozens of studies found that heavy short-form use is linked to shorter attention spans and lower academic performance.
         </div>
@@ -699,7 +847,7 @@ footer a{color:var(--muted)}
           <div class="mq-fb" id="mqfb1"></div>
         </div>
         <div style="height:.75rem"></div>
-      </div>
+      </div></div>
       <div class="card-footer">
         <div class="card-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.3rem">
@@ -722,7 +870,7 @@ footer a{color:var(--muted)}
         <div class="card-tagline">"Better than nuggets. But toppings still matter."</div>
       </div>
       <hr style="border:none;border-top:1px solid var(--border);margin:0 1.75rem">
-      <div class="card-body">
+      <div class="card-body"><div class="card-body-inner">
         <div class="card-science">
           Longer videos require you to pay attention for more than a few seconds, which is already better for your brain than short clips. A field experiment showed that increasing long-form viewing did not cause the attention problems associated with short-form content. However, watching passively is still fairly easy for the brain, and the content matters: a documentary trains your thinking more than a prank video.
         </div>
@@ -739,7 +887,7 @@ footer a{color:var(--muted)}
           <div class="mq-fb" id="mqfb2"></div>
         </div>
         <div style="height:.75rem"></div>
-      </div>
+      </div></div>
       <div class="card-footer">
         <div class="card-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
         <button class="card-btn" onclick="next(this,2)">Discover →</button>
@@ -759,7 +907,7 @@ footer a{color:var(--muted)}
         <div class="card-tagline">"More nutritious than people think."</div>
       </div>
       <hr style="border:none;border-top:1px solid var(--border);margin:0 1.75rem">
-      <div class="card-body">
+      <div class="card-body"><div class="card-body-inner">
         <div class="card-science">
           When you read a comic or graphic novel, your brain processes <em>both</em> text and images at the same time. Research shows this activates the same cognitive processes as advanced text comprehension. You also have to "fill in the gaps" between panels, which is excellent practice for inference and critical thinking. Comics are especially helpful for language learners.
         </div>
@@ -776,7 +924,7 @@ footer a{color:var(--muted)}
           <div class="mq-fb" id="mqfb3"></div>
         </div>
         <div style="height:.75rem"></div>
-      </div>
+      </div></div>
       <div class="card-footer">
         <div class="card-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
         <button class="card-btn" onclick="next(this,3)">Discover →</button>
@@ -796,7 +944,7 @@ footer a{color:var(--muted)}
         <div class="card-tagline">"Can make everything better. Can also backfire."</div>
       </div>
       <hr style="border:none;border-top:1px solid var(--border);margin:0 1.75rem">
-      <div class="card-body">
+      <div class="card-body"><div class="card-body-inner">
         <div class="card-science">
           Music is a surprisingly powerful tool for the brain. Research from Johns Hopkins shows it can improve mood, reduce anxiety, and boost focus and memory. However, the <em>type</em> of music matters greatly. Music without lyrics, such as classical or lo-fi, helps you concentrate. Music <em>with</em> lyrics competes directly with the language centre of your brain, which can cause distraction while reading or writing.
         </div>
@@ -813,7 +961,7 @@ footer a{color:var(--muted)}
           <div class="mq-fb" id="mqfb4"></div>
         </div>
         <div style="height:.75rem"></div>
-      </div>
+      </div></div>
       <div class="card-footer">
         <div class="card-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
         <button class="card-btn" onclick="next(this,4)">Discover →</button>
@@ -833,7 +981,7 @@ footer a{color:var(--muted)}
         <div class="card-tagline">"Packed with good stuff. Goes down easily."</div>
       </div>
       <hr style="border:none;border-top:1px solid var(--border);margin:0 1.75rem">
-      <div class="card-body">
+      <div class="card-body"><div class="card-body-inner">
         <div class="card-science">
           Listening to a podcast activates the social part of your brain — it feels like being part of a real conversation. Stanford University research found that podcast listening improves critical thinking skills. For English learners specifically, podcasts are excellent: you hear natural, spoken language in real contexts, which is one of the most effective ways to build vocabulary and listening comprehension.
         </div>
@@ -850,7 +998,7 @@ footer a{color:var(--muted)}
           <div class="mq-fb" id="mqfb5"></div>
         </div>
         <div style="height:.75rem"></div>
-      </div>
+      </div></div>
       <div class="card-footer">
         <div class="card-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
         <button class="card-btn" onclick="next(this,5)">Discover →</button>
@@ -870,7 +1018,7 @@ footer a{color:var(--muted)}
         <div class="card-tagline">"Same nutrition. No preparation required."</div>
       </div>
       <hr style="border:none;border-top:1px solid var(--border);margin:0 1.75rem">
-      <div class="card-body">
+      <div class="card-body"><div class="card-body-inner">
         <div class="card-science">
           Researchers at UC Berkeley scanned people's brains while they both read and listened to the same stories. The result surprised them: the brain activated <em>almost identical areas</em> in both cases. Audiobooks also build your ability to focus over time. Following a long narrative for hours trains the brain to sustain attention. They are especially valuable for people with dyslexia or visual difficulties.
         </div>
@@ -887,7 +1035,7 @@ footer a{color:var(--muted)}
           <div class="mq-fb" id="mqfb6"></div>
         </div>
         <div style="height:.75rem"></div>
-      </div>
+      </div></div>
       <div class="card-footer">
         <div class="card-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
         <button class="card-btn" onclick="next(this,6)">Discover →</button>
@@ -907,7 +1055,7 @@ footer a{color:var(--muted)}
         <div class="card-tagline">"Takes effort. Worth every bite."</div>
       </div>
       <hr style="border:none;border-top:1px solid var(--border);margin:0 1.75rem">
-      <div class="card-body">
+      <div class="card-body"><div class="card-body-inner">
         <div class="card-science">
           Reading a book, especially fiction, produces some of the most powerful effects on the brain of any media. Brain scans show that reading a novel <em>increases connectivity</em> between brain areas linked to language, sensation, and empathy, and these effects last for several days after you finish. One 14-year study found that reading at least once a week reduces the risk of cognitive decline by 46%.
         </div>
@@ -924,7 +1072,7 @@ footer a{color:var(--muted)}
           <div class="mq-fb" id="mqfb7"></div>
         </div>
         <div style="height:.75rem"></div>
-      </div>
+      </div></div>
       <div class="card-footer">
         <div class="card-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
         <button class="card-btn" onclick="next(this,7)">Discover →</button>
@@ -971,48 +1119,64 @@ footer a{color:var(--muted)}
       <div class="rank-title">🧠 Rank them: best to worst for your brain</div>
       <div class="rank-sub">Click each tile in order — #1 = best for your brain, #7 = worst. The top and bottom are obvious. The tricky part is the middle.</div>
     </div>
+    <!-- spectrum bar — built by JS after reveal -->
+    <div class="rank-spectrum" id="rankSpectrum"></div>
+
     <div class="rank-grid" id="rankGrid">
-      <!-- shuffled order: Music, Reading, Short-form, Comics, Podcasts, YouTube, Audiobooks -->
       <div class="rank-tile" data-id="4" data-correct="5" onclick="rankTile(this)">
         <span class="rt-badge" id="rb4"></span>
+        <span class="rt-actual-badge" id="ra4"></span>
         <span class="rt-emoji">☕</span>
         <div class="rt-name">Music</div>
+        <div class="rt-score-line" id="rs4"></div>
         <div class="rt-pos-label" id="rp4"></div>
       </div>
       <div class="rank-tile" data-id="7" data-correct="1" onclick="rankTile(this)">
         <span class="rt-badge" id="rb7"></span>
+        <span class="rt-actual-badge" id="ra7"></span>
         <span class="rt-emoji">🍳</span>
         <div class="rt-name">Reading</div>
+        <div class="rt-score-line" id="rs7"></div>
         <div class="rt-pos-label" id="rp7"></div>
       </div>
       <div class="rank-tile" data-id="1" data-correct="7" onclick="rankTile(this)">
         <span class="rt-badge" id="rb1"></span>
+        <span class="rt-actual-badge" id="ra1"></span>
         <span class="rt-emoji">🍟</span>
         <div class="rt-name">Short-form</div>
+        <div class="rt-score-line" id="rs1"></div>
         <div class="rt-pos-label" id="rp1"></div>
       </div>
       <div class="rank-tile" data-id="3" data-correct="4" onclick="rankTile(this)">
         <span class="rt-badge" id="rb3"></span>
+        <span class="rt-actual-badge" id="ra3"></span>
         <span class="rt-emoji">🍫</span>
         <div class="rt-name">Comics</div>
+        <div class="rt-score-line" id="rs3"></div>
         <div class="rt-pos-label" id="rp3"></div>
       </div>
       <div class="rank-tile" data-id="5" data-correct="3" onclick="rankTile(this)">
         <span class="rt-badge" id="rb5"></span>
+        <span class="rt-actual-badge" id="ra5"></span>
         <span class="rt-emoji">🥤</span>
         <div class="rt-name">Podcasts</div>
+        <div class="rt-score-line" id="rs5"></div>
         <div class="rt-pos-label" id="rp5"></div>
       </div>
       <div class="rank-tile" data-id="2" data-correct="6" onclick="rankTile(this)">
         <span class="rt-badge" id="rb2"></span>
+        <span class="rt-actual-badge" id="ra2"></span>
         <span class="rt-emoji">🍕</span>
         <div class="rt-name">YouTube</div>
+        <div class="rt-score-line" id="rs2"></div>
         <div class="rt-pos-label" id="rp2"></div>
       </div>
       <div class="rank-tile" data-id="6" data-correct="2" onclick="rankTile(this)">
         <span class="rt-badge" id="rb6"></span>
+        <span class="rt-actual-badge" id="ra6"></span>
         <span class="rt-emoji">🍱</span>
         <div class="rt-name">Audiobooks</div>
+        <div class="rt-score-line" id="rs6"></div>
         <div class="rt-pos-label" id="rp6"></div>
       </div>
     </div>
@@ -1023,17 +1187,28 @@ footer a{color:var(--muted)}
     </div>
   </div>
 
-  <!-- PHASE 2: DIET SELF-CHECK (hidden until reveal) -->
   <div class="diet-wrap" id="dietWrap" style="display:none">
-    <div class="diet-header">Now — how does your own media diet compare?</div>
-    <div class="diet-sub">For each type, tap how much you use it. No right answer — just honest reflection.</div>
-    <div class="diet-grid" id="dietGrid">
-      <!-- built by JS in correct science order after reveal -->
+    <div class="diet-header">How does your own media diet compare?</div>
+    <div class="diet-sub">For each type, tap how much you actually use it day-to-day. The score on the right is from the science.</div>
+    <div class="diet-col-labels">
+      <div class="diet-col-label">Media</div>
+      <div class="diet-col-label dcl-toggle">Your usage</div>
+      <div class="diet-col-label dcl-score">Brain score</div>
     </div>
-    <div class="diet-note" id="dietNote"></div>
+    <div id="dietRows"></div>
+    <div class="diet-prescription" id="dietPrescription"></div>
   </div>
 
-  <div id="rankVerdict" style="display:none;padding:.75rem 1.25rem;border-radius:.8rem;margin-bottom:1.5rem;background:rgba(255,209,102,.07);border:1px solid rgba(255,209,102,.2);font-size:.9rem"></div>
+  <div class="rank-verdict-box" id="rankVerdictBox"></div>
+  <div class="tricky-callout" id="trickyCallout">
+    <div class="tricky-title">🤔 Why is the middle so tricky?</div>
+    <div class="tricky-body">
+      Positions #3–#5 (Podcasts, Comics, Music) are genuinely close — even researchers debate the exact order.
+      Here's the reasoning: <strong>Podcasts (#3)</strong> edge ahead because Stanford research specifically links them to critical thinking gains.
+      <strong>Comics (#4)</strong> come next because they activate inference skills and dual text/visual processing simultaneously.
+      <strong>Music (#5)</strong> scores lower not because it's bad, but because its benefits are mood and focus — not direct cognitive building. Getting these wrong doesn't mean you misread the cards. It means the science is nuanced.
+    </div>
+  </div>
 
   <!-- CHART: revealed after ranking -->
   <div id="chartContent" style="display:none">
@@ -1436,19 +1611,19 @@ function answerMq(btn,cardId,chosen){
 }
 
 /* ── RANKING WIDGET ── */
+const DIET_SEGS   = ['≤15 min','~30 min','~1 hour','~90 min','2+ hours'];
 const MEDIA_DATA = {
-  1:{emoji:'🍟',name:'Short-form',fullName:'📱 Short-form Video',correct:7},
-  2:{emoji:'🍕',name:'YouTube',fullName:'▶️ Long YouTube',correct:6},
-  3:{emoji:'🍫',name:'Comics',fullName:'💬 Comics & Graphic Novels',correct:4},
-  4:{emoji:'☕',name:'Music',fullName:'🎵 Music (instrumental)',correct:5},
-  5:{emoji:'🥤',name:'Podcasts',fullName:'🎙️ Podcasts',correct:3},
-  6:{emoji:'🍱',name:'Audiobooks',fullName:'🎧 Audiobooks',correct:2},
-  7:{emoji:'🍳',name:'Reading',fullName:'📖 Reading a Book',correct:1},
+  1:{emoji:'🍟',name:'Short-form',  correct:7, score:'-3',   keyword:'Fragments attention',  scoreColor:'#ffaaaa',       specPct: 0,  rec:'Most addictive format',         recIdx:0, recType:'max'},
+  2:{emoji:'🍕',name:'YouTube',     correct:6, score:'+1',   keyword:'Content-dependent',    scoreColor:'var(--yellow)',  specPct:50,  rec:'Choose educational content',    recIdx:1, recType:'max'},
+  3:{emoji:'🍫',name:'Comics',      correct:4, score:'+2.5', keyword:'Visual & text skills', scoreColor:'var(--teal)',    specPct:69,  rec:'Any time, any format',          recIdx:1, recType:'min'},
+  4:{emoji:'☕',name:'Music',       correct:5, score:'+2',   keyword:'Mood & focus boost',   scoreColor:'var(--yellow)',  specPct:63,  rec:'Instrumental while studying',   recIdx:2, recType:'min'},
+  5:{emoji:'🥤',name:'Podcasts',    correct:3, score:'+3',   keyword:'Critical thinking',    scoreColor:'var(--green)',   specPct:75,  rec:'Great for commutes & exercise', recIdx:1, recType:'min'},
+  6:{emoji:'🍱',name:'Audiobooks',  correct:2, score:'+4',   keyword:'Sustained focus',      scoreColor:'var(--blue)',    specPct:88,  rec:'Commutes & hands-busy time',    recIdx:2, recType:'min'},
+  7:{emoji:'🍳',name:'Reading',     correct:1, score:'+5',   keyword:'Maximum benefit',      scoreColor:'var(--orange)',  specPct:100, rec:'Any time of day',               recIdx:2, recType:'min'},
 };
-const RANK_LABELS = ['','#1 — Best','#2','#3','#4','#5','#6','#7 — Worst'];
 
-let rankNext = 1;      // next rank to assign
-let rankMap  = {};     // id → assigned rank
+let rankNext = 1;
+let rankMap  = {};
 
 function rankTile(el){
   if(el.classList.contains('rt-ranked')||el.classList.contains('rt-locked')) return;
@@ -1472,19 +1647,27 @@ function resetRanking(){
   rankNext = 1; rankMap = {};
   document.querySelectorAll('.rank-tile').forEach(t=>{
     t.classList.remove('rt-ranked','rt-locked','rt-correct','rt-close','rt-wrong');
-    t.querySelector('.rt-badge').textContent='';
-    t.querySelector('.rt-pos-label').textContent='';
+    t.querySelector('.rt-badge').textContent = '';
+    t.querySelector('.rt-actual-badge').textContent = '';
+    t.querySelector('.rt-pos-label').textContent = '';
+    t.querySelector('.rt-score-line').textContent = '';
+    t.style.order = '';
   });
   document.getElementById('rankRevealBtn').disabled = true;
   document.getElementById('rankResetBtn').style.display = 'none';
   document.getElementById('rankStatus').textContent = 'Click tiles in order from best (#1) to worst (#7)';
   document.getElementById('rankGrid').classList.remove('rank-reveal-phase');
+  document.getElementById('rankSpectrum').classList.remove('show');
+  document.getElementById('rankSpectrum').innerHTML = '';
+  document.getElementById('rankVerdictBox').classList.remove('show');
+  document.getElementById('rankVerdictBox').innerHTML = '';
+  document.getElementById('trickyCallout').classList.remove('show');
 }
 
 function revealRanking(){
   let exact = 0, close = 0;
+  const misplacedIds = [];
 
-  // score and re-order tiles
   document.querySelectorAll('.rank-tile').forEach(tile=>{
     tile.classList.add('rt-locked');
     tile.onclick = null;
@@ -1492,91 +1675,250 @@ function revealRanking(){
     const correct  = parseInt(tile.dataset.correct);
     const assigned = rankMap[id];
     const diff     = Math.abs(assigned - correct);
-    const posLabel = tile.querySelector('.rt-pos-label');
+    const m        = MEDIA_DATA[id];
 
+    // dual badges
+    tile.querySelector('.rt-badge').textContent = assigned;       // student's pick
+    tile.querySelector('.rt-actual-badge').textContent = `#${correct}`;  // correct
+
+    // score + keyword line
+    const sl = tile.querySelector('.rt-score-line');
+    sl.textContent = `${m.score} · ${m.keyword}`;
+    sl.style.color = m.scoreColor;
+
+    // correct/wrong label
+    const pl = tile.querySelector('.rt-pos-label');
     if(diff === 0){
       tile.classList.add('rt-correct');
-      posLabel.textContent = '✓ Correct!';
-      posLabel.style.color = 'var(--green)';
+      pl.textContent = '✓ Correct!';
+      pl.style.color = 'var(--green)';
+      tile.querySelector('.rt-actual-badge').style.display = 'none'; // redundant when exact
       exact++;
     } else if(diff === 1){
       tile.classList.add('rt-close');
-      posLabel.textContent = `Close — actually #${correct}`;
-      posLabel.style.color = 'var(--yellow)';
+      pl.textContent = `Close — actually #${correct}`;
+      pl.style.color = 'var(--yellow)';
       close++;
+      if([3,4,5].includes(correct)) misplacedIds.push(id);
     } else {
       tile.classList.add('rt-wrong');
-      posLabel.textContent = `Actually #${correct}`;
-      posLabel.style.color = '#ffaaaa';
+      pl.textContent = `Actually #${correct}`;
+      pl.style.color = '#ffaaaa';
+      misplacedIds.push(id);
     }
-    // re-order by correct rank for visual sort
     tile.style.order = correct;
   });
 
-  // trigger label fade-in
+  // trigger fade-ins
   setTimeout(()=>document.getElementById('rankGrid').classList.add('rank-reveal-phase'), 50);
 
-  // verdict
-  const v = document.getElementById('rankVerdict');
-  const scored = exact + close;
-  if(exact === 7)      v.textContent = '🏆 Perfect ranking! You clearly know your brain science.';
-  else if(scored >= 5) v.textContent = `🎯 ${exact} exact, ${close} one-off — solid! The middle positions (podcasts, comics, music) trip most people up.`;
-  else if(scored >= 3) v.textContent = `👍 ${exact} exact, ${close} close — not bad. Scroll down to see the full science behind each position.`;
-  else                 v.textContent = `🤔 ${exact} exact — the chart below will explain the surprising ones. The middle five are genuinely debatable.`;
-  v.style.display = 'block';
+  // spectrum bar
+  buildSpectrum();
+
+  // structured verdict
+  buildVerdict(exact, close);
+
+  // tricky middle callout — show if any of positions 3/4/5 were missed
+  const middleIds = [5,3,4]; // podcasts, comics, music
+  const missedMiddle = middleIds.some(id => {
+    const correct = MEDIA_DATA[id].correct;
+    const assigned = rankMap[id];
+    return Math.abs(assigned - correct) > 0;
+  });
+  if(missedMiddle || exact < 5){
+    setTimeout(()=>document.getElementById('trickyCallout').classList.add('show'), 400);
+  }
 
   document.getElementById('rankRevealBtn').textContent = '✓ Done';
   document.getElementById('rankRevealBtn').disabled = true;
 
-  // show diet check
+  // show diet + chart
   buildDietGrid();
   document.getElementById('dietWrap').style.display = 'block';
-
-  // show chart
   document.getElementById('chartContent').style.display = 'block';
   setTimeout(animateBars, 400);
-  setTimeout(()=>document.getElementById('dietWrap').scrollIntoView({behavior:'smooth',block:'start'}), 200);
+  setTimeout(()=>document.getElementById('rankVerdictBox').scrollIntoView({behavior:'smooth',block:'nearest'}), 300);
+}
+
+function buildSpectrum(){
+  const spec = document.getElementById('rankSpectrum');
+  spec.classList.add('show');
+  // zero line at 37.5% (score 0 maps to (0-(-3))/8 = 37.5%)
+  const zeroPos = 37.5;
+  let html = `<div class="spectrum-track"></div>
+    <div class="spectrum-zero" style="left:${zeroPos}%"></div>
+    <div class="spectrum-zero-label" style="left:${zeroPos}%">0</div>`;
+  // emoji for each media in correct rank order 1→7
+  const ids = [7,6,5,3,4,2,1]; // correct rank 1→7
+  ids.forEach(id=>{
+    const m = MEDIA_DATA[id];
+    html += `<span class="spectrum-emoji" style="left:${m.specPct}%">${m.emoji}
+      <span class="spectrum-emoji-label">${m.score}</span>
+    </span>`;
+  });
+  spec.innerHTML = html;
+}
+
+function buildVerdict(exact, close){
+  const box = document.getElementById('rankVerdictBox');
+  const total = 7;
+  const scored = exact + close;
+
+  let emoji, headline, rightText, surpriseText;
+
+  if(exact === 7){
+    emoji = '🏆'; headline = 'Perfect ranking!';
+    rightText = 'You placed all seven correctly — Reading at the top, short-form at the bottom, and the tricky middle in the right order too.';
+    surpriseText = 'Even the close calls between podcasts, comics and music were spot on. You clearly paid attention to the science.';
+  } else if(exact >= 4){
+    emoji = '🎯'; headline = `${exact}/7 exact, ${close} one position off`;
+    rightText = `You nailed the ${exact} that are clearest in the science — Reading, Audiobooks, and Short-form are the most intuitive ones to place.`;
+    surpriseText = 'The tricky part is always the middle three (Podcasts, Comics, Music). Their scores are genuinely close, and even one position off is a solid read of the research.';
+  } else if(scored >= 4){
+    emoji = '👍'; headline = `${exact} exact, ${close} close — not bad`;
+    rightText = 'You picked up the broad pattern correctly — the top and bottom are the easiest to get right.';
+    surpriseText = 'The surprising positions are usually Podcasts (#3, above Comics) and Audiobooks (#2, nearly matching Reading). The science there is more recent and less widely known.';
+  } else {
+    emoji = '🤔'; headline = `${exact} exact — the science surprised you`;
+    rightText = 'Most people find Reading and Short-form intuitive to place. The middle five are where the surprises usually live.';
+    surpriseText = 'Key insight: Audiobooks rank almost as high as Reading (UC Berkeley found nearly identical brain activation). And Podcasts outrank Comics because of the Stanford critical thinking research.';
+  }
+
+  box.innerHTML = `
+    <div class="rv-score-bar">
+      <div class="rv-score-n">${emoji} ${exact}/7</div>
+      <div class="rv-score-label"><strong>${headline}</strong><br>${scored < 7 ? `${7-scored} position${7-scored>1?'s':''} further off` : 'All within one position'}</div>
+    </div>
+    <div class="rv-sections">
+      <div class="rv-section">
+        <div class="rv-section-title" style="color:var(--green)">✓ What you got right</div>
+        <div class="rv-section-body">${rightText}</div>
+      </div>
+      <div class="rv-section">
+        <div class="rv-section-title" style="color:var(--yellow)">💡 The surprising ones</div>
+        <div class="rv-section-body">${surpriseText}</div>
+      </div>
+    </div>`;
+  setTimeout(()=>box.classList.add('show'), 200);
 }
 
 function buildDietGrid(){
-  // tiles in correct science order 1→7
-  const order = [7,6,5,3,4,2,1]; // id order by correct rank 1→7
-  const grid  = document.getElementById('dietGrid');
-  grid.innerHTML = '';
-  order.forEach((id,i)=>{
+  const order = [7,6,5,3,4,2,1];
+  const container = document.getElementById('dietRows');
+  container.innerHTML = '';
+  order.forEach((id)=>{
     const m = MEDIA_DATA[id];
-    const tile = document.createElement('div');
-    tile.className = 'diet-tile';
-    tile.innerHTML = `
-      <div class="diet-rank-badge">#${i+1}</div>
-      <div class="diet-emoji">${m.emoji}</div>
-      <div class="diet-name">${m.name}</div>
-      <div class="diet-toggles">
-        <button class="diet-btn" data-type="much"  data-tid="${id}" onclick="dietPick(this)">🔴 Too much</button>
-        <button class="diet-btn" data-type="ok"    data-tid="${id}" onclick="dietPick(this)">🟡 About right</button>
-        <button class="diet-btn" data-type="little" data-tid="${id}" onclick="dietPick(this)">🟢 Too little</button>
-      </div>`;
-    grid.appendChild(tile);
+    const segsHtml = DIET_SEGS.map((label,i)=>`
+      <button class="diet-scale-seg" data-idx="${i}" data-tid="${id}" data-rec="${m.recIdx}" data-rectype="${m.recType}" onclick="dietPick(this)">
+        <span class="dss-marker" id="dsm_${id}_${i}">▾</span>
+        <span class="dss-label">${label}</span>
+      </button>`).join('');
+    const row = document.createElement('div');
+    row.className = 'diet-row';
+    row.dataset.tid = id;
+    row.innerHTML = `
+      <div class="diet-media">
+        <span class="diet-emoji-sm">${m.emoji}</span>
+        <div class="diet-name-col">
+          <span class="diet-name-text">${m.name}</span>
+          <span class="diet-rank-text">${m.rec}</span>
+        </div>
+      </div>
+      <div class="diet-scale">
+        <div class="diet-scale-track">${segsHtml}</div>
+      </div>
+      <div class="diet-score-pill" style="color:${m.scoreColor}">${m.score}</div>`;
+    container.appendChild(row);
   });
 }
 
-const dietChoices = {};
+const dietChoices = {}; // id → segment index
 function dietPick(btn){
-  const tid  = btn.dataset.tid;
-  const type = btn.dataset.type;
+  const tid     = parseInt(btn.dataset.tid);
+  const idx     = parseInt(btn.dataset.idx);
+  const rec     = parseInt(btn.dataset.rec);
+  const recType = btn.dataset.rectype;
+
   // clear siblings
-  btn.closest('.diet-toggles').querySelectorAll('.diet-btn').forEach(b=>{
-    b.classList.remove('db-much','db-ok','db-little');
+  btn.closest('.diet-scale-track').querySelectorAll('.diet-scale-seg').forEach(b=>{
+    b.classList.remove('dss-active','dss-green','dss-yellow','dss-red');
   });
-  btn.classList.add('db-' + type);
-  dietChoices[tid] = type;
-  // gentle reflection note
-  const tooMuch = Object.values(dietChoices).filter(v=>v==='much').length;
-  const note = document.getElementById('dietNote');
-  if(tooMuch >= 3)     note.textContent = '🍟 That\'s a lot of junk food. Worth thinking about what one swap might look like.';
-  else if(tooMuch >= 1) note.textContent = '⚖️ Everyone has something they overuse. Awareness is the first step.';
-  else if(Object.keys(dietChoices).length === 7) note.textContent = '🌟 A balanced diet! The science suggests you\'re already doing well.';
-  else                  note.textContent = '';
+
+  // colour logic
+  let colour;
+  if(recType === 'max'){
+    // lower is better
+    if(idx <= rec)          colour = 'dss-green';
+    else if(idx === rec+1)  colour = 'dss-yellow';
+    else                    colour = 'dss-red';
+  } else {
+    // higher is better (min)
+    if(idx >= rec)          colour = 'dss-green';
+    else if(idx === rec-1)  colour = 'dss-yellow';
+    else                    colour = 'dss-red';
+  }
+  btn.classList.add('dss-active', colour);
+
+  // show recommended marker on correct segment
+  btn.closest('.diet-scale-track').querySelectorAll('.dss-marker').forEach(m=>m.classList.remove('show'));
+  const marker = document.getElementById(`dsm_${tid}_${rec}`);
+  if(marker) marker.classList.add('show');
+
+  dietChoices[tid] = idx;
+  if(Object.keys(dietChoices).length === 7) buildPrescription();
+}
+
+function buildPrescription(){
+  const order = [7,6,5,3,4,2,1];
+  let worstId = null, worstGap = -Infinity;
+  let bestId  = null, bestGap  = -Infinity;
+
+  order.forEach(id=>{
+    const chosen = dietChoices[id];
+    if(chosen === undefined) return;
+    const m   = MEDIA_DATA[id];
+    const rec = m.recIdx;
+    const gap = chosen - rec; // positive = over, negative = under
+
+    if(m.recType === 'max' && gap > 0){
+      // using more than recommended on a harmful/low item
+      if(gap > worstGap){ worstGap = gap; worstId = id; }
+    }
+    if(m.recType === 'min' && gap < 0){
+      // using less than recommended on a beneficial item
+      const absGap = Math.abs(gap);
+      // weight by score: reading underused is worse than comics underused
+      const weighted = absGap * parseFloat(m.score);
+      if(weighted > bestGap){ bestGap = weighted; bestId = id; }
+    }
+  });
+
+  let html = '';
+  if(worstId){
+    const m = MEDIA_DATA[worstId];
+    const chosenLabel = DIET_SEGS[dietChoices[worstId]];
+    const recLabel    = DIET_SEGS[m.recIdx];
+    html += `<div class="diet-presc-row">
+      <span class="diet-presc-icon">⚠️</span>
+      <div><strong>Biggest mismatch:</strong> You use ${m.emoji} ${m.name} for <strong>${chosenLabel}</strong> — science suggests <strong style="color:${m.scoreColor}">${recLabel}</strong>. It scores ${m.score} for brain health.</div>
+    </div>`;
+  }
+  if(bestId){
+    const m = MEDIA_DATA[bestId];
+    const chosenLabel = DIET_SEGS[dietChoices[bestId]];
+    const recLabel    = DIET_SEGS[m.recIdx];
+    html += `<div class="diet-presc-row">
+      <span class="diet-presc-icon">💡</span>
+      <div><strong>Best opportunity:</strong> You use ${m.emoji} ${m.name} for only <strong>${chosenLabel}</strong> — even <strong style="color:${m.scoreColor}">${recLabel}</strong> daily would make a measurable difference. It scores ${m.score}.</div>
+    </div>`;
+  }
+  if(!worstId && !bestId){
+    html = `<div class="diet-presc-row"><span class="diet-presc-icon">🌟</span><div><strong>Great balance!</strong> Your usage lines up well with what the science recommends. Small consistent habits beat dramatic changes every time.</div></div>`;
+  }
+
+  const box = document.getElementById('dietPrescription');
+  box.innerHTML = html;
+  box.classList.add('show');
 }
 
 
@@ -1718,6 +2060,33 @@ function resetVmatch(){
 // Attach listeners
 document.querySelectorAll('.vm-word').forEach(b=>b.addEventListener('click',()=>vmPickWord(b)));
 document.querySelectorAll('.vm-def' ).forEach(b=>b.addEventListener('click',()=>vmPickDef(b)));
+
+/* ── RANDOMISE ORDER ON LOAD ── */
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function shuffleChildren(parent){
+  shuffle([...parent.children]).forEach(c=>parent.appendChild(c));
+}
+
+// Quiz: shuffle each question's options and relabel A/B/C/D
+document.querySelectorAll('.quiz-q').forEach(q=>{
+  const container = q.querySelector('.q-opts');
+  const opts = shuffle([...container.querySelectorAll('.q-opt')]);
+  opts.forEach((opt,i)=>{
+    opt.querySelector('.opt-ltr').textContent = 'ABCD'[i];
+    container.appendChild(opt);
+  });
+});
+
+// Vocab matching: shuffle words and definitions independently
+shuffleChildren(document.getElementById('vmWords'));
+shuffleChildren(document.getElementById('vmDefs'));
 
 
 const obs=new IntersectionObserver((entries)=>{
