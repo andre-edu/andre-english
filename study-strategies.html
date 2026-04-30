@@ -726,6 +726,113 @@ svg.pt-wheel-svg { display: block; width: 100%; }
   content: ''; position: absolute; bottom: 100%; left: 14px;
   border: 5px solid transparent; border-bottom-color: var(--acc);
 }
+
+/* ──────────── RESPONSIVE — MOBILE ──────────── */
+@media (max-width: 768px) {
+
+  /* Allow views to scroll internally on small screens */
+  html, body { overflow: auto; }
+  .view { overflow-y: auto; }
+  /* Hidden views: keep out of sight completely */
+  .view.hidden { display: none; }
+
+  /* ── Hub ── */
+  #hub { padding: 18px 14px 18px; }
+  .hub-top { flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
+  .hub-title { font-size: 1.3rem; }
+  .hub-sub   { font-size: .74rem; }
+
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    flex: none;
+    padding-bottom: 18px;
+  }
+  /* Reset explicit column placements set for desktop */
+  .card:nth-child(5),
+  .card:nth-child(6),
+  .card:nth-child(7) { grid-column: auto; }
+
+  .card { padding: 14px 14px; gap: 6px; }
+  .card-icon { font-size: 1.35rem; }
+  .card-name { font-size: .9rem; }
+  .card-tip  { font-size: .68rem; }
+
+  /* ── Focus bar ── */
+  .focus-bar { padding: 10px 14px; }
+  .nav-btn   { width: 30px; height: 30px; }
+
+  /* ── Focus body: stack side above main ── */
+  .focus-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    overflow-y: auto;
+  }
+  .focus-side {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 16px 14px;
+    overflow: visible;
+    gap: 10px;
+  }
+  .focus-icon  { font-size: 2rem; }
+  .focus-title { font-size: 1.25rem; }
+  .eff-block   { margin-top: 6px; }
+
+  /* Prog list: horizontal chips instead of vertical list */
+  .prog-list { flex-direction: row; flex-wrap: wrap; gap: 5px 12px; }
+  .prog-item { font-size: .68rem; }
+
+  .focus-main { padding: 18px 14px; overflow-y: visible; gap: 10px; }
+
+  /* ── Section blocks ── */
+  .sec { padding: 14px 14px; }
+  .sec-body { font-size: .84rem; }
+  .app-item { font-size: .8rem; }
+
+  /* ── Forgetting curve / Retention race labels ── */
+  .rr-label { width: 95px; font-size: .52rem; }
+  .rr-val   { width: 28px; font-size: .62rem; }
+
+  /* ── Dual coding chart ── */
+  .dc-label-col { width: 95px; }
+  .dc-icon      { width: 26px; height: 22px; }
+  .dc-name      { font-size: .54rem; }
+  .dc-right     { width: 52px; gap: 5px; }
+  .dc-val       { font-size: .62rem; }
+
+  /* ── Confidence meters ── */
+  .cm-gauge-lbl  { width: 88px; font-size: .58rem; }
+  .cm-gap-spacer { width: 88px; }
+  .cm-gauge-val  { width: 26px; font-size: .58rem; }
+
+  /* ── Plot twist chart ── */
+  .pt-chart-area { padding: 14px 14px 0; }
+  .pt-goal-row   { gap: 6px; }
+  .pt-goal-btn   { font-size: .7rem; padding: 7px 6px; }
+  .pt-bar-name   { font-size: .62rem; }
+
+  /* ── Synthesis ── */
+  #synthesis { padding: 14px 12px; display: flex; flex-direction: column; }
+  .synth-top {
+    flex-direction: column; align-items: flex-start;
+    gap: 8px; margin-bottom: 12px;
+  }
+  .synth-title { font-size: 1.05rem; }
+  .synth-title span {
+    display: block; margin-left: 0; margin-top: 4px; font-size: .72rem;
+  }
+
+  /* ── Keyboard hint: not relevant on touch ── */
+  .kbd-hint { display: none; }
+
+  /* ── Tooltip: pin to bottom on touch screens ── */
+  .tooltip {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    top: auto !important; max-width: 100%;
+    border-radius: 10px 10px 0 0; padding: 14px 18px;
+  }
+}
 </style>
 </head>
 <body>
