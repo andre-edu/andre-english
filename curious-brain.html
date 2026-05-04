@@ -73,11 +73,14 @@ body {
   transform: scale(1.025);
 }
 .bubble-close {
-  position: absolute; top: 11px; right: 14px;
+  position: absolute; top: 6px; right: 8px;
   background: none; border: none;
   color: rgba(255,255,255,0.3); font-size: 16px;
   cursor: pointer; font-family: inherit;
-  transition: color 0.2s; padding: 2px 6px;
+  transition: color 0.2s;
+  padding: 8px 12px;   /* large hit area */
+  line-height: 1;
+  z-index: 10;
 }
 .bubble-close:hover { color: #fff; }
 .bubble-tag {
@@ -103,7 +106,7 @@ body {
 @keyframes dotPop    { from{opacity:0} to{opacity:1} }
 
 /* ── OVERLAY / FOOTER ───────────────────────────────── */
-#overlay { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:300; }
+#overlay { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:800; }
 #overlay .fact-bubble { pointer-events:auto; }
 #instructions {
   position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
@@ -112,6 +115,27 @@ body {
 }
 #link-counter { position:fixed; bottom:20px; right:24px; font-size:12px; font-weight:800; color:#28285a; }
 #link-counter span { color:#5858aa; }
+
+/* ── HTML HINT PILLS ────────────────────────────────────── */
+.hint-pill {
+  position: fixed;
+  padding: 5px 13px;
+  border-radius: 20px;
+  border: 1.5px solid;
+  font-size: 12px; font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 9999;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  transition: filter 0.2s;
+}
+.hint-pill:hover { filter: brightness(1.3); }
+@keyframes hintFloat {
+  0%,100% { opacity:0.85; transform:translateX(-50%) translateY(0); }
+  50%      { opacity:1;    transform:translateX(-50%) translateY(-8px); }
+}
 
 /* ── CREDITS ────────────────────────────────────────────── */
 #credits {
@@ -314,34 +338,11 @@ body {
 </g>
 
 <!-- Floating hints -->
-<g class="hint-group" id="hint-prefrontal">
-  <rect x="178" y="126" width="112" height="28" rx="14" fill="#4a90ff" opacity="0.14"/>
-  <rect x="178" y="126" width="112" height="28" rx="14" fill="none" stroke="#4a90ff" stroke-width="1.2" opacity="0.50"/>
-  <text x="234" y="140" fill="#4a90ff" font-size="12.5" font-weight="700" font-family="Nunito,sans-serif" text-anchor="middle" dominant-baseline="middle">🔭 Explore</text>
-</g>
-<g class="hint-group" id="hint-caudate">
-  <rect x="352" y="155" width="96" height="28" rx="14" fill="#ffd700" opacity="0.14"/>
-  <rect x="352" y="155" width="96" height="28" rx="14" fill="none" stroke="#ffd700" stroke-width="1.2" opacity="0.50"/>
-  <text x="400" y="169" fill="#ffd700" font-size="12.5" font-weight="700" font-family="Nunito,sans-serif" text-anchor="middle" dominant-baseline="middle">⚡ Reward</text>
-</g>
-<g class="hint-group" id="hint-hippocampus">
-  <rect x="424" y="382" width="112" height="28" rx="14" fill="#00e5c0" opacity="0.14"/>
-  <rect x="424" y="382" width="112" height="28" rx="14" fill="none" stroke="#00e5c0" stroke-width="1.2" opacity="0.50"/>
-  <text x="480" y="396" fill="#00e5c0" font-size="12.5" font-weight="700" font-family="Nunito,sans-serif" text-anchor="middle" dominant-baseline="middle">🧩 Memory</text>
-</g>
-<g class="hint-group" id="hint-amygdala">
-  <rect x="278" y="403" width="132" height="28" rx="14" fill="#ff5252" opacity="0.14"/>
-  <rect x="278" y="403" width="132" height="28" rx="14" fill="none" stroke="#ff5252" stroke-width="1.2" opacity="0.50"/>
-  <text x="344" y="417" fill="#ff5252" font-size="12.5" font-weight="700" font-family="Nunito,sans-serif" text-anchor="middle" dominant-baseline="middle">😰 Anxiety</text>
-</g>
-<g class="hint-group" id="hint-vta">
-  <rect x="520" y="432" width="108" height="28" rx="14" fill="#cc44ff" opacity="0.14"/>
-  <rect x="520" y="432" width="108" height="28" rx="14" fill="none" stroke="#cc44ff" stroke-width="1.2" opacity="0.50"/>
-  <text x="574" y="446" fill="#cc44ff" font-size="12.5" font-weight="700" font-family="Nunito,sans-serif" text-anchor="middle" dominant-baseline="middle">🔥 Ignition</text>
-</g>
+
 </svg>
 
 <!-- Connection line overlay (screen pixel coords, no viewBox) -->
+<div id="hint-layer"></div>
 <svg id="conn-svg" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <filter id="cf-glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -398,15 +399,70 @@ const CONNECTIONS = {
   'hippocampus-vta':{color:'#44ccdd',label:'Curiosity Primes Memory',
     text:'Anticipatory VTA activity puts the hippocampus in a <strong>heightened encoding state</strong>, even before you encounter new information.<br><br>Curious students remember more because their memory system is <em>already primed</em>.'}};
 
-// ── HINT ANIMATIONS ──────────────────────────────────────────
-const HINT_T = {
-  prefrontal:{dur:3.8,delay:0.0},caudate:{dur:3.2,delay:1.2},
-  hippocampus:{dur:4.1,delay:0.7},amygdala:{dur:3.6,delay:1.9},vta:{dur:3.4,delay:0.4}
+// ── HINT PILLS (HTML, positioned via svgToScreen) ────────────
+const HINT_DEFS = {
+  prefrontal: { emoji:'🔭', label:'Explore',  color:'#4a90ff', svgX:234, svgY:126 },
+  caudate:    { emoji:'⚡', label:'Reward',   color:'#ffd700', svgX:400, svgY:152 },
+  hippocampus:{ emoji:'🧩', label:'Memory',   color:'#00e5c0', svgX:480, svgY:382 },
+  amygdala:   { emoji:'😰', label:'Anxiety',  color:'#ff5252', svgX:344, svgY:403 },
+  vta:        { emoji:'🔥', label:'Ignition', color:'#cc44ff', svgX:574, svgY:432 },
 };
-const sEl = document.createElement('style');
-sEl.textContent = `@keyframes hintFloat{0%,100%{opacity:.12;transform:translateY(0)}20%{opacity:.9}50%{opacity:1;transform:translateY(-9px)}80%{opacity:.72}}`
-  + Object.entries(HINT_T).map(([id,a])=>`#hint-${id}{animation:hintFloat ${a.dur}s ${a.delay}s ease-in-out infinite}`).join('');
-document.head.appendChild(sEl);
+const HINT_T = {
+  prefrontal:{dur:3.8,delay:0.0}, caudate:{dur:3.2,delay:1.2},
+  hippocampus:{dur:4.1,delay:0.7}, amygdala:{dur:3.6,delay:1.9},
+  vta:{dur:3.4,delay:0.4}
+};
+
+function buildHints(){
+  const layer = document.getElementById('hint-layer');
+  for(const [id, h] of Object.entries(HINT_DEFS)){
+    const pill = document.createElement('div');
+    pill.className = 'hint-pill';
+    pill.id = `hint-${id}`;
+    pill.textContent = `${h.emoji} ${h.label}`;
+    pill.style.color  = h.color;
+    pill.style.borderColor = h.color;
+    pill.style.background  = h.color + '22';
+    const {dur,delay} = HINT_T[id];
+    pill.style.animation = `hintFloat ${dur}s ${delay}s ease-in-out infinite`;
+    pill.addEventListener('click', () => handleClick(id));
+    layer.appendChild(pill);
+  }
+  // Double rAF: first frame commits DOM, second frame has correct SVG layout
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    positionHints();
+    setTimeout(positionHints, 200); // safety net for slow font loads
+  }));
+}
+
+function positionHints(){
+  const svg  = document.getElementById('brain-svg');
+  const rect = svg.getBoundingClientRect();
+  const vb   = svg.viewBox.baseVal;
+
+  // Manually replicate preserveAspectRatio="xMidYMid meet"
+  const svgAspect  = vb.width / vb.height;
+  const rectAspect = rect.width / rect.height;
+  let scale, offsetX, offsetY;
+  if(rectAspect > svgAspect){
+    // viewport wider than SVG: pillarbox left/right
+    scale   = rect.height / vb.height;
+    offsetX = rect.left + (rect.width - vb.width * scale) / 2;
+    offsetY = rect.top;
+  } else {
+    // viewport taller than SVG: letterbox top/bottom
+    scale   = rect.width / vb.width;
+    offsetX = rect.left;
+    offsetY = rect.top + (rect.height - vb.height * scale) / 2;
+  }
+
+  for(const [id, h] of Object.entries(HINT_DEFS)){
+    const pill = document.getElementById(`hint-${id}`);
+    if(!pill || pill.style.display === 'none') continue;
+    pill.style.left = (offsetX + h.svgX * scale) + 'px';
+    pill.style.top  = (offsetY + h.svgY * scale - 16) + 'px';
+  }
+}
 
 // ── STATE ────────────────────────────────────────────────────
 let openSet=new Set(), drawnConns=new Set(), linksFound=0;
@@ -418,9 +474,11 @@ function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}
 
 function svgToScreen(sx,sy){
   const svg=document.getElementById('brain-svg');
+  const ctm=svg.getScreenCTM();
+  if(!ctm) return{x:sx,y:sy};
   const pt=svg.createSVGPoint();
   pt.x=sx; pt.y=sy;
-  const s=pt.matrixTransform(svg.getScreenCTM());
+  const s=pt.matrixTransform(ctm);
   return{x:s.x, y:s.y};
 }
 function scaleOff(dx,dy){
@@ -467,6 +525,7 @@ function handleClick(id){
   showBubble(id);
   hideHint(id);
   prev.forEach(oid=>tryConn(id,oid));
+  markVisited(id);
 }
 
 // ── BUBBLES ──────────────────────────────────────────────────
@@ -520,25 +579,30 @@ function makeDraggable(div,id){
   function end(){if(!on)return;on=false;div.classList.remove('dragging');}
 
   div.addEventListener('mousedown',e=>{
-    if(e.target.classList.contains('bubble-close'))return;
+    if(e.target.closest('button'))return;
     start(e.clientX,e.clientY);e.preventDefault();
   });
   document.addEventListener('mousemove',e=>move(e.clientX,e.clientY));
   document.addEventListener('mouseup',end);
   div.addEventListener('touchstart',e=>{
-    if(e.target.classList.contains('bubble-close'))return;
+    if(e.target.closest('button'))return;
     const t=e.touches[0];start(t.clientX,t.clientY);
   },{passive:true});
   document.addEventListener('touchmove',e=>{const t=e.touches[0];move(t.clientX,t.clientY);},{passive:true});
   document.addEventListener('touchend',end,{passive:true});
 }
 
-function hideHint(id){const el=document.getElementById(`hint-${id}`);if(el){el.style.animation='none';el.style.opacity='0';}}
+function hideHint(id){
+  const el=document.getElementById(`hint-${id}`);
+  if(el){ el.style.animation='none'; el.style.opacity='0'; el.style.pointerEvents='none'; }
+}
 function showHint(id){
-  const el=document.getElementById(`hint-${id}`);if(!el)return;
+  const el=document.getElementById(`hint-${id}`);
+  if(!el)return;
+  el.style.opacity='';
+  el.style.pointerEvents='auto';
   const{dur,delay}=HINT_T[id];
   el.style.animation=`hintFloat ${dur}s ${delay}s ease-in-out infinite`;
-  el.style.opacity='';
 }
 
 // ── CONNECTIONS ──────────────────────────────────────────────
@@ -616,6 +680,8 @@ function updateConnsFor(id){
 function removeConn(key){
   document.getElementById(`conn-${key}`)?.remove();
   removeDiscovery(key);
+  linksFound = Math.max(0, linksFound - 1);
+  document.getElementById('found').textContent = linksFound;
 }
 
 // ── DISCOVERIES (free-floating draggable cards) ──────────────
@@ -807,13 +873,199 @@ function updateTether(key){
   });
 }
 
+// ── CONCLUSION BOX ───────────────────────────────────────────
+const visited = new Set();
+let conclusionShown = false;
+let conclusionEl = null;
+let tipIndex = 0;
+
+const TIPS = [
+  { n:'1 of 3', color:'#ffd700',
+    html:'<strong>Hunt the Gap.</strong> You cannot be curious about something you know nothing about. Find a topic you <em>almost</em> understand, then ask one question: "Why does this work?" That small gap triggers your VTA, releases dopamine, and puts your brain into learning mode before you have even started.' },
+  { n:'2 of 3', color:'#ff5252',
+    html:'<strong>Name the Feeling.</strong> When you feel stressed about grades, your amygdala takes over and your thinking brain goes quiet. Try changing one word: instead of "I am scared of failing this," say "I am curious whether I can figure this out." Same situation, different brain, better results.' },
+  { n:'3 of 3', color:'#00e5c0',
+    html:'<strong>Follow One Question All the Way.</strong> Next time you wonder about something, do not just Google it and read the first line. Click at least three links. Read a short article. Watch a two-minute video. Then close everything and try to explain it to yourself in your own words. That full loop is what trains your brain to stay curious.' }
+];
+
+// Inject float animation once
+(function(){
+  const s = document.createElement('style');
+  s.textContent = `
+    @keyframes conclusionFloat {
+      0%,100% { transform:translateY(0); box-shadow:0 0 18px 3px rgba(100,80,220,0.45); }
+      50%      { transform:translateY(-7px); box-shadow:0 0 26px 5px rgba(100,80,220,0.65); }
+    }`;
+  document.head.appendChild(s);
+})();
+
+function markVisited(id){
+  visited.add(id);
+  if(visited.size === Object.keys(REGIONS).length && !conclusionShown){
+    conclusionShown = true;
+    setTimeout(buildConclusion, 900);
+  }
+}
+
+function buildConclusion(){
+  const box = document.createElement('div');
+  conclusionEl = box;
+  Object.assign(box.style, {
+    position:'fixed', zIndex:'99999',
+    fontFamily:"'Nunito','Segoe UI',system-ui,sans-serif",
+    userSelect:'none',
+  });
+  document.body.appendChild(box);
+
+  // ── DRAG — defined once, never re-added ──────────────────
+  let dragging=false, isDraggable=false, ox=0, oy=0;
+  box._setDraggable = v => { isDraggable=v; };
+
+  function startDrag(cx, cy){
+    if(!isDraggable) return false;
+    // Convert right/bottom → left/top once before first drag
+    if(box.style.right && box.style.right !== 'auto'){
+      const r = box.getBoundingClientRect();
+      box.style.right='auto'; box.style.bottom='auto';
+      box.style.left = clamp(r.left, 0, window.innerWidth -340)+'px';
+      box.style.top  = clamp(r.top,  0, window.innerHeight-50 )+'px';
+    }
+    const r = box.getBoundingClientRect();
+    ox = cx-r.left; oy = cy-r.top;
+    dragging=true;
+    box.style.cursor='grabbing';
+    return true;
+  }
+  function moveDrag(cx, cy){
+    if(!dragging) return;
+    box.style.left = clamp(cx-ox, 0, window.innerWidth -340)+'px';
+    box.style.top  = clamp(cy-oy, 0, window.innerHeight-50 )+'px';
+  }
+  function endDrag(){
+    if(!dragging) return;
+    dragging=false;
+    if(isDraggable) box.style.cursor='grab';
+  }
+
+  box.addEventListener('mousedown', e=>{
+    if(!isDraggable || e.target.closest('button')) return;
+    startDrag(e.clientX, e.clientY); e.preventDefault();
+  });
+  document.addEventListener('mousemove', e=>{ moveDrag(e.clientX, e.clientY); });
+  document.addEventListener('mouseup',   endDrag);
+
+  box.addEventListener('touchstart', e=>{
+    if(!isDraggable || e.target.closest('button')) return;
+    const t=e.touches[0]; startDrag(t.clientX, t.clientY);
+  },{passive:true});
+  document.addEventListener('touchmove', e=>{
+    if(!dragging) return;
+    const t=e.touches[0]; moveDrag(t.clientX, t.clientY);
+  },{passive:true});
+  document.addEventListener('touchend', endDrag, {passive:true});
+
+  showMini();
+}
+
+// Mini sits above the 0/4 link counter (bottom: 20px + ~16px text + gap)
+const MINI_BOTTOM = 52;
+const MINI_RIGHT  = 24;
+
+function showMini(){
+  const box = conclusionEl;
+  box._setDraggable(false);
+  box.style.right  = MINI_RIGHT  + 'px';
+  box.style.bottom = MINI_BOTTOM + 'px';
+  box.style.left   = 'auto';
+  box.style.top    = 'auto';
+  Object.assign(box.style, {
+    width:'52px', height:'52px', borderRadius:'50%',
+    background:'#111120', border:'2px solid #6060b0',
+    cursor:'pointer', overflow:'hidden', display:'flex',
+    alignItems:'center', justifyContent:'center', padding:'0',
+    boxShadow:'0 0 18px 3px rgba(100,80,220,0.45)',
+    animation:'conclusionFloat 2.8s ease-in-out infinite', transition:'none',
+  });
+  box.innerHTML = `<span style="font-size:24px;font-weight:900;color:#8888cc;pointer-events:none;line-height:1;">?</span>`;
+  box.onclick = e => { e.stopPropagation(); showExpanded(); };
+}
+
+function showExpanded(){
+  const box = conclusionEl;
+  box.onclick = null;
+  box.style.animation = 'none';
+
+  // Pin expanded box above the mini, flush to right edge — always in bounds
+  const expandedW = 340;
+  box.style.right  = MINI_RIGHT + 'px';
+  box.style.bottom = (MINI_BOTTOM + 52 + 10) + 'px';
+  box.style.left   = 'auto';
+  box.style.top    = 'auto';
+
+  Object.assign(box.style, {
+    width: expandedW + 'px', height:'auto', borderRadius:'20px',
+    background:'#111120', border:'2px solid #5252a0',
+    cursor:'grab', overflow:'visible', display:'block',
+    padding:'22px 24px 18px',
+    boxShadow:'0 0 40px rgba(80,60,200,0.3), 0 16px 40px rgba(0,0,0,0.8)',
+    transition:'none',
+  });
+
+  tipIndex = 0;
+  renderExpanded();
+  box._setDraggable(true);
+}
+
+function renderExpanded(){
+  const box = conclusionEl;
+  const tip = TIPS[tipIndex];
+  box.innerHTML = `
+    <button id="concl-x" style="position:absolute;top:6px;right:8px;background:none;border:none;
+      color:rgba(255,255,255,0.35);font-size:16px;cursor:pointer;padding:8px 12px;
+      font-family:inherit;line-height:1;">✕</button>
+    <div style="font-size:9px;font-weight:800;letter-spacing:.2em;color:#44446a;
+      text-transform:uppercase;margin-bottom:5px;">Your Brain's Playbook</div>
+    <div style="font-size:17px;font-weight:900;color:#e8e8ff;margin-bottom:12px;">3 ways to stay curious</div>
+    <div id="concl-n" style="font-size:10px;font-weight:800;letter-spacing:.12em;
+      margin-bottom:7px;color:${tip.color};">${tip.n}</div>
+    <div id="concl-t" style="font-size:13px;font-weight:600;line-height:1.65;
+      color:#8888b8;min-height:108px;opacity:0;transition:opacity 0.4s ease;">${tip.html}</div>
+    <div style="display:flex;justify-content:flex-end;margin-top:16px;">
+      <button id="concl-next" style="background:rgba(255,255,255,0.07);
+        border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:7px 20px;
+        font-size:12px;font-weight:800;color:#c8c8ee;cursor:pointer;
+        font-family:inherit;letter-spacing:.06em;">
+        ${tipIndex < TIPS.length-1 ? 'Next tip' : 'Close'}
+      </button>
+    </div>`;
+
+  // Fade tip in
+  requestAnimationFrame(()=>{
+    const t = box.querySelector('#concl-t');
+    if(t) t.style.opacity='1';
+  });
+
+  box.querySelector('#concl-x').addEventListener('click', e=>{
+    e.stopPropagation(); showMini();
+  });
+  box.querySelector('#concl-next').addEventListener('click', e=>{
+    e.stopPropagation();
+    if(tipIndex < TIPS.length-1){ tipIndex++; renderExpanded(); }
+    else { showMini(); }
+  });
+}
+
 // ── RESIZE ───────────────────────────────────────────────────
 window.addEventListener('resize',()=>{
   const ids=[...openSet];
   ids.forEach(id=>{removeAnchor(id);delete openPositions[id];document.getElementById(`bubble-${id}`)?.remove();});
   ids.forEach(id=>showBubble(id));
   for(const key of drawnConns) updateConn(key);
+  positionHints();
 });
+
+// ── INIT ─────────────────────────────────────────────────────
+window.addEventListener('load', buildHints);
 
 // ── VOCABULARY ───────────────────────────────────────────────
 const VOCAB=[
