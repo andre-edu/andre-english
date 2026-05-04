@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Curious Brain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #07071a; width: 100vw; height: 100vh;
+  overflow: hidden;
+  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  color: #e0e0ff;
+}
+
+/* ── TITLE ─────────────────────────────────────────── */
+#page-title {
+  position: fixed; top: 18px; left: 50%;
+  transform: translateX(-50%);
+  text-align: center; pointer-events: none; z-index: 10;
+}
+#page-title h1 {
+  font-size: 21px; font-weight: 900;
+  text-transform: uppercase; letter-spacing: 0.15em;
+  color: #c8c8ee; opacity: 0.85;
+}
+#page-title p {
+  font-size: 11.5px; font-weight: 600;
+  letter-spacing: 0.07em; color: #38386a; margin-top: 3px;
+}
+
+/* ── BRAIN SVG ──────────────────────────────────────── */
+#brain-svg {
+  width: 100%; height: 100%;
+  position: fixed; top: 0; left: 0; z-index: 1;
+}
+
+/* ── CONNECTION LINE OVERLAY ────────────────────────── */
+#conn-svg {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; z-index: 5; overflow: visible;
+}
+
+/* ── DISCOVERY CARDS (free-floating draggable) ──────────── */
+.disc-card {
+  background: #111120;
+  border: 1.5px solid; border-left-width: 4px;
+  border-radius: 14px; padding: 11px 14px;
+  animation: popIn 0.38s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  cursor: grab; user-select: none;
+}
+.disc-card:active { cursor: grabbing; }
+.disc-title { font-size: 12.5px; font-weight: 800; margin-bottom: 5px; }
+.disc-text  { font-size: 11.5px; font-weight: 600; line-height: 1.55; color: #6060a0; }
+
+/* ── FACT BUBBLES ───────────────────────────────────── */
+.fact-bubble {
+  position: fixed; width: 268px;
+  background: rgba(5,5,18,0.97);
+  border: 2px solid; border-radius: 20px;
+  padding: 20px 22px 18px;
+  z-index: 300;
+  animation: popIn 0.38s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+  cursor: grab; user-select: none;
+}
+.fact-bubble.dragging {
+  cursor: grabbing; z-index: 500;
+  box-shadow: 0 22px 60px rgba(0,0,0,0.85);
+  transform: scale(1.025);
+}
+.bubble-close {
+  position: absolute; top: 11px; right: 14px;
+  background: none; border: none;
+  color: rgba(255,255,255,0.3); font-size: 16px;
+  cursor: pointer; font-family: inherit;
+  transition: color 0.2s; padding: 2px 6px;
+}
+.bubble-close:hover { color: #fff; }
+.bubble-tag {
+  font-size: 10px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.18em;
+  opacity: 0.7; margin-bottom: 5px;
+}
+.bubble-title { font-size: 17px; font-weight: 900; margin-bottom: 8px; line-height: 1.2; color: #fff; }
+.bubble-text  { font-size: 13px; font-weight: 600; line-height: 1.65; color: #9898c0; }
+
+/* ── ANIMATIONS ─────────────────────────────────────── */
+@keyframes popIn {
+  from { opacity:0; transform:scale(0.72) translateY(6px); }
+  to   { opacity:1; transform:scale(1)    translateY(0);   }
+}
+@keyframes ringPulse {
+  0%,100%{opacity:0.25;transform:scale(1)}
+  50%    {opacity:0.65;transform:scale(1.12)}
+}
+.pulse-ring { transform-box:fill-box; transform-origin:center; animation:ringPulse 2.6s ease-in-out infinite; }
+@keyframes drawLine  { to {stroke-dashoffset:0} }
+@keyframes linePulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
+@keyframes dotPop    { from{opacity:0} to{opacity:1} }
+
+/* ── OVERLAY / FOOTER ───────────────────────────────── */
+#overlay { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:300; }
+#overlay .fact-bubble { pointer-events:auto; }
+#instructions {
+  position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+  font-size:12px; font-weight:700; color:#28285a;
+  letter-spacing:0.07em; pointer-events:none; white-space:nowrap;
+}
+#link-counter { position:fixed; bottom:20px; right:24px; font-size:12px; font-weight:800; color:#28285a; }
+#link-counter span { color:#5858aa; }
+
+/* ── CREDITS ────────────────────────────────────────────── */
+#credits {
+  position: fixed; bottom: 18px; left: 18px;
+  z-index: 50; pointer-events: none;
+  opacity: 0.28; transition: opacity 0.3s;
+}
+#credits:hover { opacity: 0.72; }
+.cr-made {
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: 0.08em; color: #8080b0;
+  margin-bottom: 4px;
+}
+.cr-books {
+  display: flex; flex-direction: column; gap: 2px;
+}
+.cr-books span {
+  font-size: 9px; font-weight: 600;
+  color: #55557a; letter-spacing: 0.03em;
+}
+.cr-books em { color: #7070a0; font-style: italic; }
+
+/* ── VOCABULARY PANEL ───────────────────────────────────── */
+#vocab-panel {
+  position: fixed; top: 18px; right: 18px;
+  width: 194px; z-index: 400;
+}
+#vocab-label {
+  font-size: 9px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.2em;
+  color: #30305a; margin-bottom: 7px;
+  text-align: right;
+}
+#vocab-pills {
+  display: flex; flex-wrap: wrap; gap: 5px; justify-content: flex-end;
+}
+.vocab-pill {
+  font-size: 10.5px; font-weight: 700;
+  padding: 4px 10px; border-radius: 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  color: rgba(180,180,220,0.55);
+  cursor: pointer; transition: all 0.2s;
+  user-select: none; font-family: inherit;
+}
+.vocab-pill:hover {
+  background: rgba(255,255,255,0.09);
+  border-color: rgba(255,255,255,0.2);
+  color: #c8c8ee;
+}
+.vocab-pill.active {
+  background: rgba(255,255,255,0.11);
+  border-color: rgba(255,255,255,0.28);
+  color: #e8e8ff;
+}
+#vocab-def {
+  margin-top: 9px;
+  background: #111120;
+  border: 1.5px solid rgba(255,255,255,0.11);
+  border-radius: 13px;
+  padding: 11px 13px;
+  display: none;
+  animation: popIn 0.28s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+.vd-word { font-size: 12px; font-weight: 900; color: #e8e8ff; margin-bottom: 5px; }
+.vd-text { font-size: 11px; font-weight: 600; line-height: 1.58; color: #55558a; }
+</style>
+</head>
+<body>
+
+<div id="page-title">
+  <h1>The Curious Brain</h1>
+  <p>Click a glowing region · Drag to reposition · Find connected pairs</p>
+</div>
+
+<div id="vocab-panel">
+  <div id="vocab-label">Key Terms</div>
+  <div id="vocab-pills"></div>
+  <div id="vocab-def"></div>
+</div>
+
+
+<!-- ── BRAIN SVG ─────────────────────────────────────── -->
+<svg id="brain-svg" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="10" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="glow-lg" x="-80%" y="-80%" width="260%" height="260%">
+    <feGaussianBlur stdDeviation="18" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <radialGradient id="brain-grad" cx="42%" cy="40%" r="60%">
+    <stop offset="0%"   stop-color="#211648"/>
+    <stop offset="100%" stop-color="#0c0820"/>
+  </radialGradient>
+  <radialGradient id="sub-grad" cx="50%" cy="50%" r="60%">
+    <stop offset="0%"   stop-color="#170d32"/>
+    <stop offset="100%" stop-color="#09061a"/>
+  </radialGradient>
+</defs>
+
+<!-- Stars -->
+<g opacity="0.5">
+  <circle cx="45"  cy="72"  r="1.3" fill="#8080c8"/>
+  <circle cx="822" cy="50"  r="1.0" fill="#9090d8"/>
+  <circle cx="858" cy="494" r="1.5" fill="#7070b8"/>
+  <circle cx="62"  cy="488" r="1.1" fill="#8080c8"/>
+  <circle cx="148" cy="34"  r="0.9" fill="#a0a0e0"/>
+  <circle cx="778" cy="522" r="1.2" fill="#8080c8"/>
+  <circle cx="24"  cy="318" r="0.8" fill="#7070b0"/>
+  <circle cx="878" cy="238" r="1.4" fill="#9090d0"/>
+  <circle cx="300" cy="28"  r="0.7" fill="#8888c8"/>
+  <circle cx="680" cy="542" r="0.9" fill="#7878b8"/>
+</g>
+
+<!-- Cerebellum -->
+<path d="M 610 444 C 648 455,698 444,722 422 C 742 404,746 376,734 352
+         C 722 328,700 318,680 327 C 660 336,651 360,653 382
+         C 655 402,664 428,610 444 Z"
+  fill="url(#sub-grad)" stroke="#36286a" stroke-width="2"/>
+<g fill="none" stroke="#26205a" stroke-width="1.3" opacity="0.8" stroke-linecap="round">
+  <path d="M 664 342 C 682 352,702 357,720 350"/>
+  <path d="M 656 364 C 676 374,700 378,720 370"/>
+  <path d="M 654 386 C 674 394,694 397,712 392"/>
+  <path d="M 656 408 C 674 414,692 416,708 411"/>
+</g>
+
+<!-- Brainstem -->
+<path d="M 603 452 C 608 474,602 504,584 524 C 568 542,546 548,528 541
+         C 512 535,504 518,508 502 C 513 487,528 479,545 475
+         C 562 471,582 466,603 452 Z"
+  fill="url(#sub-grad)" stroke="#36286a" stroke-width="2"/>
+
+<!-- Brain body -->
+<path d="M 190 314 C 160 268,146 220,168 177 C 186 138,234 100,314 86
+         C 392 72,482 74,557 100 C 626 124,672 172,692 237
+         C 710 292,702 348,676 390 C 658 417,630 436,606 450
+         C 576 464,544 470,512 466 C 462 462,408 460,354 458
+         C 300 456,252 440,220 410 C 199 387,190 352,190 314 Z"
+  fill="url(#brain-grad)"/>
+
+<!-- Fold lines -->
+<g fill="none" stroke="#2a2660" stroke-width="1.5" opacity="0.8" stroke-linecap="round">
+  <path d="M 208 218 C 232 202,262 198,290 206"/>
+  <path d="M 200 258 C 228 240,264 236,298 244"/>
+  <path d="M 198 298 C 228 280,266 276,304 284"/>
+  <path d="M 344 90 C 350 142,348 204,342 266" stroke-width="2.3" stroke="#353265"/>
+  <path d="M 394 82 C 402 132,406 188,400 248"/>
+  <path d="M 444 79 C 454 127,460 184,454 244"/>
+  <path d="M 342 266 C 402 278,466 276,528 268 C 568 262,600 256,630 264" stroke-width="2.3" stroke="#353265"/>
+  <path d="M 360 318 C 418 330,474 328,528 318"/>
+  <path d="M 356 362 C 410 374,464 372,514 362"/>
+  <path d="M 360 404 C 410 412,458 410,502 402"/>
+  <path d="M 584 150 C 616 190,632 236,624 282"/>
+  <path d="M 628 176 C 654 212,666 254,660 296"/>
+</g>
+<path d="M 358 188 C 408 170,474 170,524 188"
+  fill="none" stroke="#3d3878" stroke-width="1.3" stroke-dasharray="5 4" opacity="0.55"/>
+
+<!-- Brain outline -->
+<path d="M 190 314 C 160 268,146 220,168 177 C 186 138,234 100,314 86
+         C 392 72,482 74,557 100 C 626 124,672 172,692 237
+         C 710 292,702 348,676 390 C 658 417,630 436,606 450
+         C 576 464,544 470,512 466 C 462 462,408 460,354 458
+         C 300 456,252 440,220 410 C 199 387,190 352,190 314 Z"
+  fill="none" stroke="#5252a0" stroke-width="3"/>
+
+<!-- Glowing regions -->
+<g style="cursor:pointer" onclick="handleClick('prefrontal')">
+  <ellipse cx="234" cy="190" rx="56" ry="45" fill="#4a90ff" opacity="0.12" filter="url(#glow-lg)"/>
+  <ellipse cx="234" cy="190" rx="34" ry="27" fill="#4a90ff" opacity="0.22"/>
+  <ellipse cx="234" cy="190" rx="17" ry="13" fill="#4a90ff" opacity="0.72" filter="url(#glow)"/>
+  <ellipse class="pulse-ring" cx="234" cy="190" rx="41" ry="32" fill="none" stroke="#4a90ff" stroke-width="1.8" opacity="0.35"/>
+</g>
+<g style="cursor:pointer" onclick="handleClick('caudate')">
+  <ellipse cx="400" cy="212" rx="53" ry="41" fill="#ffd700" opacity="0.12" filter="url(#glow-lg)"/>
+  <ellipse cx="400" cy="212" rx="33" ry="25" fill="#ffd700" opacity="0.22"/>
+  <ellipse cx="400" cy="212" rx="16" ry="12" fill="#ffd700" opacity="0.75" filter="url(#glow)"/>
+  <ellipse class="pulse-ring" cx="400" cy="212" rx="39" ry="30" fill="none" stroke="#ffd700" stroke-width="1.8" opacity="0.35" style="animation-delay:0.6s"/>
+</g>
+<g style="cursor:pointer" onclick="handleClick('hippocampus')">
+  <ellipse cx="480" cy="340" rx="53" ry="39" fill="#00e5c0" opacity="0.12" filter="url(#glow-lg)"/>
+  <ellipse cx="480" cy="340" rx="33" ry="24" fill="#00e5c0" opacity="0.22"/>
+  <ellipse cx="480" cy="340" rx="16" ry="12" fill="#00e5c0" opacity="0.70" filter="url(#glow)"/>
+  <ellipse class="pulse-ring" cx="480" cy="340" rx="39" ry="29" fill="none" stroke="#00e5c0" stroke-width="1.8" opacity="0.35" style="animation-delay:1.1s"/>
+</g>
+<g style="cursor:pointer" onclick="handleClick('amygdala')">
+  <ellipse cx="344" cy="362" rx="45" ry="35" fill="#ff5252" opacity="0.12" filter="url(#glow-lg)"/>
+  <ellipse cx="344" cy="362" rx="28" ry="21" fill="#ff5252" opacity="0.22"/>
+  <ellipse cx="344" cy="362" rx="14" ry="11" fill="#ff5252" opacity="0.70" filter="url(#glow)"/>
+  <ellipse class="pulse-ring" cx="344" cy="362" rx="33" ry="26" fill="none" stroke="#ff5252" stroke-width="1.8" opacity="0.35" style="animation-delay:1.7s"/>
+</g>
+<g style="cursor:pointer" onclick="handleClick('vta')">
+  <ellipse cx="574" cy="394" rx="44" ry="33" fill="#cc44ff" opacity="0.12" filter="url(#glow-lg)"/>
+  <ellipse cx="574" cy="394" rx="27" ry="20" fill="#cc44ff" opacity="0.22"/>
+  <ellipse cx="574" cy="394" rx="14" ry="10" fill="#cc44ff" opacity="0.70" filter="url(#glow)"/>
+  <ellipse class="pulse-ring" cx="574" cy="394" rx="32" ry="24" fill="none" stroke="#cc44ff" stroke-width="1.8" opacity="0.35" style="animation-delay:0.3s"/>
+</g>
+
+<!-- Floating hints -->
+<g class="hint-group" id="hint-prefrontal">
+  <rect x="178" y="126" width="112" height="28" rx="14" fill="#4a90ff" opacity="0.14"/>
+  <rect x="178" y="126" width="112" height="28" rx="14" fill="none" stroke="#4a90ff" stroke-width="1.2" opacity="0.50"/>
+  <text x="234" y="140" fill="#4a90ff" font-size="12.5" font-weight="700" font-family="Nunito,sans-serif" text-anchor="middle" dominant-baseline="middle">🔭 Explore</text>
+</g>
+<g class="hint-group" id="hint-caudate">
+  <rect x="352" y="155" width="96" height="28" rx="14" fill="#ffd700" opacity="0.14"/>
+  <rect x="352" y="155" width="96" height="28" rx="14" fill="none" stroke="#ffd700" stroke-width="1.2" opacity="0.50"/>
+  <text x="400" y="169" fill="#ffd700" font-size="12.5" font-weight="700" font-family="Nunito,sans-serif" text-anchor="middle" dominant-baseline="middle">⚡ Reward</text>
+</g>
+<g class="hint-group" id="hint-hippocampus">
+  <rect x="424" y="382" width="112" height="28" rx="14" fill="#00e5c0" opacity="0.14"/>
+  <rect x="424" y="382" width="112" height="28" rx="14" fill="none" stroke="#00e5c0" stroke-width="1.2" opacity="0.50"/>
+  <text x="480" y="396" fill="#00e5c0" font-size="12.5" font-weight="700" font-family="Nunito,sans-serif" text-anchor="middle" dominant-baseline="middle">🧩 Memory</text>
+</g>
+<g class="hint-group" id="hint-amygdala">
+  <rect x="278" y="403" width="132" height="28" rx="14" fill="#ff5252" opacity="0.14"/>
+  <rect x="278" y="403" width="132" height="28" rx="14" fill="none" stroke="#ff5252" stroke-width="1.2" opacity="0.50"/>
+  <text x="344" y="417" fill="#ff5252" font-size="12.5" font-weight="700" font-family="Nunito,sans-serif" text-anchor="middle" dominant-baseline="middle">😰 Anxiety</text>
+</g>
+<g class="hint-group" id="hint-vta">
+  <rect x="520" y="432" width="108" height="28" rx="14" fill="#cc44ff" opacity="0.14"/>
+  <rect x="520" y="432" width="108" height="28" rx="14" fill="none" stroke="#cc44ff" stroke-width="1.2" opacity="0.50"/>
+  <text x="574" y="446" fill="#cc44ff" font-size="12.5" font-weight="700" font-family="Nunito,sans-serif" text-anchor="middle" dominant-baseline="middle">🔥 Ignition</text>
+</g>
+</svg>
+
+<!-- Connection line overlay (screen pixel coords, no viewBox) -->
+<svg id="conn-svg" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="cf-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+</svg>
+
+<div id="overlay"></div>
+<div id="credits">
+  <div class="cr-made">Made by André Lundberg · Claude AI · NotebookLM</div>
+  <div class="cr-books">
+    <span>Willingham — <em>Why Don't Students Like School?</em></span>
+    <span>Brown, Roediger &amp; McDaniel — <em>Make It Stick</em></span>
+    <span>Leslie — <em>Curious: The Desire to Know</em></span>
+  </div>
+</div>
+<p id="instructions">Click a glowing region · Drag to reposition · Find connected pairs</p>
+<p id="link-counter"><span id="found">0</span> / 4 links found</p>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────
+const REGIONS = {
+  prefrontal:{name:'Prefrontal Cortex',emoji:'🔭',color:'#4a90ff',cx:234,cy:190,
+    title:'The Explorer',
+    fact:'Where deliberate thought and exploration live.<br><br>When you choose to dig into a question rather than scroll past it, <em>this is what\'s steering.</em> Chronic stress and anxiety shrink its authority, handing control to more <strong>reactive, survival-focused</strong> regions.',
+    dx:-292,dy:-16},
+  caudate:{name:'Caudate Nucleus',emoji:'⚡',color:'#ffd700',cx:400,cy:212,
+    title:'The Reward Engine',
+    fact:'Surges with <strong>dopamine</strong> the moment you feel genuinely curious. It is the same region associated with romantic attraction.<br><br>This dopamine acts as chemical <em>"grease"</em> for your synapses, making it physically easier for neurons to form new long-term connections.',
+    dx:30,dy:-198},
+  hippocampus:{name:'Hippocampus',emoji:'🧩',color:'#00e5c0',cx:480,cy:340,
+    title:'The Memory Index',
+    fact:'Your brain\'s filing system for <strong>long-term memory</strong>.<br><br>In a high-curiosity state, it functions significantly better, absorbing not just the answer you wanted but even <em>unrelated</em> information nearby. Curiosity-driven studying leaves almost no effort but extraordinary retention.',
+    dx:30,dy:-198},
+  amygdala:{name:'Amygdala',emoji:'😰',color:'#ff5252',cx:344,cy:362,
+    title:'The Threat Detector',
+    fact:'Monitors for danger, including the threat of <em>failure or judgment</em>.<br><br>When it fires chronically in high-pressure, grade-obsessed environments, it hijacks cognitive resources away from exploration. <strong>Anxiety and curiosity are directly competing systems.</strong>',
+    dx:-292,dy:-198},
+  vta:{name:'VTA',emoji:'🔥',color:'#cc44ff',cx:574,cy:394,
+    title:'The Ignition Switch',
+    fact:'The Ventral Tegmental Area is where the <strong>curiosity signal originates</strong>.<br><br>When you sense a knowledge gap, something you almost understand but not quite, the VTA fires first, triggering the entire dopamine cascade.<br><em>No gap, no curiosity.</em> This is why foundational knowledge matters.',
+    dx:-292,dy:-212}
+};
+
+const CONNECTIONS = {
+  'caudate-hippocampus':{color:'#88cc44',label:'The Memory Boost',
+    text:'Dopamine from the caudate <strong>primes</strong> the hippocampus.<br><br>This is why curiosity-driven learning sticks almost effortlessly: the reward and memory systems are <em>literally wired together</em>.'},
+  'amygdala-prefrontal':{color:'#ff8844',label:'The Anxiety Trap',
+    text:'Chronic amygdala activation from stress and fear of failure <strong>actively suppresses</strong> the prefrontal cortex\'s ability to explore.<br><br>This is <em>learned helplessness</em>, built in slowly, one grade at a time.'},
+  'vta-caudate':{color:'#aa66ff',label:'The Ignition Circuit',
+    text:'Curiosity starts in the VTA as a gap-signal, then floods the caudate with <strong>dopamine</strong>.<br><br>One unresolved question can ignite the whole reward system, turning <em>obligation into drive</em>.'},
+  'hippocampus-vta':{color:'#44ccdd',label:'Curiosity Primes Memory',
+    text:'Anticipatory VTA activity puts the hippocampus in a <strong>heightened encoding state</strong>, even before you encounter new information.<br><br>Curious students remember more because their memory system is <em>already primed</em>.'}};
+
+// ── HINT ANIMATIONS ──────────────────────────────────────────
+const HINT_T = {
+  prefrontal:{dur:3.8,delay:0.0},caudate:{dur:3.2,delay:1.2},
+  hippocampus:{dur:4.1,delay:0.7},amygdala:{dur:3.6,delay:1.9},vta:{dur:3.4,delay:0.4}
+};
+const sEl = document.createElement('style');
+sEl.textContent = `@keyframes hintFloat{0%,100%{opacity:.12;transform:translateY(0)}20%{opacity:.9}50%{opacity:1;transform:translateY(-9px)}80%{opacity:.72}}`
+  + Object.entries(HINT_T).map(([id,a])=>`#hint-${id}{animation:hintFloat ${a.dur}s ${a.delay}s ease-in-out infinite}`).join('');
+document.head.appendChild(sEl);
+
+// ── STATE ────────────────────────────────────────────────────
+let openSet=new Set(), drawnConns=new Set(), linksFound=0;
+const BW=282, BH=200;
+const openPositions={};
+
+// ── UTILS ────────────────────────────────────────────────────
+function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}
+
+function svgToScreen(sx,sy){
+  const svg=document.getElementById('brain-svg');
+  const pt=svg.createSVGPoint();
+  pt.x=sx; pt.y=sy;
+  const s=pt.matrixTransform(svg.getScreenCTM());
+  return{x:s.x, y:s.y};
+}
+function scaleOff(dx,dy){
+  const ctm=document.getElementById('brain-svg').getScreenCTM();
+  return{x:dx*ctm.a, y:dy*ctm.d};
+}
+function getBubbleCenter(id){
+  const el=document.getElementById(`bubble-${id}`);
+  if(!el)return null;
+  const r=el.getBoundingClientRect();
+  return{x:r.left+r.width/2, y:r.top+r.height/2};
+}
+function curvedPath(c1,c2){
+  const mx=(c1.x+c2.x)/2, my=(c1.y+c2.y)/2-55;
+  const cpx1=c1.x+(c2.x-c1.x)*.28, cpy1=c1.y+(c2.y-c1.y)*.28-70;
+  const cpx2=c1.x+(c2.x-c1.x)*.72, cpy2=c1.y+(c2.y-c1.y)*.72-70;
+  return{d:`M${c1.x} ${c1.y} C${cpx1} ${cpy1},${cpx2} ${cpy2},${c2.x} ${c2.y}`,mx,my};
+}
+
+// ── PLACEMENT ────────────────────────────────────────────────
+function findPos(pl,pt){
+  const m=14;
+  const cands=[];
+  for(let dy=-2;dy<=3;dy++) for(let dx=-2;dx<=3;dx++) cands.push({dx:dx*(BW+m),dy:dy*(BH+m)});
+  cands.sort((a,b)=>(Math.abs(a.dx)+Math.abs(a.dy))-(Math.abs(b.dx)+Math.abs(b.dy)));
+  for(const off of cands){
+    const left=clamp(pl+off.dx,10,window.innerWidth-BW-10);
+    const top =clamp(pt+off.dy,85,window.innerHeight-BH-10);
+    if(!hasOverlap(left,top)) return{left,top};
+  }
+  return{left:clamp(pl,10,window.innerWidth-BW-10),top:clamp(pt,85,window.innerHeight-BH-10)};
+}
+function hasOverlap(l,t){
+  for(const p of Object.values(openPositions))
+    if(!(l+BW+14<=p.left||p.left+BW+14<=l||t+BH+14<=p.top||p.top+BH+14<=t)) return true;
+  return false;
+}
+
+// ── CLICK ────────────────────────────────────────────────────
+function handleClick(id){
+  if(openSet.has(id)){closeRegion(id);return;}
+  const prev=[...openSet];
+  openSet.add(id);
+  showBubble(id);
+  hideHint(id);
+  prev.forEach(oid=>tryConn(id,oid));
+}
+
+// ── BUBBLES ──────────────────────────────────────────────────
+function showBubble(id){
+  const r=REGIONS[id];
+  const sc=svgToScreen(r.cx,r.cy), od=scaleOff(r.dx,r.dy);
+  const{left,top}=findPos(sc.x+od.x,sc.y+od.y);
+  openPositions[id]={left,top};
+  const div=document.createElement('div');
+  div.className='fact-bubble'; div.id=`bubble-${id}`;
+  div.style.cssText=`left:${left}px;top:${top}px;border-color:${r.color};box-shadow:0 0 32px ${r.color}28,0 12px 40px rgba(0,0,0,.7);`;
+  div.innerHTML=`<button class="bubble-close">✕</button>
+    <div class="bubble-tag" style="color:${r.color}">${r.emoji} ${r.name}</div>
+    <div class="bubble-title">${r.title}</div>
+    <div class="bubble-text">${r.fact}</div>`;
+  document.getElementById('overlay').appendChild(div);
+  div.querySelector('.bubble-close').addEventListener('click', e => { e.stopPropagation(); closeRegion(id); });
+  makeDraggable(div,id);
+  requestAnimationFrame(()=>drawAnchor(id));
+}
+
+function closeRegion(id){
+  openSet.delete(id);
+  delete openPositions[id];
+  document.getElementById(`bubble-${id}`)?.remove();
+  removeAnchor(id);
+  [...drawnConns].forEach(key=>{
+    if(key.split('-').includes(id)){removeConn(key);drawnConns.delete(key);}
+  });
+  showHint(id);
+}
+
+// ── DRAG ─────────────────────────────────────────────────────
+function makeDraggable(div,id){
+  let on=false,ox=0,oy=0;
+  function start(cx,cy){
+    on=true;
+    const r=div.getBoundingClientRect();
+    ox=cx-r.left; oy=cy-r.top;
+    div.classList.add('dragging');
+  }
+  function move(cx,cy){
+    if(!on)return;
+    const left=clamp(cx-ox,0,window.innerWidth-268);
+    const top =clamp(cy-oy,0,window.innerHeight-50);
+    div.style.left=left+'px'; div.style.top=top+'px';
+    openPositions[id]={left,top};
+    updateAnchor(id);
+    updateConnsFor(id);
+  }
+  function end(){if(!on)return;on=false;div.classList.remove('dragging');}
+
+  div.addEventListener('mousedown',e=>{
+    if(e.target.classList.contains('bubble-close'))return;
+    start(e.clientX,e.clientY);e.preventDefault();
+  });
+  document.addEventListener('mousemove',e=>move(e.clientX,e.clientY));
+  document.addEventListener('mouseup',end);
+  div.addEventListener('touchstart',e=>{
+    if(e.target.classList.contains('bubble-close'))return;
+    const t=e.touches[0];start(t.clientX,t.clientY);
+  },{passive:true});
+  document.addEventListener('touchmove',e=>{const t=e.touches[0];move(t.clientX,t.clientY);},{passive:true});
+  document.addEventListener('touchend',end,{passive:true});
+}
+
+function hideHint(id){const el=document.getElementById(`hint-${id}`);if(el){el.style.animation='none';el.style.opacity='0';}}
+function showHint(id){
+  const el=document.getElementById(`hint-${id}`);if(!el)return;
+  const{dur,delay}=HINT_T[id];
+  el.style.animation=`hintFloat ${dur}s ${delay}s ease-in-out infinite`;
+  el.style.opacity='';
+}
+
+// ── CONNECTIONS ──────────────────────────────────────────────
+function tryConn(id1,id2){
+  const k1=`${id1}-${id2}`,k2=`${id2}-${id1}`;
+  const key=CONNECTIONS[k1]?k1:CONNECTIONS[k2]?k2:null;
+  if(!key||drawnConns.has(key))return;
+  requestAnimationFrame(()=>{
+    drawConn(key);
+    drawnConns.add(key);
+    linksFound++;
+    document.getElementById('found').textContent=linksFound;
+  });
+}
+
+function drawConn(key){
+  const conn=CONNECTIONS[key];
+  const parts=key.split('-');
+  const c1=getBubbleCenter(parts[0]),c2=getBubbleCenter(parts[1]);
+  if(!conn||!c1||!c2)return;
+  const{d,mx,my}=curvedPath(c1,c2);
+  const ns='http://www.w3.org/2000/svg';
+  const svg=document.getElementById('conn-svg');
+  const g=document.createElementNS(ns,'g');g.id=`conn-${key}`;
+
+  const glow=document.createElementNS(ns,'path');
+  glow.id=`conn-glow-${key}`;
+  glow.setAttribute('d',d);glow.setAttribute('stroke',conn.color);
+  glow.setAttribute('stroke-width','10');glow.setAttribute('fill','none');
+  glow.setAttribute('opacity','0.18');glow.setAttribute('filter','url(#cf-glow)');
+
+  const line=document.createElementNS(ns,'path');
+  line.id=`conn-line-${key}`;
+  line.setAttribute('d',d);line.setAttribute('stroke',conn.color);
+  line.setAttribute('stroke-width','2.5');line.setAttribute('fill','none');
+  line.setAttribute('stroke-dasharray','3000');line.setAttribute('stroke-dashoffset','3000');
+  line.style.animation='drawLine 1.1s ease forwards, linePulse 2.8s 1.2s ease-in-out infinite';
+
+  const dot=document.createElementNS(ns,'circle');
+  dot.id=`conn-dot-${key}`;
+  dot.setAttribute('cx',mx);dot.setAttribute('cy',my);
+  dot.setAttribute('r','7');dot.setAttribute('fill',conn.color);
+  dot.setAttribute('filter','url(#cf-glow)');
+  dot.style.animation='dotPop 0.4s 1s ease both';
+
+  g.appendChild(glow);g.appendChild(line);g.appendChild(dot);
+  svg.appendChild(g);
+
+  // After draw animation: remove dasharray so drag updates work cleanly
+  setTimeout(()=>{
+    line.style.animation='linePulse 2.8s ease-in-out infinite';
+    line.removeAttribute('stroke-dasharray');
+    line.setAttribute('stroke-dashoffset','0');
+  },1400);
+
+  addDiscovery(key,conn,mx,my);
+}
+
+function updateConn(key){
+  const parts=key.split('-');
+  const c1=getBubbleCenter(parts[0]),c2=getBubbleCenter(parts[1]);
+  if(!c1||!c2)return;
+  const{d,mx,my}=curvedPath(c1,c2);
+  document.getElementById(`conn-line-${key}`)?.setAttribute('d',d);
+  document.getElementById(`conn-glow-${key}`)?.setAttribute('d',d);
+  const dot=document.getElementById(`conn-dot-${key}`);
+  if(dot){dot.setAttribute('cx',mx);dot.setAttribute('cy',my);}
+  updateTether(key);
+}
+
+function updateConnsFor(id){
+  for(const key of drawnConns) if(key.split('-').includes(id)) updateConn(key);
+}
+
+function removeConn(key){
+  document.getElementById(`conn-${key}`)?.remove();
+  removeDiscovery(key);
+}
+
+// ── DISCOVERIES (free-floating draggable cards) ──────────────
+function addDiscovery(key,conn,dotX,dotY){
+  const CW=232, CH=90;
+  // Place card near the connection midpoint dot
+  let left=clamp((dotX||200)-CW/2, 10, window.innerWidth -CW-10);
+  let top =clamp((dotY||200)+22,   68, window.innerHeight-CH-10);
+
+  const card=document.createElement('div');
+  card.className='disc-card'; card.id=`disc-${key}`;
+  card.style.cssText=`position:fixed;left:${left}px;top:${top}px;width:${CW}px;border-color:${conn.color};z-index:350;`;
+  card.innerHTML=`<div class="disc-title" style="color:${conn.color}">🔗 ${conn.label}</div>
+    <div class="disc-text">${conn.text}</div>`;
+  document.body.appendChild(card);
+  makeDraggableSimple(card, ()=>updateTether(key));
+  // Draw tether after card is in DOM
+  requestAnimationFrame(()=>drawTether(key,conn));
+}
+
+function removeDiscovery(key){
+  document.getElementById(`disc-${key}`)?.remove();
+}
+
+// Simple drag for elements with no associated connection line updates
+function makeDraggableSimple(el, onMove){
+  let on=false,ox=0,oy=0;
+  function start(cx,cy){
+    on=true;
+    const r=el.getBoundingClientRect();
+    ox=cx-r.left; oy=cy-r.top;
+    el.style.zIndex='600'; el.style.cursor='grabbing';
+  }
+  function move(cx,cy){
+    if(!on)return;
+    el.style.left=clamp(cx-ox,0,window.innerWidth -el.offsetWidth )+'px';
+    el.style.top =clamp(cy-oy,0,window.innerHeight-el.offsetHeight)+'px';
+    if(onMove) onMove();
+  }
+  function end(){if(!on)return;on=false;el.style.zIndex='350';el.style.cursor='grab';}
+  el.addEventListener('mousedown',e=>{start(e.clientX,e.clientY);e.preventDefault();});
+  document.addEventListener('mousemove',e=>move(e.clientX,e.clientY));
+  document.addEventListener('mouseup',end);
+  el.addEventListener('touchstart',e=>{const t=e.touches[0];start(t.clientX,t.clientY);},{passive:true});
+  document.addEventListener('touchmove',e=>{const t=e.touches[0];move(t.clientX,t.clientY);},{passive:true});
+  document.addEventListener('touchend',end,{passive:true});
+}
+
+// ── ANCHOR LINE (brain region → fact bubble) ─────────────────
+function anchorPoints(id){
+  const r=REGIONS[id];
+  const region=svgToScreen(r.cx,r.cy);
+  const bubble=getBubbleCenter(id);
+  if(!bubble)return null;
+  return{x1:region.x,y1:region.y,x2:bubble.x,y2:bubble.y};
+}
+
+function drawAnchor(id){
+  const p=anchorPoints(id);
+  if(!p)return;
+  const r=REGIONS[id];
+  const ns='http://www.w3.org/2000/svg';
+  const svg=document.getElementById('conn-svg');
+  const defs=svg.querySelector('defs');
+
+  // Gradient: transparent at brain center, full opacity at bubble
+  const grad=document.createElementNS(ns,'linearGradient');
+  grad.id=`anchor-grad-${id}`;
+  grad.setAttribute('gradientUnits','userSpaceOnUse');
+  grad.setAttribute('x1',p.x1); grad.setAttribute('y1',p.y1);
+  grad.setAttribute('x2',p.x2); grad.setAttribute('y2',p.y2);
+  const s0=document.createElementNS(ns,'stop');
+  s0.setAttribute('offset','0%');   s0.setAttribute('stop-color',r.color); s0.setAttribute('stop-opacity','0');
+  const s1=document.createElementNS(ns,'stop');
+  s1.setAttribute('offset','12%');  s1.setAttribute('stop-color',r.color); s1.setAttribute('stop-opacity','0.08');
+  const s2=document.createElementNS(ns,'stop');
+  s2.setAttribute('offset','100%'); s2.setAttribute('stop-color',r.color); s2.setAttribute('stop-opacity','0.82');
+  grad.appendChild(s0); grad.appendChild(s1); grad.appendChild(s2);
+  defs.appendChild(grad);
+
+  const glow=document.createElementNS(ns,'line');
+  glow.id=`anchor-glow-${id}`;
+  glow.setAttribute('stroke',`url(#anchor-grad-${id})`);
+  glow.setAttribute('stroke-width','9');
+  glow.setAttribute('filter','url(#cf-glow)');
+
+  const line=document.createElementNS(ns,'line');
+  line.id=`anchor-line-${id}`;
+  line.setAttribute('stroke',`url(#anchor-grad-${id})`);
+  line.setAttribute('stroke-width','1.8');
+  line.setAttribute('stroke-dasharray','1200');
+  line.setAttribute('stroke-dashoffset','1200');
+  line.style.animation='drawLine 0.65s ease forwards, linePulse 2.8s 0.7s ease-in-out infinite';
+
+  [glow,line].forEach(el=>{
+    el.setAttribute('x1',p.x1); el.setAttribute('y1',p.y1);
+    el.setAttribute('x2',p.x2); el.setAttribute('y2',p.y2);
+    defs.after(el);
+  });
+
+  setTimeout(()=>{
+    line.style.animation='linePulse 2.8s ease-in-out infinite';
+    line.removeAttribute('stroke-dasharray');
+    line.setAttribute('stroke-dashoffset','0');
+  },900);
+}
+
+function updateAnchor(id){
+  const p=anchorPoints(id);
+  if(!p)return;
+  // Sync gradient endpoints so fade always tracks from brain center to bubble
+  const grad=document.getElementById(`anchor-grad-${id}`);
+  if(grad){
+    grad.setAttribute('x1',p.x1); grad.setAttribute('y1',p.y1);
+    grad.setAttribute('x2',p.x2); grad.setAttribute('y2',p.y2);
+  }
+  ['anchor-glow-','anchor-line-'].forEach(prefix=>{
+    const el=document.getElementById(`${prefix}${id}`);
+    if(!el)return;
+    el.setAttribute('x1',p.x1); el.setAttribute('y1',p.y1);
+    el.setAttribute('x2',p.x2); el.setAttribute('y2',p.y2);
+  });
+}
+
+function removeAnchor(id){
+  document.getElementById(`anchor-grad-${id}`)?.remove();
+  document.getElementById(`anchor-glow-${id}`)?.remove();
+  document.getElementById(`anchor-line-${id}`)?.remove();
+}
+
+// ── TETHER LINE (dot → discovery card) ──────────────────────
+function getTetherPoints(key){
+  const dot=document.getElementById(`conn-dot-${key}`);
+  const card=document.getElementById(`disc-${key}`);
+  if(!dot||!card)return null;
+  const r=card.getBoundingClientRect();
+  return{
+    x1:parseFloat(dot.getAttribute('cx')),
+    y1:parseFloat(dot.getAttribute('cy')),
+    x2:r.left+r.width/2,
+    y2:r.top+r.height/2
+  };
+}
+
+function drawTether(key,conn){
+  const p=getTetherPoints(key);
+  if(!p)return;
+  const ns='http://www.w3.org/2000/svg';
+  const g=document.getElementById(`conn-${key}`);
+  if(!g)return;
+  const dot=document.getElementById(`conn-dot-${key}`);
+
+  const glow=document.createElementNS(ns,'line');
+  glow.id=`tether-glow-${key}`;
+  glow.setAttribute('stroke',conn.color);glow.setAttribute('stroke-width','6');
+  glow.setAttribute('opacity','0.18');glow.setAttribute('filter','url(#cf-glow)');
+
+  const line=document.createElementNS(ns,'line');
+  line.id=`tether-line-${key}`;
+  line.setAttribute('stroke',conn.color);line.setAttribute('stroke-width','1.6');
+  line.setAttribute('opacity','0.75');
+  line.setAttribute('stroke-dasharray','800');line.setAttribute('stroke-dashoffset','800');
+  line.style.animation='drawLine 0.7s 0.4s ease forwards, linePulse 2.8s 1.2s ease-in-out infinite';
+
+  [glow,line].forEach(el=>{
+    el.setAttribute('x1',p.x1);el.setAttribute('y1',p.y1);
+    el.setAttribute('x2',p.x2);el.setAttribute('y2',p.y2);
+  });
+
+  // Insert behind the dot so dot stays on top
+  g.insertBefore(glow,dot);
+  g.insertBefore(line,dot);
+
+  setTimeout(()=>{
+    line.style.animation='linePulse 2.8s ease-in-out infinite';
+    line.removeAttribute('stroke-dasharray');
+    line.setAttribute('stroke-dashoffset','0');
+  },1200);
+}
+
+function updateTether(key){
+  const p=getTetherPoints(key);
+  if(!p)return;
+  ['tether-glow-','tether-line-'].forEach(prefix=>{
+    const el=document.getElementById(`${prefix}${key}`);
+    if(!el)return;
+    el.setAttribute('x1',p.x1);el.setAttribute('y1',p.y1);
+    el.setAttribute('x2',p.x2);el.setAttribute('y2',p.y2);
+  });
+}
+
+// ── RESIZE ───────────────────────────────────────────────────
+window.addEventListener('resize',()=>{
+  const ids=[...openSet];
+  ids.forEach(id=>{removeAnchor(id);delete openPositions[id];document.getElementById(`bubble-${id}`)?.remove();});
+  ids.forEach(id=>showBubble(id));
+  for(const key of drawnConns) updateConn(key);
+});
+
+// ── VOCABULARY ───────────────────────────────────────────────
+const VOCAB=[
+  {word:'Dopamine',
+   def:'A neurotransmitter that acts as the brain\'s primary reward signal. Released during curiosity states, it chemically "greases" synapses, making the formation of new memories physically easier.'},
+  {word:'Synapse',
+   def:'The microscopic gap between two neurons where signals are passed. During high curiosity, dopamine increases the efficiency of synaptic transmission.'},
+  {word:'Hippocampus',
+   def:'A curved structure deep in the brain that serves as the primary index for long-term memory. Highly sensitive to both curiosity and chronic stress.'},
+  {word:'Caudate Nucleus',
+   def:'A brain region central to reward and motivation. It surges with dopamine when you feel genuinely curious, the same region active during romantic attraction.'},
+  {word:'Prefrontal Cortex',
+   def:'The frontal portion of the brain responsible for planning, exploration, and deliberate thought. Its function is suppressed by chronic anxiety and stress.'},
+  {word:'Amygdala',
+   def:'An almond-shaped structure that monitors for threats, including social and academic failure. When chronically activated, it competes directly with curiosity for cognitive resources.'},
+  {word:'VTA',
+   def:'Ventral Tegmental Area. A small brainstem region that fires when a knowledge gap is detected, initiating the entire curiosity-dopamine cascade before learning even begins.'},
+  {word:'Cognitive',
+   def:'Relating to mental processes such as thinking, understanding, learning, and remembering. "Cognitive resources" refers to the brain\'s limited bandwidth for these tasks at any moment.'},
+  {word:'Learned helplessness',
+   def:'A state caused by repeated exposure to uncontrollable stress, in which a person stops attempting to influence outcomes even when change later becomes possible.'},
+  {word:'Encoding',
+   def:'The process by which new information is converted into a storable memory trace in the brain. Curiosity significantly improves encoding efficiency in the hippocampus.'}
+];
+
+(function initVocab(){
+  const pills=document.getElementById('vocab-pills');
+  const defBox=document.getElementById('vocab-def');
+  let active=null;
+
+  VOCAB.forEach(item=>{
+    const btn=document.createElement('button');
+    btn.className='vocab-pill';
+    btn.textContent=item.word;
+    btn.addEventListener('click',()=>{
+      if(active===btn){
+        btn.classList.remove('active');
+        defBox.style.display='none';
+        active=null;
+      } else {
+        if(active) active.classList.remove('active');
+        btn.classList.add('active');
+        active=btn;
+        // Re-trigger animation
+        defBox.style.animation='none';
+        defBox.offsetHeight; // reflow
+        defBox.style.animation='';
+        defBox.style.display='block';
+        defBox.innerHTML=`<div class="vd-word">${item.word}</div><div class="vd-text">${item.def}</div>`;
+      }
+    });
+    pills.appendChild(btn);
+  });
+})();
+</script>
+</body>
+</html>
