@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compete. Collaborate. Learn.</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #F5F0E8;
+    --surface:  #FFFFFF;
+    --dark:     #1A1A1A;
+    --mid:      #5A5A5A;
+    --muted:    #9A9A8A;
+    --border:   #DDD8CE;
+    --gold:     #B8860B;
+    --gold-lt:  #FDF3DC;
+    --teal:     #0D7A6E;
+    --teal-lt:  #E0F4F1;
+    --red:      #B83232;
+    --red-lt:   #FDEAEA;
+    --black-hat:#1A1A1A;
+    --white-hat:#F5F0E8;
+    --serif:    'Cormorant Garamond', Georgia, serif;
+    --sans:     'DM Sans', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--dark);
+    color: #fff;
+    padding: 2rem 2rem 0;
+    text-align: center;
+  }
+  header .eyebrow {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #9A9A8A;
+    margin-bottom: 0.4rem;
+  }
+  header h1 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 600;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+  header h1 span { color: var(--gold); font-style: italic; }
+  header p.subtitle {
+    font-size: 0.9rem;
+    color: #9A9A8A;
+    margin-bottom: 1.8rem;
+  }
+
+  /* ── TABS ── */
+  .tab-nav {
+    display: flex;
+    border-top: 1px solid #333;
+    background: var(--dark);
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 0.85rem 1rem;
+    border: none;
+    background: transparent;
+    color: #7A7A6A;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-top: 3px solid transparent;
+    transition: all 0.25s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: #ccc; }
+  .tab-btn.active {
+    color: #fff;
+    border-top-color: var(--gold);
+    background: #111;
+  }
+  .tab-btn .tab-num {
+    display: block;
+    font-size: 1.1rem;
+    font-family: var(--serif);
+    font-weight: 600;
+    color: inherit;
+    margin-bottom: 0.1rem;
+  }
+
+  /* ── PANEL ── */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .panel-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  /* ── SECTION HEADINGS ── */
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.3rem;
+  }
+  .section-lead {
+    font-size: 0.92rem;
+    color: var(--mid);
+    margin-bottom: 2rem;
+    max-width: 60ch;
+  }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+  .label {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+  }
+  .label-gold { background: var(--gold-lt); color: var(--gold); }
+  .label-teal { background: var(--teal-lt); color: var(--teal); }
+  .label-red  { background: var(--red-lt);  color: var(--red);  }
+
+  /* ─────────────────────────────────────── TAB 1 */
+
+  /* Concept cards */
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .concept-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.4rem 1.2rem;
+    cursor: default;
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .concept-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.09); transform: translateY(-2px); }
+  .concept-card .card-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .concept-card h3 {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+  .concept-card p { font-size: 0.85rem; color: var(--mid); line-height: 1.55; }
+  .concept-card .reveal-word {
+    display: inline-block;
+    background: var(--dark);
+    color: var(--dark);
+    border-radius: 2px;
+    cursor: pointer;
+    padding: 0 3px;
+    transition: color 0.3s;
+    font-weight: 500;
+  }
+  .concept-card .reveal-word.shown { color: var(--gold); background: var(--gold-lt); }
+  .concept-card.gold { border-top: 3px solid var(--gold); }
+  .concept-card.teal { border-top: 3px solid var(--teal); }
+  .concept-card.red  { border-top: 3px solid var(--red); }
+
+  /* Yerkes-Dodson curve */
+  .curve-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .curve-wrap h3 {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  .curve-wrap .curve-note { font-size: 0.8rem; color: var(--mid); margin-bottom: 1rem; }
+  .curve-svg { width: 100%; max-width: 500px; display: block; margin: 0 auto; }
+
+  /* Vocabulary */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+  .vocab-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.8rem 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .vocab-item:hover { border-color: var(--gold); }
+  .vocab-item .word { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.2rem; }
+  .vocab-item .definition {
+    font-size: 0.78rem;
+    color: var(--mid);
+    display: none;
+    margin-top: 0.3rem;
+    line-height: 1.4;
+  }
+  .vocab-item.open .definition { display: block; }
+  .vocab-item .hint { font-size: 0.68rem; color: var(--muted); }
+
+  /* Reflect box */
+  .reflect-box {
+    background: var(--dark);
+    color: #fff;
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+  }
+  .reflect-box p.q { font-family: var(--serif); font-size: 1.05rem; font-style: italic; margin-bottom: 0.8rem; }
+  .reflect-box textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    padding: 0.7rem;
+    resize: vertical;
+    min-height: 70px;
+  }
+  .reflect-box textarea::placeholder { color: rgba(255,255,255,0.3); }
+  .reflect-box .starters {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.5);
+    margin-top: 0.5rem;
+  }
+
+  /* ─────────────────────────────────────── TAB 2 */
+
+  /* Sorting quiz */
+  .sort-intro { font-size: 0.9rem; color: var(--mid); margin-bottom: 1.5rem; }
+  .sort-progress-wrap { margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.8rem; }
+  .sort-progress-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .sort-progress-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+  .sort-counter { font-size: 0.78rem; color: var(--mid); white-space: nowrap; }
+
+  .sort-card-area { min-height: 180px; position: relative; }
+  .sort-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.6rem;
+    text-align: center;
+    animation: slideIn 0.3s ease;
+  }
+  @keyframes slideIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+  .sort-card .scenario-num {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+  .sort-card .scenario-text {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    line-height: 1.5;
+    margin-bottom: 1.2rem;
+    font-style: italic;
+  }
+  .sort-buttons { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+  .sort-btn {
+    padding: 0.65rem 1.4rem;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+  }
+  .sort-btn.black {
+    background: var(--dark);
+    color: #fff;
+    border-color: var(--dark);
+  }
+  .sort-btn.black:hover { background: #000; }
+  .sort-btn.white {
+    background: var(--surface);
+    color: var(--dark);
+    border: 2px solid var(--dark);
+  }
+  .sort-btn.white:hover { background: var(--bg); }
+
+  .sort-feedback {
+    margin-top: 1rem;
+    padding: 1rem 1.2rem;
+    border-radius: 4px;
+    font-size: 0.87rem;
+    line-height: 1.5;
+    display: none;
+    animation: fadeIn 0.25s ease;
+  }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  .sort-feedback.correct { background: var(--teal-lt); border-left: 3px solid var(--teal); color: #0D4A44; }
+  .sort-feedback.wrong   { background: var(--red-lt);  border-left: 3px solid var(--red);  color: #7A1A1A; }
+  .sort-feedback .fb-title { font-weight: 600; margin-bottom: 0.2rem; }
+
+  .next-btn {
+    display: block;
+    margin: 1rem auto 0;
+    padding: 0.6rem 1.8rem;
+    background: var(--dark);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .next-btn:hover { background: #333; }
+
+  .sort-results {
+    display: none;
+    text-align: center;
+    padding: 2rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .sort-results .result-score {
+    font-family: var(--serif);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    margin: 0.5rem 0;
+  }
+  .sort-results .result-msg { font-size: 0.9rem; color: var(--mid); margin-bottom: 1rem; }
+  .sort-results .retry-btn {
+    padding: 0.6rem 1.4rem;
+    background: transparent;
+    border: 2px solid var(--dark);
+    border-radius: 4px;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  /* Discussion accordion */
+  .accordion-item {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+  }
+  .accordion-trigger {
+    width: 100%;
+    padding: 0.9rem 1.1rem;
+    background: var(--surface);
+    border: none;
+    text-align: left;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--dark);
+  }
+  .accordion-trigger:hover { background: var(--bg); }
+  .accordion-trigger .chevron { transition: transform 0.25s; font-style: normal; font-size: 0.75rem; }
+  .accordion-trigger.open .chevron { transform: rotate(180deg); }
+  .accordion-body {
+    display: none;
+    padding: 0 1.1rem 1rem;
+    background: var(--surface);
+    font-size: 0.86rem;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+  .accordion-body .starter {
+    display: inline-block;
+    background: var(--gold-lt);
+    color: var(--gold);
+    border-radius: 2px;
+    padding: 0.1rem 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin: 0.2rem 0.2rem 0.2rem 0;
+    font-family: var(--serif);
+    font-style: italic;
+  }
+
+  /* ─────────────────────────────────────── TAB 3 */
+
+  .scenario-block {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 1.2rem;
+    background: var(--surface);
+  }
+  .scenario-header {
+    padding: 1rem 1.2rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+  .scenario-header .snum {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--border);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 2rem;
+    text-align: center;
+  }
+  .scenario-header .stitle { font-weight: 600; font-size: 0.92rem; margin-bottom: 0.2rem; }
+  .scenario-header .stext { font-size: 0.85rem; color: var(--mid); font-style: italic; }
+  .scenario-choices {
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .choice-btn {
+    padding: 0.5rem 0.9rem;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    background: transparent;
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--dark);
+    text-align: left;
+  }
+  .choice-btn:hover { border-color: var(--teal); color: var(--teal); }
+  .choice-btn.selected-good { border-color: var(--teal); background: var(--teal-lt); color: var(--teal); }
+  .choice-btn.selected-bad  { border-color: var(--red);  background: var(--red-lt);  color: var(--red);  }
+  .choice-btn:disabled { cursor: default; opacity: 0.6; }
+  .choice-btn.selected-good:disabled,
+  .choice-btn.selected-bad:disabled { opacity: 1; }
+  .scenario-result {
+    display: none;
+    margin: 0 1.2rem 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    font-size: 0.83rem;
+    line-height: 1.5;
+  }
+  .scenario-result.good { background: var(--teal-lt); border-left: 3px solid var(--teal); color: #0A4A42; }
+  .scenario-result.bad  { background: var(--red-lt);  border-left: 3px solid var(--red);  color: #7A1A1A; }
+  .scenario-result b { font-weight: 600; display: block; margin-bottom: 0.2rem; }
+
+  /* Team Charter */
+  .charter-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-top: 0.5rem;
+  }
+  .charter-box h3 {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  .charter-box .charter-sub { font-size: 0.82rem; color: var(--mid); margin-bottom: 1rem; }
+  .charter-prompt {
+    margin-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.8rem;
+  }
+  .charter-prompt label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.3rem;
+  }
+  .charter-prompt textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    padding: 0.5rem 0.7rem;
+    color: var(--dark);
+    background: var(--bg);
+    resize: vertical;
+    min-height: 56px;
+    transition: border-color 0.2s;
+  }
+  .charter-prompt textarea:focus { outline: none; border-color: var(--teal); }
+  .charter-prompt .hint { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; font-style: italic; }
+
+  /* ── CHARTER GENERATE + PREVIEW ── */
+  .generate-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.4rem;
+    padding: 0.75rem 1.6rem;
+    background: var(--teal);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .generate-btn:hover { background: #0A6158; }
+  .generate-btn:disabled { background: var(--muted); cursor: default; }
+
+  .charter-preview {
+    display: none;
+    margin-top: 1.5rem;
+    border: 2px solid var(--teal);
+    border-radius: 6px;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease;
+  }
+  .preview-header {
+    background: var(--teal);
+    color: #fff;
+    padding: 0.7rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .preview-header span {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .preview-body {
+    background: var(--surface);
+    padding: 1.4rem 1.5rem;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    color: var(--dark);
+    font-family: var(--sans);
+  }
+  .preview-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 0.8rem 1.2rem;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+  }
+  .pa-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0.9rem;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--dark);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .pa-btn:hover { border-color: var(--teal); color: var(--teal); }
+  .pa-btn.copied { border-color: var(--teal); background: var(--teal-lt); color: var(--teal); }
+  .pa-btn.print { border-color: var(--mid); }
+
+  /* ── PRINT STYLES ── */
+  @media print {
+    body * { visibility: hidden; }
+    #print-target, #print-target * { visibility: visible; }
+    #print-target {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      padding: 2.5cm 2cm;
+      font-family: Georgia, serif;
+      font-size: 11pt;
+      color: #000;
+      background: #fff;
+    }
+    #print-target h2 {
+      font-size: 18pt;
+      margin-bottom: 0.3cm;
+      border-bottom: 2pt solid #000;
+      padding-bottom: 0.2cm;
+    }
+    #print-target .print-meta {
+      font-size: 9pt;
+      color: #555;
+      margin-bottom: 0.6cm;
+    }
+    #print-target .print-section { margin-bottom: 0.7cm; }
+    #print-target .print-section h3 {
+      font-size: 10pt;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-bottom: 0.5pt solid #ccc;
+      padding-bottom: 0.1cm;
+      margin-bottom: 0.2cm;
+    }
+    #print-target .print-section p { font-size: 11pt; line-height: 1.6; }
+  }
+
+  /* Responsive */
+  @media (max-width: 540px) {
+    .tab-btn { font-size: 0.68rem; padding: 0.7rem 0.5rem; }
+    .tab-btn .tab-num { font-size: 0.9rem; }
+    .sort-buttons { flex-direction: column; align-items: center; }
+    .sort-btn { width: 100%; max-width: 240px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">English · Engelska 1 / 2 &nbsp;·&nbsp; Psychology &amp; Language</p>
+  <h1>Compete. <span>Collaborate.</span> Learn.</h1>
+  <p class="subtitle">How motivation shapes your brain, and your classroom</p>
+  <nav class="tab-nav" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" data-tab="1">
+      <span class="tab-num">01</span>The Big Picture
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="2">
+      <span class="tab-num">02</span>Black &amp; White Hats
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="3">
+      <span class="tab-num">03</span>Power of Groups
+    </button>
+  </nav>
+</header>
+
+<!-- ══════════════════════════════════════════════ TAB 1 -->
+<div id="tab-1" class="tab-panel active">
+<div class="panel-inner">
+
+  <p class="label label-gold">Tab 1 · Overview</p>
+  <h2 class="section-title">Why does competing feel so good, and so bad?</h2>
+  <p class="section-lead">A competition can make your heart race in the best way. Or the worst. Read, explore, and click to reveal.</p>
+
+  <div class="concept-grid">
+    <div class="concept-card gold">
+      <div class="card-icon">⚡</div>
+      <h3>Adrenaline Rush</h3>
+      <p>Competition triggers a release of <span class="reveal-word" onclick="this.classList.toggle('shown')">adrenaline</span>, a hormone that boosts energy and focus in the short term. But if it never turns off, it becomes <span class="reveal-word" onclick="this.classList.toggle('shown')">chronic stress</span>.</p>
+    </div>
+    <div class="concept-card teal">
+      <div class="card-icon">🤝</div>
+      <h3>Social Buffering</h3>
+      <p>Working with others lowers your <span class="reveal-word" onclick="this.classList.toggle('shown')">cortisol</span>, the stress hormone. A trusted group literally calms your brain, freeing up <span class="reveal-word" onclick="this.classList.toggle('shown')">working memory</span> for learning.</p>
+    </div>
+    <div class="concept-card red">
+      <div class="card-icon">📉</div>
+      <h3>Eustress vs Distress</h3>
+      <p><em>Eustress</em> is <span class="reveal-word" onclick="this.classList.toggle('shown')">positive stress</span>: the kind that sharpens you. <em>Distress</em> is the kind that <span class="reveal-word" onclick="this.classList.toggle('shown')">blocks thinking</span>. The difference is often how safe you feel.</p>
+    </div>
+  </div>
+  <p style="font-size:0.75rem;color:var(--muted);margin-top:-0.5rem;margin-bottom:1.5rem;">💡 Click the dark boxes above to reveal key terms.</p>
+
+  <div class="curve-wrap">
+    <h3>The Yerkes-Dodson Curve</h3>
+    <p class="curve-note">First described by psychologists Robert Yerkes and John Dodson in 1908, this model shows the relationship between arousal, meaning your level of mental and physical activation, and performance. The key insight is that this relationship is not linear: it forms an inverted U-shape.</p>
+    <p class="curve-note">At very low levels of arousal, such as when you are bored, tired, or completely unstressed, performance is poor because you simply are not engaged enough to focus. As arousal increases, so does performance, up to a point. At moderate levels of stress or excitement, the brain is alert, focused, and working at its best. This is the zone of <em>eustress</em>.</p>
+    <p class="curve-note">Beyond that peak, however, additional arousal begins to hurt rather than help. When stress becomes too intense, driven by high stakes, time pressure, fear of failure, or public humiliation, the brain shifts into a threat-response mode. Cognitive resources that should be used for thinking and problem-solving are redirected toward managing the emotional response. Working memory shrinks, creativity drops, and performance collapses. Importantly, the width of the optimal zone varies between tasks: simple or well-practised tasks can tolerate higher arousal, while complex, creative, or unfamiliar tasks require calmer conditions to perform well.</p>
+    <svg class="curve-svg" viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg">
+      <!-- Grid -->
+      <line x1="50" y1="20" x2="50" y2="175" stroke="#DDD8CE" stroke-width="1"/>
+      <line x1="50" y1="175" x2="440" y2="175" stroke="#DDD8CE" stroke-width="1"/>
+      <!-- Curve: inverted U -->
+      <path d="M60,165 C100,155 130,60 245,32 C360,60 390,155 430,165"
+            fill="none" stroke="url(#curveGrad)" stroke-width="3" stroke-linecap="round"/>
+      <defs>
+        <linearGradient id="curveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#DDD8CE"/>
+          <stop offset="48%" style="stop-color:#B8860B"/>
+          <stop offset="100%" style="stop-color:#B83232"/>
+        </linearGradient>
+      </defs>
+      <!-- Zone shading -->
+      <rect x="50" y="20" width="120" height="155" fill="#0D7A6E" opacity="0.06" rx="2"/>
+      <rect x="170" y="20" width="150" height="155" fill="#B8860B" opacity="0.07" rx="2"/>
+      <rect x="320" y="20" width="120" height="155" fill="#B83232" opacity="0.07" rx="2"/>
+      <!-- Zone labels -->
+      <text x="110" y="100" text-anchor="middle" font-size="9" fill="#0D7A6E" font-family="DM Sans" font-weight="600">UNDER-</text>
+      <text x="110" y="111" text-anchor="middle" font-size="9" fill="#0D7A6E" font-family="DM Sans" font-weight="600">STIMULATED</text>
+      <text x="245" y="24" text-anchor="middle" font-size="9" fill="#B8860B" font-family="DM Sans" font-weight="600">OPTIMAL ZONE</text>
+      <text x="380" y="95" text-anchor="middle" font-size="9" fill="#B83232" font-family="DM Sans" font-weight="600">OVERLOADED</text>
+      <!-- Axis labels -->
+      <text x="245" y="195" text-anchor="middle" font-size="9" fill="#9A9A8A" font-family="DM Sans">Arousal / Stress Level →</text>
+      <text x="16" y="100" text-anchor="middle" font-size="9" fill="#9A9A8A" font-family="DM Sans" transform="rotate(-90,16,100)">Performance →</text>
+    </svg>
+  </div>
+
+  <hr class="divider">
+  <p class="label label-teal">Vocabulary</p>
+  <p style="font-size:0.85rem;color:var(--mid);margin-bottom:0.8rem;">Click a word to see its definition.</p>
+  <div class="vocab-grid">
+    <div class="vocab-item" onclick="this.classList.toggle('open')">
+      <div class="word">cortisol</div>
+      <div class="hint">noun</div>
+      <div class="definition">A hormone released when you're under stress. High levels over time can damage memory and concentration.</div>
+    </div>
+    <div class="vocab-item" onclick="this.classList.toggle('open')">
+      <div class="word">eustress</div>
+      <div class="hint">noun</div>
+      <div class="definition">Positive stress that motivates you and improves performance. The "eu-" prefix means "good" (Greek).</div>
+    </div>
+    <div class="vocab-item" onclick="this.classList.toggle('open')">
+      <div class="word">working memory</div>
+      <div class="hint">noun phrase</div>
+      <div class="definition">The mental space you use to hold and process information right now. Worry and anxiety reduce it.</div>
+    </div>
+    <div class="vocab-item" onclick="this.classList.toggle('open')">
+      <div class="word">cognition</div>
+      <div class="hint">noun</div>
+      <div class="definition">All the mental processes involved in learning, remembering, and solving problems.</div>
+    </div>
+    <div class="vocab-item" onclick="this.classList.toggle('open')">
+      <div class="word">arousal</div>
+      <div class="hint">noun</div>
+      <div class="definition">Your level of alertness or activation, ranging from deep sleep to extreme excitement or panic.</div>
+    </div>
+    <div class="vocab-item" onclick="this.classList.toggle('open')">
+      <div class="word">social buffering</div>
+      <div class="hint">noun phrase</div>
+      <div class="definition">When being with trusted others reduces your stress response, literally calming your nervous system.</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <p class="label label-gold">Reflect &amp; Write</p>
+  <div class="reflect-box">
+    <p class="q">"Think about a moment when stress actually helped you perform better. What made it eustress, not distress?"</p>
+    <textarea placeholder="Write 3–5 sentences here…"></textarea>
+    <div class="starters">Sentence starters: <em>I remember when…</em> / <em>The reason it felt manageable was…</em> / <em>Looking back, I think…</em></div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════ TAB 2 -->
+<div id="tab-2" class="tab-panel">
+<div class="panel-inner">
+
+  <p class="label label-gold">Tab 2 · Activity</p>
+  <h2 class="section-title">Black Hat or White Hat?</h2>
+  <p class="section-lead">What actually makes us want to do something, and keep doing it? The answer matters more than you might think.</p>
+
+  <p class="sort-intro">The terms <strong>Black Hat</strong> and <strong>White Hat</strong> come from <em>Octalysis</em>, a framework developed by game designer Yu-kai Chou to explain what drives human behaviour. <strong>Black Hat motivators</strong>, such as scarcity, urgency, social pressure, and the fear of loss, are powerful in the short term. They create a sense of obsession and can push you to act fast. But they come at a cost: over time, they leave you feeling anxious, controlled, and burned out, because they work by making you feel that something bad will happen if you <em>don't</em> act.</p>
+  <p class="sort-intro"><strong>White Hat motivators</strong>, by contrast, such as curiosity, a sense of purpose, creative freedom, and belonging to a group, feel energising rather than draining. They tap into what psychologists call <em>intrinsic motivation</em>: doing something because it is genuinely meaningful or enjoyable, not because you are afraid of the consequences. Research consistently shows that White Hat motivation leads to deeper learning, better retention, and greater long-term wellbeing.</p>
+  <p class="sort-intro">Neither type is simple, however: even White Hat motivators can be misused, and a small dose of Black Hat pressure (like a deadline) can sometimes help. The eight scenarios below will test how well you can tell them apart in real classroom situations. Read each one carefully and decide: <strong>Black Hat</strong> (pressure, fear, loss) or <strong>White Hat</strong> (meaning, empowerment, curiosity)? Aim for a perfect score of 8.</p>
+
+  <div class="sort-progress-wrap">
+    <div class="sort-progress-bar"><div class="sort-progress-fill" id="sortProgress" style="width:0%"></div></div>
+    <span class="sort-counter" id="sortCounter">0 / 8</span>
+  </div>
+
+  <div class="sort-card-area" id="sortCardArea">
+    <div class="sort-card" id="sortCard">
+      <div class="scenario-num" id="scenarioNum">Scenario 1 of 8</div>
+      <p class="scenario-text" id="scenarioText">Loading…</p>
+      <div class="sort-buttons">
+        <button class="sort-btn black" onclick="sortAnswer('black')">🖤 Black Hat</button>
+        <button class="sort-btn white" onclick="sortAnswer('white')">🤍 White Hat</button>
+      </div>
+    </div>
+    <div class="sort-feedback" id="sortFeedback">
+      <div class="fb-title" id="fbTitle"></div>
+      <div id="fbText"></div>
+    </div>
+    <button class="next-btn" id="nextBtn" onclick="nextScenario()" style="display:none">Next →</button>
+  </div>
+
+  <div class="sort-results" id="sortResults">
+    <p style="font-size:0.8rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Your Score</p>
+    <div class="result-score" id="resultScore">— / 8</div>
+    <p class="result-msg" id="resultMsg"></p>
+    <button class="retry-btn" onclick="resetSort()">↩ Try again</button>
+  </div>
+
+  <hr class="divider">
+  <p class="label label-teal">Discussion Questions</p>
+  <p style="font-size:0.85rem;color:var(--mid);margin-bottom:0.8rem;">Open a question to see suggested sentence starters.</p>
+
+  <div class="accordion-item">
+    <button class="accordion-trigger" onclick="toggleAccordion(this)">
+      "Can you think of a game, app, or class that uses Black Hat motivation? How does it feel?" <span class="chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <p>Consider streaks, countdown timers, public leaderboards, or the fear of losing a reward.</p><br>
+      <span class="starter">I think [app/game] uses Black Hat motivation because…</span>
+      <span class="starter">When I use it, I feel…</span>
+      <span class="starter">In the long run, this kind of pressure makes me…</span>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-trigger" onclick="toggleAccordion(this)">
+      "Is all Black Hat motivation harmful? Can you think of a case where pressure is useful?" <span class="chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <p>Think about deadlines, sports, or emergency situations. When does stress help?</p><br>
+      <span class="starter">I think Black Hat motivation can be useful when…</span>
+      <span class="starter">The difference between healthy and unhealthy pressure is…</span>
+      <span class="starter">However, if it goes on too long, it leads to…</span>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-trigger" onclick="toggleAccordion(this)">
+      "Design a classroom activity that uses White Hat motivation. What would it look like?" <span class="chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <p>Think about choice, collaboration, curiosity, or a sense of epic purpose.</p><br>
+      <span class="starter">My activity would give students the freedom to…</span>
+      <span class="starter">It would feel meaningful because…</span>
+      <span class="starter">Unlike a normal test, it would avoid…</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════ TAB 3 -->
+<div id="tab-3" class="tab-panel">
+<div class="panel-inner">
+
+  <p class="label label-teal">Tab 3 · Scenarios + Writing</p>
+  <h2 class="section-title">The Power of Groups</h2>
+  <p class="section-lead">Groups can unlock incredible collective thinking, or collapse into "social loafing." Read each scenario and choose the best response.</p>
+
+  <div id="scenarios-container"></div>
+
+  <hr class="divider">
+  <p class="label label-teal">Writing Task</p>
+  <div class="charter-box">
+    <h3>Design Your Dream Team Charter</h3>
+    <p class="charter-sub">Write 2–4 sentences for each section. This is your personal plan for being a great group member.</p>
+
+    <div class="charter-prompt">
+      <label>Our Goal</label>
+      <textarea id="charter-goal" placeholder="In our group, we want to achieve…"></textarea>
+      <div class="hint">What does success look like for your team?</div>
+    </div>
+    <div class="charter-prompt">
+      <label>Individual Responsibility</label>
+      <textarea id="charter-responsibility" placeholder="To avoid social loafing, each member will…"></textarea>
+      <div class="hint">How will you make sure everyone contributes?</div>
+    </div>
+    <div class="charter-prompt">
+      <label>When We Disagree</label>
+      <textarea id="charter-conflict" placeholder="If we have a conflict, we will…"></textarea>
+      <div class="hint">What's a calm, constructive way to handle disagreements?</div>
+    </div>
+    <div class="charter-prompt" style="border-bottom:none;margin-bottom:0;padding-bottom:0">
+      <label>Our Motivation</label>
+      <textarea id="charter-motivation" placeholder="The White Hat reason we're doing this together is…"></textarea>
+      <div class="hint">Connect back to Tab 2: what is your epic purpose?</div>
+    </div>
+
+    <button class="generate-btn" onclick="generateCharter()" id="generateBtn">
+      ✦ Generate my charter
+    </button>
+  </div>
+
+  <!-- Preview + action bar -->
+  <div class="charter-preview" id="charterPreview">
+    <div class="preview-header">
+      <span>📄 Your Team Charter</span>
+      <span id="previewDate" style="font-weight:300;font-size:0.72rem;opacity:0.8"></span>
+    </div>
+    <div class="preview-body" id="previewBody"></div>
+    <div class="preview-actions">
+      <button class="pa-btn" id="copyBtn" onclick="copyCharter()">📋 Copy text</button>
+      <button class="pa-btn" onclick="downloadCharter()">⬇ Download .txt</button>
+      <a class="pa-btn" id="mailtoBtn" href="#">✉ Send to teacher</a>
+      <button class="pa-btn print" onclick="printCharter()">🖨 Print / Save PDF</button>
+    </div>
+  </div>
+
+  <!-- Hidden print-only target -->
+  <div id="print-target" style="display:none">
+    <h2>My Team Charter</h2>
+    <div class="print-meta" id="print-meta"></div>
+    <div id="print-sections"></div>
+  </div>
+
+</div>
+</div>
+
+<script>
+// ── TAB SWITCHING ──────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected','true');
+    document.getElementById('tab-' + id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+// ── ACCORDION ─────────────────────────────────────────
+function toggleAccordion(trigger) {
+  const body = trigger.nextElementSibling;
+  const isOpen = trigger.classList.contains('open');
+  document.querySelectorAll('.accordion-trigger.open').forEach(t => {
+    t.classList.remove('open');
+    t.nextElementSibling.style.display = 'none';
+  });
+  if (!isOpen) {
+    trigger.classList.add('open');
+    body.style.display = 'block';
+  }
+}
+
+// ── SORT ACTIVITY ─────────────────────────────────────
+const scenarios = [
+  { text: '"If you don\'t complete this exercise, you\'ll lose your participation grade."', answer: 'black', explanation: 'This is Black Hat: it uses the threat of loss (Loss & Avoidance) to force action. It may work short-term, but it erodes your sense of control and often increases anxiety.' },
+  { text: '"Your writing is going to be published in the school magazine; real readers will enjoy it."', answer: 'white', explanation: 'White Hat: Epic Meaning & Calling. You feel that your work matters and that you\'re contributing something real to the world.' },
+  { text: '"The leaderboard updates every five minutes, and everyone can see your rank."', answer: 'black', explanation: 'Black Hat: Social Pressure. Public ranking creates fear of embarrassment, which loads your working memory with anxiety instead of learning.' },
+  { text: '"You can choose which topic to investigate. Follow your curiosity."', answer: 'white', explanation: 'White Hat: Empowerment & Ownership. When you have genuine choice, intrinsic motivation increases and you engage more deeply.' },
+  { text: '"Only 3 seats left in the advanced group; you need to score above 80% to qualify."', answer: 'black', explanation: 'Black Hat: Scarcity & Urgency. Artificial scarcity creates pressure that can feel motivating but often leads to stress and shortcuts.' },
+  { text: '"Your team needs you. Together you can solve a mystery no one else has cracked."', answer: 'white', explanation: 'White Hat: Social Influence and Epic Meaning. Being needed by a trusted group and working toward a shared challenge is deeply motivating and enjoyable.' },
+  { text: '"The quiz ends in 60 seconds. Hurry."', answer: 'black', explanation: 'Black Hat: Urgency. Time pressure can boost focus briefly (eustress), but as a constant feature it activates the threat response and reduces deep thinking.' },
+  { text: '"You\'re writing a guide that will help students next year; they\'ll actually use your work."', answer: 'white', explanation: 'White Hat: Epic Meaning. Creating something with lasting, real-world value gives a sense of purpose that sustains motivation far longer than rewards or threats.' },
+];
+
+let sortIndex = 0;
+let sortScore = 0;
+let answered = false;
+
+function renderCard() {
+  const s = scenarios[sortIndex];
+  document.getElementById('scenarioNum').textContent = `Scenario ${sortIndex + 1} of ${scenarios.length}`;
+  document.getElementById('scenarioText').textContent = s.text;
+  document.getElementById('sortFeedback').style.display = 'none';
+  document.getElementById('nextBtn').style.display = 'none';
+  document.querySelectorAll('.sort-btn').forEach(b => b.disabled = false);
+  answered = false;
+  const pct = (sortIndex / scenarios.length) * 100;
+  document.getElementById('sortProgress').style.width = pct + '%';
+  document.getElementById('sortCounter').textContent = `${sortIndex} / ${scenarios.length}`;
+}
+
+function sortAnswer(choice) {
+  if (answered) return;
+  answered = true;
+  const s = scenarios[sortIndex];
+  const correct = choice === s.answer;
+  if (correct) sortScore++;
+  document.querySelectorAll('.sort-btn').forEach(b => b.disabled = true);
+  const fb = document.getElementById('sortFeedback');
+  fb.className = 'sort-feedback ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('fbTitle').textContent = correct ? '✓ Correct!' : '✗ Not quite.';
+  document.getElementById('fbText').textContent = s.explanation;
+  fb.style.display = 'block';
+  document.getElementById('nextBtn').style.display = 'block';
+}
+
+function nextScenario() {
+  sortIndex++;
+  if (sortIndex >= scenarios.length) {
+    showResults();
+  } else {
+    renderCard();
+  }
+}
+
+function showResults() {
+  document.getElementById('sortCardArea').style.display = 'none';
+  const res = document.getElementById('sortResults');
+  res.style.display = 'block';
+  document.getElementById('sortProgress').style.width = '100%';
+  document.getElementById('sortCounter').textContent = `${scenarios.length} / ${scenarios.length}`;
+  document.getElementById('resultScore').textContent = `${sortScore} / ${scenarios.length}`;
+  const msgs = [
+    [8, 'Perfect: you\'ve got a sharp eye for motivation design! 🎯'],
+    [6, 'Great work. You understand the core difference well.'],
+    [4, 'Good effort. Review the explanations to sharpen your instincts.'],
+    [0, 'Keep going; motivation theory takes practice to recognise!'],
+  ];
+  const msg = msgs.find(m => sortScore >= m[0]);
+  document.getElementById('resultMsg').textContent = msg[1];
+}
+
+function resetSort() {
+  sortIndex = 0;
+  sortScore = 0;
+  answered = false;
+  document.getElementById('sortCardArea').style.display = 'block';
+  document.getElementById('sortResults').style.display = 'none';
+  renderCard();
+}
+
+renderCard();
+
+// ── SCENARIOS (Tab 3) ─────────────────────────────────
+const scData = {
+  1: {
+    a: { type: 'bad',  title: 'Avoidance', text: 'Hoping for the best is a form of social loafing too. Without clear communication, stress builds and the presentation will likely suffer. Research shows unresolved group tension drains cognitive resources for everyone.' },
+    b: { type: 'good', title: 'Strong choice!', text: 'Redistributing tasks calmly and clearly creates individual accountability, the key antidote to social loafing. It also activates social buffering: talking openly reduces cortisol levels in the group.' },
+    c: { type: 'bad',  title: 'Martyrdom', text: 'Doing everything yourself prevents social loafing now but creates resentment and doesn\'t help your teammates develop. Distributed thinking, using everyone\'s strengths, produces better outcomes than one person overloading.' },
+  },
+  2: {
+    a: { type: 'bad',  title: 'Giving up', text: 'Surrendering before trying removes all eustress, the positive challenge that helps teams perform. Without any goal, there\'s little reason to engage and group cohesion collapses.' },
+    b: { type: 'good', title: 'Excellent reframe!', text: 'Shifting the goal from external competition ("beat them") to internal growth ("beat our own score") is a classic White Hat move. It creates a learning goal rather than a performance goal, reducing anxiety and improving focus.' },
+    c: { type: 'bad',  title: 'Black Hat pressure', text: 'Forcing teammates through external pressure is Black Hat motivation. It may produce short-term effort but damages trust and group flow, the collaborative state where groups solve problems at their best.' },
+  },
+  3: {
+    a: { type: 'bad',  title: 'Passive avoidance', text: 'Ignoring the problem lets it grow. Research shows that when social loafing is not addressed, other members gradually reduce their effort too, a process called the "sucker effect."' },
+    b: { type: 'good', title: 'Smart strategy!', text: 'Giving someone a specific, clear role activates individual accountability within the group. It also respects their autonomy (a White Hat principle) rather than shaming or confronting them publicly.' },
+    c: { type: 'bad',  title: 'Escalation', text: 'Going straight to authority can damage trust and social fabric in the group. It should be a last resort. Groups that resolve conflict internally build stronger bonds and perform better over time.' },
+  }
+};
+
+// ── CHARTER EXPORT ────────────────────────────────────
+const charterSections = [
+  { id: 'charter-goal',           label: 'OUR GOAL' },
+  { id: 'charter-responsibility', label: 'INDIVIDUAL RESPONSIBILITY' },
+  { id: 'charter-conflict',       label: 'WHEN WE DISAGREE' },
+  { id: 'charter-motivation',     label: 'OUR MOTIVATION' },
+];
+
+function getCharterData() {
+  return charterSections.map(s => ({
+    label: s.label,
+    text: document.getElementById(s.id).value.trim() || '(not filled in)',
+  }));
+}
+
+function buildPlainText(sections, dateStr) {
+  const lines = ['MY TEAM CHARTER', '═'.repeat(40), `Generated: ${dateStr}`, ''];
+  sections.forEach(s => {
+    lines.push(s.label);
+    lines.push('─'.repeat(s.label.length));
+    lines.push(s.text);
+    lines.push('');
+  });
+  return lines.join('\n');
+}
+
+function generateCharter() {
+  const sections = getCharterData();
+  const dateStr = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+  const plain = buildPlainText(sections, dateStr);
+
+  // Show preview
+  document.getElementById('previewDate').textContent = dateStr;
+  document.getElementById('previewBody').textContent = plain;
+  const preview = document.getElementById('charterPreview');
+  preview.style.display = 'block';
+  preview.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // Reset copy button
+  const copyBtn = document.getElementById('copyBtn');
+  copyBtn.textContent = '📋 Copy text';
+  copyBtn.classList.remove('copied');
+
+  // Build mailto
+  const subject = encodeURIComponent('My Team Charter: English Class');
+  const body = encodeURIComponent(plain);
+  document.getElementById('mailtoBtn').href = `mailto:?subject=${subject}&body=${body}`;
+
+  // Build print target
+  document.getElementById('print-meta').textContent = `Generated: ${dateStr}`;
+  document.getElementById('print-sections').innerHTML = sections.map(s =>
+    `<div class="print-section"><h3>${s.label}</h3><p>${s.text.replace(/\n/g,'<br>')}</p></div>`
+  ).join('');
+
+  // Store for download
+  window._charterPlain = plain;
+  window._charterDate = dateStr;
+}
+
+function copyCharter() {
+  const text = document.getElementById('previewBody').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copy text'; btn.classList.remove('copied'); }, 2500);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copy text'; btn.classList.remove('copied'); }, 2500);
+  });
+}
+
+function downloadCharter() {
+  const text = window._charterPlain || document.getElementById('previewBody').textContent;
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'team-charter.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function printCharter() {
+  const pt = document.getElementById('print-target');
+  pt.style.display = 'block';
+  window.print();
+  pt.style.display = 'none';
+}
+
+// ── SCENARIOS (Tab 3) ─────────────────────────────────
+const groupScenarios = [
+  {
+    num: 1,
+    title: 'The Group Project',
+    text: 'Your group has a presentation tomorrow. Two members have not completed their parts, and everyone is frustrated but nobody wants to raise it. What is the best course of action?',
+    options: [
+      { label: 'Hold a calm group meeting to redistribute tasks and agree on clear individual deadlines.', correct: true,  type: 'good', title: 'Strong choice.', feedback: 'Calm, direct communication creates individual accountability, the most reliable antidote to social loafing. Naming specific tasks and deadlines makes it harder for anyone to drift, and open dialogue also activates social buffering: cortisol levels drop when group tension is addressed honestly rather than suppressed.' },
+      { label: 'Stay quiet and focus on your own section, hoping the others come through in time.', correct: false, type: 'bad',  title: 'Passive avoidance.', feedback: 'Saying nothing allows social loafing to continue unchallenged. Without clear expectations, other members often reduce their own effort too, a pattern researchers call the "sucker effect": people stop compensating for free-riders once they notice what is happening. Silence is rarely neutral in a group.' },
+      { label: 'Complete the unfinished sections yourself to make sure the presentation meets the standard.', correct: false, type: 'bad',  title: 'Martyrdom.', feedback: 'Taking on everyone\'s work prevents failure in the short term but builds resentment and removes any reason for the others to improve. Distributed thinking, where each person contributes their own strengths, consistently produces better outcomes than one person overloading and carrying the rest.' },
+      { label: 'Report the situation to the teacher so they can step in and resolve it before tomorrow.', correct: false, type: 'bad',  title: 'Premature escalation.', feedback: 'Involving a teacher before the group has attempted to resolve the conflict internally skips an important step. Groups that solve their own communication problems develop stronger trust and social bonds, which makes future collaboration significantly more effective. A teacher should be a last resort, not a first move.' },
+    ]
+  },
+  {
+    num: 2,
+    title: 'The Competitive Team',
+    text: 'Your class is split into two teams for a quiz. The other team is clearly more experienced. A teammate says: "We should just give up; we cannot win anyway." What do you say?',
+    options: [
+      { label: 'Suggest focusing on improving your own team\'s score rather than chasing theirs.', correct: true,  type: 'good', title: 'Excellent reframe.', feedback: 'Shifting from an external performance goal ("beat them") to an internal learning goal ("beat ourselves") is a textbook White Hat move. It removes the threat of humiliation, preserves eustress, and keeps the group engaged without the anxiety that comes from a gap they cannot realistically close.' },
+      { label: 'Agree with your teammate; trying hard against a stronger team is a waste of energy.', correct: false, type: 'bad',  title: 'Giving up.', feedback: 'Abandoning the task before it begins removes all eustress, the moderate positive challenge that helps groups perform and learn. Once a team loses its sense of purpose, engagement collapses quickly, along with any opportunity to practise the skills the quiz was designed to develop.' },
+      { label: 'Tell your teammate to stop being negative and push the rest of the group to try harder.', correct: false, type: 'bad',  title: 'Black Hat pressure.', feedback: 'Applying external pressure to appear more motivated is Black Hat motivation in disguise. It may produce brief effort but damages the psychological safety that makes group flow possible: the collaborative state where teams solve problems better than any individual member could alone.' },
+      { label: 'Ask the teacher to rebalance the teams before the quiz starts so it is more even.', correct: false, type: 'bad',  title: 'Avoiding the challenge.', feedback: 'Requesting a reshuffle sidesteps the real opportunity here: practising how to stay motivated under difficult conditions. Maintaining a learning mindset when facing a stronger opponent is itself a valuable cognitive and social skill, one that external fixes like reshuffling cannot develop.' },
+    ]
+  },
+  {
+    num: 3,
+    title: 'The Quiet Member',
+    text: 'One person in your group rarely contributes and lets others do the thinking. The rest of the group is frustrated. This pattern is known as "social loafing." How do you handle it?',
+    options: [
+      { label: 'Speak to the person privately and give them one specific, named responsibility to own.', correct: true,  type: 'good', title: 'Smart strategy.', feedback: 'A named, concrete role creates individual accountability without public pressure or embarrassment. It also respects the person\'s autonomy, a core White Hat principle, and gives them a clear way to re-engage. Research consistently shows that defined individual roles are the most effective antidote to social loafing in group work.' },
+      { label: 'Leave it alone; raising the issue might embarrass them and make the atmosphere worse.', correct: false, type: 'bad',  title: 'Passive avoidance.', feedback: 'Letting social loafing go unaddressed typically worsens over time. As other members notice they are unfairly compensating, they begin reducing their own effort too. This "sucker effect" can cause the whole group\'s performance to decline, even among members who were initially highly motivated.' },
+      { label: 'Bring it up openly in the group so everyone can share how they feel about the situation.', correct: false, type: 'bad',  title: 'Public pressure.', feedback: 'Calling someone out in front of the whole group risks activating a social threat response, which makes re-engagement far less likely. Psychological safety, the sense that it is safe to participate without fear of embarrassment, is a precondition for the open collaboration that produces group flow.' },
+      { label: 'Ask the teacher to reassign group members so the workload is distributed more fairly overall.', correct: false, type: 'bad',  title: 'Premature escalation.', feedback: 'Escalating to the teacher before attempting internal solutions misses the opportunity to build the group\'s own conflict-resolution skills. Groups that work through difficulties themselves develop stronger social bonds and consistently perform better on future collaborative tasks than those that rely on external intervention.' },
+    ]
+  },
+];
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function renderScenarios() {
+  const labels = ['A', 'B', 'C', 'D'];
+  const container = document.getElementById('scenarios-container');
+  container.innerHTML = groupScenarios.map((sc, si) => {
+    const shuffled = shuffle(sc.options);
+    const optHTML = shuffled.map((opt, oi) => {
+      const esc = s => s.replace(/&/g,'&amp;').replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+      return `<button class="choice-btn"
+        data-correct="${opt.correct}"
+        data-type="${opt.type}"
+        data-title="${esc(opt.title)}"
+        data-fb="${esc(opt.feedback)}"
+        onclick="pickChoiceNew(this,${si})"
+      >${labels[oi]}) ${opt.label}</button>`;
+    }).join('');
+    return `<div class="scenario-block">
+      <div class="scenario-header">
+        <div class="snum">${sc.num}</div>
+        <div>
+          <div class="stitle">${sc.title}</div>
+          <div class="stext">${sc.text}</div>
+        </div>
+      </div>
+      <div class="scenario-choices" id="sc${si}-choices">${optHTML}</div>
+      <div class="scenario-result" id="sc${si}-result"></div>
+    </div>`;
+  }).join('');
+}
+
+function pickChoiceNew(btn, si) {
+  document.querySelectorAll(`#sc${si}-choices .choice-btn`).forEach(b => {
+    b.disabled = true;
+    if (b === btn) b.classList.add(btn.dataset.correct === 'true' ? 'selected-good' : 'selected-bad');
+  });
+  const result = document.getElementById(`sc${si}-result`);
+  result.className = 'scenario-result ' + btn.dataset.type;
+  result.innerHTML = `<b>${btn.dataset.title}</b> ${btn.dataset.fb}`;
+  result.style.display = 'block';
+}
+
+renderScenarios();
+</script>
+</body>
+</html>
