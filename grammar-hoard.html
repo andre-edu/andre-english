@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dragon's Grammar Hoard 🐉</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FDFAF4;
+      --surface: #FFFFFF;
+      --text: #2A2A2A;
+      --muted: #6B7280;
+      --border: #E8E2D8;
+      --coral:       #D94F4F;
+      --coral-bg:    #FFF0EF;
+      --teal:        #1FA89B;
+      --teal-bg:     #E6F6F5;
+      --amber:       #C96D20;
+      --amber-bg:    #FEF3EA;
+      --violet:      #6F4BB5;
+      --violet-bg:   #F0EBF9;
+      --green:       #5DBF78;
+      --gold:        #E8AA30;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ======== HEADER ======== */
+    header {
+      background: linear-gradient(150deg, #1B3A2E 0%, #2D5A40 55%, #1A3828 100%);
+      color: #fff;
+      padding: 2.5rem 1.5rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%235DBF78' fill-opacity='0.07'%3E%3Cpath d='M26 4l4 8h-8l4-8zM4 26l8 4v-8L4 26zM48 26l-8-4v8l8-4zM26 48l-4-8h8l-4 8z'/%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0; right: 0;
+      height: 40px;
+      background: var(--bg);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .header-dragon-wrap { margin-bottom: 0.4rem; }
+    .header-dragon {
+      font-size: 4rem;
+      display: inline-block;
+      animation: dragonFloat 3.2s ease-in-out infinite;
+      position: relative;
+    }
+    @keyframes dragonFloat {
+      0%, 100% { transform: translateY(0) rotate(-4deg); }
+      50% { transform: translateY(-10px) rotate(4deg); }
+    }
+    header h1 {
+      font-family: 'Baloo 2', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      position: relative;
+    }
+    header p {
+      opacity: 0.8;
+      margin-top: 0.4rem;
+      font-size: 1rem;
+      position: relative;
+    }
+    .hoard-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(232,170,48,0.15);
+      border: 2px solid rgba(232,170,48,0.5);
+      border-radius: 50px;
+      padding: 0.45rem 1.2rem;
+      margin-top: 1.1rem;
+      font-family: 'Baloo 2', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--gold);
+      position: relative;
+    }
+    .hoard-total { font-size: 0.82rem; opacity: 0.7; font-weight: 500; }
+
+    /* ======== MAIN ======== */
+    main { max-width: 1120px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+
+    /* ======== SCORE BAR ======== */
+    .score-bar {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      padding: 1.25rem 1.5rem;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.06);
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .score-stat { text-align: center; }
+    .score-num {
+      font-family: 'Baloo 2', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .score-label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    /* ======== FILTER BAR ======== */
+    .filter-bar {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.75rem;
+      align-items: center;
+    }
+    .filter-label { font-size: 0.82rem; font-weight: 700; color: var(--muted); margin-right: 0.2rem; }
+    .filter-btn {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      border: 2px solid currentColor;
+      cursor: pointer;
+      background: transparent;
+      transition: all 0.16s ease;
+      line-height: 1.4;
+    }
+    .filter-btn[data-cat="all"]        { color: var(--text); }
+    .filter-btn[data-cat="homophones"] { color: var(--coral); }
+    .filter-btn[data-cat="oneortwo"]   { color: var(--teal); }
+    .filter-btn[data-cat="meanings"]   { color: var(--amber); }
+    .filter-btn[data-cat="verbs"]      { color: var(--violet); }
+
+    .filter-btn.active, .filter-btn:hover { color: white !important; }
+    .filter-btn[data-cat="all"].active,        .filter-btn[data-cat="all"]:hover        { background: var(--text);   border-color: var(--text); }
+    .filter-btn[data-cat="homophones"].active,  .filter-btn[data-cat="homophones"]:hover { background: var(--coral);  border-color: var(--coral); }
+    .filter-btn[data-cat="oneortwo"].active,    .filter-btn[data-cat="oneortwo"]:hover   { background: var(--teal);   border-color: var(--teal); }
+    .filter-btn[data-cat="meanings"].active,    .filter-btn[data-cat="meanings"]:hover   { background: var(--amber);  border-color: var(--amber); }
+    .filter-btn[data-cat="verbs"].active,       .filter-btn[data-cat="verbs"]:hover      { background: var(--violet); border-color: var(--violet); }
+
+    /* ======== CARD GRID ======== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* ======== ERROR CARD ======== */
+    .error-card {
+      background: var(--surface);
+      border-radius: 18px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .error-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,0.11); }
+    .error-card[data-cat="homophones"] { border-top: 4px solid var(--coral); }
+    .error-card[data-cat="oneortwo"]   { border-top: 4px solid var(--teal); }
+    .error-card[data-cat="meanings"]   { border-top: 4px solid var(--amber); }
+    .error-card[data-cat="verbs"]      { border-top: 4px solid var(--violet); }
+
+    .card-header { padding: 1.2rem 1.4rem 0.8rem; }
+    .cat-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.18rem 0.6rem;
+      border-radius: 50px;
+      margin-bottom: 0.4rem;
+    }
+    [data-cat="homophones"] .cat-tag { background: var(--coral-bg);  color: var(--coral); }
+    [data-cat="oneortwo"]   .cat-tag { background: var(--teal-bg);   color: var(--teal); }
+    [data-cat="meanings"]   .cat-tag { background: var(--amber-bg);  color: var(--amber); }
+    [data-cat="verbs"]      .cat-tag { background: var(--violet-bg); color: var(--violet); }
+
+    .card-title {
+      font-family: 'Baloo 2', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .card-body { padding: 0 1.4rem 1.3rem; flex: 1; display: flex; flex-direction: column; }
+
+    .explanation { font-size: 0.91rem; line-height: 1.65; margin-bottom: 0.85rem; }
+
+    .key-rule {
+      border-radius: 10px;
+      padding: 0.6rem 0.9rem;
+      margin-bottom: 0.85rem;
+      font-size: 0.87rem;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+    [data-cat="homophones"] .key-rule { background: var(--coral-bg);  color: #9A2828; }
+    [data-cat="oneortwo"]   .key-rule { background: var(--teal-bg);   color: #136660; }
+    [data-cat="meanings"]   .key-rule { background: var(--amber-bg);  color: #8A4510; }
+    [data-cat="verbs"]      .key-rule { background: var(--violet-bg); color: #4A2A85; }
+
+    .dragon-example {
+      background: #F7F3EB;
+      border-radius: 10px;
+      padding: 0.7rem 0.9rem;
+      margin-bottom: 1rem;
+      font-size: 0.87rem;
+      display: flex;
+      gap: 0.55rem;
+      align-items: flex-start;
+    }
+    .dragon-example em { font-style: italic; line-height: 1.55; }
+
+    /* ======== QUIZ ======== */
+    .quiz-section { border-top: 1.5px dashed var(--border); padding-top: 1rem; margin-top: auto; }
+    .quiz-q {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--muted);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 0.45rem;
+    }
+    .quiz-sentence { font-size: 0.97rem; font-style: italic; margin-bottom: 0.7rem; line-height: 1.5; }
+
+    .options { display: flex; flex-direction: column; gap: 0.38rem; margin-bottom: 0.55rem; }
+
+    .opt {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.89rem;
+      font-weight: 600;
+      text-align: left;
+      padding: 0.5rem 0.85rem;
+      border-radius: 9px;
+      border: 2px solid var(--border);
+      background: white;
+      cursor: pointer;
+      transition: all 0.15s;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .opt-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .opt:hover:not(:disabled) { border-color: #AAA; background: #F5F5F5; }
+    .opt.correct            { border-color: #22C55E; background: #F0FDF4; color: #15803D; }
+    .opt.correct .opt-dot   { background: #22C55E; }
+    .opt.wrong              { border-color: #EF4444; background: #FEF2F2; color: #991B1B; }
+    .opt.wrong .opt-dot     { background: #EF4444; }
+    .opt.reveal             { border-color: #22C55E; background: #F0FDF4; color: #15803D; opacity: 0.65; }
+    .opt.reveal .opt-dot    { background: #22C55E; }
+
+    .feedback { font-size: 0.85rem; font-weight: 700; min-height: 1.3em; }
+    .feedback.correct { color: #15803D; }
+    .feedback.wrong   { color: #991B1B; }
+
+    /* ======== DRAGON MASCOT ======== */
+    .mascot-wrap {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 100;
+      cursor: pointer;
+      user-select: none;
+    }
+    .mascot-dragon {
+      width: 76px; height: 76px;
+      transition: transform 0.3s;
+      filter: drop-shadow(0 4px 14px rgba(0,0,0,0.22));
+      display: block;
+    }
+    .mascot-wrap:hover .mascot-dragon { transform: scale(1.12) rotate(-8deg); }
+
+    .speech-bubble {
+      position: absolute;
+      bottom: calc(100% + 12px);
+      right: 0;
+      background: white;
+      border-radius: 14px;
+      padding: 0.65rem 0.9rem;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.13);
+      font-size: 0.84rem;
+      font-weight: 700;
+      max-width: 185px;
+      line-height: 1.45;
+      opacity: 0;
+      transform: translateY(8px) scale(0.95);
+      transition: all 0.22s ease;
+      pointer-events: none;
+      white-space: normal;
+      color: var(--text);
+    }
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      right: 20px;
+      border: 7px solid transparent;
+      border-top-color: white;
+    }
+    .speech-bubble.show { opacity: 1; transform: translateY(0) scale(1); }
+
+    /* ======== ANIMATIONS ======== */
+    @keyframes floatUp {
+      0%   { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(-80px) scale(1.5) rotate(15deg); }
+    }
+    .gem-float {
+      position: fixed;
+      font-size: 1.6rem;
+      pointer-events: none;
+      z-index: 999;
+      animation: floatUp 0.95s ease-out forwards;
+    }
+    @keyframes correctPulse {
+      0%   { box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+      50%  { box-shadow: 0 0 0 5px rgba(34,197,94,0.35); }
+      100% { box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    }
+    .card-flash { animation: correctPulse 0.55s ease; }
+
+    @media (max-width: 600px) {
+      .cards-grid { grid-template-columns: 1fr; }
+      .mascot-dragon { width: 60px; height: 60px; }
+      .mascot-wrap { bottom: 1rem; right: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ======== HEADER ======== -->
+<header>
+  <div class="header-dragon-wrap"><span class="header-dragon">🐉</span></div>
+  <h1>Dragon's Grammar Hoard</h1>
+  <p>Master the trickiest word pairs in English — and fill the hoard with gems!</p>
+  <div class="hoard-counter">
+    <span>💎</span>
+    <span id="gem-count">0</span>
+    <span class="hoard-total">/ <span id="gem-total">15</span> gems</span>
+  </div>
+</header>
+
+<!-- ======== MAIN ======== -->
+<main>
+
+  <!-- Score bar -->
+  <div class="score-bar">
+    <div class="score-stat">
+      <div class="score-num" id="sc-correct" style="color:#22C55E">0</div>
+      <div class="score-label">Correct ✓</div>
+    </div>
+    <div class="score-stat">
+      <div class="score-num" id="sc-attempted" style="color:var(--muted)">0</div>
+      <div class="score-label">Attempted</div>
+    </div>
+    <div class="score-stat">
+      <div class="score-num" id="sc-remaining" style="color:var(--gold)">15</div>
+      <div class="score-label">Remaining</div>
+    </div>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <span class="filter-label">Show:</span>
+    <button class="filter-btn active" data-cat="all">All (15)</button>
+    <button class="filter-btn" data-cat="homophones">🔤 Sound-alikes (5)</button>
+    <button class="filter-btn" data-cat="oneortwo">✂️ One or Two? (3)</button>
+    <button class="filter-btn" data-cat="meanings">🎯 Subtle Meanings (4)</button>
+    <button class="filter-btn" data-cat="verbs">⚡ Verb Traps (3)</button>
+  </div>
+
+  <!-- Cards -->
+  <div class="cards-grid" id="cards-grid"></div>
+</main>
+
+<!-- ======== DRAGON MASCOT (Grimsworth) ======== -->
+<div class="mascot-wrap" id="mascot" onclick="dragonSpeak()">
+  <div class="speech-bubble" id="bubble">Hi! I'm Grimsworth. Click me for a tip! 🧙</div>
+  <svg class="mascot-dragon" id="dragon-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Wings -->
+    <ellipse cx="17" cy="70" rx="17" ry="9" fill="#47A362" transform="rotate(-28 17 70)" opacity="0.88"/>
+    <ellipse cx="83" cy="70" rx="17" ry="9" fill="#47A362" transform="rotate(28 83 70)" opacity="0.88"/>
+    <!-- Body -->
+    <ellipse cx="50" cy="73" rx="27" ry="18" fill="#5DBF78"/>
+    <!-- Belly -->
+    <ellipse cx="50" cy="76" rx="17" ry="11" fill="#7DDA95" opacity="0.55"/>
+    <!-- Neck -->
+    <ellipse cx="50" cy="55" rx="14" ry="9" fill="#5DBF78"/>
+    <!-- Head -->
+    <circle cx="50" cy="38" r="24" fill="#68CC86"/>
+    <!-- Horns -->
+    <polygon points="38,17 31,1 44,13" fill="#F4B942"/>
+    <polygon points="62,17 56,1 69,13" fill="#F4B942"/>
+    <polygon points="38,17 31,1 35,14" fill="#D4941A" opacity="0.38"/>
+    <polygon points="62,17 56,1 60,14" fill="#D4941A" opacity="0.38"/>
+    <!-- Cheeks -->
+    <circle cx="32" cy="44" r="7" fill="#8EE6A6" opacity="0.5"/>
+    <circle cx="68" cy="44" r="7" fill="#8EE6A6" opacity="0.5"/>
+    <!-- Eyes whites -->
+    <circle cx="41" cy="34" r="8" fill="white"/>
+    <circle cx="59" cy="34" r="8" fill="white"/>
+    <!-- Pupils -->
+    <circle cx="42" cy="35" r="4.8" fill="#2A2A2A" id="pupil-l"/>
+    <circle cx="60" cy="35" r="4.8" fill="#2A2A2A" id="pupil-r"/>
+    <!-- Shine -->
+    <circle cx="44" cy="32.5" r="2" fill="white"/>
+    <circle cx="62" cy="32.5" r="2" fill="white"/>
+    <!-- Nostrils -->
+    <ellipse cx="46" cy="44" rx="2.2" ry="1.6" fill="#47A362"/>
+    <ellipse cx="54" cy="44" rx="2.2" ry="1.6" fill="#47A362"/>
+    <!-- Mouth: neutral smile -->
+    <g id="mouth-neutral">
+      <path d="M 42 51 Q 50 57 58 51" stroke="#2A2A2A" stroke-width="2.3" fill="none" stroke-linecap="round"/>
+    </g>
+    <!-- Mouth: big happy grin -->
+    <g id="mouth-happy" style="display:none">
+      <path d="M 39 50 Q 50 63 61 50" stroke="#2A2A2A" stroke-width="2" stroke-linecap="round" fill="#FF8A80"/>
+      <ellipse cx="50" cy="55" rx="7.5" ry="5" fill="#FF8A80"/>
+      <path d="M 43 51 L 57 51" stroke="#2A2A2A" stroke-width="1.4"/>
+    </g>
+    <!-- Mouth: sad / worried -->
+    <g id="mouth-sad" style="display:none">
+      <path d="M 42 55 Q 50 50 58 55" stroke="#2A2A2A" stroke-width="2.3" fill="none" stroke-linecap="round"/>
+    </g>
+    <!-- Worried brows -->
+    <g id="brows-worried" style="display:none">
+      <path d="M 34 27 Q 41 22 47 27" stroke="#2A2A2A" stroke-width="2.3" fill="none" stroke-linecap="round"/>
+      <path d="M 53 27 Q 59 22 66 27" stroke="#2A2A2A" stroke-width="2.3" fill="none" stroke-linecap="round"/>
+    </g>
+    <!-- Sparkles (happy state) -->
+    <g id="sparkles" style="display:none">
+      <text x="8"  y="22" font-size="11" font-family="sans-serif">✨</text>
+      <text x="76" y="18" font-size="9"  font-family="sans-serif">⭐</text>
+    </g>
+  </svg>
+</div>
+
+<script>
+// ===================================================================
+//  DATA
+// ===================================================================
+const errorPairs = [
+  {
+    id: 'your-youre',
+    cat: 'homophones',
+    label: '🔤 Sound-alike',
+    title: "Your vs. You're",
+    explanation: "<strong>Your</strong> is possessive — it shows that something belongs to you. <strong>You're</strong> is a contraction of <em>you are</em>. The apostrophe stands in for the missing letter <em>a</em>.",
+    rule: 'Quick test: replace the word with "you are." If it still makes sense → use you\'re. If not → use your.',
+    example: '"You\'re the cleverest dragon I ever met." "Your grammar is improving daily."',
+    q: {
+      s: 'The dragon thinks _______ a grammar genius!',
+      opts: [
+        { t: "You're",   c: true },
+        { t: "Your",     c: false, m: "Possessive adjective before a verb phrase" },
+        { t: "Yours",    c: false, m: "Wrong pronoun form entirely" },
+        { t: "Yore",     c: false, m: "Archaic word meaning 'long ago'" }
+      ],
+      ok:  '✅ Yes! You\'re = you are. "The dragon thinks [you are] a genius!" ✓',
+      no:  '❌ Try this: "The dragon thinks [you are] a genius." That works — so you need the contraction: you\'re.'
+    }
+  },
+  {
+    id: 'its-its',
+    cat: 'homophones',
+    label: '🔤 Sound-alike',
+    title: "Its vs. It's",
+    explanation: "<strong>Its</strong> is possessive — just like <em>his</em> or <em>her</em>, it never needs an apostrophe. <strong>It's</strong> is a contraction of <em>it is</em> or <em>it has</em>. The apostrophe replaces the missing letters.",
+    rule: 'Swap in "it is" — if the sentence still works, write it\'s. If it sounds wrong, write its (no apostrophe).',
+    example: '"The dragon wagged its tail. It\'s the finest tail in the kingdom."',
+    q: {
+      s: 'The dragon lifted _______ enormous head and sniffed the smoky air.',
+      opts: [
+        { t: "its",   c: true },
+        { t: "it's",  c: false, m: "Contraction used where possessive is needed" },
+        { t: "it is", c: false, m: "Full form breaks the grammar of the sentence" },
+        { t: "its'",  c: false, m: "Apostrophe after s — this word does not exist" }
+      ],
+      ok:  '✅ "Its head" = the head belonging to it. Possessives like its never take an apostrophe!',
+      no:  '❌ Try swapping: "The dragon lifted [it is] head." That doesn\'t work. So no apostrophe — just its.'
+    }
+  },
+  {
+    id: 'there3',
+    cat: 'homophones',
+    label: '🔤 Sound-alike',
+    title: "There / Their / They're",
+    explanation: "<strong>They're</strong> = <em>they are</em> (contraction). <strong>Their</strong> = belonging to them (possessive). <strong>There</strong> = a place, or used to introduce something that exists.",
+    rule: 'They\'re = they are. Their = ownership. There = place or existence.',
+    example: '"They\'re heading there now to collect their grammar scrolls."',
+    q: {
+      s: 'The knights forgot _______ swords at the castle gate.',
+      opts: [
+        { t: "their",   c: true },
+        { t: "they're", c: false, m: "Contraction used where possessive is needed" },
+        { t: "there",   c: false, m: "Place/existence word used where possessive is needed" },
+        { t: "them",    c: false, m: "Object pronoun, not a possessive adjective" }
+      ],
+      ok:  "✅ The swords belong to the knights — that's ownership. Ownership → their.",
+      no:  "❌ The swords belong to the knights (ownership), so you need the possessive: their."
+    }
+  },
+  {
+    id: 'to-too',
+    cat: 'homophones',
+    label: '🔤 Sound-alike',
+    title: "To vs. Too",
+    explanation: "<strong>To</strong> is a preposition (<em>go to the cave</em>) or part of an infinitive (<em>to roar</em>). <strong>Too</strong> is an adverb meaning <em>excessively</em> or <em>also</em>. If you mean 'overly' or 'as well,' reach for <em>too</em>.",
+    rule: 'Too = excessively / also. Try swapping in "excessively" or "also" — if it works, use too.',
+    example: '"The soup was too hot to eat." "The dragon guzzled barrels of it too."',
+    q: {
+      s: 'The grammar test was _______ long for the dragon to finish in time.',
+      opts: [
+        { t: "too",  c: true },
+        { t: "to",   c: false, m: "Preposition/infinitive marker used as degree adverb" },
+        { t: "two",  c: false, m: "Number word confused with homophone" },
+        { t: "very", c: false, m: "Correct meaning but tests the specific word pair" }
+      ],
+      ok:  '✅ "Too long" = excessively long. Too is always the degree adverb here.',
+      no:  '❌ Swap in "excessively": "The test was [excessively] long." That works — so the word you need is too.'
+    }
+  },
+  {
+    id: 'affect-effect',
+    cat: 'homophones',
+    label: '🔤 Sound-alike',
+    title: "Affect vs. Effect",
+    explanation: "<strong>Affect</strong> is almost always a <em>verb</em> — it means to influence something. <strong>Effect</strong> is almost always a <em>noun</em> — it means the result. Remember <strong>RAVEN</strong>: <strong>R</strong>emember <strong>A</strong>ffect is a <strong>V</strong>erb, <strong>E</strong>ffect is a <strong>N</strong>oun.",
+    rule: 'RAVEN: Affect = Verb (to influence). Effect = Noun (the result).',
+    example: '"Practising daily will affect your fluency. The effect was remarkable."',
+    q: {
+      s: 'How much you practise every week will greatly _______ your speaking skills.',
+      opts: [
+        { t: "affect",   c: true },
+        { t: "effect",   c: false, m: "Noun used in place of a verb" },
+        { t: "effects",  c: false, m: "Plural noun used where a verb is needed" },
+        { t: "impact",   c: false, m: "Valid synonym but tests the specific RAVEN pair" }
+      ],
+      ok:  "✅ 'Will affect' needs a verb — and affect is the verb. RAVEN works!",
+      no:  "❌ The sentence needs a verb ('will ___'). Affect is the verb; effect is the noun. RAVEN: Affect = Verb."
+    }
+  },
+  {
+    id: 'awhile',
+    cat: 'oneortwo',
+    label: '✂️ One or Two?',
+    title: "Awhile vs. A While",
+    explanation: "<strong>Awhile</strong> is an adverb meaning <em>for a time</em>. <strong>A while</strong> is a noun phrase (article + noun) meaning <em>a period of time</em>. The crucial test: does the word <em>for</em> come before it? Writing <em>for awhile</em> would mean <em>for for a time</em> — redundant!",
+    rule: 'After "for", always use two words: for a while. Without "for", you can say "stay awhile."',
+    example: '"Stay awhile, dear knight!" / "The dragon waited for a while before roaring."',
+    q: {
+      s: 'The dragon stared at the grammar puzzle for _______ before answering.',
+      opts: [
+        { t: "a while",  c: true },
+        { t: "awhile",   c: false, m: "Adverb after 'for' creates 'for for a time' — redundant" },
+        { t: "some time",c: false, m: "Different phrase — tests the specific awhile/a while pair" },
+        { t: "while",    c: false, m: "Missing the article needed for the noun phrase" }
+      ],
+      ok:  "✅ 'For a while' — after 'for', you always need the two-word noun phrase.",
+      no:  "❌ 'For awhile' = 'for for a time' — double 'for'! After the word 'for', always write two words: a while."
+    }
+  },
+  {
+    id: 'anymore',
+    cat: 'oneortwo',
+    label: '✂️ One or Two?',
+    title: "Anymore vs. Any More",
+    explanation: "<strong>Anymore</strong> (one word) is an adverb meaning <em>any longer</em> or <em>still</em> — it refers to time. <strong>Any more</strong> (two words) is an adjective phrase meaning <em>additional</em> — it refers to quantity or degree.",
+    rule: 'Anymore = time ("no longer"). Any more = quantity ("additional"). Time vs. quantity is the key.',
+    example: '"The king doesn\'t like banquets anymore (no longer)." / "He doesn\'t want any more onions (extra)."',
+    q: {
+      s: 'After ten chapters, the dragon decided he didn\'t want to study grammar _______ tonight.',
+      opts: [
+        { t: "anymore",  c: true },
+        { t: "any more", c: false, m: "Quantity phrase used where a time adverb is needed" },
+        { t: "any longer",c: false,m: "Correct meaning but tests the specific one-word form" },
+        { t: "ever",     c: false, m: "Changes the meaning too dramatically" }
+      ],
+      ok:  "✅ 'Anymore' = no longer (time). He's done studying for tonight — that's time, not quantity.",
+      no:  "❌ This is about time (no longer tonight), not quantity. Use the one-word time adverb: anymore."
+    }
+  },
+  {
+    id: 'allright',
+    cat: 'oneortwo',
+    label: '✂️ One or Two?',
+    title: "All Right vs. Alright",
+    explanation: "Standard English only recognises <strong>all right</strong> (two words). The Columbia Guide to Standard American English states: <em>All right is the only spelling Standard English recognises.</em> <em>Alright</em> is widespread in informal writing, but in academic and formal contexts, always use two words.",
+    rule: 'Formal or academic writing → always two words. All right — all right?',
+    example: '"Is everything all right in the royal kitchen?" asked the dragon politely.',
+    q: {
+      s: 'The dragon checked his grammar notes and decided everything was _______.',
+      opts: [
+        { t: "all right", c: true },
+        { t: "alright",   c: false, m: "Informal/non-standard spelling not accepted in Standard English" },
+        { t: "all-right", c: false, m: "Hyphenated form does not exist in any standard" },
+        { t: "fine",      c: false, m: "Valid synonym — tests the specific all right / alright question" }
+      ],
+      ok:  "✅ Two words: all right. Always the correct spelling in Standard English.",
+      no:  "❌ Although 'alright' is everywhere in informal writing, Standard English requires two words: all right."
+    }
+  },
+  {
+    id: 'amountquantity',
+    cat: 'meanings',
+    label: '🎯 Subtle Meaning',
+    title: "Amount / Quantity / Number",
+    explanation: "<strong>Amount of</strong> precedes uncountable or abstract things (love, chaos, silence). <strong>Quantity of</strong> is used with countable or measurable <em>inanimate</em> things (gold, coins). <strong>Number of</strong> is used with countable plural things — animate or inanimate (villagers, books, problems).",
+    rule: 'Uncountable/abstract → amount. Measurable inanimate → quantity. Countable plural → number.',
+    example: '"A great amount of pride." / "A large quantity of gold." / "A number of villagers."',
+    q: {
+      s: 'The dragon felt a tremendous _______ of pride after solving the grammar riddle.',
+      opts: [
+        { t: "amount",   c: true },
+        { t: "quantity", c: false, m: "Used for measurable, physical, inanimate things" },
+        { t: "number",   c: false, m: "Used for countable plural things" },
+        { t: "deal",     c: false, m: "'A great deal of' is valid but tests the specific three-way set" }
+      ],
+      ok:  "✅ 'Pride' is abstract and uncountable — amount is exactly right.",
+      no:  "❌ You can't count or weigh pride — it's abstract. Abstract uncountable things → amount."
+    }
+  },
+  {
+    id: 'betweenamong',
+    cat: 'meanings',
+    label: '🎯 Subtle Meaning',
+    title: "Between vs. Among",
+    explanation: "<strong>Between</strong> is used when people or things are separate and distinct — even if there are three or more, as long as each is individual. <strong>Among</strong> is used when talking about a group whose members are not being treated individually.",
+    rule: 'Distinct individuals (even 3+) → between. Undifferentiated group → among.',
+    example: '"Differences between a dragon, a horse, and a unicorn." / "He moved among the crowd."',
+    q: {
+      s: 'The treasure was divided equally _______ the three dragon siblings.',
+      opts: [
+        { t: "between",  c: true },
+        { t: "among",    c: false, m: "Group preposition used where distinct individuals exist" },
+        { t: "amongst",  c: false, m: "Old-fashioned literary form of 'among'" },
+        { t: "within",   c: false, m: "Different preposition with an entirely different meaning" }
+      ],
+      ok:  "✅ Three distinct siblings each receiving a specific share → between, even with three!",
+      no:  "❌ Each sibling is a distinct individual receiving a specific share. That means between — even with three."
+    }
+  },
+  {
+    id: 'borrowlend',
+    cat: 'meanings',
+    label: '🎯 Subtle Meaning',
+    title: "Borrow vs. Lend",
+    explanation: "<strong>Borrow</strong> means to take something temporarily — the item moves <em>toward</em> you. <strong>Lend</strong> means to give something temporarily — the item moves <em>away</em> from you. A classic error: 'Can you borrow me a pen?' — you can't borrow someone else's pen; only they can lend it to you.",
+    rule: 'Borrow = take (from). Lend = give (to). Think about the direction of movement.',
+    example: '"May I borrow your armour polish?" / "I can lend you my grammar book until Friday."',
+    q: {
+      s: 'Could you _______ me your dragon-speaking dictionary until Friday?',
+      opts: [
+        { t: "lend",   c: true },
+        { t: "borrow", c: false, m: "Confuses direction — the borrower takes, the lender gives" },
+        { t: "loan",   c: false, m: "More formal, typically reserved for money or banks" },
+        { t: "give",   c: false, m: "Implies a permanent transfer, not a temporary loan" }
+      ],
+      ok:  "✅ You're asking them to give it to you temporarily — that's lend. You would then be the borrower.",
+      no:  "❌ Think about direction: you want them to give (lend) it to you. You would be the one borrowing."
+    }
+  },
+  {
+    id: 'eitherneither',
+    cat: 'meanings',
+    label: '🎯 Subtle Meaning',
+    title: "Either vs. Neither",
+    explanation: "<strong>Either</strong> means 'one of two' and always pairs with <em>or</em>. <strong>Neither</strong> means 'not one, not the other' and always pairs with <em>nor</em>. When the two subjects are singular, the verb is singular. If one subject is plural, the verb matches the nearest subject.",
+    rule: 'Either...or / Neither...nor. They always travel in pairs — never mix them!',
+    example: '"Either the dragon or the magician is coming." / "Neither the dragon nor the magician is coming."',
+    q: {
+      s: '_______ the dragon nor the magician could solve the grammar riddle.',
+      opts: [
+        { t: "Neither", c: true },
+        { t: "Either",  c: false, m: "'Either' pairs with 'or', never with 'nor'" },
+        { t: "Both",    c: false, m: "Means they both did it — the opposite of the intended meaning" },
+        { t: "None",    c: false, m: "Not used in this grammatical construction" }
+      ],
+      ok:  "✅ Neither...nor — they're a classic pair. 'Nor' in the sentence is the giveaway!",
+      no:  "❌ 'Nor' is the clue. Nor always follows neither — never either."
+    }
+  },
+  {
+    id: 'laylie',
+    cat: 'verbs',
+    label: '⚡ Verb Trap',
+    title: "Lay vs. Lie",
+    explanation: "<strong>Lie</strong> (lie, lay, lain) is something you do to yourself — <em>you lie down</em>. It never takes a direct object. <strong>Lay</strong> (lay, laid, laid) is something you do to something else — <em>you lay the book down</em>. The big trap: the past tense of <em>lie</em> is <em>lay</em>, which causes constant confusion.",
+    rule: 'Lie = action on yourself (no direct object). Lay = action on something else (needs an object).',
+    example: '"I lie down." (no object) / "Yesterday I lay down." / "I lay the scroll on the table." (object: scroll)',
+    q: {
+      s: 'After a long day of grammar lessons, the dragon decided to _______ down for a nap.',
+      opts: [
+        { t: "lie",  c: true },
+        { t: "lay",  c: false, m: "Transitive verb used without a direct object" },
+        { t: "lain", c: false, m: "Past participle used in place of the present infinitive" },
+        { t: "laid", c: false, m: "Past tense of 'lay' — wrong tense and wrong verb" }
+      ],
+      ok:  "✅ The dragon acts on itself — no object. No object → lie. (The past tense of this 'lie' would be 'lay'.)",
+      no:  "❌ The dragon is reclining itself (no object). That makes it lie. Lay would need an object: 'lay the scroll down.'"
+    }
+  },
+  {
+    id: 'waswere',
+    cat: 'verbs',
+    label: '⚡ Verb Trap',
+    title: "Was vs. Were",
+    explanation: "<strong>Was</strong> describes something that really happened in the past. <strong>Were</strong> is used in hypothetical or wishful situations — whenever a sentence uses <em>if</em>, <em>wish</em>, or <em>as if</em> to describe something imaginary. This special use of <em>were</em> is called the <em>subjunctive mood</em>.",
+    rule: 'Real past → was. Hypothetical / wish / if → were (the subjunctive mood).',
+    example: '"Yesterday I was exhausted." / "If I were king, I would ban grammar tests immediately."',
+    q: {
+      s: 'If I _______ the dragon, I would know exactly how to breathe fire correctly.',
+      opts: [
+        { t: "were",     c: true },
+        { t: "was",      c: false, m: "Past factual form used in a hypothetical if-clause" },
+        { t: "am",       c: false, m: "Present tense in a past hypothetical context" },
+        { t: "would be", c: false, m: "Belongs in the result clause, not the if-clause" }
+      ],
+      ok:  "✅ Hypothetical ('I'm not actually the dragon') → always were in an if-clause. That's the subjunctive!",
+      no:  "❌ 'If I were...' is hypothetical — you're not really the dragon. Hypothetical if-clauses → always were."
+    }
+  },
+  {
+    id: 'theresare',
+    cat: 'verbs',
+    label: '⚡ Verb Trap',
+    title: "There's vs. There Are",
+    explanation: "<strong>There's</strong> is a contraction of <em>there is</em> — use it only before a <em>singular</em> subject. <strong>There are</strong> is used before a <em>plural</em> subject. In informal speech people often say <em>there's</em> for everything, but in writing, match the verb to the noun that follows.",
+    rule: 'The verb agrees with the noun after it, not with the word "there."',
+    example: '"There\'s chaos in the kitchen!" / "There are three chefs arguing about onions."',
+    q: {
+      s: '_______ fifteen tricky grammar rules waiting for you on this page!',
+      opts: [
+        { t: "There are", c: true },
+        { t: "There's",   c: false, m: "Singular contraction used before a plural noun" },
+        { t: "There is",  c: false, m: "Singular form used before a plural noun" },
+        { t: "Their are", c: false, m: "Possessive 'their' confused with existential 'there'" }
+      ],
+      ok:  "✅ Fifteen rules is plural. Plural noun → There are. The verb matches what comes after it.",
+      no:  "❌ 'Fifteen rules' is plural. The verb must agree with it: there are (not there's or there is)."
+    }
+  }
+];
+
+// ===================================================================
+//  STATE
+// ===================================================================
+let gemsEarned = 0, correct = 0, attempted = 0;
+
+const dragonQuips = [
+  "Grammar is my hoard! 💎",
+  "Apostrophes: serious business.",
+  "I ate a dictionary once. Tasted like 'affect'.",
+  "Keep going — you're doing splendidly!",
+  "Lay vs. lie haunts my dreams.",
+  "The dragon approves. Mostly.",
+  "Either/or. Neither/nor. Always.",
+  "If I were better at this, I'd be a scholar dragon.",
+  "'Alright' is not all right.",
+  "One gem at a time, dear knight!",
+  "You're doing rather well, aren't you?",
+  "Their, there, they're... sigh.",
+  "I've collected 40 grammar books. And seven knights.",
+];
+let quipIdx = 0;
+
+// ===================================================================
+//  UTILITIES
+// ===================================================================
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function updateScores() {
+  document.getElementById('gem-count').textContent = gemsEarned;
+  document.getElementById('sc-correct').textContent = correct;
+  document.getElementById('sc-attempted').textContent = attempted;
+  document.getElementById('sc-remaining').textContent = 15 - attempted;
+}
+
+function spawnGem(el) {
+  const rect = el.getBoundingClientRect();
+  const g = document.createElement('div');
+  g.className = 'gem-float';
+  g.textContent = '💎';
+  g.style.cssText = `left:${rect.left + rect.width / 2 - 14}px;top:${rect.top - 10}px;`;
+  document.body.appendChild(g);
+  setTimeout(() => g.remove(), 1050);
+}
+
+// ===================================================================
+//  DRAGON STATES
+// ===================================================================
+function setDragonState(state) {
+  const mn = document.getElementById('mouth-neutral');
+  const mh = document.getElementById('mouth-happy');
+  const ms = document.getElementById('mouth-sad');
+  const bw = document.getElementById('brows-worried');
+  const sp = document.getElementById('sparkles');
+  [mn, mh, ms, bw, sp].forEach(el => el.style.display = 'none');
+  if (state === 'happy')   { mh.style.display = ''; sp.style.display = ''; }
+  else if (state === 'sad') { ms.style.display = ''; bw.style.display = ''; }
+  else { mn.style.display = ''; }
+}
+
+function dragonSpeak() {
+  const bubble = document.getElementById('bubble');
+  bubble.textContent = dragonQuips[quipIdx++ % dragonQuips.length];
+  bubble.classList.add('show');
+  clearTimeout(dragonSpeak._timer);
+  dragonSpeak._timer = setTimeout(() => bubble.classList.remove('show'), 3200);
+}
+
+// ===================================================================
+//  RENDER CARDS (once on init)
+// ===================================================================
+function renderCards() {
+  const grid = document.getElementById('cards-grid');
+  grid.innerHTML = '';
+
+  errorPairs.forEach(pair => {
+    const shuffledOpts = shuffle(pair.q.opts);
+
+    const card = document.createElement('div');
+    card.className = 'error-card';
+    card.dataset.cat = pair.cat;
+    card.dataset.id  = pair.id;
+
+    const optsHTML = shuffledOpts.map((opt, i) =>
+      `<button class="opt" data-pair="${pair.id}" data-correct="${opt.c}" data-idx="${i}">
+        <span class="opt-dot"></span>${opt.t}
+      </button>`
+    ).join('');
+
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="cat-tag">${pair.label}</div>
+        <div class="card-title">${pair.title}</div>
+      </div>
+      <div class="card-body">
+        <div class="explanation">${pair.explanation}</div>
+        <div class="key-rule">🔑 ${pair.rule}</div>
+        <div class="dragon-example"><span>🐉</span><em>${pair.example}</em></div>
+        <div class="quiz-section">
+          <div class="quiz-q">Quick Check</div>
+          <div class="quiz-sentence">${pair.q.s}</div>
+          <div class="options">${optsHTML}</div>
+          <div class="feedback" id="fb-${pair.id}"></div>
+        </div>
+      </div>`;
+
+    grid.appendChild(card);
+  });
+
+  // Attach quiz handlers
+  document.querySelectorAll('.opt').forEach(btn =>
+    btn.addEventListener('click', handleAnswer)
+  );
+}
+
+// ===================================================================
+//  ANSWER HANDLER
+// ===================================================================
+function handleAnswer(e) {
+  const btn    = e.currentTarget;
+  const pairId = btn.dataset.pair;
+  const isOk   = btn.dataset.correct === 'true';
+  const card   = btn.closest('.error-card');
+
+  // Prevent double-answering
+  if (card.dataset.answered) return;
+  card.dataset.answered = '1';
+
+  const allOpts = card.querySelectorAll('.opt');
+  const fb      = document.getElementById('fb-' + pairId);
+  const pair    = errorPairs.find(p => p.id === pairId);
+
+  // Disable all buttons and reveal answers
+  allOpts.forEach(b => {
+    b.disabled = true;
+    if (b.dataset.correct === 'true') b.classList.add(isOk && b === btn ? 'correct' : 'reveal');
+  });
+
+  attempted++;
+
+  if (isOk) {
+    btn.classList.add('correct');
+    fb.textContent = pair.q.ok;
+    fb.className   = 'feedback correct';
+    correct++;
+    gemsEarned++;
+    updateScores();
+    spawnGem(btn);
+    setDragonState('happy');
+    card.classList.add('card-flash');
+    setTimeout(() => { setDragonState('neutral'); card.classList.remove('card-flash'); }, 2600);
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = pair.q.no;
+    fb.className   = 'feedback wrong';
+    updateScores();
+    setDragonState('sad');
+    setTimeout(() => setDragonState('neutral'), 2200);
+  }
+}
+
+// ===================================================================
+//  FILTER BUTTONS
+// ===================================================================
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.cat;
+    document.querySelectorAll('.error-card').forEach(card => {
+      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+    });
+  });
+});
+
+// ===================================================================
+//  INIT
+// ===================================================================
+renderCards();
+updateScores();
+
+// Intro bubble
+setTimeout(() => {
+  const bubble = document.getElementById('bubble');
+  bubble.classList.add('show');
+  setTimeout(() => bubble.classList.remove('show'), 4500);
+}, 1200);
+</script>
+</body>
+</html>
