@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dragon's Grammar Series 🐉</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --surface: #FFFFFF;
+      --text:    #2A2A2A;
+      --muted:   #6B7280;
+      --border:  #E3DDD5;
+      --coral:   #D94F4F; --coral-bg:  #FFF0EF;
+      --teal:    #1FA89B; --teal-bg:   #E6F6F5;
+      --amber:   #C96D20; --amber-bg:  #FEF3EA;
+      --violet:  #6F4BB5; --violet-bg: #F0EBF9;
+      --blue:    #2B6CB8; --blue-bg:   #E7F0FB;
+      --forest:  #1D7A5A; --forest-bg: #E2F3EC;
+      --gold:    #E8AA30;
+      --nav:     #1B3A2E;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', sans-serif; color: var(--text); line-height: 1.6; background: #FDFAF4; transition: background 0.35s ease; }
+
+    /* ============================================================
+       TAB NAV
+       To add a tab: add to NAV_TABS in <script> (with tabId + label),
+       then add a <div id="tabId" class="tab-section"> below.
+       Disabled tabs need no content section.
+    ============================================================ */
+    .tab-nav {
+      background: var(--nav);
+      padding: 0.45rem 1rem;
+      overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      position: sticky; top: 0; z-index: 50;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .tab-nav::-webkit-scrollbar { display: none; }
+    .tab-list { display: flex; gap: 0.3rem; min-width: max-content; padding: 0.2rem 0; }
+    .tab-btn {
+      font-family: 'Nunito', sans-serif; font-size: 0.83rem; font-weight: 700;
+      padding: 0.38rem 0.95rem; border-radius: 50px; border: none; cursor: pointer;
+      white-space: nowrap; transition: all 0.16s; line-height: 1.4;
+      background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.75);
+    }
+    .tab-btn:hover:not(.tab-disabled):not(.tab-active) { background: rgba(255,255,255,0.22); color: #fff; }
+    .tab-btn.tab-active   { background: #fff; color: var(--nav); }
+    .tab-btn.tab-disabled { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.28); cursor: default; font-style: italic; }
+
+    /* ============================================================ HEADER */
+    header {
+      background: linear-gradient(150deg, #1B3A2E 0%, #2D5A40 55%, #1A3828 100%);
+      color: #fff; text-align: center; padding: 1.9rem 1.5rem 2.6rem;
+      position: relative; overflow: hidden;
+    }
+    header::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%235DBF78' fill-opacity='0.07'%3E%3Cpath d='M26 4l4 8h-8l4-8zM4 26l8 4v-8L4 26zM48 26l-8-4v8l8-4zM26 48l-4-8h8l-4 8z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    header::after {
+      content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+      height: 34px; clip-path: ellipse(55% 100% at 50% 100%);
+      background: #FDFAF4; transition: background 0.35s ease;
+    }
+    .h-icon { font-size: 2.7rem; display: inline-block; position: relative; margin-bottom: 0.2rem; transition: all 0.3s; }
+    .h-icon.float { animation: dragonFloat 3.2s ease-in-out infinite; }
+    @keyframes dragonFloat { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-8px) rotate(3deg); } }
+    header h1 { font-family: 'Baloo 2', sans-serif; font-size: clamp(1.7rem,4.5vw,2.8rem); font-weight: 800; position: relative; transition: opacity 0.2s; }
+    header p  { opacity: .78; margin-top: .35rem; font-size: .97rem; position: relative; }
+    .gem-pill {
+      display: inline-flex; align-items: center; gap: .55rem;
+      background: rgba(232,170,48,.15); border: 2px solid rgba(232,170,48,.5);
+      border-radius: 50px; padding: .38rem 1.1rem; margin-top: 1rem;
+      font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 1rem; color: var(--gold); position: relative;
+    }
+
+    /* ============================================================ TAB SECTIONS */
+    .tab-section { display: none; }
+    .tab-section.active { display: block; }
+
+    /* ============================================================ SHARED SCORE BAR */
+    .score-bar {
+      display: flex; justify-content: center; gap: 2.5rem;
+      padding: 1.1rem 1.5rem; background: #fff; border-radius: 16px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.06); margin-bottom: 2rem; flex-wrap: wrap;
+    }
+    .score-stat { text-align: center; }
+    .score-num   { font-family: 'Baloo 2', sans-serif; font-size: 1.8rem; font-weight: 800; line-height: 1; }
+    .score-label { font-size: .74rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+
+    /* ============================================================ GRAMMAR HOARD */
+    #tab-hoard main { max-width: 1120px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+
+    .filter-bar { display: flex; gap: .55rem; flex-wrap: wrap; margin-bottom: 1.75rem; align-items: center; }
+    .filter-label { font-size: .82rem; font-weight: 700; color: var(--muted); margin-right: .2rem; }
+    .filter-btn {
+      font-family: 'Nunito', sans-serif; font-weight: 700; font-size: .82rem;
+      padding: .4rem 1rem; border-radius: 50px; border: 2px solid currentColor;
+      cursor: pointer; background: transparent; transition: all .16s; line-height: 1.4;
+    }
+    .filter-btn[data-cat="all"]        { color: var(--text); }
+    .filter-btn[data-cat="homophones"] { color: var(--coral); }
+    .filter-btn[data-cat="oneortwo"]   { color: var(--teal); }
+    .filter-btn[data-cat="meanings"]   { color: var(--amber); }
+    .filter-btn[data-cat="verbs"]      { color: var(--violet); }
+    .filter-btn.active,.filter-btn:hover { color: #fff !important; }
+    .filter-btn[data-cat="all"].active,        .filter-btn[data-cat="all"]:hover        { background: var(--text);   border-color: var(--text); }
+    .filter-btn[data-cat="homophones"].active,  .filter-btn[data-cat="homophones"]:hover { background: var(--coral);  border-color: var(--coral); }
+    .filter-btn[data-cat="oneortwo"].active,    .filter-btn[data-cat="oneortwo"]:hover   { background: var(--teal);   border-color: var(--teal); }
+    .filter-btn[data-cat="meanings"].active,    .filter-btn[data-cat="meanings"]:hover   { background: var(--amber);  border-color: var(--amber); }
+    .filter-btn[data-cat="verbs"].active,       .filter-btn[data-cat="verbs"]:hover      { background: var(--violet); border-color: var(--violet); }
+
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap: 1.5rem; }
+
+    .error-card {
+      background: #fff; border-radius: 18px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07); overflow: hidden;
+      transition: transform .2s, box-shadow .2s; display: flex; flex-direction: column;
+    }
+    .error-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,.11); }
+    .error-card[data-cat="homophones"] { border-top: 4px solid var(--coral); }
+    .error-card[data-cat="oneortwo"]   { border-top: 4px solid var(--teal); }
+    .error-card[data-cat="meanings"]   { border-top: 4px solid var(--amber); }
+    .error-card[data-cat="verbs"]      { border-top: 4px solid var(--violet); }
+
+    .card-header { padding: 1.2rem 1.4rem .8rem; }
+    .cat-tag { display: inline-block; font-size: .7rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; padding: .18rem .6rem; border-radius: 50px; margin-bottom: .4rem; }
+    [data-cat="homophones"] .cat-tag { background: var(--coral-bg);  color: var(--coral); }
+    [data-cat="oneortwo"]   .cat-tag { background: var(--teal-bg);   color: var(--teal); }
+    [data-cat="meanings"]   .cat-tag { background: var(--amber-bg);  color: var(--amber); }
+    [data-cat="verbs"]      .cat-tag { background: var(--violet-bg); color: var(--violet); }
+
+    .card-title { font-family: 'Baloo 2', sans-serif; font-size: 1.35rem; font-weight: 700; line-height: 1.2; }
+    .card-body  { padding: 0 1.4rem 1.3rem; flex: 1; display: flex; flex-direction: column; }
+    .explanation { font-size: .91rem; line-height: 1.65; margin-bottom: .85rem; }
+
+    .key-rule { border-radius: 10px; padding: .6rem .9rem; margin-bottom: .85rem; font-size: .87rem; font-weight: 700; line-height: 1.4; }
+    [data-cat="homophones"] .key-rule { background: var(--coral-bg);  color: #9A2828; }
+    [data-cat="oneortwo"]   .key-rule { background: var(--teal-bg);   color: #136660; }
+    [data-cat="meanings"]   .key-rule { background: var(--amber-bg);  color: #8A4510; }
+    [data-cat="verbs"]      .key-rule { background: var(--violet-bg); color: #4A2A85; }
+
+    .dragon-eg { background: #F7F3EB; border-radius: 10px; padding: .7rem .9rem; margin-bottom: 1rem; font-size: .87rem; display: flex; gap: .55rem; align-items: flex-start; }
+    .dragon-eg em { font-style: italic; line-height: 1.55; }
+
+    .quiz-sec  { border-top: 1.5px dashed var(--border); padding-top: 1rem; margin-top: auto; }
+    .quiz-lbl  { font-size: .75rem; font-weight: 800; color: var(--muted); letter-spacing: .07em; text-transform: uppercase; margin-bottom: .45rem; }
+    .quiz-sent { font-size: .97rem; font-style: italic; margin-bottom: .7rem; line-height: 1.5; }
+    .opts      { display: flex; flex-direction: column; gap: .38rem; margin-bottom: .55rem; }
+
+    .opt {
+      font-family: 'Nunito', sans-serif; font-size: .89rem; font-weight: 600;
+      text-align: left; padding: .5rem .85rem; border-radius: 9px;
+      border: 2px solid var(--border); background: #fff; cursor: pointer;
+      transition: all .15s; color: var(--text); display: flex; align-items: center; gap: .5rem;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+    .opt:hover:not(:disabled) { border-color: #AAA; background: #F5F5F5; }
+    .opt.correct            { border-color: #22C55E; background: #F0FDF4; color: #15803D; }
+    .opt.correct .dot       { background: #22C55E; }
+    .opt.wrong              { border-color: #EF4444; background: #FEF2F2; color: #991B1B; }
+    .opt.wrong .dot         { background: #EF4444; }
+    .opt.reveal             { border-color: #22C55E; background: #F0FDF4; color: #15803D; opacity: .65; }
+    .opt.reveal .dot        { background: #22C55E; }
+    .h-fb       { font-size: .85rem; font-weight: 700; min-height: 1.3em; }
+    .h-fb.ok    { color: #15803D; }
+    .h-fb.err   { color: #991B1B; }
+
+    /* ============================================================ SENTENCE SENSE */
+    #tab-sense main { max-width: 780px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+
+    .sec-hd   { display: flex; align-items: center; gap: .9rem; margin-bottom: .6rem; }
+    .sec-icon { font-size: 1.9rem; flex-shrink: 0; }
+    .sec-title { font-family: 'Baloo 2', sans-serif; font-size: 1.65rem; font-weight: 800; }
+    .sec-title.blue   { color: var(--blue); }
+    .sec-title.forest { color: var(--forest); }
+
+    .rule-card { border-radius: 13px; padding: .9rem 1.1rem; margin-bottom: 1.5rem; font-size: .9rem; line-height: 1.65; }
+    .rule-card.blue   { background: var(--blue-bg);   border-left: 4px solid var(--blue); }
+    .rule-card.forest { background: var(--forest-bg); border-left: 4px solid var(--forest); }
+    .rule-card strong { font-weight: 800; }
+
+    .q-card {
+      background: #fff; border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06); margin-bottom: 1rem;
+      overflow: hidden; transition: box-shadow .2s;
+    }
+    .q-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.09); }
+    .q-card.bl { border-left: 4px solid var(--blue); }
+    .q-card.fo { border-left: 4px solid var(--forest); }
+
+    .q-num  { font-size: .71rem; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); padding: .85rem 1.3rem 0; }
+    .q-sent { padding: .45rem 1.3rem .9rem; font-size: 1.05rem; font-style: italic; line-height: 2; }
+
+    .cg {
+      display: inline-flex; align-items: stretch;
+      border: 2px solid var(--border); border-radius: 8px; overflow: hidden;
+      vertical-align: middle; margin: 0 2px; font-style: normal;
+    }
+    .cb {
+      font-family: 'Nunito', sans-serif; font-size: .88rem; font-weight: 800;
+      padding: .18rem .62rem; border: none; background: #fff; cursor: pointer;
+      color: var(--text); transition: background .13s; line-height: 1.5;
+    }
+    .cb:hover:not(:disabled) { background: #EEF3F8; }
+    .cs { width: 1.5px; background: var(--border); flex-shrink: 0; }
+    .cb.ok   { background: #DCFCE7; color: #15803D; }
+    .cb.err  { background: #FEE2E2; color: #991B1B; text-decoration: line-through; }
+    .cb.rev  { background: #DCFCE7; color: #15803D; opacity: .7; }
+
+    .clause {
+      background: rgba(29,122,90,.13); border-radius: 4px; padding: 0 3px; transition: all .35s ease;
+    }
+    .clause.off { background: transparent; color: var(--muted); text-decoration: line-through; opacity: .35; }
+
+    .test-btn {
+      font-family: 'Nunito', sans-serif; font-size: .78rem; font-weight: 700; font-style: normal;
+      background: var(--forest-bg); border: 1.5px solid var(--forest); color: var(--forest);
+      border-radius: 50px; padding: .22rem .7rem; cursor: pointer;
+      margin-left: .4rem; vertical-align: middle; transition: all .14s; display: inline-block;
+    }
+    .test-btn:hover, .test-btn.on { background: var(--forest); color: #fff; }
+
+    .wc-box {
+      margin: 0 1.3rem .7rem; background: #F3FAF7;
+      border: 1.5px dashed var(--forest); border-radius: 9px;
+      padding: .55rem .85rem; font-size: .85rem; font-style: italic;
+      color: var(--forest); display: none; line-height: 1.5;
+    }
+    .wc-box.show { display: block; }
+
+    .exp-pan { max-height: 0; overflow: hidden; transition: max-height .4s ease; padding: 0 1.3rem; }
+    .exp-pan.open { max-height: 280px; padding: 0 1.3rem 1.1rem; }
+    .exp-in  { border-radius: 10px; padding: .75rem 1rem; font-size: .9rem; line-height: 1.65; }
+    .exp-in.ok  { background: #F0FDF4; border-left: 3px solid #22C55E; }
+    .exp-in.err { background: #FEF2F2; border-left: 3px solid #EF4444; }
+    .exp-res { font-weight: 800; margin-bottom: .3rem; font-size: .95rem; }
+    .exp-res.ok  { color: #15803D; }
+    .exp-res.err { color: #991B1B; }
+
+    .ch-break { display: flex; align-items: center; gap: 1rem; margin: 3rem 0 2rem; }
+    .ch-line  { flex: 1; height: 2px; background: linear-gradient(to right, transparent, var(--border), transparent); }
+    .ch-drag  { font-size: 2.2rem; animation: dragPulse 2.8s ease-in-out infinite; }
+    @keyframes dragPulse { 0%,100% { transform: scale(1) rotate(-3deg); } 50% { transform: scale(1.1) rotate(3deg); } }
+
+    /* ============================================================ MASCOT */
+    .mascot { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100; cursor: pointer; user-select: none; }
+    .mascot svg { width: 72px; height: 72px; transition: transform .3s; filter: drop-shadow(0 4px 14px rgba(0,0,0,.22)); display: block; }
+    .mascot:hover svg { transform: scale(1.12) rotate(-8deg); }
+    .bubble {
+      position: absolute; bottom: calc(100% + 12px); right: 0;
+      background: #fff; border-radius: 14px; padding: .6rem .85rem;
+      box-shadow: 0 4px 18px rgba(0,0,0,.13); font-size: .83rem; font-weight: 700;
+      max-width: 185px; line-height: 1.45; opacity: 0; pointer-events: none; color: var(--text);
+      transform: translateY(8px) scale(.95); transition: all .22s ease;
+    }
+    .bubble::after { content: ''; position: absolute; top: 100%; right: 20px; border: 7px solid transparent; border-top-color: #fff; }
+    .bubble.show   { opacity: 1; transform: translateY(0) scale(1); }
+
+    /* ============================================================ ANIMATIONS */
+    @keyframes floatUp { 0% { opacity:1; transform:translateY(0) scale(1); } 100% { opacity:0; transform:translateY(-75px) scale(1.4); } }
+    .gem-float { position: fixed; font-size: 1.5rem; pointer-events: none; z-index: 999; animation: floatUp .9s ease-out forwards; }
+    @keyframes cPulse { 0%,100% { box-shadow:0 2px 12px rgba(0,0,0,.07); } 50% { box-shadow:0 0 0 5px rgba(34,197,94,.3); } }
+    .card-flash { animation: cPulse .5s ease; }
+
+    @media (max-width: 600px) {
+      .cards-grid { grid-template-columns: 1fr; }
+      .mascot svg { width: 58px; height: 58px; }
+      .mascot { bottom: 1rem; right: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TAB NAV -->
+<nav class="tab-nav"><div class="tab-list" id="tab-list"></div></nav>
+
+<!-- HEADER -->
+<header>
+  <div><span class="h-icon float" id="h-icon">🐉</span></div>
+  <h1 id="h-title">Dragon's Grammar Hoard</h1>
+  <p id="h-sub">Master the trickiest word pairs — fill the hoard with gems!</p>
+  <div class="gem-pill">💎 <span id="gem-count">0</span><span style="font-size:.8rem;opacity:.68;font-weight:500">/ 15 gems</span></div>
+</header>
+
+<!-- ============================================================ TAB 1: GRAMMAR HOARD -->
+<div id="tab-hoard" class="tab-section active">
+  <main>
+    <div class="score-bar">
+      <div class="score-stat"><div class="score-num" id="h-c" style="color:#22C55E">0</div><div class="score-label">Correct ✓</div></div>
+      <div class="score-stat"><div class="score-num" id="h-a" style="color:var(--muted)">0</div><div class="score-label">Attempted</div></div>
+      <div class="score-stat"><div class="score-num" id="h-r" style="color:var(--gold)">15</div><div class="score-label">Remaining</div></div>
+    </div>
+    <div class="filter-bar">
+      <span class="filter-label">Show:</span>
+      <button class="filter-btn active" data-cat="all">All (15)</button>
+      <button class="filter-btn" data-cat="homophones">🔤 Sound-alikes (5)</button>
+      <button class="filter-btn" data-cat="oneortwo">✂️ One or Two? (3)</button>
+      <button class="filter-btn" data-cat="meanings">🎯 Subtle Meanings (4)</button>
+      <button class="filter-btn" data-cat="verbs">⚡ Verb Traps (3)</button>
+    </div>
+    <div class="cards-grid" id="h-grid"></div>
+  </main>
+</div>
+
+<!-- ============================================================ TAB 2: SENTENCE SENSE -->
+<div id="tab-sense" class="tab-section">
+  <main>
+    <div class="score-bar">
+      <div class="score-stat"><div class="score-num" id="s-c" style="color:#22C55E">0</div><div class="score-label">Correct ✓</div></div>
+      <div class="score-stat"><div class="score-num" id="s-a" style="color:var(--muted)">0</div><div class="score-label">Attempted</div></div>
+      <div class="score-stat"><div class="score-num" id="s-r" style="color:var(--gold)">15</div><div class="score-label">Remaining</div></div>
+    </div>
+    <div class="sec-hd" style="margin-top:.3rem">
+      <span class="sec-icon">🔎</span><h2 class="sec-title blue">Is, Are, Do, Does</h2>
+    </div>
+    <div class="rule-card blue">
+      The verb must agree with the <strong>subject</strong> — not the nearest noun. Ignore phrases beginning with <em>of</em>, <em>as well as</em>, or <em>along with</em>. Then ask: <strong>singular or plural?</strong><br>
+      Special cases: <em>-ics</em> words (economics, mathematics) are singular. Gerund phrases ("Playing chess") count as one subject. With <em>either/or</em> and <em>neither/nor</em>: if one element is plural, the verb is plural.
+    </div>
+    <div id="s1-grid"></div>
+    <div class="ch-break"><div class="ch-line"></div><span class="ch-drag">🐉</span><div class="ch-line"></div></div>
+    <div class="sec-hd">
+      <span class="sec-icon">✂️</span><h2 class="sec-title forest">Which or That?</h2>
+    </div>
+    <div class="rule-card forest">
+      If the <span style="background:rgba(29,122,90,.13);border-radius:3px;padding:0 3px">highlighted clause</span> is <strong>necessary</strong> for the sentence → use <strong>that</strong> (no comma). If it is <strong>extra information</strong> that can be removed without changing the meaning → use <strong>which</strong> (with a comma). Click <em>🔍 Test it</em> to remove the clause and check!
+    </div>
+    <div id="s2-grid"></div>
+  </main>
+</div>
+
+<!-- ============================================================ DRAGON MASCOT -->
+<div class="mascot" onclick="dragonSpeak()">
+  <div class="bubble" id="bubble">I'm Grimsworth. Happy studying!</div>
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="17" cy="70" rx="17" ry="9" fill="#47A362" transform="rotate(-28 17 70)" opacity=".88"/>
+    <ellipse cx="83" cy="70" rx="17" ry="9" fill="#47A362" transform="rotate(28 83 70)" opacity=".88"/>
+    <ellipse cx="50" cy="73" rx="27" ry="18" fill="#5DBF78"/>
+    <ellipse cx="50" cy="76" rx="17" ry="11" fill="#7DDA95" opacity=".55"/>
+    <ellipse cx="50" cy="55" rx="14" ry="9" fill="#5DBF78"/>
+    <circle cx="50" cy="38" r="24" fill="#68CC86"/>
+    <polygon points="38,17 31,1 44,13" fill="#F4B942"/>
+    <polygon points="62,17 56,1 69,13" fill="#F4B942"/>
+    <polygon points="38,17 31,1 35,14" fill="#D4941A" opacity=".38"/>
+    <polygon points="62,17 56,1 60,14" fill="#D4941A" opacity=".38"/>
+    <circle cx="32" cy="44" r="7" fill="#8EE6A6" opacity=".5"/>
+    <circle cx="68" cy="44" r="7" fill="#8EE6A6" opacity=".5"/>
+    <circle cx="41" cy="34" r="8" fill="white"/>
+    <circle cx="59" cy="34" r="8" fill="white"/>
+    <circle cx="42" cy="35" r="4.8" fill="#2A2A2A"/>
+    <circle cx="60" cy="35" r="4.8" fill="#2A2A2A"/>
+    <circle cx="44" cy="32.5" r="2" fill="white"/>
+    <circle cx="62" cy="32.5" r="2" fill="white"/>
+    <ellipse cx="46" cy="44" rx="2.2" ry="1.6" fill="#47A362"/>
+    <ellipse cx="54" cy="44" rx="2.2" ry="1.6" fill="#47A362"/>
+    <g id="mn"><path d="M 42 51 Q 50 57 58 51" stroke="#2A2A2A" stroke-width="2.3" fill="none" stroke-linecap="round"/></g>
+    <g id="mh" style="display:none"><path d="M 39 50 Q 50 63 61 50" stroke="#2A2A2A" stroke-width="2" stroke-linecap="round" fill="#FF8A80"/><ellipse cx="50" cy="55" rx="7.5" ry="5" fill="#FF8A80"/><path d="M 43 51 L 57 51" stroke="#2A2A2A" stroke-width="1.4"/></g>
+    <g id="ms" style="display:none"><path d="M 42 55 Q 50 50 58 55" stroke="#2A2A2A" stroke-width="2.3" fill="none" stroke-linecap="round"/></g>
+    <g id="bw" style="display:none">
+      <path d="M 34 27 Q 41 22 47 27" stroke="#2A2A2A" stroke-width="2.3" fill="none" stroke-linecap="round"/>
+      <path d="M 53 27 Q 59 22 66 27" stroke="#2A2A2A" stroke-width="2.3" fill="none" stroke-linecap="round"/>
+    </g>
+    <g id="sp" style="display:none">
+      <text x="8" y="22" font-size="11" font-family="sans-serif">✨</text>
+      <text x="76" y="18" font-size="9" font-family="sans-serif">⭐</text>
+    </g>
+  </svg>
+</div>
+
+<script>
+// ================================================================
+//  TAB CONFIGURATION
+//  Add a new content tab:
+//    1. Add { label, tabId } to NAV_TABS
+//    2. Add <div id="tabId" class="tab-section"> in HTML above
+//  Placeholder: just set disabled: true (no HTML section needed)
+// ================================================================
+const NAV_TABS = [
+  { label: '🐉 Grammar Hoard',  tabId: 'tab-hoard' },
+  { label: '📜 Sentence Sense', tabId: 'tab-sense' },
+  { label: '📖 Coming Soon', disabled: true },
+  { label: '📖 Coming Soon', disabled: true },
+  { label: '📖 Coming Soon', disabled: true },
+];
+
+const TAB_META = {
+  'tab-hoard': { icon: '🐉', float: true,  title: "Dragon's Grammar Hoard", sub: "Master the trickiest word pairs — fill the hoard with gems!",      bg: '#FDFAF4', gems: 15 },
+  'tab-sense': { icon: '📜', float: false, title: "Sentence Sense",          sub: "Find the subject. Test the clause. Answer wisely.",                 bg: '#E9EFF5', gems: 15 },
+};
+
+// ================================================================
+//  STATE
+// ================================================================
+let activeTab = 'tab-hoard';
+const sc = {
+  'tab-hoard': { gems:0, correct:0, attempted:0, total:15 },
+  'tab-sense': { gems:0, correct:0, attempted:0, total:15 },
+};
+
+// ================================================================
+//  TAB SWITCHING
+// ================================================================
+function buildNav() {
+  const list = document.getElementById('tab-list');
+  NAV_TABS.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn' + (t.tabId === activeTab ? ' tab-active' : '') + (t.disabled ? ' tab-disabled' : '');
+    btn.textContent = t.label;
+    if (!t.disabled && t.tabId) {
+      btn.onclick = () => switchTab(t.tabId);
+    }
+    list.appendChild(btn);
+  });
+}
+
+function switchTab(tabId) {
+  if (tabId === activeTab) return;
+  // Sections
+  document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  // Buttons
+  document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+    const t = NAV_TABS[i];
+    btn.classList.toggle('tab-active', !t.disabled && t.tabId === tabId);
+  });
+  // Header + background
+  const meta = TAB_META[tabId];
+  if (meta) {
+    document.getElementById('h-icon').textContent  = meta.icon;
+    document.getElementById('h-icon').className    = 'h-icon' + (meta.float ? ' float' : '');
+    document.getElementById('h-title').textContent = meta.title;
+    document.getElementById('h-sub').textContent   = meta.sub;
+    document.body.style.background = meta.bg;
+    document.querySelector('header::after');
+    // Update the header bottom curve colour via CSS var
+    document.documentElement.style.setProperty('--header-bottom', meta.bg);
+    // Directly set the after pseudo-element background using a wrapper
+    document.querySelector('header').dataset.bg = meta.bg;
+    updateHeaderAfter(meta.bg);
+  }
+  activeTab = tabId;
+  updateHeaderGems();
+  window.scrollTo({ top: 0 });
+  setTimeout(dragonSpeak, 600);
+}
+
+function updateHeaderAfter(color) {
+  // Inject a dynamic style to update header::after background
+  let el = document.getElementById('dyn-style');
+  if (!el) { el = document.createElement('style'); el.id = 'dyn-style'; document.head.appendChild(el); }
+  el.textContent = `header::after { background: ${color} !important; }`;
+}
+
+// ================================================================
+//  SHARED UTILITIES
+// ================================================================
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i>0; i--) { const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+
+function spawnGem(el) {
+  const r = el.getBoundingClientRect();
+  const g = document.createElement('div');
+  g.className = 'gem-float'; g.textContent = '💎';
+  g.style.cssText = `left:${r.left+r.width/2-12}px;top:${r.top-8}px;`;
+  document.body.appendChild(g);
+  setTimeout(() => g.remove(), 1000);
+}
+
+function updateHeaderGems() {
+  const s = sc[activeTab];
+  document.getElementById('gem-count').textContent = s.gems;
+}
+
+function updateHoardScore() {
+  const s = sc['tab-hoard'];
+  document.getElementById('h-c').textContent = s.correct;
+  document.getElementById('h-a').textContent = s.attempted;
+  document.getElementById('h-r').textContent = s.total - s.attempted;
+  if (activeTab === 'tab-hoard') updateHeaderGems();
+}
+
+function updateSenseScore() {
+  const s = sc['tab-sense'];
+  document.getElementById('s-c').textContent = s.correct;
+  document.getElementById('s-a').textContent = s.attempted;
+  document.getElementById('s-r').textContent = s.total - s.attempted;
+  if (activeTab === 'tab-sense') updateHeaderGems();
+}
+
+// ================================================================
+//  DRAGON
+// ================================================================
+function setDragon(state) {
+  [document.getElementById('mn'), document.getElementById('mh'),
+   document.getElementById('ms'), document.getElementById('bw'),
+   document.getElementById('sp')].forEach(el => el.style.display = 'none');
+  if      (state==='happy') { document.getElementById('mh').style.display=''; document.getElementById('sp').style.display=''; }
+  else if (state==='sad')   { document.getElementById('ms').style.display=''; document.getElementById('bw').style.display=''; }
+  else                       { document.getElementById('mn').style.display=''; }
+}
+
+const QUIPS = {
+  'tab-hoard': [
+    "Grammar is my hoard! 💎", "Apostrophes: serious business.",
+    "I ate a dictionary once. Tasted like 'affect'.",
+    "Either/or. Neither/nor. Always.", "'Alright' is not all right.",
+    "RAVEN: Affect = Verb, Effect = Noun.", "Their, there, they're... sigh.",
+    "One gem at a time, dear knight!", "You're doing rather well!",
+    "The dragon approves. Mostly.", "Borrow takes; lend gives.",
+  ],
+  'tab-sense': [
+    "Find the subject first. Always.", "The pot is singular — the onions are a red herring!",
+    "'As well as' doesn't pluralise anything.", "Economics IS. Remember that.",
+    "'That' is necessary. 'Which' is extra.", "Commas are your clue for 'which'.",
+    "Remove the clause. Does the sentence survive?", "Gerund phrases: one idea, one singular verb.",
+    "The proximity rule exists. We don't speak of it.", "One gem at a time!",
+    "'Either/or': if one is plural, the verb is plural.",
+  ],
+};
+let quipIdx = 0;
+
+function dragonSpeak() {
+  const q = QUIPS[activeTab] || QUIPS['tab-hoard'];
+  const b = document.getElementById('bubble');
+  b.textContent = q[quipIdx++ % q.length];
+  b.classList.add('show');
+  clearTimeout(dragonSpeak._t);
+  dragonSpeak._t = setTimeout(() => b.classList.remove('show'), 3400);
+}
+
+// ================================================================
+//  GRAMMAR HOARD DATA
+// ================================================================
+const HOARD = [
+  { id:'h1',  cat:'homophones', label:'🔤 Sound-alike', title:"Your vs. You're",
+    exp:"<strong>Your</strong> is possessive — belonging to you. <strong>You're</strong> is a contraction of <em>you are</em>. The apostrophe replaces the missing letter.",
+    rule:'Quick test: replace with "you are." Works? → you\'re. Doesn\'t? → your.',
+    eg:'"You\'re the cleverest dragon I ever met." / "Your horns are magnificent."',
+    q:{ s:'The dragon thinks _______ a grammar genius!',
+        opts:[{t:"You're",c:true},{t:"Your",c:false,m:"Possessive before a verb phrase"},{t:"Yours",c:false,m:"Wrong pronoun form"},{t:"Yore",c:false,m:"Archaic word for 'long ago'"}],
+        ok:'✅ You\'re = you are. "The dragon thinks [you are] a genius" — works!',
+        no:'❌ Try: "The dragon thinks [you are] a genius." That works, so use the contraction: you\'re.' }},
+
+  { id:'h2',  cat:'homophones', label:'🔤 Sound-alike', title:"Its vs. It's",
+    exp:"<strong>Its</strong> is possessive — like <em>his</em> or <em>her</em>, it never needs an apostrophe. <strong>It's</strong> is a contraction of <em>it is</em> or <em>it has</em>.",
+    rule:'Swap in "it is" — if the sentence works, write it\'s. If not, write its (no apostrophe).',
+    eg:'"The dragon wagged its tail. It\'s the finest tail in the kingdom."',
+    q:{ s:'The dragon lifted _______ enormous head and sniffed the air.',
+        opts:[{t:"its",c:true},{t:"it's",c:false,m:"Contraction where possessive is needed"},{t:"it is",c:false,m:"Full form breaks the grammar"},{t:"its'",c:false,m:"Apostrophe after s — not a real word"}],
+        ok:'✅ "Its head" = belonging to it. Possessives like its never take an apostrophe!',
+        no:'❌ Try: "The dragon lifted [it is] head." Doesn\'t work — so no apostrophe: its.' }},
+
+  { id:'h3',  cat:'homophones', label:'🔤 Sound-alike', title:"There / Their / They're",
+    exp:"<strong>They're</strong> = <em>they are</em>. <strong>Their</strong> = belonging to them. <strong>There</strong> = a place or used to introduce something.",
+    rule:'They\'re = they are. Their = ownership. There = place or existence.',
+    eg:'"They\'re heading there to collect their grammar scrolls."',
+    q:{ s:'The knights forgot _______ swords at the castle gate.',
+        opts:[{t:"their",c:true},{t:"they're",c:false,m:"Contraction where possessive is needed"},{t:"there",c:false,m:"Place word used where possessive is needed"},{t:"them",c:false,m:"Object pronoun, not possessive adjective"}],
+        ok:"✅ The swords belong to the knights — ownership → their.",
+        no:"❌ The swords belong to the knights (ownership), so you need the possessive: their." }},
+
+  { id:'h4',  cat:'homophones', label:'🔤 Sound-alike', title:"To vs. Too",
+    exp:"<strong>To</strong> is a preposition or infinitive marker. <strong>Too</strong> is an adverb meaning <em>excessively</em> or <em>also</em>.",
+    rule:'Too = excessively / also. Swap in "excessively" or "also" — if it works, use too.',
+    eg:'"The soup was too hot to eat." / "The dragon guzzled barrels of it too."',
+    q:{ s:'The grammar test was _______ long for the dragon to finish.',
+        opts:[{t:"too",c:true},{t:"to",c:false,m:"Preposition/infinitive marker used as degree adverb"},{t:"two",c:false,m:"Number word confused with homophone"},{t:"very",c:false,m:"Correct meaning but tests the specific word pair"}],
+        ok:'✅ "Too long" = excessively long. Too is always the degree adverb.',
+        no:'❌ Swap in "excessively": "The test was [excessively] long." That works — so the word is too.' }},
+
+  { id:'h5',  cat:'homophones', label:'🔤 Sound-alike', title:"Affect vs. Effect",
+    exp:"<strong>Affect</strong> is almost always a <em>verb</em> — to influence. <strong>Effect</strong> is almost always a <em>noun</em> — the result. Remember <strong>RAVEN</strong>: Affect = Verb, Effect = Noun.",
+    rule:'RAVEN: Affect = Verb (to influence). Effect = Noun (the result).',
+    eg:'"Practising daily will affect your fluency. The effect was remarkable."',
+    q:{ s:'How much you practise will greatly _______ your speaking skills.',
+        opts:[{t:"affect",c:true},{t:"effect",c:false,m:"Noun used in place of a verb"},{t:"effects",c:false,m:"Plural noun used where a verb is needed"},{t:"impact",c:false,m:"Valid synonym but tests the RAVEN pair"}],
+        ok:"✅ 'Will affect' needs a verb — affect is the verb. RAVEN works!",
+        no:"❌ The sentence needs a verb ('will ___'). Affect is the verb; effect is the noun." }},
+
+  { id:'h6',  cat:'oneortwo', label:'✂️ One or Two?', title:"Awhile vs. A While",
+    exp:"<strong>Awhile</strong> is an adverb meaning <em>for a time</em>. <strong>A while</strong> is a noun phrase meaning <em>a period of time</em>. Writing <em>for awhile</em> would mean <em>for for a time</em> — redundant!",
+    rule:'After "for", always use two words: for a while. Without "for", you can say "stay awhile."',
+    eg:'"Stay awhile, dear knight!" / "The dragon waited for a while before roaring."',
+    q:{ s:'The dragon stared at the grammar puzzle for _______ before answering.',
+        opts:[{t:"a while",c:true},{t:"awhile",c:false,m:"Adverb after 'for' creates 'for for a time'"},{t:"some time",c:false,m:"Different phrase — tests the specific pair"},{t:"while",c:false,m:"Missing article needed for noun phrase"}],
+        ok:"✅ 'For a while' — after 'for', you always need the two-word noun phrase.",
+        no:"❌ 'For awhile' = 'for for a time' — redundant! After 'for', write two words: a while." }},
+
+  { id:'h7',  cat:'oneortwo', label:'✂️ One or Two?', title:"Anymore vs. Any More",
+    exp:"<strong>Anymore</strong> (one word) is an adverb meaning <em>any longer</em> — it refers to time. <strong>Any more</strong> (two words) means <em>additional</em> — it refers to quantity.",
+    rule:'Anymore = time ("no longer"). Any more = quantity ("additional").',
+    eg:'"The king doesn\'t like banquets anymore." / "He doesn\'t want any more onions."',
+    q:{ s:'After ten chapters, the dragon didn\'t want to study grammar _______ tonight.',
+        opts:[{t:"anymore",c:true},{t:"any more",c:false,m:"Quantity phrase used where time adverb is needed"},{t:"any longer",c:false,m:"Correct meaning but tests the one-word form"},{t:"ever",c:false,m:"Changes the meaning too dramatically"}],
+        ok:"✅ Anymore = no longer (time). Done for tonight — that's time, not quantity.",
+        no:"❌ This is about time (no longer tonight), not quantity. Use the one-word adverb: anymore." }},
+
+  { id:'h8',  cat:'oneortwo', label:'✂️ One or Two?', title:"All Right vs. Alright",
+    exp:"Standard written English only recognises <strong>all right</strong> (two words). The Columbia Guide states: <em>'All right is the only spelling Standard English recognises.'</em> Use it in all formal and academic writing.",
+    rule:'Formal or academic writing → always two words. All right — all right?',
+    eg:'"Is everything all right in the royal kitchen?" asked the dragon politely.',
+    q:{ s:'The dragon checked his grammar notes and decided everything was _______.',
+        opts:[{t:"all right",c:true},{t:"alright",c:false,m:"Informal spelling not accepted in Standard English"},{t:"all-right",c:false,m:"Hyphenated form does not exist"},{t:"fine",c:false,m:"Valid synonym — tests the specific phrase"}],
+        ok:"✅ Two words: all right. The only standard spelling.",
+        no:"❌ 'Alright' is widespread in informal writing, but Standard English requires two words: all right." }},
+
+  { id:'h9',  cat:'meanings', label:'🎯 Subtle Meaning', title:"Amount / Quantity / Number",
+    exp:"<strong>Amount of</strong> precedes uncountable or abstract things (love, chaos). <strong>Quantity of</strong> is for measurable inanimate things (gold, coins). <strong>Number of</strong> is for countable plural things — animate or inanimate.",
+    rule:'Uncountable/abstract → amount. Measurable inanimate → quantity. Countable plural → number.',
+    eg:'"A great amount of pride." / "A large quantity of gold." / "A number of villagers."',
+    q:{ s:'The dragon felt a tremendous _______ of pride after solving the riddle.',
+        opts:[{t:"amount",c:true},{t:"quantity",c:false,m:"Used for measurable physical things"},{t:"number",c:false,m:"Used for countable plural things"},{t:"deal",c:false,m:"'A great deal of' is valid but tests the three-way set"}],
+        ok:"✅ 'Pride' is abstract and uncountable — amount is exactly right.",
+        no:"❌ You can't count or weigh pride — it's abstract. Abstract uncountable things → amount." }},
+
+  { id:'h10', cat:'meanings', label:'🎯 Subtle Meaning', title:"Between vs. Among",
+    exp:"<strong>Between</strong> is used when things are separate and distinct — even three or more, as long as each is individual. <strong>Among</strong> is used for an undifferentiated group where members aren't treated individually.",
+    rule:'Distinct individuals (even 3+) → between. Undifferentiated group → among.',
+    eg:'"Differences between a dragon, a horse, and a unicorn." / "He moved among the crowd."',
+    q:{ s:'The treasure was divided equally _______ the three dragon siblings.',
+        opts:[{t:"between",c:true},{t:"among",c:false,m:"Group preposition used where distinct individuals exist"},{t:"amongst",c:false,m:"Old-fashioned literary form of 'among'"},{t:"within",c:false,m:"Different preposition with a different meaning"}],
+        ok:"✅ Three distinct siblings receiving specific shares → between, even with three!",
+        no:"❌ Each sibling receives a specific, distinct share — so use 'between', even with three." }},
+
+  { id:'h11', cat:'meanings', label:'🎯 Subtle Meaning', title:"Borrow vs. Lend",
+    exp:"<strong>Borrow</strong> means to take something temporarily — the item moves <em>toward</em> you. <strong>Lend</strong> means to give something temporarily — the item moves <em>away</em> from you.",
+    rule:'Borrow = take (from). Lend = give (to). Think about the direction.',
+    eg:'"May I borrow your armour polish?" / "I can lend you my grammar book."',
+    q:{ s:'Could you _______ me your dragon-speaking dictionary until Friday?',
+        opts:[{t:"lend",c:true},{t:"borrow",c:false,m:"Confuses direction — borrower takes, lender gives"},{t:"loan",c:false,m:"More formal, typically reserved for money"},{t:"give",c:false,m:"Implies permanent transfer, not temporary"}],
+        ok:"✅ You're asking them to give it to you temporarily — that's lend.",
+        no:"❌ You want them to give (lend) it to you. You would be the one borrowing." }},
+
+  { id:'h12', cat:'meanings', label:'🎯 Subtle Meaning', title:"Either vs. Neither",
+    exp:"<strong>Either</strong> means 'one of two' and pairs with <em>or</em>. <strong>Neither</strong> means 'not one, not the other' and pairs with <em>nor</em>. With singular subjects, use a singular verb.",
+    rule:'Either...or / Neither...nor. They always travel in pairs — never mix them!',
+    eg:'"Either the dragon or the magician is coming." / "Neither is coming."',
+    q:{ s:'_______ the dragon nor the magician could solve the grammar riddle.',
+        opts:[{t:"Neither",c:true},{t:"Either",c:false,m:"'Either' pairs with 'or', never with 'nor'"},{t:"Both",c:false,m:"Means they both did it — opposite of intended meaning"},{t:"None",c:false,m:"Not used in this grammatical construction"}],
+        ok:"✅ Neither...nor — they're always a pair. 'Nor' is the giveaway.",
+        no:"❌ 'Nor' is the clue — nor always follows neither, never either." }},
+
+  { id:'h13', cat:'verbs', label:'⚡ Verb Trap', title:"Lay vs. Lie",
+    exp:"<strong>Lie</strong> (lie, lay, lain) is something you do to yourself — no direct object. <strong>Lay</strong> (lay, laid, laid) is something you do to something else — it always needs a direct object. The past tense of <em>lie</em> is <em>lay</em>, which causes endless confusion.",
+    rule:'Lie = action on yourself (no object). Lay = action on something else (needs an object).',
+    eg:'"I lie down." / "Yesterday I lay down." / "I lay the scroll on the table." (object: scroll)',
+    q:{ s:'After a long day of lessons, the dragon decided to _______ down for a nap.',
+        opts:[{t:"lie",c:true},{t:"lay",c:false,m:"Transitive verb used without a direct object"},{t:"lain",c:false,m:"Past participle used in place of the infinitive"},{t:"laid",c:false,m:"Past tense of 'lay' — wrong tense and verb"}],
+        ok:"✅ The dragon acts on itself — no object. No object → lie.",
+        no:"❌ The dragon is reclining itself (no object). That makes it lie. Lay would need an object." }},
+
+  { id:'h14', cat:'verbs', label:'⚡ Verb Trap', title:"Was vs. Were",
+    exp:"<strong>Was</strong> describes real past facts. <strong>Were</strong> is used in hypothetical or wishful situations — whenever <em>if</em>, <em>wish</em>, or <em>as if</em> signals something imaginary. This is the <em>subjunctive mood</em>.",
+    rule:'Real past → was. Hypothetical / wish / if → were (the subjunctive mood).',
+    eg:'"Yesterday I was exhausted." / "If I were king, I would ban grammar tests."',
+    q:{ s:'If I _______ the dragon, I would know how to breathe fire correctly.',
+        opts:[{t:"were",c:true},{t:"was",c:false,m:"Past factual form used in a hypothetical if-clause"},{t:"am",c:false,m:"Present tense in a past hypothetical context"},{t:"would be",c:false,m:"Belongs in the result clause, not the if-clause"}],
+        ok:"✅ Hypothetical ('I'm not the dragon') → always were in an if-clause. Subjunctive!",
+        no:"❌ 'If I were...' is hypothetical. Hypothetical if-clauses → always were, not was." }},
+
+  { id:'h15', cat:'verbs', label:'⚡ Verb Trap', title:"There's vs. There Are",
+    exp:"<strong>There's</strong> = <em>there is</em> — use it only before a <em>singular</em> subject. <strong>There are</strong> is for a <em>plural</em> subject. In speech people often use <em>there's</em> for everything — in writing, match the verb to the noun that follows.",
+    rule:'The verb agrees with the noun after it, not with "there."',
+    eg:'"There\'s chaos in the kitchen!" / "There are three chefs arguing about onions."',
+    q:{ s:'_______ fifteen tricky grammar rules waiting for you on this page!',
+        opts:[{t:"There are",c:true},{t:"There's",c:false,m:"Singular contraction before plural noun"},{t:"There is",c:false,m:"Singular form before plural noun"},{t:"Their are",c:false,m:"Possessive 'their' confused with existential 'there'"}],
+        ok:"✅ Fifteen rules is plural. Plural noun → There are.",
+        no:"❌ 'Fifteen rules' is plural. The verb must agree: there are (not there's or there is)." }},
+];
+
+// ================================================================
+//  SENTENCE SENSE DATA — Section 1: Is / Are / Do / Does
+// ================================================================
+const S1 = [
+  { id:'s1a', before:"The witch's pot of onions", ch:['is','are'], ok:'is', after:"simmering over the fire.",
+    exp:"The true subject is <strong>pot</strong> — a single thing. 'Of onions' follows <em>of</em>, so ignore it. Pot is singular → <em>is</em>." },
+  { id:'s1b', before:"Petra's favourite type of book", ch:['is','are'], ok:'is', after:"adventures.",
+    exp:"The subject is <strong>type</strong> (singular). 'Of book' follows <em>of</em> — not part of the subject. Type is singular → <em>is</em>." },
+  { id:'s1c', before:"The Lord of the Kingdoms", ch:['is','are'], ok:'is', after:"getting frustrated with all his subjects.",
+    exp:"<strong>The Lord</strong> is one person — singular regardless of the grand title → <em>is</em>." },
+  { id:'s1d', before:"Either the dragons or the donkey", ch:['is','are'], ok:'are', after:"responsible for the mess.",
+    exp:"With <em>either...or</em>, if one element is plural, the verb is plural. <strong>Dragons</strong> is plural → <em>are</em>." },
+  { id:'s1e', before:"Neither the king nor the prince", ch:['is','are'], ok:'is', after:"responsible for the mess.",
+    exp:"With <em>neither...nor</em>, both subjects are singular (king, prince) → <em>is</em>." },
+  { id:'s1f', before:"Playing Dungeons and Dragons", ch:['is','are'], ok:'is', after:"fun.",
+    exp:"The whole phrase is a <strong>gerund phrase</strong> acting as one single subject. One idea → singular → <em>is</em>. The 'and Dragons' is part of the game's name, not a second subject." },
+  { id:'s1g', before:"Singing, as well as dancing,", ch:['is','are'], ok:'is', after:"the terrifying part of the knight exam.",
+    exp:"<em>As well as</em> does <strong>not</strong> make the subject plural. The real subject is <strong>Singing</strong> alone — 'as well as dancing' is a parenthetical. Singing → singular → <em>is</em>." },
+  { id:'s1h', before:"Economics", ch:['is','are'], ok:'is', after:"a silly subject.",
+    exp:"Words ending in <em>-ics</em> (economics, mathematics, physics) look plural but take a <strong>singular</strong> verb when naming the academic subject → <em>is</em>." },
+  { id:'s1i', before:"Queen Mabel is the only one of the royals who", ch:['does','do'], ok:'does', after:"follow the rules.",
+    exp:"The subject of <em>who</em> is <strong>one</strong> — 'the royals' is just background context. One is singular. Use <em>does</em> with singular subjects → <em>does</em>." },
+];
+
+// ================================================================
+//  SENTENCE SENSE DATA — Section 2: Which / That
+//  Sentence = pre + sep + [choice] + " " + clause(body) + end + post
+// ================================================================
+const S2 = [
+  { id:'s2a', pre:"The dragon showed the doctor his paw", sep:" ", body:"was hurt and needed stitches", end:"", post:".",
+    ch:['that','which'], ok:'that',
+    wc:'"The dragon showed the doctor his paw." — Unclear: which paw? Why show the doctor?',
+    exp:"Remove the clause and critical information disappears — we don't know <em>which</em> paw or <em>why</em>. Necessary → <em>that</em> (no comma)." },
+  { id:'s2b', pre:"The crocodile", sep:" ", body:"jumped out of the water and nearly bit Snarls' nose off", end:"", post:" is Petra's friend.",
+    ch:['that','which'], ok:'that',
+    wc:'"The crocodile is Petra\'s friend." — Which crocodile? The clause identifies the specific one.',
+    exp:"Without the clause we can't tell <em>which</em> crocodile — there could be others. Necessary → <em>that</em>." },
+  { id:'s2c', pre:"The dragon fire blasted the crocodile", sep:" ", body:"tried to bite him", end:"", post:".",
+    ch:['that','which'], ok:'that',
+    wc:'"The dragon fire blasted the crocodile." — Which crocodile? The clause is needed to identify it.',
+    exp:"The clause tells us <em>which</em> crocodile was blasted — the one that tried to bite. Necessary → <em>that</em>." },
+  { id:'s2d', pre:"A scroll listing all the dragon caves", sep:", ", body:"are near and far", end:",", post:" is in the royal library.",
+    ch:['which','that'], ok:'which',
+    wc:'"A scroll listing all the dragon caves is in the royal library." — Still perfectly clear!',
+    exp:"Remove the clause and the sentence is complete and clear. 'Near and far' is extra detail → <em>which</em>, set off with commas." },
+  { id:'s2e', pre:"The scribe handed her the scroll", sep:", ", body:"she took", end:"", post:".",
+    ch:['which','that'], ok:'which',
+    wc:'"The scribe handed her the scroll." — Complete and clear without the clause.',
+    exp:"The sentence is fully meaningful without the clause. Extra detail → <em>which</em> (preceded by a comma)." },
+  { id:'s2f', pre:"King Longstride drank from his new goblet", sep:", ", body:"he paid for in silver", end:"", post:".",
+    ch:['which','that'], ok:'which',
+    wc:'"King Longstride drank from his new goblet." — Perfectly clear without the extra detail.',
+    exp:"How the king paid is interesting background — remove it and the sentence stands. Extra → <em>which</em> (with comma)." },
+];
+
+// ================================================================
+//  RENDER — GRAMMAR HOARD
+// ================================================================
+function renderHoard() {
+  const grid = document.getElementById('h-grid');
+  HOARD.forEach(pair => {
+    const opts = shuffle(pair.q.opts);
+    const card = document.createElement('div');
+    card.className = 'error-card';
+    card.dataset.cat = pair.cat;
+    card.dataset.id  = pair.id;
+    card.dataset.correct = pair.q.opts.find(o => o.c).t;
+
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="cat-tag">${pair.label}</div>
+        <div class="card-title">${pair.title}</div>
+      </div>
+      <div class="card-body">
+        <div class="explanation">${pair.exp}</div>
+        <div class="key-rule">🔑 ${pair.rule}</div>
+        <div class="dragon-eg"><span>🐉</span><em>${pair.eg}</em></div>
+        <div class="quiz-sec">
+          <div class="quiz-lbl">Quick Check</div>
+          <div class="quiz-sent">${pair.q.s}</div>
+          <div class="opts">${opts.map(o =>
+            `<button class="opt" data-id="${pair.id}" data-val="${o.t}" data-correct="${o.c}"><span class="dot"></span>${o.t}</button>`
+          ).join('')}</div>
+          <div class="h-fb" id="hfb-${pair.id}"></div>
+        </div>
+      </div>`;
+
+    grid.appendChild(card);
+  });
+
+  grid.querySelectorAll('.opt').forEach(b => b.addEventListener('click', handleHoardAnswer));
+}
+
+function handleHoardAnswer(e) {
+  const btn  = e.currentTarget;
+  const id   = btn.dataset.id;
+  const isOk = btn.dataset.correct === 'true';
+  const card = btn.closest('.error-card');
+  if (card.dataset.answered) return;
+  card.dataset.answered = '1';
+
+  const allOpts = card.querySelectorAll('.opt');
+  const fb      = document.getElementById('hfb-' + id);
+  const pair    = HOARD.find(p => p.id === id);
+
+  allOpts.forEach(b => {
+    b.disabled = true;
+    if (b.dataset.correct === 'true') b.classList.add(isOk && b === btn ? 'correct' : 'reveal');
+  });
+
+  const s = sc['tab-hoard'];
+  s.attempted++;
+  if (isOk) {
+    btn.classList.add('correct');
+    fb.textContent = pair.q.ok; fb.className = 'h-fb ok';
+    s.correct++; s.gems++;
+    spawnGem(btn); setDragon('happy');
+    card.classList.add('card-flash');
+    setTimeout(() => { setDragon('neutral'); card.classList.remove('card-flash'); }, 2600);
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = pair.q.no; fb.className = 'h-fb err';
+    setDragon('sad'); setTimeout(() => setDragon('neutral'), 2400);
+  }
+  updateHoardScore();
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.cat;
+    document.querySelectorAll('.error-card').forEach(c => {
+      c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none';
+    });
+  });
+});
+
+// ================================================================
+//  RENDER — SENTENCE SENSE
+// ================================================================
+function renderS1() {
+  const grid = document.getElementById('s1-grid');
+  S1.forEach((q, i) => {
+    const opts = shuffle(q.ch);
+    const card = document.createElement('div');
+    card.className = 'q-card bl';
+    card.dataset.id = q.id; card.dataset.correct = q.ok;
+
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} of ${S1.length}</div>
+      <div class="q-sent">
+        ${q.before}
+        <span class="cg" id="cg-${q.id}">${opts.map(c =>
+          `<button class="cb" data-qid="${q.id}" data-val="${c}">${c}</button>`
+        ).join('<span class="cs"></span>')}</span>
+        ${q.after}
+      </div>
+      <div class="exp-pan" id="ep-${q.id}">
+        <div class="exp-in" id="ei-${q.id}">
+          <div class="exp-res" id="er-${q.id}"></div>
+          <div>${q.exp}</div>
+        </div>
+      </div>`;
+
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('#s1-grid .cb').forEach(b => b.addEventListener('click', handleSenseAnswer));
+}
+
+function renderS2() {
+  const grid = document.getElementById('s2-grid');
+  S2.forEach((q, i) => {
+    const opts = shuffle(q.ch);
+    const card = document.createElement('div');
+    card.className = 'q-card fo';
+    card.dataset.id = q.id; card.dataset.correct = q.ok;
+
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} of ${S2.length}</div>
+      <div class="q-sent">
+        ${q.pre}${q.sep}<span class="cg" id="cg-${q.id}">${opts.map(c =>
+          `<button class="cb" data-qid="${q.id}" data-val="${c}">${c}</button>`
+        ).join('<span class="cs"></span>')}</span> <span class="clause" id="cl-${q.id}">${q.body}</span>${q.end}${q.post}
+        <button class="test-btn" id="tb-${q.id}" onclick="testClause('${q.id}')">🔍 Test it</button>
+      </div>
+      <div class="wc-box" id="wc-${q.id}"><strong>Without the clause:</strong> ${q.wc}</div>
+      <div class="exp-pan" id="ep-${q.id}">
+        <div class="exp-in" id="ei-${q.id}">
+          <div class="exp-res" id="er-${q.id}"></div>
+          <div>${q.exp}</div>
+        </div>
+      </div>`;
+
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('#s2-grid .cb').forEach(b => b.addEventListener('click', handleSenseAnswer));
+}
+
+function testClause(qid) {
+  const cl  = document.getElementById('cl-' + qid);
+  const btn = document.getElementById('tb-' + qid);
+  const wc  = document.getElementById('wc-' + qid);
+  const off = cl.classList.toggle('off');
+  btn.classList.toggle('on', off);
+  btn.textContent = off ? '🔄 Restore clause' : '🔍 Test it';
+  wc.classList.toggle('show', off);
+}
+
+function handleSenseAnswer(e) {
+  const btn  = e.currentTarget;
+  const qid  = btn.dataset.qid;
+  const val  = btn.dataset.val;
+  const card = btn.closest('.q-card');
+  if (card.dataset.answered) return;
+  card.dataset.answered = '1';
+
+  const isOk   = val === card.dataset.correct;
+  const allBtns = card.querySelectorAll('.cb');
+  const ep = document.getElementById('ep-' + qid);
+  const ei = document.getElementById('ei-' + qid);
+  const er = document.getElementById('er-' + qid);
+
+  allBtns.forEach(b => {
+    b.disabled = true;
+    if (b.dataset.val === card.dataset.correct) b.classList.add(b===btn && isOk ? 'ok' : 'rev');
+  });
+  if (!isOk) btn.classList.add('err');
+
+  const s = sc['tab-sense'];
+  s.attempted++;
+  ep.classList.add('open');
+
+  if (isOk) {
+    er.textContent = '✅ Correct!'; er.className = 'exp-res ok'; ei.className = 'exp-in ok';
+    s.correct++; s.gems++;
+    spawnGem(btn); setDragon('happy');
+    card.classList.add('card-flash');
+    // Restore clause if removed
+    const cl = document.getElementById('cl-'+qid);
+    if (cl && cl.classList.contains('off')) {
+      cl.classList.remove('off');
+      const tb = document.getElementById('tb-'+qid);
+      if (tb) { tb.classList.remove('on'); tb.textContent='🔍 Test it'; }
+      const wc = document.getElementById('wc-'+qid);
+      if (wc) wc.classList.remove('show');
+    }
+    setTimeout(() => { setDragon('neutral'); card.classList.remove('card-flash'); }, 2600);
+  } else {
+    er.textContent = '❌ Not quite — see below.'; er.className = 'exp-res err'; ei.className = 'exp-in err';
+    setDragon('sad'); setTimeout(() => setDragon('neutral'), 2400);
+  }
+  updateSenseScore();
+}
+
+// ================================================================
+//  INIT
+// ================================================================
+buildNav();
+renderHoard();
+renderS1();
+renderS2();
+updateHoardScore();
+updateSenseScore();
+
+setTimeout(() => {
+  const b = document.getElementById('bubble');
+  b.textContent = "I'm Grimsworth. Let's collect some gems! 💎";
+  b.classList.add('show');
+  setTimeout(() => b.classList.remove('show'), 4500);
+}, 1200);
+</script>
+</body>
+</html>
