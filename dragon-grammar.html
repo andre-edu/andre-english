@@ -269,6 +269,56 @@
       .mascot svg { width: 58px; height: 58px; }
       .mascot { bottom: 1rem; right: 1rem; }
     }
+
+    /* ===== Who/Whom (violet) in Tab 2 ===== */
+    .sec-title.violet { color: var(--violet); }
+    .rule-card.violet { background: var(--violet-bg); border-left: 4px solid var(--violet); }
+    .q-card.vi { border-left: 4px solid var(--violet); }
+
+    /* ===== Comma Confusion (Tab 3) ===== */
+    #tab-comma main { max-width: 780px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+    .sec-title.rust { color: #B84A2A; }
+    .rule-card.rust { background: #FBF0EC; border-left: 4px solid #B84A2A; }
+    .q-card.ru { border-left: 4px solid #B84A2A; }
+    .rule-tag {
+      font-size: .7rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+      padding: .15rem .55rem; border-radius: 50px; display: inline-block;
+      background: #FBF0EC; color: #B84A2A; margin-bottom: .4rem;
+    }
+
+    /* Decision-point marker inside sentence */
+    .dp {
+      display: inline-block; min-width: 1.5em; text-align: center;
+      font-style: normal; font-weight: 800; font-size: .85em;
+      color: #B84A2A; background: #FBF0EC;
+      border: 1.5px dashed #B84A2A; border-radius: 5px;
+      padding: 0 3px; margin: 0 2px; vertical-align: middle; line-height: 1.7;
+      transition: all .3s;
+    }
+    .dp.resolved { border-style: solid; background: #F0FDF4; color: #15803D; border-color: #22C55E; }
+    .dp.resolved-no { background: #FEF2F2; color: #991B1B; border-color: #EF4444; }
+
+    /* Yes / No answer buttons */
+    .yn-row { display: flex; gap: .6rem; padding: 0 1.3rem .9rem; }
+    .yn-btn {
+      font-family: 'Nunito', sans-serif; font-size: .9rem; font-weight: 800; font-style: normal;
+      padding: .5rem 1rem; border-radius: 9px; border: 2px solid var(--border);
+      background: white; cursor: pointer; transition: all .15s; color: var(--text); flex: 1;
+    }
+    .yn-btn:hover:not(:disabled) { border-color: #AAA; background: #F5F5F5; }
+    .yn-btn.yn-ok  { border-color: #22C55E; background: #F0FDF4; color: #15803D; }
+    .yn-btn.yn-err { border-color: #EF4444; background: #FEF2F2; color: #991B1B; text-decoration: line-through; }
+    .yn-btn.yn-rev { border-color: #22C55E; background: #F0FDF4; color: #15803D; opacity: .65; }
+
+    /* Meaning pairs showcase */
+    .pair-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .pair-card { background: white; border-radius: 14px; box-shadow: 0 2px 12px rgba(0,0,0,.06); overflow: hidden; border-top: 4px solid #B84A2A; }
+    .pair-row { padding: .85rem 1.1rem; }
+    .pair-row + .pair-row { border-top: 2px dashed var(--border); }
+    .pair-row-label { font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: #B84A2A; margin-bottom: .3rem; }
+    .pair-sent { font-style: italic; font-size: 1rem; margin-bottom: .3rem; line-height: 1.5; }
+    .pair-mark { color: #B84A2A; font-weight: 800; font-style: normal; }
+    .pair-meaning { font-size: .82rem; font-weight: 600; color: var(--muted); }
   </style>
 </head>
 <body>
@@ -310,7 +360,7 @@
     <div class="score-bar">
       <div class="score-stat"><div class="score-num" id="s-c" style="color:#22C55E">0</div><div class="score-label">Correct ✓</div></div>
       <div class="score-stat"><div class="score-num" id="s-a" style="color:var(--muted)">0</div><div class="score-label">Attempted</div></div>
-      <div class="score-stat"><div class="score-num" id="s-r" style="color:var(--gold)">15</div><div class="score-label">Remaining</div></div>
+      <div class="score-stat"><div class="score-num" id="s-r" style="color:var(--gold)">21</div><div class="score-label">Remaining</div></div>
     </div>
     <div class="sec-hd" style="margin-top:.3rem">
       <span class="sec-icon">🔎</span><h2 class="sec-title blue">Is, Are, Do, Does</h2>
@@ -328,6 +378,41 @@
       If the <span style="background:rgba(29,122,90,.13);border-radius:3px;padding:0 3px">highlighted clause</span> is <strong>necessary</strong> for the sentence → use <strong>that</strong> (no comma). If it is <strong>extra information</strong> that can be removed without changing the meaning → use <strong>which</strong> (with a comma). Click <em>🔍 Test it</em> to remove the clause and check!
     </div>
     <div id="s2-grid"></div>
+    <div class="ch-break"><div class="ch-line"></div><span class="ch-drag">🐉</span><div class="ch-line"></div></div>
+    <div class="sec-hd">
+      <span class="sec-icon">🎭</span><h2 class="sec-title violet">Who or Whom?</h2>
+    </div>
+    <div class="rule-card violet">
+      <strong>Who</strong> is a subject pronoun — it does the action (like <em>he/she</em>). <strong>Whom</strong> is an object pronoun — something is done to it (like <em>him/her</em>).<br>
+      The same rules apply to <strong>whoever</strong> and <strong>whomever</strong>.<br>
+      🔑 <strong>The he/him test:</strong> rewrite the sentence and substitute <em>he</em> or <em>him</em>. If <em>he</em> sounds right → use <em>who</em>. If <em>him</em> sounds right → use <em>whom</em>.
+    </div>
+    <div id="s3-grid"></div>
+  </main>
+</div>
+
+<!-- ============================================================ TAB 3: COMMA CONFUSION -->
+<div id="tab-comma" class="tab-section">
+  <main>
+    <div class="score-bar">
+      <div class="score-stat"><div class="score-num" id="cm-c" style="color:#22C55E">0</div><div class="score-label">Correct ✓</div></div>
+      <div class="score-stat"><div class="score-num" id="cm-a" style="color:var(--muted)">0</div><div class="score-label">Attempted</div></div>
+      <div class="score-stat"><div class="score-num" id="cm-r" style="color:var(--gold)">9</div><div class="score-label">Remaining</div></div>
+    </div>
+    <div class="sec-hd" style="margin-top:.3rem">
+      <span class="sec-icon">⚠️</span><h2 class="sec-title rust">A Comma Can Change Everything</h2>
+    </div>
+    <div class="rule-card rust">
+      A single misplaced comma can completely change the meaning of a sentence — or cause the dragon considerable alarm. Study these pairs first.
+    </div>
+    <div class="pair-grid" id="pair-grid"></div>
+    <div class="sec-hd">
+      <span class="sec-icon">✏️</span><h2 class="sec-title rust">Comma or No Comma?</h2>
+    </div>
+    <div class="rule-card rust">
+      Key rules to keep in mind: use a comma before <em>but / and / or</em> only when joining two <strong>independent</strong> clauses. Use a comma after introductory phrases (usually 3+ words). Use commas around non-essential elements. Adverbs like <em>however</em> need commas when they interrupt — but not when they're essential to the clause's meaning.
+    </div>
+    <div id="cm-grid"></div>
   </main>
 </div>
 
@@ -378,16 +463,17 @@
 //  Placeholder: just set disabled: true (no HTML section needed)
 // ================================================================
 const NAV_TABS = [
-  { label: '🐉 Grammar Hoard',  tabId: 'tab-hoard' },
-  { label: '📜 Sentence Sense', tabId: 'tab-sense' },
-  { label: '📖 Coming Soon', disabled: true },
+  { label: '🐉 Grammar Hoard',   tabId: 'tab-hoard' },
+  { label: '📜 Sentence Sense',  tabId: 'tab-sense' },
+  { label: '✏️ Comma Confusion', tabId: 'tab-comma' },
   { label: '📖 Coming Soon', disabled: true },
   { label: '📖 Coming Soon', disabled: true },
 ];
 
 const TAB_META = {
-  'tab-hoard': { icon: '🐉', float: true,  title: "Dragon's Grammar Hoard", sub: "Master the trickiest word pairs — fill the hoard with gems!",      bg: '#FDFAF4', gems: 15 },
-  'tab-sense': { icon: '📜', float: false, title: "Sentence Sense",          sub: "Find the subject. Test the clause. Answer wisely.",                 bg: '#E9EFF5', gems: 15 },
+  'tab-hoard': { icon: '🐉', float: true,  title: "Dragon's Grammar Hoard", sub: "Master the trickiest word pairs — fill the hoard with gems!",            bg: '#FDFAF4', gems: 15 },
+  'tab-sense': { icon: '📜', float: false, title: "Sentence Sense",          sub: "Subject-verb agreement, relative clauses and who/whom.",                  bg: '#E9EFF5', gems: 21 },
+  'tab-comma': { icon: '✏️', float: false, title: "Comma Confusion",         sub: "A misplaced comma can change everything. Prove you know where they go.", bg: '#FEF8EC', gems: 9  },
 };
 
 // ================================================================
@@ -396,7 +482,8 @@ const TAB_META = {
 let activeTab = 'tab-hoard';
 const sc = {
   'tab-hoard': { gems:0, correct:0, attempted:0, total:15 },
-  'tab-sense': { gems:0, correct:0, attempted:0, total:15 },
+  'tab-sense': { gems:0, correct:0, attempted:0, total:21 },
+  'tab-comma': { gems:0, correct:0, attempted:0, total:9  },
 };
 
 // ================================================================
@@ -492,6 +579,14 @@ function updateSenseScore() {
   if (activeTab === 'tab-sense') updateHeaderGems();
 }
 
+function updateCommaScore() {
+  const s = sc['tab-comma'];
+  document.getElementById('cm-c').textContent = s.correct;
+  document.getElementById('cm-a').textContent = s.attempted;
+  document.getElementById('cm-r').textContent = s.total - s.attempted;
+  if (activeTab === 'tab-comma') updateHeaderGems();
+}
+
 // ================================================================
 //  DRAGON
 // ================================================================
@@ -518,8 +613,20 @@ const QUIPS = {
     "'As well as' doesn't pluralise anything.", "Economics IS. Remember that.",
     "'That' is necessary. 'Which' is extra.", "Commas are your clue for 'which'.",
     "Remove the clause. Does the sentence survive?", "Gerund phrases: one idea, one singular verb.",
-    "The proximity rule exists. We don't speak of it.", "One gem at a time!",
-    "'Either/or': if one is plural, the verb is plural.",
+    "The proximity rule exists. We don't speak of it.",
+    "Who = he/she. Whom = him/her.", "If 'him' fits, use 'whom'.",
+    "'Whomever you invite' — him you invite. Correct!",
+  ],
+  'tab-comma': [
+    "A comma once saved a dragon's life. Or ended one.",
+    "We already ate, Snarls. The comma matters enormously.",
+    "Comma before 'but' only if both halves can stand alone.",
+    "'However' needs commas on BOTH sides when it interrupts.",
+    "'Indeed' doesn't always need a comma. Tricky, indeed.",
+    "Introductory clause? Comma after it. Always.",
+    "No comma before 'and' unless two full sentences follow.",
+    "Fortunately, Grimsworth knows his commas.",
+    "One gem at a time — note the comma after 'time'!",
   ],
 };
 let quipIdx = 0;
@@ -930,14 +1037,206 @@ function handleSenseAnswer(e) {
 }
 
 // ================================================================
+//  SENTENCE SENSE — Section 3: WHO / WHOM
+// ================================================================
+const S3 = [
+  { id:'s3a', before:"Nobody knows", ch:['who','whom'], ok:'who', after:"will get the starring role.",
+    exp:"He/him test: '<strong>He</strong> will get the role' ✓ vs 'Him will get the role' ✗. <em>He</em> works → use <em>who</em>. Who is the subject performing the action." },
+  { id:'s3b', before:"Nobody knows", ch:['who','whom'], ok:'whom', after:"we will choose for the starring role.",
+    exp:"He/him test: 'We will choose <strong>him</strong>' ✓ vs 'We will choose he' ✗. <em>Him</em> works → use <em>whom</em>. Whom is the object of the verb 'choose'." },
+  { id:'s3c', before:"Please point out the actor", ch:['who','whom'], ok:'whom', after:"you met today.",
+    exp:"He/him test: 'You met <strong>him</strong> today' ✓ vs 'You met he today' ✗. <em>Him</em> works → use <em>whom</em>. The actor is the object of 'met'." },
+  { id:'s3d', before:"Snarls,", ch:['who','whom'], ok:'who', after:"was the original dragon character, now lives at Longstride Castle.",
+    exp:"He/him test: '<strong>He</strong> was the original dragon character' ✓ vs 'Him was...' ✗. <em>He</em> works → use <em>who</em>. Snarls is the subject of 'was'." },
+  { id:'s3e', before:"Send the invitational scrolls to", ch:['whoever','whomever'], ok:'whoever', after:"knows Snarls.",
+    exp:"He/him test: '<strong>He</strong> knows Snarls' ✓ vs 'Him knows Snarls' ✗. <em>He</em> works → use <em>whoever</em>. Whoever is the subject of 'knows'." },
+  { id:'s3f', before:"We will accommodate", ch:['whoever','whomever'], ok:'whomever', after:"you invite.",
+    exp:"He/him test: 'You invite <strong>him</strong>' ✓ vs 'You invite he' ✗. <em>Him</em> works → use <em>whomever</em>. Whomever is the object of 'invite'." },
+];
+
+// ================================================================
+//  COMMA TAB DATA
+// ================================================================
+const PAIRS = [
+  { a: { s:'We already ate Snarls.',                      m:'😱 We ate Snarls. He is gone.' },
+    b: { s:'We already ate<span class="pair-mark">,</span> Snarls.', m:'😅 We are telling Snarls we already had dinner.' } },
+  { a: { s:'I have tamed dragons since I was a child.',   m:'I started taming dragons when young and still do.' },
+    b: { s:'I have tamed dragons<span class="pair-mark">,</span> since I was a child.', m:'Reason given: because I was a child (and children tame dragons).' } },
+];
+
+const COMMA = [
+  { id:'cm1', pre:"The dragon asked himself", post:"what am I going to do now?",
+    question:"Comma after 'himself'?", needsComma:true, ruleTag:'❓ Direct question',
+    exp:"A direct question embedded in a sentence is introduced by a comma. 'What am I going to do now?' is a direct question — add a comma after 'himself'." },
+  { id:'cm2', pre:"A truly efficient fire-breathing dragon remains", post:"however a lost dream.",
+    question:"Comma before 'however'?", needsComma:true, ruleTag:'↔️ Parenthetical adverb',
+    exp:"When 'however', 'therefore', or 'indeed' <em>interrupts</em> a clause (non-essential here), it needs commas on <strong>both sides</strong>: 'remains, however, a lost dream.' Add one before 'however' — and a second one after it." },
+  { id:'cm3', pre:"That was", post:"indeed the outcome of the dragon fire-breathing contest.",
+    question:"Comma before 'indeed'?", needsComma:false, ruleTag:'⚠️ No comma needed',
+    exp:"'Indeed' here <em>strengthens</em> the statement — it is essential to the clause's meaning, not an interruption. When an adverb is essential, no comma is needed. Contrast with 'however' in a sentence like 'remains, however, a lost dream' where 'however' adds contrast and could be removed." },
+  { id:'cm4', pre:"Snarls is a great cook", post:"but he often doesn't fit into the confines of castle kitchens.",
+    question:"Comma before 'but'?", needsComma:true, ruleTag:'🔗 Independent clauses',
+    exp:"When <em>but</em>, <em>and</em>, or <em>or</em> joins two <strong>independent clauses</strong> (each could be its own sentence), add a comma before the conjunction. 'Snarls is a great cook' ✓ and 'he often doesn't fit...' ✓ — two independent clauses → comma before 'but'." },
+  { id:'cm5', pre:"The bog witch chased after the coyote", post:"and the squirrel.",
+    question:"Comma before 'and'?", needsComma:false, ruleTag:'⚠️ No comma needed',
+    exp:"'And' here joins two <strong>objects</strong> (the coyote, the squirrel), not two independent clauses. There is one subject (bog witch) and one verb (chased) — no comma before 'and'." },
+  { id:'cm6', pre:"Until spring", post:"tournament lists will be kept in a secret drawer.",
+    question:"Comma after 'Until spring'?", needsComma:true, ruleTag:'📎 Introductory phrase',
+    exp:"Without a comma, 'Until spring tournament lists' reads as one phrase and causes confusion. A comma after 'spring' separates the introductory phrase from the main clause, preventing misreading." },
+  { id:'cm7', pre:"Although everything seemed quiet in the castle", post:"nobody had yet to notice the smoke billowing out of the kitchen.",
+    question:"Comma after 'castle'?", needsComma:true, ruleTag:'📎 Introductory clause',
+    exp:"An introductory subordinate clause beginning with 'Although', 'Because', 'When', or 'If' is followed by a comma before the main clause. Add a comma after 'castle'." },
+  { id:'cm8', pre:"Fortunately", post:"Snarls was just cleaning the smoke stack.",
+    question:"Comma after 'Fortunately'?", needsComma:true, ruleTag:'📎 Introductory adverb',
+    exp:"A sentence-level adverb like <em>Fortunately</em>, <em>Ultimately</em>, or <em>Surprisingly</em> at the start of a sentence is followed by a comma — it modifies the whole sentence, not just one element. Add a comma after 'Fortunately'." },
+  { id:'cm9', pre:"Snarls will go to art school", post:"or cooking school.",
+    question:"Comma before 'or'?", needsComma:false, ruleTag:'⚠️ No comma needed',
+    exp:"'Or' here joins two <strong>noun phrases</strong> (art school, cooking school), not two independent clauses. One subject (Snarls), one verb phrase (will go) — no comma before 'or'." },
+];
+
+// ================================================================
+//  RENDER — WHO/WHOM (Section 3 of Tab 2, reuses sense answer handler)
+// ================================================================
+function renderS3() {
+  const grid = document.getElementById('s3-grid');
+  S3.forEach((q, i) => {
+    const opts = shuffle(q.ch);
+    const card = document.createElement('div');
+    card.className = 'q-card vi';
+    card.dataset.id = q.id; card.dataset.correct = q.ok;
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} of ${S3.length}</div>
+      <div class="q-sent">
+        ${q.before}
+        <span class="cg" id="cg-${q.id}">${opts.map(c =>
+          `<button class="cb" data-qid="${q.id}" data-val="${c}">${c}</button>`
+        ).join('<span class="cs"></span>')}</span>
+        ${q.after}
+      </div>
+      <div class="exp-pan" id="ep-${q.id}">
+        <div class="exp-in" id="ei-${q.id}">
+          <div class="exp-res" id="er-${q.id}"></div>
+          <div>${q.exp}</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('#s3-grid .cb').forEach(b => b.addEventListener('click', handleSenseAnswer));
+}
+
+// ================================================================
+//  RENDER — MEANING PAIRS (Tab 3 showcase, no gems)
+// ================================================================
+function renderMeaningPairs() {
+  const grid = document.getElementById('pair-grid');
+  PAIRS.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'pair-card';
+    card.innerHTML = `
+      <div class="pair-row">
+        <div class="pair-row-label">Without comma</div>
+        <div class="pair-sent">${p.a.s}</div>
+        <div class="pair-meaning">${p.a.m}</div>
+      </div>
+      <div class="pair-row">
+        <div class="pair-row-label">With comma</div>
+        <div class="pair-sent">${p.b.s}</div>
+        <div class="pair-meaning">${p.b.m}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+// ================================================================
+//  RENDER — COMMA QUIZ (Tab 3)
+// ================================================================
+function renderComma() {
+  renderMeaningPairs();
+  const grid = document.getElementById('cm-grid');
+  COMMA.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card ru';
+    card.dataset.id = q.id; card.dataset.needs = q.needsComma ? '1' : '0';
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} of ${COMMA.length}</div>
+      <div class="q-sent">
+        <span class="rule-tag">${q.ruleTag}</span><br>
+        <em>${q.pre}</em><span class="dp" id="dp-${q.id}">·</span><em>${q.post}</em>
+      </div>
+      <div style="padding:0 1.3rem .4rem;font-size:.88rem;color:var(--muted);font-style:italic">${q.question}</div>
+      <div class="yn-row">
+        <button class="yn-btn" data-qid="${q.id}" data-val="0">✗ No comma</button>
+        <button class="yn-btn" data-qid="${q.id}" data-val="1">✓ Add comma</button>
+      </div>
+      <div class="exp-pan" id="ep-${q.id}">
+        <div class="exp-in" id="ei-${q.id}">
+          <div class="exp-res" id="er-${q.id}"></div>
+          <div>${q.exp}</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('#cm-grid .yn-btn').forEach(b => b.addEventListener('click', handleCommaAnswer));
+}
+
+function handleCommaAnswer(e) {
+  const btn   = e.currentTarget;
+  const qid   = btn.dataset.qid;
+  const val   = btn.dataset.val;
+  const card  = btn.closest('.q-card');
+  if (card.dataset.answered) return;
+  card.dataset.answered = '1';
+
+  const needs = card.dataset.needs;
+  const isOk  = val === needs;
+  const allBtns = card.querySelectorAll('.yn-btn');
+  const ep = document.getElementById('ep-' + qid);
+  const ei = document.getElementById('ei-' + qid);
+  const er = document.getElementById('er-' + qid);
+  const dp = document.getElementById('dp-' + qid);
+  const q  = COMMA.find(c => c.id === qid);
+
+  allBtns.forEach(b => {
+    b.disabled = true;
+    if (b.dataset.val === needs) b.classList.add(b === btn && isOk ? 'yn-ok' : 'yn-rev');
+  });
+  if (!isOk) btn.classList.add('yn-err');
+
+  // Update decision point display
+  if (dp) {
+    if (q.needsComma) { dp.textContent = ','; dp.classList.add('resolved'); }
+    else              { dp.textContent = '✗'; dp.classList.add('resolved-no'); }
+  }
+
+  const s = sc['tab-comma'];
+  s.attempted++;
+  ep.classList.add('open');
+
+  if (isOk) {
+    er.textContent = '✅ Correct!'; er.className = 'exp-res ok'; ei.className = 'exp-in ok';
+    s.correct++; s.gems++;
+    spawnGem(btn); setDragon('happy');
+    card.classList.add('card-flash');
+    setTimeout(() => { setDragon('neutral'); card.classList.remove('card-flash'); }, 2600);
+  } else {
+    er.textContent = '❌ Not quite — see below.'; er.className = 'exp-res err'; ei.className = 'exp-in err';
+    setDragon('sad'); setTimeout(() => setDragon('neutral'), 2400);
+  }
+  updateCommaScore();
+}
+
+// ================================================================
 //  INIT
 // ================================================================
 buildNav();
 renderHoard();
 renderS1();
 renderS2();
+renderS3();
+renderComma();
 updateHoardScore();
 updateSenseScore();
+updateCommaScore();
 
 setTimeout(() => {
   const b = document.getElementById('bubble');
