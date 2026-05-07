@@ -358,9 +358,45 @@
       .mascot-dragon { width: 60px; height: 60px; }
       .mascot-wrap { bottom: 1rem; right: 1rem; }
     }
+
+    /* ===== TAB NAV ===== */
+    .tab-nav {
+      background: #1B3A2E;
+      padding: 0.45rem 1rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+    .tab-nav::-webkit-scrollbar { display: none; }
+    .tab-list { display: flex; gap: 0.3rem; min-width: max-content; padding: 0.2rem 0; align-items: center; }
+    .tab-item {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.83rem;
+      font-weight: 700;
+      padding: 0.38rem 0.95rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all 0.16s;
+      display: inline-block;
+      line-height: 1.4;
+    }
+    .tab-item.active                            { background: white; color: #1B3A2E; }
+    .tab-item:not(.active):not(.tab-disabled)   { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.75); }
+    .tab-item:not(.active):not(.tab-disabled):hover { background: rgba(255,255,255,0.22); color: white; }
+    .tab-item.tab-disabled                      { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.28); cursor: default; font-style: italic; }
   </style>
 </head>
 <body>
+
+<!-- ======== TAB NAV ======== -->
+<nav class="tab-nav"><div class="tab-list" id="tab-list"></div></nav>
 
 <!-- ======== HEADER ======== -->
 <header>
@@ -956,6 +992,29 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     });
   });
 });
+
+// ===================================================================
+//  TAB NAVIGATION
+//  Add, rename, or reorder tabs here. Mark the current page active: true.
+// ===================================================================
+const NAV_TABS = [
+  { label: '🐉 Grammar Hoard',  href: 'grammar-hoard.html',  active: true },
+  { label: '📜 Sentence Sense', href: 'sentence-sense.html' },
+  { label: '📖 Coming Soon',    href: '#', disabled: true },
+  { label: '📖 Coming Soon',    href: '#', disabled: true },
+  { label: '📖 Coming Soon',    href: '#', disabled: true },
+];
+(function() {
+  const list = document.getElementById('tab-list');
+  NAV_TABS.forEach(t => {
+    const a = document.createElement('a');
+    a.href = t.disabled ? '#' : t.href;
+    a.className = 'tab-item' + (t.active ? ' active' : '') + (t.disabled ? ' tab-disabled' : '');
+    a.textContent = t.label;
+    if (t.disabled) a.addEventListener('click', e => e.preventDefault());
+    list.appendChild(a);
+  });
+})();
 
 // ===================================================================
 //  INIT
