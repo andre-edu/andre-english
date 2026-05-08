@@ -270,7 +270,62 @@
       .mascot { bottom: 1rem; right: 1rem; }
     }
 
-    /* ===== Who/Whom (violet) in Tab 2 ===== */
+    /* ===== Marks & Meaning (Tab 4) ===== */
+    #tab-quote main { max-width: 780px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+    .sec-title.indigo { color: #4A3F8C; }
+    .rule-card.indigo { background: #EDEAF7; border-left: 4px solid #4A3F8C; }
+    .q-card.ind { border-left: 4px solid #4A3F8C; }
+    .rule-tag-ind {
+      font-size: .7rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+      padding: .15rem .55rem; border-radius: 50px; display: inline-block;
+      background: #EDEAF7; color: #4A3F8C; margin-bottom: .4rem;
+    }
+
+    /* Ellipsis: sentence display */
+    .el-sent {
+      font-style: italic; font-size: 1.2rem; text-align: center;
+      padding: 1rem 1.25rem; background: #EDEAF7; border-radius: 10px;
+      margin-bottom: .9rem; line-height: 1.5; color: var(--text);
+    }
+
+    /* Ellipsis: purpose buttons (5 options) */
+    .purpose-grid { display: flex; flex-direction: column; gap: .38rem; margin-bottom: .55rem; }
+    .purpose-btn {
+      font-family: 'Nunito', sans-serif; font-size: .89rem; font-weight: 600;
+      text-align: left; padding: .5rem .85rem; border-radius: 9px;
+      border: 2px solid var(--border); background: white; cursor: pointer;
+      transition: all .15s; color: var(--text); display: flex; align-items: center; gap: .5rem;
+    }
+    .purpose-btn::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex-shrink: 0; transition: background .15s; }
+    .purpose-btn:hover:not(:disabled) { border-color: #AAA; background: #F5F5F5; }
+    .purpose-btn.pb-ok  { border-color: #22C55E; background: #F0FDF4; color: #15803D; }
+    .purpose-btn.pb-ok::before  { background: #22C55E; }
+    .purpose-btn.pb-err { border-color: #EF4444; background: #FEF2F2; color: #991B1B; text-decoration: line-through; }
+    .purpose-btn.pb-err::before { background: #EF4444; }
+    .purpose-btn.pb-rev { border-color: #22C55E; background: #F0FDF4; color: #15803D; opacity: .65; }
+    .purpose-btn.pb-rev::before { background: #22C55E; }
+
+    /* QM: side-by-side version cards */
+    .version-row { display: flex; gap: .75rem; padding: 0 1.3rem .55rem; }
+    .ver-card {
+      flex: 1; padding: .75rem .9rem; border-radius: 10px;
+      border: 2px solid var(--border); background: white; cursor: pointer;
+      font-style: italic; font-size: .9rem; line-height: 1.65; transition: all .15s;
+    }
+    .ver-label {
+      font-family: 'Nunito', sans-serif; font-size: .68rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .06em; color: var(--muted);
+      margin-bottom: .3rem; font-style: normal; display: block;
+    }
+    .ver-card:hover:not([disabled]) { border-color: #BBB; background: #FAFAFA; }
+    .ver-card.ver-ok  { border-color: #22C55E; background: #F0FDF4; }
+    .ver-card.ver-err { border-color: #EF4444; background: #FEF2F2; }
+    .ver-err-label {
+      display: none; margin-top: .4rem; font-size: .78rem; font-weight: 700;
+      font-style: normal; color: #991B1B;
+    }
+    .ver-card.ver-err .ver-err-label { display: block; }
+    @media (max-width: 560px) { .version-row { flex-direction: column; } }
     .sec-title.violet { color: var(--violet); }
     .rule-card.violet { background: var(--violet-bg); border-left: 4px solid var(--violet); }
     .q-card.vi { border-left: 4px solid var(--violet); }
@@ -416,6 +471,35 @@
   </main>
 </div>
 
+<!-- ============================================================ TAB 4: MARKS & MEANING -->
+<div id="tab-quote" class="tab-section">
+  <main>
+    <div class="score-bar">
+      <div class="score-stat"><div class="score-num" id="qt-c" style="color:#22C55E">0</div><div class="score-label">Correct ✓</div></div>
+      <div class="score-stat"><div class="score-num" id="qt-a" style="color:var(--muted)">0</div><div class="score-label">Attempted</div></div>
+      <div class="score-stat"><div class="score-num" id="qt-r" style="color:var(--gold)">12</div><div class="score-label">Remaining</div></div>
+    </div>
+
+    <div class="sec-hd" style="margin-top:.3rem">
+      <span class="sec-icon">…</span><h2 class="sec-title indigo">The Ellipsis</h2>
+    </div>
+    <div class="rule-card indigo">
+      An ellipsis (…) is three dots used to indicate something has been left out — or left unsaid. It has five distinct purposes: <strong>pause in speech, creating suspense, expecting an answer, unfinished thought,</strong> and <strong>excitement after a pause</strong>. Each card below shows a sentence with an ellipsis already in place. Your job: identify what it is doing.
+    </div>
+    <div id="el-grid"></div>
+
+    <div class="ch-break"><div class="ch-line"></div><span class="ch-drag">🐉</span><div class="ch-line"></div></div>
+
+    <div class="sec-hd">
+      <span class="sec-icon">"</span><h2 class="sec-title indigo">Quotation Marks</h2>
+    </div>
+    <div class="rule-card indigo">
+      Each card below shows <strong>two versions</strong> of a sentence — one correctly punctuated, one with a classic error. Pick the correct version. The rules covered: punctuation placement, capitalisation, single vs. double quotes, ironic use, identifying works, and quotations within quotations.
+    </div>
+    <div id="qm-grid"></div>
+  </main>
+</div>
+
 <!-- ============================================================ DRAGON MASCOT -->
 <div class="mascot" onclick="dragonSpeak()">
   <div class="bubble" id="bubble">I'm Grimsworth. Happy studying!</div>
@@ -466,7 +550,7 @@ const NAV_TABS = [
   { label: '🐉 Grammar Hoard',   tabId: 'tab-hoard' },
   { label: '📜 Sentence Sense',  tabId: 'tab-sense' },
   { label: '✏️ Comma Confusion', tabId: 'tab-comma' },
-  { label: '📖 Coming Soon', disabled: true },
+  { label: '📝 Marks & Meaning', tabId: 'tab-quote' },
   { label: '📖 Coming Soon', disabled: true },
 ];
 
@@ -474,6 +558,7 @@ const TAB_META = {
   'tab-hoard': { icon: '🐉', float: true,  title: "Dragon's Grammar Hoard", sub: "Master the trickiest word pairs — fill the hoard with gems!",            bg: '#FDFAF4', gems: 15 },
   'tab-sense': { icon: '📜', float: false, title: "Sentence Sense",          sub: "Subject-verb agreement, relative clauses and who/whom.",                  bg: '#E9EFF5', gems: 21 },
   'tab-comma': { icon: '✏️', float: false, title: "Comma Confusion",         sub: "A misplaced comma can change everything. Prove you know where they go.", bg: '#FEF8EC', gems: 9  },
+  'tab-quote': { icon: '📝', float: false, title: "Marks & Meaning",         sub: "Ellipsis, quotation marks and punctuation conventions.",                  bg: '#F0EDF6', gems: 12 },
 };
 
 // ================================================================
@@ -484,6 +569,7 @@ const sc = {
   'tab-hoard': { gems:0, correct:0, attempted:0, total:15 },
   'tab-sense': { gems:0, correct:0, attempted:0, total:21 },
   'tab-comma': { gems:0, correct:0, attempted:0, total:9  },
+  'tab-quote': { gems:0, correct:0, attempted:0, total:12 },
 };
 
 // ================================================================
@@ -587,6 +673,14 @@ function updateCommaScore() {
   if (activeTab === 'tab-comma') updateHeaderGems();
 }
 
+function updateQuoteScore() {
+  const s = sc['tab-quote'];
+  document.getElementById('qt-c').textContent = s.correct;
+  document.getElementById('qt-a').textContent = s.attempted;
+  document.getElementById('qt-r').textContent = s.total - s.attempted;
+  if (activeTab === 'tab-quote') updateHeaderGems();
+}
+
 // ================================================================
 //  DRAGON
 // ================================================================
@@ -627,6 +721,17 @@ const QUIPS = {
     "No comma before 'and' unless two full sentences follow.",
     "Fortunately, Grimsworth knows his commas.",
     "One gem at a time — note the comma after 'time'!",
+  ],
+  'tab-quote': [
+    "Punctuation goes INSIDE the quotes. Always.",
+    "Single quotes only live inside double quotes.",
+    "A broken quotation doesn't restart with a capital.",
+    "Big works: italics. Small works: quotation marks.",
+    "Sarcasm gets quotes. No comma needed to introduce it.",
+    "Three dots … so many possibilities.",
+    "An ellipsis is not just a dramatic pause. But often it is.",
+    "The dragon 'experimented' with sulphur. That comma? Wrong.",
+    "Quotation marks are not for emphasis. That's what bold is for.",
   ],
 };
 let quipIdx = 0;
@@ -1226,6 +1331,228 @@ function handleCommaAnswer(e) {
 }
 
 // ================================================================
+//  MARKS & MEANING — Section 1: ELLIPSIS
+// ================================================================
+const PURPOSES = [
+  { id:'pause',      label:'Pause in speech' },
+  { id:'suspense',   label:'Creating suspense' },
+  { id:'answer',     label:'Expecting an answer' },
+  { id:'unfinished', label:'Unfinished thought' },
+  { id:'excitement', label:'Excitement after a pause' },
+];
+
+const ELLIPSIS = [
+  { id:'el1', sentence:'"So … what happened?"', correct:'pause',
+    exp:"The ellipsis signals a natural pause before asking the question — as if the speaker is hesitating or gathering their thoughts before pressing for an answer." },
+  { id:'el2', sentence:'"I\'m not sure I should tell you …"', correct:'suspense',
+    exp:"The sentence trails off without finishing, deliberately withholding the information. The ellipsis creates suspense by leaving the listener in the dark." },
+  { id:'el3', sentence:'"Well, you went to the knighting party. And …?"', correct:'answer',
+    exp:"The speaker trails off after 'And' to signal they are waiting for the other person to continue or fill in the blank. The ellipsis invites a response." },
+  { id:'el4', sentence:'"I think …"', correct:'unfinished',
+    exp:"The thought is simply left incomplete — the speaker started to say something but never finished. The ellipsis marks the point where the thought was abandoned." },
+  { id:'el5', sentence:'"Wow …!"', correct:'excitement',
+    exp:"The ellipsis here represents a dramatic pause before the exclamation — a moment of stunned silence before the excitement erupts. Note it sits before the exclamation mark, not after it." },
+];
+
+// ================================================================
+//  MARKS & MEANING — Section 2: QUOTATION MARKS
+// ================================================================
+const QUOTES = [
+  { id:'qm1', ruleTag:'📍 Punctuation inside quotes',
+    correct: 'A',
+    vA: { text:'The dragon told me, "Never touch my kitchen stuff."' },
+    vB: { text:'The dragon told me, "Never touch my kitchen stuff".', error:'Punctuation outside quotes — in English the full stop goes inside the closing mark.' },
+    exp:"In English, punctuation marks always go <strong>inside</strong> the closing quotation mark of a direct quote. This surprises writers from many European languages, where punctuation goes outside." },
+
+  { id:'qm2', ruleTag:'🔠 Capitalise the first word',
+    correct: 'B',
+    vA: { text:'Petra said, "the royal rule book is so silly."', error:'First word of a complete direct quotation not capitalised.' },
+    vB: { text:'Petra said, "The royal rule book is so silly."' },
+    exp:"The first word of a <strong>complete</strong> direct quotation is always capitalised, even if it appears mid-sentence. The quote is a complete sentence in its own right." },
+
+  { id:'qm3', ruleTag:'🔡 Broken quotation capitalisation',
+    correct: 'A',
+    vA: { text:'"The royal rule book is hogwash," Snarls snapped, "maybe even bigger than hogwash."' },
+    vB: { text:'"The royal rule book is hogwash," Snarls snapped, "Maybe even bigger than hogwash."', error:'Second part of a broken quotation incorrectly capitalised — it continues the same sentence.' },
+    exp:"When a quotation is <strong>broken</strong> by a speaker tag (Snarls snapped), the second part is a continuation — not a new sentence. So it does <em>not</em> restart with a capital letter, unless the word is a proper noun." },
+
+  { id:'qm4', ruleTag:'🪆 Single quotes within double quotes',
+    correct: 'B',
+    vA: { text:'"I wish the king would call me "Sir Snarls" without snickering," the dragon said.', error:'Double quotes used inside double quotes — the inner quotation must use single quotes.' },
+    vB: { text:'"I wish the king would call me \'Sir Snarls\' without snickering," the dragon said.' },
+    exp:"Single quotation marks are used <strong>only inside</strong> a direct quotation — to mark a quotation within a quotation. Double quotes cannot be nested inside double quotes; switch to single marks for the inner quote." },
+
+  { id:'qm5', ruleTag:'😏 Ironic / sarcastic use — no comma',
+    correct: 'A',
+    vA: { text:'The dragon "experimented" with sulphur powder.' },
+    vB: { text:'The dragon, "experimented" with sulphur powder.', error:'A comma is used before the sarcastic quotation — ironic quotation marks are never introduced with a comma.' },
+    exp:"When quotation marks are used ironically or sarcastically to signal an unusual use of a word, <strong>no comma</strong> introduces them. The quoted word slots directly into the sentence as if it were any other word." },
+
+  { id:'qm6', ruleTag:'📚 Large works vs. small works',
+    correct: 'B',
+    vA: { text:'In the book "The Dragon Grammar Book", the chapter on Quotation Marks is easy to understand.', error:'Larger work (book) in quotes instead of italics; the chapter title (smaller work) needs quotation marks.' },
+    vB: { text:'In the book <em>The Dragon Grammar Book</em>, the chapter on "Quotation Marks" is easy to understand.' },
+    exp:"Larger works — books, films, albums, plays — use <strong>italics</strong>. Smaller works within them — chapters, songs, articles, short stories — use <strong>quotation marks</strong>. Applying quotes to a book title is a common and memorable error." },
+
+  { id:'qm7', ruleTag:'🔚 Multi-paragraph quotations',
+    correct: 'A',
+    vA: { text:'The headmaster said, "Talent school is intended for princesses to learn the arts of crocheting and fainting.<br><br>"The idea of dragons attending Talent School is ridiculous."' },
+    vB: { text:'The headmaster said, "Talent school is intended for princesses to learn the arts of crocheting and fainting."<br><br>"The idea of dragons attending Talent School is ridiculous."', error:'Closing quotation marks used at end of first paragraph — only add closing marks at the very end of the whole passage.' },
+    exp:"When a quotation runs across <strong>multiple paragraphs</strong>, begin each new paragraph with an opening quotation mark — but do <em>not</em> place a closing mark until the very end of the passage. This signals the quotation is still ongoing." },
+];
+
+// ================================================================
+//  RENDER — ELLIPSIS (Tab 4 Section 1)
+// ================================================================
+function renderEllipsis() {
+  const grid = document.getElementById('el-grid');
+  ELLIPSIS.forEach((q, i) => {
+    const opts = shuffle([...PURPOSES]);
+    const card = document.createElement('div');
+    card.className = 'q-card ind';
+    card.dataset.id = q.id; card.dataset.correct = q.correct;
+
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} of ${ELLIPSIS.length}</div>
+      <div style="padding:.5rem 1.3rem 0">
+        <div class="el-sent">${q.sentence}</div>
+      </div>
+      <div style="padding:0 1.3rem .1rem;font-size:.82rem;color:var(--muted);font-style:italic">What is this ellipsis doing?</div>
+      <div style="padding:.35rem 1.3rem .55rem">
+        <div class="purpose-grid">
+          ${opts.map(p => `<button class="purpose-btn" data-qid="${q.id}" data-val="${p.id}">${p.label}</button>`).join('')}
+        </div>
+      </div>
+      <div class="exp-pan" id="ep-${q.id}">
+        <div class="exp-in" id="ei-${q.id}">
+          <div class="exp-res" id="er-${q.id}"></div>
+          <div>${q.exp}</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('#el-grid .purpose-btn').forEach(b => b.addEventListener('click', handleEllipsisAnswer));
+}
+
+function handleEllipsisAnswer(e) {
+  const btn  = e.currentTarget;
+  const qid  = btn.dataset.qid;
+  const val  = btn.dataset.val;
+  const card = btn.closest('.q-card');
+  if (card.dataset.answered) return;
+  card.dataset.answered = '1';
+
+  const isOk = val === card.dataset.correct;
+  const allBtns = card.querySelectorAll('.purpose-btn');
+  const ep = document.getElementById('ep-' + qid);
+  const ei = document.getElementById('ei-' + qid);
+  const er = document.getElementById('er-' + qid);
+
+  allBtns.forEach(b => {
+    b.disabled = true;
+    if (b.dataset.val === card.dataset.correct) b.classList.add(isOk && b === btn ? 'pb-ok' : 'pb-rev');
+  });
+  if (!isOk) btn.classList.add('pb-err');
+
+  const s = sc['tab-quote'];
+  s.attempted++;
+  ep.classList.add('open');
+
+  if (isOk) {
+    er.textContent = '✅ Correct!'; er.className = 'exp-res ok'; ei.className = 'exp-in ok';
+    s.correct++; s.gems++;
+    spawnGem(btn); setDragon('happy');
+    card.classList.add('card-flash');
+    setTimeout(() => { setDragon('neutral'); card.classList.remove('card-flash'); }, 2600);
+  } else {
+    er.textContent = '❌ Not quite — see below.'; er.className = 'exp-res err'; ei.className = 'exp-in err';
+    setDragon('sad'); setTimeout(() => setDragon('neutral'), 2400);
+  }
+  updateQuoteScore();
+}
+
+// ================================================================
+//  RENDER — QUOTATION MARKS (Tab 4 Section 2)
+// ================================================================
+function renderQuotes() {
+  const grid = document.getElementById('qm-grid');
+  QUOTES.forEach((q, i) => {
+    // Randomly swap A and B so correct isn't always on the same side
+    const swapped = Math.random() > .5;
+    const left  = swapped ? q.vB : q.vA;
+    const right = swapped ? q.vA : q.vB;
+    const leftId  = swapped ? 'B' : 'A';
+    const rightId = swapped ? 'A' : 'B';
+
+    const card = document.createElement('div');
+    card.className = 'q-card ind';
+    card.dataset.id = q.id; card.dataset.correct = q.correct;
+
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} of ${QUOTES.length}</div>
+      <div style="padding:.45rem 1.3rem .2rem;font-size:.88rem;color:var(--muted);font-style:italic">Which version is correctly punctuated?</div>
+      <div style="padding:0 1.3rem .3rem"><span class="rule-tag-ind">${q.ruleTag}</span></div>
+      <div class="version-row">
+        <div class="ver-card" data-qid="${q.id}" data-ver="${leftId}">
+          <span class="ver-label">Version A</span>
+          ${left.text}
+          <div class="ver-err-label">${left.error || ''}</div>
+        </div>
+        <div class="ver-card" data-qid="${q.id}" data-ver="${rightId}">
+          <span class="ver-label">Version B</span>
+          ${right.text}
+          <div class="ver-err-label">${right.error || ''}</div>
+        </div>
+      </div>
+      <div class="exp-pan" id="ep-${q.id}">
+        <div class="exp-in" id="ei-${q.id}">
+          <div class="exp-res" id="er-${q.id}"></div>
+          <div>${q.exp}</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('#qm-grid .ver-card').forEach(b => b.addEventListener('click', handleQuoteAnswer));
+}
+
+function handleQuoteAnswer(e) {
+  const card = e.currentTarget.closest('.q-card');
+  const qid  = e.currentTarget.dataset.qid;
+  if (card.dataset.answered) return;
+  card.dataset.answered = '1';
+
+  const chosen  = e.currentTarget.dataset.ver;
+  const isOk    = chosen === card.dataset.correct;
+  const allCards = card.querySelectorAll('.ver-card');
+  const ep = document.getElementById('ep-' + qid);
+  const ei = document.getElementById('ei-' + qid);
+  const er = document.getElementById('er-' + qid);
+
+  allCards.forEach(c => {
+    c.setAttribute('disabled', true);
+    c.style.cursor = 'default';
+    if (c.dataset.ver === card.dataset.correct) c.classList.add('ver-ok');
+  });
+  if (!isOk) e.currentTarget.classList.add('ver-err');
+
+  const s = sc['tab-quote'];
+  s.attempted++;
+  ep.classList.add('open');
+
+  if (isOk) {
+    er.textContent = '✅ Correct!'; er.className = 'exp-res ok'; ei.className = 'exp-in ok';
+    s.correct++; s.gems++;
+    spawnGem(e.currentTarget); setDragon('happy');
+    card.classList.add('card-flash');
+    setTimeout(() => { setDragon('neutral'); card.classList.remove('card-flash'); }, 2600);
+  } else {
+    er.textContent = '❌ Not quite — see below.'; er.className = 'exp-res err'; ei.className = 'exp-in err';
+    setDragon('sad'); setTimeout(() => setDragon('neutral'), 2400);
+  }
+  updateQuoteScore();
+}
+
+// ================================================================
 //  INIT
 // ================================================================
 buildNav();
@@ -1234,9 +1561,12 @@ renderS1();
 renderS2();
 renderS3();
 renderComma();
+renderEllipsis();
+renderQuotes();
 updateHoardScore();
 updateSenseScore();
 updateCommaScore();
+updateQuoteScore();
 
 setTimeout(() => {
   const b = document.getElementById('bubble');
