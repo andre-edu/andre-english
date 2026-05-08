@@ -270,7 +270,24 @@
       .mascot { bottom: 1rem; right: 1rem; }
     }
 
-    /* ===== Marks & Meaning (Tab 4) ===== */
+    /* ===== Dashes, Colons & Hyphens (Tab 5) ===== */
+    #tab-dash main { max-width: 780px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+    .sec-title.sage { color: #2E7D52; }
+    .rule-card.sage { background: #E4F2EA; border-left: 4px solid #2E7D52; }
+    .q-card.sag { border-left: 4px solid #2E7D52; }
+    .rule-tag-sage {
+      font-size: .7rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+      padding: .15rem .55rem; border-radius: 50px; display: inline-block;
+      background: #E4F2EA; color: #2E7D52; margin-bottom: .4rem;
+    }
+    /* Em-dash sentence display */
+    .em-sent {
+      font-style: italic; font-size: 1.1rem; text-align: center;
+      padding: .9rem 1.25rem; background: #E4F2EA; border-radius: 10px;
+      margin-bottom: .9rem; line-height: 1.6; color: var(--text);
+    }
+    /* Colon/semicolon inline choice reuses .cg/.cb/.cs from Tab 2 */
+    /* Hyphen yes/no reuses .dp/.yn-row/.yn-btn from Tab 3 */
     #tab-quote main { max-width: 780px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
     .sec-title.indigo { color: #4A3F8C; }
     .rule-card.indigo { background: #EDEAF7; border-left: 4px solid #4A3F8C; }
@@ -500,6 +517,47 @@
   </main>
 </div>
 
+<!-- ============================================================ TAB 5: DASHES, COLONS & HYPHENS -->
+<div id="tab-dash" class="tab-section">
+  <main>
+    <div class="score-bar">
+      <div class="score-stat"><div class="score-num" id="ds-c" style="color:#22C55E">0</div><div class="score-label">Correct ✓</div></div>
+      <div class="score-stat"><div class="score-num" id="ds-a" style="color:var(--muted)">0</div><div class="score-label">Attempted</div></div>
+      <div class="score-stat"><div class="score-num" id="ds-r" style="color:var(--gold)">16</div><div class="score-label">Remaining</div></div>
+    </div>
+
+    <div class="sec-hd" style="margin-top:.3rem">
+      <span class="sec-icon">⚡</span><h2 class="sec-title sage">The Em-Dash</h2>
+    </div>
+    <div class="rule-card sage">
+      The em-dash (—) is the length of the letter M and has <strong>no spaces</strong> before or after it. It has five distinct purposes: <strong>adding emphasis, break in thought, explaining or defining, trailing off</strong> (unfinished sentence), and <strong>separating two clauses</strong>. Each card below shows a sentence with an em-dash already in place — identify what it is doing.
+      <br><br>The <strong>en-dash</strong> (–) simply means <em>"through"</em> and is used for ranges: dates, page numbers, scores. <em>September 9–November 11 · pages 11–99</em>. No spaces around it either.
+    </div>
+    <div id="em-grid"></div>
+
+    <div class="ch-break"><div class="ch-line"></div><span class="ch-drag">🐉</span><div class="ch-line"></div></div>
+
+    <div class="sec-hd">
+      <span class="sec-icon">🔗</span><h2 class="sec-title sage">Colon or Semicolon?</h2>
+    </div>
+    <div class="rule-card sage">
+      The <strong>colon (:)</strong> introduces something — a list, an explanation, a quotation, or a definition. Think of it as an equals sign: what follows equals or explains what came before.<br>
+      The <strong>semicolon (;)</strong> connects two related independent clauses (stronger than a comma, weaker than a full stop). It is also used before transitional phrases like <em>however, therefore, namely</em> — with a comma after the transitional word but not before it.
+    </div>
+    <div id="cs-grid"></div>
+
+    <div class="ch-break"><div class="ch-line"></div><span class="ch-drag">🐉</span><div class="ch-line"></div></div>
+
+    <div class="sec-hd">
+      <span class="sec-icon">🧩</span><h2 class="sec-title sage">Hyphen or No Hyphen?</h2>
+    </div>
+    <div class="rule-card sage">
+      Hyphens connect parts of compound adjectives. The key rules: compound adjectives <strong>before</strong> a noun → hyphenate. <strong>After</strong> a noun → usually no hyphen. <em>-ly</em> adverb + adjective → never hyphenate. Age terms → hyphenate in both positions. Participle constructions (ending in <em>-ing/-ed</em>) → hyphenate before the noun only.
+    </div>
+    <div id="hy-grid"></div>
+  </main>
+</div>
+
 <!-- ============================================================ DRAGON MASCOT -->
 <div class="mascot" onclick="dragonSpeak()">
   <div class="bubble" id="bubble">I'm Grimsworth. Happy studying!</div>
@@ -551,7 +609,7 @@ const NAV_TABS = [
   { label: '📜 Sentence Sense',  tabId: 'tab-sense' },
   { label: '✏️ Comma Confusion', tabId: 'tab-comma' },
   { label: '📝 Marks & Meaning', tabId: 'tab-quote' },
-  { label: '📖 Coming Soon', disabled: true },
+  { label: '⚡ Dashes & Colons', tabId: 'tab-dash'  },
 ];
 
 const TAB_META = {
@@ -559,6 +617,7 @@ const TAB_META = {
   'tab-sense': { icon: '📜', float: false, title: "Sentence Sense",          sub: "Subject-verb agreement, relative clauses and who/whom.",                  bg: '#E9EFF5', gems: 21 },
   'tab-comma': { icon: '✏️', float: false, title: "Comma Confusion",         sub: "A misplaced comma can change everything. Prove you know where they go.", bg: '#FEF8EC', gems: 9  },
   'tab-quote': { icon: '📝', float: false, title: "Marks & Meaning",         sub: "Ellipsis, quotation marks and punctuation conventions.",                  bg: '#F0EDF6', gems: 12 },
+  'tab-dash':  { icon: '⚡', float: false, title: "Dashes, Colons & Hyphens",sub: "Five punctuation marks that separate, explain and connect.",             bg: '#EBF4EF', gems: 16 },
 };
 
 // ================================================================
@@ -570,6 +629,7 @@ const sc = {
   'tab-sense': { gems:0, correct:0, attempted:0, total:21 },
   'tab-comma': { gems:0, correct:0, attempted:0, total:9  },
   'tab-quote': { gems:0, correct:0, attempted:0, total:12 },
+  'tab-dash':  { gems:0, correct:0, attempted:0, total:16 },
 };
 
 // ================================================================
@@ -616,6 +676,9 @@ function switchTab(tabId) {
   activeTab = tabId;
   updateHeaderGems();
   window.scrollTo({ top: 0 });
+  // Sync bottom fade to new background
+  const fade = document.getElementById('bottom-fade');
+  if (fade && meta) fade.style.background = `linear-gradient(to bottom, transparent, ${meta.bg})`;
   setTimeout(dragonSpeak, 600);
 }
 
@@ -681,6 +744,14 @@ function updateQuoteScore() {
   if (activeTab === 'tab-quote') updateHeaderGems();
 }
 
+function updateDashScore() {
+  const s = sc['tab-dash'];
+  document.getElementById('ds-c').textContent = s.correct;
+  document.getElementById('ds-a').textContent = s.attempted;
+  document.getElementById('ds-r').textContent = s.total - s.attempted;
+  if (activeTab === 'tab-dash') updateHeaderGems();
+}
+
 // ================================================================
 //  DRAGON
 // ================================================================
@@ -732,6 +803,17 @@ const QUIPS = {
     "An ellipsis is not just a dramatic pause. But often it is.",
     "The dragon 'experimented' with sulphur. That comma? Wrong.",
     "Quotation marks are not for emphasis. That's what bold is for.",
+  ],
+  'tab-dash': [
+    "The em-dash is the most dramatic punctuation mark. Use it accordingly.",
+    "Semicolon: stronger than a comma, weaker than a full stop.",
+    "The colon introduces. The semicolon connects.",
+    "En-dash means 'through'. September–November. Pages 11–99.",
+    "Compound adjective before noun: hyphen. After noun: no hyphen.",
+    "-ly adverbs never take a hyphen. Wonderfully groomed. No dash.",
+    "'However' after a semicolon needs a comma after it too.",
+    "The em-dash has no spaces around it. None. Not one.",
+    "Age terms hyphenate in both positions. The three-year-old dragon.",
   ],
 };
 let quipIdx = 0;
@@ -1553,6 +1635,259 @@ function handleQuoteAnswer(e) {
 }
 
 // ================================================================
+//  DASHES, COLONS & HYPHENS — Section 1: EM-DASH
+// ================================================================
+const DASHPURPOSES = [
+  { id:'emph',     label:'Adding emphasis' },
+  { id:'break',    label:'Break in thought' },
+  { id:'explain',  label:'Explaining or defining' },
+  { id:'trail',    label:'Trailing off (unfinished)' },
+  { id:'separate', label:'Separating two clauses' },
+];
+
+const EMDASH = [
+  { id:'em1',
+    sentence:'"The so-called princess knight—meaning you—will return to the kingdom with a proper princess certificate."',
+    correct:'emph',
+    exp:"The two em-dashes bracket the phrase 'meaning you' to single out the listener dramatically. The insertion is set off for <strong>emphasis</strong> — the double em-dash makes it impossible to miss." },
+  { id:'em2',
+    sentence:"I should start getting ready for the knighting party—I do hope the royal chefs made those crunchy little hors d'oeuvres I like so much.",
+    correct:'break',
+    exp:"The em-dash marks an abrupt <strong>break in thought</strong>. The writer veers mid-sentence from 'getting ready' into a completely different thought about hors d'oeuvres — the kind of mental tangent that an em-dash captures perfectly." },
+  { id:'em3',
+    sentence:"Princess Petra wiped away a tear—a tear of happiness and pride.",
+    correct:'explain',
+    exp:"The em-dash introduces a clarification of 'a tear' — the second part <strong>explains or defines</strong> what kind of tear it was. The em-dash here acts like a colon, but with more drama." },
+  { id:'em4',
+    sentence:'"The dragon doesn\'t want to learn art, he wants—"',
+    correct:'trail',
+    exp:"The sentence is cut off and left unfinished — the speaker is interrupted or simply stops. The em-dash signals the sentence <strong>trails off</strong> rather than reaching a proper conclusion." },
+  { id:'em5',
+    sentence:"The dragon library will never be finished—the building specifications are too hard to interpret.",
+    correct:'separate',
+    exp:"The em-dash <strong>separates two independent clauses</strong> — similarly to a semicolon, but with a more abrupt, emphatic effect. The second clause explains the consequence of the first." },
+];
+
+// ================================================================
+//  DASHES, COLONS & HYPHENS — Section 2: COLON vs. SEMICOLON
+// ================================================================
+const COLSEMI = [
+  { id:'cs1', before:"The path to the castle is paved with stones", ch:[':',';'], ok:';', after:"trees line and shade the travelers.",
+    exp:"Two closely related <strong>independent clauses</strong> with no conjunction → semicolon. Both halves stand alone as complete sentences, and the semicolon signals they are closely connected in meaning." },
+  { id:'cs2', before:"The advertisement is for a dragon who can do the following", ch:[':',';'], ok:':', after:"cook, clean, sing, and complete taxation forms.",
+    exp:"The word 'following' signals that a list is being introduced → colon. A semicolon would be wrong here because the second half ('cook, clean, sing...') is not an independent clause — it cannot stand alone." },
+  { id:'cs3', before:"Everyone knows the dragon took all the sugar", ch:[':',';'], ok:';', after:"however, no one saw him take it.",
+    exp:"'However' is a transitional adverb — a semicolon goes <strong>before</strong> it and a comma goes <strong>after</strong> it. The semicolon merges the two sentences into one. A colon would imply the second clause explains or defines the first, which it doesn't." },
+  { id:'cs4', before:"The king was looking for one particular trait in a dragon", ch:[':',';'], ok:':', after:"culinary skills.",
+    exp:"The colon <strong>extends the sentence to explain</strong> what the particular trait was. Think of it as an equals sign: particular trait = culinary skills. 'Culinary skills' is not an independent clause — it's a fragment completing the thought." },
+  { id:'cs5', before:"The kitchen staff were not trained in firefighting", ch:[':',';'], ok:';', after:"therefore, they decided not to confront the dragon about the missing sugar.",
+    exp:"Another transitional phrase ('therefore') — semicolon before it, comma after it. The semicolon joins the two related ideas into one sentence while 'therefore' signals the logical consequence." },
+  { id:'cs6', before:"The king summoned the royal councilman for an answer", ch:[':',';'], ok:';', after:"the councilman had no answer.",
+    exp:"Two short, closely related sentences with no conjunction → semicolon. The tight relationship between action and result justifies using a semicolon rather than a full stop." },
+];
+
+// ================================================================
+//  DASHES, COLONS & HYPHENS — Section 3: HYPHENS
+// ================================================================
+const HYPHEN = [
+  { id:'hy1', pre:"The blue", post:"eyed dragon admired himself in the mirror.",
+    question:"Hyphen in 'blue[?]eyed' — compound adjective before the noun?",
+    needsHyphen:true, ruleTag:'Before the noun',
+    exp:"'Blue-eyed' is a compound adjective appearing <strong>before</strong> the noun 'dragon' → hyphenate. Compound adjectives before nouns are always hyphenated so readers know the two words work together as one modifier." },
+  { id:'hy2', pre:"The dragon is blue", post:"eyed and thinks this makes him very handsome.",
+    question:"Hyphen in 'blue[?]eyed' — compound adjective after the noun?",
+    needsHyphen:false, ruleTag:'After the noun',
+    exp:"When the compound adjective comes <strong>after</strong> the noun ('The dragon <em>is</em> blue eyed'), no hyphen is needed. Position relative to the noun is the deciding factor — same words, different position, different rule." },
+  { id:'hy3', pre:"That is a wonderfully", post:"groomed dragon you have there.",
+    question:"Hyphen after 'wonderfully' (-ly adverb + adjective)?",
+    needsHyphen:false, ruleTag:'-ly adverb — never hyphenate',
+    exp:"Compound modifiers using an <em>-ly</em> adverb (wonderfully, happily, brilliantly...) are <strong>never</strong> hyphenated. The -ly ending already signals an adverb, making the relationship between the words clear without a hyphen." },
+  { id:'hy4', pre:"The three", post:"year-old dragon acted very immaturely.",
+    question:"Hyphen between 'three' and 'year' in a three-year-old age term?",
+    needsHyphen:true, ruleTag:'Age terms — always hyphenate',
+    exp:"Age terms are hyphenated in <strong>both</strong> noun and adjective positions: 'the three-year-old dragon' (adjective before noun) AND 'the dragon was a three-year-old' (noun). Note the exception: 'The dragon was turning nine years old' — written out with 'years old', no hyphen." },
+  { id:'hy5', pre:"Snarls used his fire", post:"breathing methods to cook the soup.",
+    question:"Hyphen in 'fire[?]breathing' — participle construction before the noun?",
+    needsHyphen:true, ruleTag:'Participle before noun',
+    exp:"Participle constructions (verbs functioning as adjectives, ending in <em>-ing</em> or <em>-ed</em>) are hyphenated <strong>before</strong> the noun: 'fire-breathing methods'. After the noun, no hyphen: 'the methods of fire breathing'." },
+];
+
+// ================================================================
+//  RENDER — EM-DASH (Tab 5 Section 1, reuses purpose-btn classes)
+// ================================================================
+function renderEmDash() {
+  const grid = document.getElementById('em-grid');
+  EMDASH.forEach((q, i) => {
+    const opts = shuffle([...DASHPURPOSES]);
+    const card = document.createElement('div');
+    card.className = 'q-card sag';
+    card.dataset.id = q.id; card.dataset.correct = q.correct;
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} of ${EMDASH.length}</div>
+      <div style="padding:.5rem 1.3rem 0">
+        <div class="em-sent">${q.sentence}</div>
+      </div>
+      <div style="padding:0 1.3rem .1rem;font-size:.82rem;color:var(--muted);font-style:italic">What is this em-dash doing?</div>
+      <div style="padding:.35rem 1.3rem .55rem">
+        <div class="purpose-grid">
+          ${opts.map(p => `<button class="purpose-btn" data-qid="${q.id}" data-val="${p.id}">${p.label}</button>`).join('')}
+        </div>
+      </div>
+      <div class="exp-pan" id="ep-${q.id}">
+        <div class="exp-in" id="ei-${q.id}">
+          <div class="exp-res" id="er-${q.id}"></div>
+          <div>${q.exp}</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('#em-grid .purpose-btn').forEach(b => b.addEventListener('click', handleEmDashAnswer));
+}
+
+function handleEmDashAnswer(e) {
+  const btn  = e.currentTarget;
+  const qid  = btn.dataset.qid;
+  const card = btn.closest('.q-card');
+  if (card.dataset.answered) return;
+  card.dataset.answered = '1';
+  const isOk = btn.dataset.val === card.dataset.correct;
+  const allBtns = card.querySelectorAll('.purpose-btn');
+  const ep = document.getElementById('ep-'+qid);
+  const ei = document.getElementById('ei-'+qid);
+  const er = document.getElementById('er-'+qid);
+  allBtns.forEach(b => { b.disabled=true; if(b.dataset.val===card.dataset.correct) b.classList.add(isOk&&b===btn?'pb-ok':'pb-rev'); });
+  if (!isOk) btn.classList.add('pb-err');
+  const s = sc['tab-dash']; s.attempted++;
+  ep.classList.add('open');
+  if (isOk) {
+    er.textContent='✅ Correct!'; er.className='exp-res ok'; ei.className='exp-in ok';
+    s.correct++; s.gems++; spawnGem(btn); setDragon('happy');
+    card.classList.add('card-flash');
+    setTimeout(()=>{ setDragon('neutral'); card.classList.remove('card-flash'); }, 2600);
+  } else {
+    er.textContent='❌ Not quite — see below.'; er.className='exp-res err'; ei.className='exp-in err';
+    setDragon('sad'); setTimeout(()=>setDragon('neutral'), 2400);
+  }
+  updateDashScore();
+}
+
+// ================================================================
+//  RENDER — COLON vs. SEMICOLON (Tab 5 Section 2, reuses .cg/.cb/.cs)
+// ================================================================
+function renderColSemi() {
+  const grid = document.getElementById('cs-grid');
+  COLSEMI.forEach((q, i) => {
+    const opts = shuffle(q.ch);
+    const card = document.createElement('div');
+    card.className = 'q-card sag';
+    card.dataset.id = q.id; card.dataset.correct = q.ok;
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} of ${COLSEMI.length}</div>
+      <div class="q-sent">
+        <em>${q.before}</em><span class="cg" id="cg-${q.id}">${opts.map(c=>
+          `<button class="cb" data-qid="${q.id}" data-val="${c}">${c}</button>`
+        ).join('<span class="cs"></span>')}</span><em>${q.after}</em>
+      </div>
+      <div class="exp-pan" id="ep-${q.id}">
+        <div class="exp-in" id="ei-${q.id}">
+          <div class="exp-res" id="er-${q.id}"></div>
+          <div>${q.exp}</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('#cs-grid .cb').forEach(b => b.addEventListener('click', handleColSemiAnswer));
+}
+
+function handleColSemiAnswer(e) {
+  const btn  = e.currentTarget;
+  const qid  = btn.dataset.qid;
+  const card = btn.closest('.q-card');
+  if (card.dataset.answered) return;
+  card.dataset.answered = '1';
+  const isOk = btn.dataset.val === card.dataset.correct;
+  const allBtns = card.querySelectorAll('.cb');
+  const ep = document.getElementById('ep-'+qid);
+  const ei = document.getElementById('ei-'+qid);
+  const er = document.getElementById('er-'+qid);
+  allBtns.forEach(b => { b.disabled=true; if(b.dataset.val===card.dataset.correct) b.classList.add(isOk&&b===btn?'ok':'rev'); });
+  if (!isOk) btn.classList.add('err');
+  const s = sc['tab-dash']; s.attempted++;
+  ep.classList.add('open');
+  if (isOk) {
+    er.textContent='✅ Correct!'; er.className='exp-res ok'; ei.className='exp-in ok';
+    s.correct++; s.gems++; spawnGem(btn); setDragon('happy');
+    card.classList.add('card-flash');
+    setTimeout(()=>{ setDragon('neutral'); card.classList.remove('card-flash'); }, 2600);
+  } else {
+    er.textContent='❌ Not quite — see below.'; er.className='exp-res err'; ei.className='exp-in err';
+    setDragon('sad'); setTimeout(()=>setDragon('neutral'), 2400);
+  }
+  updateDashScore();
+}
+
+// ================================================================
+//  RENDER — HYPHENS (Tab 5 Section 3, reuses .dp/.yn-row/.yn-btn)
+// ================================================================
+function renderHyphen() {
+  const grid = document.getElementById('hy-grid');
+  HYPHEN.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card sag';
+    card.dataset.id = q.id; card.dataset.needs = q.needsHyphen ? '1' : '0';
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} of ${HYPHEN.length}</div>
+      <div class="q-sent">
+        <span class="rule-tag-sage">${q.ruleTag}</span><br>
+        <em>${q.pre}</em><span class="dp" id="dp-${q.id}">·</span><em>${q.post}</em>
+      </div>
+      <div style="padding:0 1.3rem .4rem;font-size:.88rem;color:var(--muted);font-style:italic">${q.question}</div>
+      <div class="yn-row">
+        <button class="yn-btn" data-qid="${q.id}" data-val="0">✗ No hyphen</button>
+        <button class="yn-btn" data-qid="${q.id}" data-val="1">‐ Add hyphen</button>
+      </div>
+      <div class="exp-pan" id="ep-${q.id}">
+        <div class="exp-in" id="ei-${q.id}">
+          <div class="exp-res" id="er-${q.id}"></div>
+          <div>${q.exp}</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('#hy-grid .yn-btn').forEach(b => b.addEventListener('click', handleHyphenAnswer));
+}
+
+function handleHyphenAnswer(e) {
+  const btn  = e.currentTarget;
+  const qid  = btn.dataset.qid;
+  const card = btn.closest('.q-card');
+  if (card.dataset.answered) return;
+  card.dataset.answered = '1';
+  const isOk = btn.dataset.val === card.dataset.needs;
+  const allBtns = card.querySelectorAll('.yn-btn');
+  const ep = document.getElementById('ep-'+qid);
+  const ei = document.getElementById('ei-'+qid);
+  const er = document.getElementById('er-'+qid);
+  const dp = document.getElementById('dp-'+qid);
+  const q  = HYPHEN.find(h => h.id === qid);
+  allBtns.forEach(b => { b.disabled=true; if(b.dataset.val===card.dataset.needs) b.classList.add(isOk&&b===btn?'yn-ok':'yn-rev'); });
+  if (!isOk) btn.classList.add('yn-err');
+  if (dp) { if(q.needsHyphen){dp.textContent='-';dp.classList.add('resolved');}else{dp.textContent='✗';dp.classList.add('resolved-no');} }
+  const s = sc['tab-dash']; s.attempted++;
+  ep.classList.add('open');
+  if (isOk) {
+    er.textContent='✅ Correct!'; er.className='exp-res ok'; ei.className='exp-in ok';
+    s.correct++; s.gems++; spawnGem(btn); setDragon('happy');
+    card.classList.add('card-flash');
+    setTimeout(()=>{ setDragon('neutral'); card.classList.remove('card-flash'); }, 2600);
+  } else {
+    er.textContent='❌ Not quite — see below.'; er.className='exp-res err'; ei.className='exp-in err';
+    setDragon('sad'); setTimeout(()=>setDragon('neutral'), 2400);
+  }
+  updateDashScore();
+}
+
+// ================================================================
 //  INIT
 // ================================================================
 buildNav();
@@ -1563,10 +1898,14 @@ renderS3();
 renderComma();
 renderEllipsis();
 renderQuotes();
+renderEmDash();
+renderColSemi();
+renderHyphen();
 updateHoardScore();
 updateSenseScore();
 updateCommaScore();
 updateQuoteScore();
+updateDashScore();
 
 setTimeout(() => {
   const b = document.getElementById('bubble');
@@ -1575,5 +1914,33 @@ setTimeout(() => {
   setTimeout(() => b.classList.remove('show'), 4500);
 }, 1200);
 </script>
+
+<div id="bottom-fade" style="
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 90px;
+  background: linear-gradient(to bottom, transparent, #FDFAF4);
+  pointer-events: none;
+  z-index: 99;
+  transition: background 0.35s ease;
+"></div>
+
+<footer style="
+  position: fixed;
+  bottom: 0; left: 0;
+  padding: .5rem 1rem .55rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: .72rem;
+  color: rgba(0,0,0,0.4);
+  line-height: 1.55;
+  max-width: 480px;
+  z-index: 100;
+">
+  Made by André Lundberg · Built with <a href="https://claude.ai" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Claude AI</a><br>
+  Based on <em>The Dragon Grammar Book</em> by <strong style="color:rgba(0,0,0,0.55)">Diane Mae Robinson</strong> —
+  <a href="https://www.dianemaerobinson.com/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">visit her website</a>
+  or find her on <a href="https://www.goodreads.com/author/show/5428435.Diane_Mae_Robinson" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Goodreads</a>.
+  <span style="color:rgba(0,0,0,0.5)">Please buy her books and support an independent author! 🐉</span>
+</footer>
 </body>
 </html>
