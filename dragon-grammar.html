@@ -270,6 +270,51 @@
       .mascot { bottom: 1rem; right: 1rem; }
     }
 
+    /* ===== Clauses, Objects & Subjects (Tab 7) ===== */
+    #tab-clause main { max-width: 780px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+    .sec-title.ocean { color: #2A6F8A; }
+    .rule-card.ocean  { background: #DDF0F6; border-left: 4px solid #2A6F8A; }
+    .q-card.ocn       { border-left: 4px solid #2A6F8A; }
+    .rule-tag-ocean {
+      font-size: .7rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+      padding: .15rem .55rem; border-radius: 50px; display: inline-block;
+      background: #DDF0F6; color: #2A6F8A; margin-bottom: .4rem;
+    }
+    /* Highlighted phrase in sentence (non-clickable, just visual) */
+    .ph-hl { background: rgba(42,111,138,0.16); border-radius: 4px; padding: 0 3px; }
+    /* Clickable phrase option pills */
+    .phrase-opts { display: flex; gap: .4rem; flex-wrap: wrap; padding: 0 1.3rem .65rem; }
+    .phrase-btn {
+      font-family: 'Nunito', sans-serif; font-size: .88rem; font-weight: 700;
+      font-style: normal; padding: .38rem .85rem; border-radius: 50px;
+      border: 2px solid var(--border); background: white; cursor: pointer;
+      transition: all .15s; color: var(--text);
+    }
+    .phrase-btn:hover:not(:disabled) { border-color: #2A6F8A; background: #EAF1F3; color: #2A6F8A; }
+    .phrase-btn.ph-ok  { border-color: #22C55E; background: #F0FDF4; color: #15803D; }
+    .phrase-btn.ph-err { border-color: #EF4444; background: #FEF2F2; color: #991B1B; text-decoration: line-through; }
+    .phrase-btn.ph-rev { border-color: #22C55E; background: #F0FDF4; color: #15803D; opacity: .65; }
+
+    /* ===== Danglers & Squinters (Tab 6) ===== */
+    #tab-dangle main { max-width: 780px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+    .sec-title.terra { color: #B04A2A; }
+    .rule-card.terra  { background: #F9EAE6; border-left: 4px solid #B04A2A; }
+    .q-card.ter       { border-left: 4px solid #B04A2A; }
+    .rule-tag-terra {
+      font-size: .7rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+      padding: .15rem .55rem; border-radius: 50px; display: inline-block;
+      background: #F9EAE6; color: #B04A2A; margin-bottom: .4rem;
+    }
+    /* Stacked A/B version card for dangling modifier questions */
+    .dm-ver {
+      padding: .7rem .9rem; border-radius: 10px;
+      border: 2px solid var(--border); background: white; cursor: pointer;
+      font-style: italic; font-size: .9rem; line-height: 1.65; transition: all .15s;
+    }
+    .dm-ver:hover:not([disabled]) { border-color: #BBB; background: #FAFAFA; }
+    .dm-ver.ver-ok  { border-color: #22C55E; background: #F0FDF4; }
+    .dm-ver.ver-err { border-color: #EF4444; background: #FEF2F2; }
+
     /* ===== Dashes, Colons & Hyphens (Tab 5) ===== */
     #tab-dash main { max-width: 780px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
     .sec-title.sage { color: #2E7D52; }
@@ -414,6 +459,15 @@
       <div class="score-stat"><div class="score-num" id="h-a" style="color:var(--muted)">0</div><div class="score-label">Attempted</div></div>
       <div class="score-stat"><div class="score-num" id="h-r" style="color:var(--gold)">15</div><div class="score-label">Remaining</div></div>
     </div>
+
+    <div class="sec-hd" style="margin-top:.3rem">
+      <span class="sec-icon">🔤</span>
+      <h2 class="sec-title" style="color:var(--amber)">Word Pairs &amp; Confusables</h2>
+    </div>
+    <div class="rule-card" style="background:var(--amber-bg);border-left:4px solid var(--amber);margin-bottom:1.5rem">
+      Fifteen of the most commonly confused word pairs and phrases in English — from <em>affect/effect</em> to <em>lay/lie</em>. Each card explains the distinction, gives a diagnostic rule you can apply yourself, and tests you with a question where every wrong answer targets a named misconception. Use the filters below to focus on one category at a time.
+    </div>
+
     <div class="filter-bar">
       <span class="filter-label">Show:</span>
       <button class="filter-btn active" data-cat="all">All (15)</button>
@@ -558,6 +612,84 @@
   </main>
 </div>
 
+<!-- ============================================================ TAB 6: DANGLERS & SQUINTERS -->
+<div id="tab-dangle" class="tab-section">
+  <main>
+    <div class="score-bar">
+      <div class="score-stat"><div class="score-num" id="dg-c" style="color:#22C55E">0</div><div class="score-label">Correct ✓</div></div>
+      <div class="score-stat"><div class="score-num" id="dg-a" style="color:var(--muted)">0</div><div class="score-label">Attempted</div></div>
+      <div class="score-stat"><div class="score-num" id="dg-r" style="color:var(--gold)">15</div><div class="score-label">Remaining</div></div>
+    </div>
+
+    <div class="sec-hd" style="margin-top:.3rem">
+      <span class="sec-icon">🎯</span><h2 class="sec-title terra">Dangling & Misplaced Modifiers</h2>
+    </div>
+    <div class="rule-card terra">
+      A <strong>participle phrase</strong> (opening with a verb ending in <em>-ing</em> or <em>-ed</em>) must modify the <strong>subject</strong> of the main clause. If it ends up attached to the wrong noun — or to nothing at all — it is <strong>dangling</strong>. <strong>Limiting modifiers</strong> (almost, nearly, only, just) must sit directly before the word they modify. One position change can completely flip the meaning of a sentence.
+    </div>
+    <div id="dm-grid"></div>
+
+    <div class="ch-break"><div class="ch-line"></div><span class="ch-drag">🐉</span><div class="ch-line"></div></div>
+
+    <div class="sec-hd">
+      <span class="sec-icon">📍</span><h2 class="sec-title terra">Dangling Prepositions</h2>
+    </div>
+    <div class="rule-card terra">
+      Ending a sentence with a preposition is widely accepted in modern English when doing so is natural and graceful. There is, however, one <strong>absolute rule with no exceptions</strong>: never end a sentence with <em>at</em>. If removing 'at' leaves a perfectly complete sentence, it was never needed.
+    </div>
+    <div id="pr-grid"></div>
+
+    <div class="ch-break"><div class="ch-line"></div><span class="ch-drag">🐉</span><div class="ch-line"></div></div>
+
+    <div class="sec-hd">
+      <span class="sec-icon">👁️</span><h2 class="sec-title terra">Squinting Modifiers</h2>
+    </div>
+    <div class="rule-card terra">
+      A <strong>squinting modifier</strong> is an adverb placed so it could modify either the words before it or the words after it — leaving the reader uncertain which was intended. The fix is always the same: move the adverb so it sits directly next to the word it actually describes.
+    </div>
+    <div id="sq-grid"></div>
+  </main>
+</div>
+
+<!-- ============================================================ TAB 7: CLAUSES, OBJECTS & SUBJECTS -->
+<div id="tab-clause" class="tab-section">
+  <main>
+    <div class="score-bar">
+      <div class="score-stat"><div class="score-num" id="oc-c" style="color:#22C55E">0</div><div class="score-label">Correct ✓</div></div>
+      <div class="score-stat"><div class="score-num" id="oc-a" style="color:var(--muted)">0</div><div class="score-label">Attempted</div></div>
+      <div class="score-stat"><div class="score-num" id="oc-r" style="color:var(--gold)">15</div><div class="score-label">Remaining</div></div>
+    </div>
+
+    <div class="sec-hd" style="margin-top:.3rem">
+      <span class="sec-icon">🔗</span><h2 class="sec-title ocean">Independent or Dependent?</h2>
+    </div>
+    <div class="rule-card ocean">
+      An <strong>independent clause</strong> has a subject and verb and can stand alone as a complete sentence. A <strong>dependent clause</strong> also has a subject and verb, but begins with a subordinating word (when, because, although, if...) that makes it incomplete — it needs an independent clause to finish the thought. These concepts underpin everything else in this series: which/that, subject-verb agreement, comma rules.
+    </div>
+    <div id="cl-grid"></div>
+
+    <div class="ch-break"><div class="ch-line"></div><span class="ch-drag">🐉</span><div class="ch-line"></div></div>
+
+    <div class="sec-hd">
+      <span class="sec-icon">🎯</span><h2 class="sec-title ocean">Find the Direct Object</h2>
+    </div>
+    <div class="rule-card ocean">
+      The <strong>direct object</strong> receives the action of the verb. Find it by asking <strong>"what?"</strong> after the verb. Only <em>transitive</em> verbs have direct objects — you cannot ask "what?" after an intransitive verb. <strong>Linking verbs</strong> (is, am, was, seem, become...) connect the subject to a <em>complement</em>, not a direct object. <strong>Tap the correct phrase</strong> from the options below each sentence.
+    </div>
+    <div id="do-grid"></div>
+
+    <div class="ch-break"><div class="ch-line"></div><span class="ch-drag">🐉</span><div class="ch-line"></div></div>
+
+    <div class="sec-hd">
+      <span class="sec-icon">🔍</span><h2 class="sec-title ocean">Find the True Subject</h2>
+    </div>
+    <div class="rule-card ocean">
+      The <strong>subject</strong> performs or is described by the verb. Find it by asking <strong>"who or what?"</strong> before the verb. The subject is <em>never</em> inside a <strong>prepositional phrase</strong> (phrases starting with <em>along with, within, of, in, among...</em>). In an inverted sentence the subject may follow the verb. <strong>Tap the correct phrase</strong> from the options below each sentence.
+    </div>
+    <div id="su-grid"></div>
+  </main>
+</div>
+
 <!-- ============================================================ DRAGON MASCOT -->
 <div class="mascot" onclick="dragonSpeak()">
   <div class="bubble" id="bubble">I'm Grimsworth. Happy studying!</div>
@@ -605,19 +737,23 @@
 //  Placeholder: just set disabled: true (no HTML section needed)
 // ================================================================
 const NAV_TABS = [
-  { label: '🐉 Grammar Hoard',   tabId: 'tab-hoard' },
-  { label: '📜 Sentence Sense',  tabId: 'tab-sense' },
-  { label: '✏️ Comma Confusion', tabId: 'tab-comma' },
-  { label: '📝 Marks & Meaning', tabId: 'tab-quote' },
-  { label: '⚡ Dashes & Colons', tabId: 'tab-dash'  },
+  { label: '🐉 Word Pairs',       tabId: 'tab-hoard'  },
+  { label: '📜 Sentence Sense',   tabId: 'tab-sense'  },
+  { label: '✏️ Comma Confusion',  tabId: 'tab-comma'  },
+  { label: '📝 Marks & Meaning',  tabId: 'tab-quote'  },
+  { label: '⚡ Dashes & Colons',  tabId: 'tab-dash'   },
+  { label: '🌀 Modifiers',        tabId: 'tab-dangle' },
+  { label: '🔬 Sentence Anatomy', tabId: 'tab-clause' },
 ];
 
 const TAB_META = {
-  'tab-hoard': { icon: '🐉', float: true,  title: "Dragon's Grammar Hoard", sub: "Master the trickiest word pairs — fill the hoard with gems!",            bg: '#FDFAF4', gems: 15 },
-  'tab-sense': { icon: '📜', float: false, title: "Sentence Sense",          sub: "Subject-verb agreement, relative clauses and who/whom.",                  bg: '#E9EFF5', gems: 21 },
-  'tab-comma': { icon: '✏️', float: false, title: "Comma Confusion",         sub: "A misplaced comma can change everything. Prove you know where they go.", bg: '#FEF8EC', gems: 9  },
-  'tab-quote': { icon: '📝', float: false, title: "Marks & Meaning",         sub: "Ellipsis, quotation marks and punctuation conventions.",                  bg: '#F0EDF6', gems: 12 },
-  'tab-dash':  { icon: '⚡', float: false, title: "Dashes, Colons & Hyphens",sub: "Five punctuation marks that separate, explain and connect.",             bg: '#EBF4EF', gems: 16 },
+  'tab-hoard':  { icon: '🐉', float: true,  title: "Dragon's Grammar Hoard",   sub: "Master the trickiest word pairs — fill the hoard with gems!",            bg: '#FDFAF4', gems: 15 },
+  'tab-sense':  { icon: '📜', float: false, title: "Sentence Sense",            sub: "Subject-verb agreement, relative clauses and who/whom.",                  bg: '#E9EFF5', gems: 21 },
+  'tab-comma':  { icon: '✏️', float: false, title: "Comma Confusion",           sub: "A misplaced comma can change everything. Prove you know where they go.", bg: '#FEF8EC', gems: 9  },
+  'tab-quote':  { icon: '📝', float: false, title: "Marks & Meaning",           sub: "Ellipsis, quotation marks and punctuation conventions.",                  bg: '#F0EDF6', gems: 12 },
+  'tab-dash':   { icon: '⚡', float: false, title: "Dashes, Colons & Hyphens",  sub: "Five punctuation marks that separate, explain and connect.",              bg: '#EBF4EF', gems: 16 },
+  'tab-dangle': { icon: '🌀', float: false, title: "Danglers & Squinters",      sub: "Dangling participles, misplaced modifiers and squinting adverbs.",        bg: '#F5EDED', gems: 15 },
+  'tab-clause': { icon: '🔬', float: false, title: "Clauses, Objects & Subjects",sub:"Identify clauses, find direct objects and locate the true subject.",      bg: '#EAF1F3', gems: 15 },
 };
 
 // ================================================================
@@ -625,11 +761,13 @@ const TAB_META = {
 // ================================================================
 let activeTab = 'tab-hoard';
 const sc = {
-  'tab-hoard': { gems:0, correct:0, attempted:0, total:15 },
-  'tab-sense': { gems:0, correct:0, attempted:0, total:21 },
-  'tab-comma': { gems:0, correct:0, attempted:0, total:9  },
-  'tab-quote': { gems:0, correct:0, attempted:0, total:12 },
-  'tab-dash':  { gems:0, correct:0, attempted:0, total:16 },
+  'tab-hoard':  { gems:0, correct:0, attempted:0, total:15 },
+  'tab-sense':  { gems:0, correct:0, attempted:0, total:21 },
+  'tab-comma':  { gems:0, correct:0, attempted:0, total:9  },
+  'tab-quote':  { gems:0, correct:0, attempted:0, total:12 },
+  'tab-dash':   { gems:0, correct:0, attempted:0, total:16 },
+  'tab-dangle': { gems:0, correct:0, attempted:0, total:15 },
+  'tab-clause': { gems:0, correct:0, attempted:0, total:15 },
 };
 
 // ================================================================
@@ -752,6 +890,22 @@ function updateDashScore() {
   if (activeTab === 'tab-dash') updateHeaderGems();
 }
 
+function updateDangleScore() {
+  const s = sc['tab-dangle'];
+  document.getElementById('dg-c').textContent = s.correct;
+  document.getElementById('dg-a').textContent = s.attempted;
+  document.getElementById('dg-r').textContent = s.total - s.attempted;
+  if (activeTab === 'tab-dangle') updateHeaderGems();
+}
+
+function updateClauseScore() {
+  const s = sc['tab-clause'];
+  document.getElementById('oc-c').textContent = s.correct;
+  document.getElementById('oc-a').textContent = s.attempted;
+  document.getElementById('oc-r').textContent = s.total - s.attempted;
+  if (activeTab === 'tab-clause') updateHeaderGems();
+}
+
 // ================================================================
 //  DRAGON
 // ================================================================
@@ -814,6 +968,30 @@ const QUIPS = {
     "'However' after a semicolon needs a comma after it too.",
     "The em-dash has no spaces around it. None. Not one.",
     "Age terms hyphenate in both positions. The three-year-old dragon.",
+  ],
+  'tab-dangle': [
+    "Petra's sword cannot rush after dragons. Sorry.",
+    "Always ask: who is actually doing the action?",
+    "A back sack has no legs. It cannot climb mountains.",
+    "Books don't sigh in relief. Dragons do.",
+    "Never end a sentence with 'at'. Never.",
+    "Almost ate vs. ate almost. One position. Total difference.",
+    "Squinting modifiers look both ways. Fix them.",
+    "Move the adverb. Save the sentence.",
+    "The bog witch is climbing. The back sack is not.",
+    "Ending with 'of' is fine. Ending with 'at' is not.",
+  ],
+  'tab-clause': [
+    "Ask 'what?' after the verb. That's your direct object.",
+    "Linking verbs connect. They don't take direct objects.",
+    "The subject is never inside a prepositional phrase.",
+    "Can it stand alone? Yes = independent. No = dependent.",
+    "Ask 'who or what' does the verb. That's your subject.",
+    "Inverted sentences hide subjects after the verb.",
+    "Intransitive verbs have nothing to receive their action.",
+    "'Along with his army' is not the subject. Prince Mesoggie is.",
+    "The dragon studies grammar. Grammar is studied. Different sentences.",
+    "Dependent clauses make you wait. Independent ones commit.",
   ],
 };
 let quipIdx = 0;
@@ -1888,24 +2066,530 @@ function handleHyphenAnswer(e) {
 }
 
 // ================================================================
+//  DANGLERS & SQUINTERS — Section 1: DANGLING & MISPLACED MODIFIERS
+// ================================================================
+const MODIFIERS = [
+  { id:'dm1', ruleTag:'🎯 Dangling participle', correct:'B',
+    vA:{ text:'"Rushing to catch the dragon, Petra\'s sword fell out of its sheath."',
+         error:"Petra's sword can't rush anywhere — a sword doesn't chase dragons. The participle phrase must modify the subject of the main clause." },
+    vB:{ text:'"Rushing to catch the dragon, Petra realized her sword fell out of its sheath."' },
+    exp:"The participle phrase 'Rushing to catch the dragon' needs a person as the subject of the main clause. Moving 'Petra' into that position fixes the dangler — it is Petra who is rushing, not her sword." },
+
+  { id:'dm2', ruleTag:'🎯 Dangling participle', correct:'A',
+    vA:{ text:'"Running after the dragon, Petra felt the arrows fall and break."' },
+    vB:{ text:'"Running after the dragon, the arrows fell and broke."',
+         error:"Arrows cannot run after dragons — no legs. The participle phrase needs a person as the subject to modify." },
+    exp:"'Running after the dragon' needs to modify a person. In the wrong version it dangles, absurdly attached to 'the arrows'. Giving Petra back her subject position corrects it." },
+
+  { id:'dm3', ruleTag:'🎯 Dangling participle', correct:'B',
+    vA:{ text:'"Petra ran from the dragon still holding the dragon food."',
+         error:"As written, 'still holding the dragon food' drifts toward 'the dragon' as its subject. Who is holding the food — Petra or the dragon?" },
+    vB:{ text:'"Petra ran from the dragon while she was still holding the dragon food."' },
+    exp:"Without 'while she was', the modifier floats dangerously close to the dragon. Adding the conjunction anchors 'still holding the dragon food' clearly to Petra — who is, rather cheekily, running off with the dragon's dinner." },
+
+  { id:'dm4', ruleTag:'🔀 Misplaced modifier', correct:'B',
+    vA:{ text:'"Laughing, the food fight was enjoyed."',
+         error:"Food fights don't laugh. The modifier 'Laughing' has no person in the sentence to attach to — it is dangling." },
+    vB:{ text:'"Laughing, the crowd enjoyed the food fight."' },
+    exp:"'Laughing' is a single-word modifier that needs a person to describe. The passive construction in the wrong version removes any person from the subject position, leaving 'Laughing' with nothing sensible to modify." },
+
+  { id:'dm5', ruleTag:'🔀 Misplaced modifier', correct:'A',
+    vA:{ text:'"Climbing up the mountain, the bog witch felt her back sack slip off her shoulder."' },
+    vB:{ text:'"Climbing up the mountain, the back sack slipped off."',
+         error:"A back sack has no legs and cannot climb a mountain. The participle phrase needs a person as its subject." },
+    exp:"'Climbing up the mountain' must modify a person. The bog witch is a perfectly reasonable climber — back sacks, however, require a carrier." },
+
+  { id:'dm6', ruleTag:'🔀 Misplaced modifier', correct:'A',
+    vA:{ text:'"With a sigh of relief, the dragon immediately purchased The Bathroom Etiquette Book."' },
+    vB:{ text:'"With a sigh of relief, The Bathroom Etiquette Book was immediately purchased."',
+         error:"Books cannot sigh with relief. The passive voice removes the dragon, leaving the book inexplicably relieved." },
+    exp:"Prepositional phrase modifiers need a person or creature to attach to. The passive construction removes the dragon — the only one capable of sighing — and leaves the book doing the emoting." },
+
+  { id:'dm7', ruleTag:'📍 Limiting modifier: almost', correct:'B',
+    vA:{ text:'"Petra almost ate all the dragon\'s food."',
+         error:"'Almost ate' means she came very close to eating but didn't eat anything at all. That is not what was intended." },
+    vB:{ text:'"Petra ate almost all the dragon\'s food."' },
+    exp:"<em>Almost</em> modifies whatever comes directly after it. 'Almost ate' = she didn't eat; she nearly started. 'Ate almost all' = she ate the majority of the food. One word, one move, completely different meaning — and a very annoyed dragon either way." },
+
+  { id:'dm8', ruleTag:'📍 Limiting modifier: nearly', correct:'B',
+    vA:{ text:'"Petra has nearly annoyed every dragon she has played with."',
+         error:"'Nearly annoyed' means she came close to annoying them but failed. That significantly undersells Petra's talent." },
+    vB:{ text:'"Petra has annoyed nearly every dragon she has played with."' },
+    exp:"'Nearly annoyed every dragon' means she annoyed most of them — she was thorough. 'Nearly annoyed' would mean she tried to annoy them but didn't quite manage. Petra is more accomplished than that." },
+];
+
+// ================================================================
+//  DANGLERS & SQUINTERS — Section 2: DANGLING PREPOSITIONS
+// ================================================================
+const PREP = [
+  { id:'pr1', ruleTag:'🚫 The "at" rule', isCorrect:false,
+    sentence:"Where is the royal councilman at?",
+    question:"Is this sentence grammatically correct?",
+    exp:"Remove 'at' and the sentence is complete: 'Where is the royal councilman?' If removing 'at' leaves a perfectly natural sentence, 'at' should never have been there. This is the one absolute, non-negotiable preposition rule." },
+  { id:'pr2', ruleTag:'✓ Graceful preposition endings', isCorrect:true,
+    sentence:"The poem the dragon is thinking of is perfect for the occasion.",
+    question:"Is it acceptable to end the clause with 'of' here?",
+    exp:"Good writing prioritises clarity and grace. The alternative — 'The poem of which the dragon is thinking...' — is technically correct but stiff and awkward. Ending a clause with a preposition is perfectly acceptable when it makes the sentence more natural. Only 'at' is truly off-limits." },
+  { id:'pr3', ruleTag:'🚫 The "at" rule', isCorrect:false,
+    sentence:"Where did the princess end up at?",
+    question:"Is this sentence grammatically correct?",
+    exp:"Remove 'at' and the sentence is complete and natural: 'Where did the princess end up?' The rule is simple — if removing 'at' leaves a perfectly good sentence, 'at' was never needed. No exceptions." },
+];
+
+// ================================================================
+//  DANGLERS & SQUINTERS — Section 3: SQUINTING MODIFIERS
+// ================================================================
+const SQUINT = [
+  { id:'sq1', ruleTag:'👁️ Squinting modifier', isAmbiguous:true,
+    sentence:"The castle that had the big knighting party recently hired a new chef.",
+    adverb:"recently",
+    interpretA:"The knighting party was recent.",
+    interpretB:"The hiring of the new chef was recent.",
+    fixA:'The castle that <strong>recently</strong> had the big knighting party hired a new chef.',
+    fixB:'The castle that had the big knighting party hired a new chef <strong>recently</strong>.',
+    exp:"'Recently' squints between two verbs — 'had the big knighting party' and 'hired a new chef'. It is impossible to tell which event was recent. Move 'recently' directly before whichever action it describes." },
+  { id:'sq2', ruleTag:'✓ Clear sentence', isAmbiguous:false,
+    sentence:"The castle that recently had the big knighting party hired a new chef.",
+    adverb:"recently",
+    exp:"'Recently' now sits directly before 'had the big knighting party', clearly modifying the party — not the hiring. One unambiguous reading." },
+  { id:'sq3', ruleTag:'👁️ Squinting modifier', isAmbiguous:true,
+    sentence:"Scribes who study grammar often can recognize their writing mistakes.",
+    adverb:"often",
+    interpretA:"The scribes study grammar often (frequently).",
+    interpretB:"The scribes can often recognize their mistakes.",
+    fixA:'Scribes who <strong>often</strong> study grammar can recognize their writing mistakes.',
+    fixB:'Scribes who study grammar can <strong>often</strong> recognize their writing mistakes.',
+    exp:"'Often' sits awkwardly between 'study grammar' and 'can recognize' — it could modify either. Move it directly before whichever verb it belongs to and the squint disappears." },
+  { id:'sq4', ruleTag:'✓ Clear sentence', isAmbiguous:false,
+    sentence:"Scribes who often study grammar can recognize their writing mistakes.",
+    adverb:"often",
+    exp:"'Often' now sits directly before 'study grammar', clearly describing how frequently the scribes study. No ambiguity remains about what 'often' refers to." },
+];
+
+// ================================================================
+//  RENDER — DANGLING & MISPLACED MODIFIERS (stacked A/B)
+// ================================================================
+function renderModifiers() {
+  const grid = document.getElementById('dm-grid');
+  MODIFIERS.forEach((q, i) => {
+    const swapped = Math.random() > .5;
+    const top = swapped ? q.vB : q.vA;
+    const bot = swapped ? q.vA : q.vB;
+    const topId = swapped ? 'B' : 'A';
+    const botId = swapped ? 'A' : 'B';
+    const card = document.createElement('div');
+    card.className = 'q-card ter';
+    card.dataset.id = q.id; card.dataset.correct = q.correct;
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} of ${MODIFIERS.length}</div>
+      <div style="padding:.45rem 1.3rem .2rem;font-size:.88rem;color:var(--muted);font-style:italic">Which sentence is correctly written?</div>
+      <div style="padding:0 1.3rem .4rem"><span class="rule-tag-terra">${q.ruleTag}</span></div>
+      <div style="padding:0 1.3rem .8rem;display:flex;flex-direction:column;gap:.5rem">
+        <div class="dm-ver" data-qid="${q.id}" data-ver="${topId}">
+          <span class="ver-label">Version A</span>${top.text}
+          <div class="ver-err-label">${top.error||''}</div>
+        </div>
+        <div class="dm-ver" data-qid="${q.id}" data-ver="${botId}">
+          <span class="ver-label">Version B</span>${bot.text}
+          <div class="ver-err-label">${bot.error||''}</div>
+        </div>
+      </div>
+      <div class="exp-pan" id="ep-${q.id}">
+        <div class="exp-in" id="ei-${q.id}">
+          <div class="exp-res" id="er-${q.id}"></div>
+          <div>${q.exp}</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('#dm-grid .dm-ver').forEach(b => b.addEventListener('click', handleModifierAnswer));
+}
+
+function handleModifierAnswer(e) {
+  const card   = e.currentTarget.closest('.q-card');
+  const qid    = e.currentTarget.dataset.qid;
+  if (card.dataset.answered) return;
+  card.dataset.answered = '1';
+  const isOk   = e.currentTarget.dataset.ver === card.dataset.correct;
+  const allVers = card.querySelectorAll('.dm-ver');
+  const ep = document.getElementById('ep-'+qid);
+  const ei = document.getElementById('ei-'+qid);
+  const er = document.getElementById('er-'+qid);
+  allVers.forEach(c => { c.setAttribute('disabled',true); c.style.cursor='default'; if(c.dataset.ver===card.dataset.correct) c.classList.add('ver-ok'); });
+  if (!isOk) e.currentTarget.classList.add('ver-err');
+  const s = sc['tab-dangle']; s.attempted++;
+  ep.classList.add('open');
+  if (isOk) {
+    er.textContent='✅ Correct!'; er.className='exp-res ok'; ei.className='exp-in ok';
+    s.correct++; s.gems++; spawnGem(e.currentTarget); setDragon('happy');
+    card.classList.add('card-flash');
+    setTimeout(()=>{ setDragon('neutral'); card.classList.remove('card-flash'); }, 2600);
+  } else {
+    er.textContent='❌ Not quite — see below.'; er.className='exp-res err'; ei.className='exp-in err';
+    setDragon('sad'); setTimeout(()=>setDragon('neutral'), 2400);
+  }
+  updateDangleScore();
+}
+
+// ================================================================
+//  RENDER — DANGLING PREPOSITIONS (yes/no binary)
+// ================================================================
+function renderPrep() {
+  const grid = document.getElementById('pr-grid');
+  PREP.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card ter';
+    card.dataset.id = q.id; card.dataset.needs = q.isCorrect ? '1' : '0';
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} of ${PREP.length}</div>
+      <div class="q-sent">
+        <span class="rule-tag-terra">${q.ruleTag}</span><br>
+        <em>${q.sentence}</em>
+      </div>
+      <div style="padding:0 1.3rem .4rem;font-size:.88rem;color:var(--muted);font-style:italic">${q.question}</div>
+      <div class="yn-row">
+        <button class="yn-btn" data-qid="${q.id}" data-val="0">✗ Not correct</button>
+        <button class="yn-btn" data-qid="${q.id}" data-val="1">✓ Correct</button>
+      </div>
+      <div class="exp-pan" id="ep-${q.id}">
+        <div class="exp-in" id="ei-${q.id}">
+          <div class="exp-res" id="er-${q.id}"></div>
+          <div>${q.exp}</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('#pr-grid .yn-btn').forEach(b => b.addEventListener('click', handlePrepAnswer));
+}
+
+function handlePrepAnswer(e) {
+  const btn = e.currentTarget, qid = btn.dataset.qid;
+  const card = btn.closest('.q-card');
+  if (card.dataset.answered) return;
+  card.dataset.answered = '1';
+  const isOk = btn.dataset.val === card.dataset.needs;
+  const allBtns = card.querySelectorAll('.yn-btn');
+  const ep=document.getElementById('ep-'+qid), ei=document.getElementById('ei-'+qid), er=document.getElementById('er-'+qid);
+  allBtns.forEach(b=>{ b.disabled=true; if(b.dataset.val===card.dataset.needs) b.classList.add(isOk&&b===btn?'yn-ok':'yn-rev'); });
+  if(!isOk) btn.classList.add('yn-err');
+  const s=sc['tab-dangle']; s.attempted++;
+  ep.classList.add('open');
+  if(isOk){ er.textContent='✅ Correct!'; er.className='exp-res ok'; ei.className='exp-in ok'; s.correct++; s.gems++; spawnGem(btn); setDragon('happy'); card.classList.add('card-flash'); setTimeout(()=>{ setDragon('neutral'); card.classList.remove('card-flash'); },2600); }
+  else{ er.textContent='❌ Not quite — see below.'; er.className='exp-res err'; ei.className='exp-in err'; setDragon('sad'); setTimeout(()=>setDragon('neutral'),2400); }
+  updateDangleScore();
+}
+
+// ================================================================
+//  RENDER — SQUINTING MODIFIERS (ambiguous vs. clear)
+// ================================================================
+function renderSquint() {
+  const grid = document.getElementById('sq-grid');
+  SQUINT.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card ter';
+    card.dataset.id = q.id; card.dataset.needs = q.isAmbiguous ? '1' : '0';
+    let interpsHTML = '';
+    if (q.interpretA) {
+      interpsHTML = `<div style="margin-top:.55rem;font-size:.85rem;line-height:1.6">
+        <strong>Reading 1:</strong> ${q.interpretA}<br>
+        <strong>Reading 2:</strong> ${q.interpretB}<br>
+        <strong>Fix option 1:</strong> <em>${q.fixA}</em><br>
+        <strong>Fix option 2:</strong> <em>${q.fixB}</em>
+      </div>`;
+    }
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} of ${SQUINT.length}</div>
+      <div class="q-sent">
+        <span class="rule-tag-terra">${q.ruleTag}</span><br>
+        <em>${q.sentence}</em>
+        <div style="font-size:.8rem;margin-top:.3rem;color:var(--muted);font-style:normal">Focus on the adverb: <strong>${q.adverb}</strong></div>
+      </div>
+      <div style="padding:0 1.3rem .4rem;font-size:.88rem;color:var(--muted);font-style:italic">Is this sentence clear, or could it mean two different things?</div>
+      <div class="yn-row">
+        <button class="yn-btn" data-qid="${q.id}" data-val="0">✓ Clear — one meaning</button>
+        <button class="yn-btn" data-qid="${q.id}" data-val="1">⚠️ Ambiguous — two meanings</button>
+      </div>
+      <div class="exp-pan" id="ep-${q.id}">
+        <div class="exp-in" id="ei-${q.id}">
+          <div class="exp-res" id="er-${q.id}"></div>
+          <div>${q.exp}${interpsHTML}</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('#sq-grid .yn-btn').forEach(b => b.addEventListener('click', handleSquintAnswer));
+}
+
+function handleSquintAnswer(e) {
+  const btn = e.currentTarget, qid = btn.dataset.qid;
+  const card = btn.closest('.q-card');
+  if (card.dataset.answered) return;
+  card.dataset.answered = '1';
+  const isOk = btn.dataset.val === card.dataset.needs;
+  const allBtns = card.querySelectorAll('.yn-btn');
+  const ep=document.getElementById('ep-'+qid), ei=document.getElementById('ei-'+qid), er=document.getElementById('er-'+qid);
+  allBtns.forEach(b=>{ b.disabled=true; if(b.dataset.val===card.dataset.needs) b.classList.add(isOk&&b===btn?'yn-ok':'yn-rev'); });
+  if(!isOk) btn.classList.add('yn-err');
+  const s=sc['tab-dangle']; s.attempted++;
+  ep.classList.add('open');
+  if(isOk){ er.textContent='✅ Correct!'; er.className='exp-res ok'; ei.className='exp-in ok'; s.correct++; s.gems++; spawnGem(btn); setDragon('happy'); card.classList.add('card-flash'); setTimeout(()=>{ setDragon('neutral'); card.classList.remove('card-flash'); },2600); }
+  else{ er.textContent='❌ Not quite — see below.'; er.className='exp-res err'; ei.className='exp-in err'; setDragon('sad'); setTimeout(()=>setDragon('neutral'),2400); }
+  updateDangleScore();
+}
+
+// ================================================================
+//  CLAUSES, OBJECTS & SUBJECTS — Section 1: CLAUSE INDEPENDENCE
+// ================================================================
+const CLAUSE = [
+  { id:'cl1', ruleTag:'🔗 Clause independence', isIndependent:false,
+    contextHtml:'<span class="ph-hl">When the king yelled</span>, the knights scattered.',
+    clause:'When the king yelled',
+    question:'Can the highlighted clause stand alone as a complete sentence?',
+    exp:"'When the king yelled' is a <strong>dependent clause</strong>. The word 'when' is a subordinating conjunction — it introduces a condition that leaves the reader waiting for the rest. It cannot stand alone." },
+
+  { id:'cl2', ruleTag:'🔗 Clause independence', isIndependent:true,
+    contextHtml:'When the king yelled, <span class="ph-hl">the knights scattered</span>.',
+    clause:'the knights scattered',
+    question:'Can the highlighted clause stand alone as a complete sentence?',
+    exp:"'The knights scattered' is an <strong>independent clause</strong> — subject (the knights) + verb (scattered) + complete thought. It could be its own sentence. Here it forms the main clause of a compound sentence." },
+
+  { id:'cl3', ruleTag:'🔗 Clause independence', isIndependent:false,
+    contextHtml:'<span class="ph-hl">When he reads</span>, they fall asleep.',
+    clause:'When he reads',
+    question:'Can the highlighted clause stand alone as a complete sentence?',
+    exp:"'When he reads' is a <strong>dependent clause</strong>. 'When' signals a temporal condition — the clause creates expectation but offers no resolution. It depends entirely on 'they fall asleep' to complete the thought." },
+
+  { id:'cl4', ruleTag:'🔗 Clause independence', isIndependent:true,
+    contextHtml:'<span class="ph-hl">He ran</span>, and he didn\'t want to look back.',
+    clause:'He ran',
+    question:'Can the highlighted clause stand alone as a complete sentence?',
+    exp:"'He ran' is an <strong>independent clause</strong> — complete subject (He), verb (ran), complete thought. Two independent clauses are joined here by the coordinating conjunction 'and' to form a compound sentence." },
+
+  { id:'cl5', ruleTag:'🔗 Clause independence', isIndependent:true,
+    contextHtml:'Snarls loves having his scales polished, but <span class="ph-hl">he hates getting his ears cleaned</span>.',
+    clause:'he hates getting his ears cleaned',
+    question:'Can the highlighted clause stand alone as a complete sentence?',
+    exp:"'He hates getting his ears cleaned' is an <strong>independent clause</strong> — subject (he), verb (hates), complete thought. It joins the other independent clause via 'but' to form a compound sentence about a dragon's complicated relationship with grooming." },
+];
+
+// ================================================================
+//  CLAUSES, OBJECTS & SUBJECTS — Section 2: DIRECT OBJECTS
+// ================================================================
+const DIRECT_OBJ = [
+  { id:'do1', ruleTag:'🎯 Direct object',
+    sentenceHtml:'Play <span class="ph-hl">the harpsichord</span>.',
+    question:"Verb: <em>Play</em>. Ask 'what?' — what is the direct object?",
+    opts:[
+      { val:'harpsichord', label:'the harpsichord', correct:true  },
+      { val:'verb',        label:'Play (the verb)',  correct:false },
+    ],
+    exp:"Verb: <em>Play</em>. Ask 'what?': <em>the harpsichord</em>. The harpsichord receives the action and is the direct object. Play is a transitive verb — it requires something to be played." },
+
+  { id:'do2', ruleTag:'🎯 Direct vs. indirect object',
+    sentenceHtml:'The dragon gave <span class="ph-hl">her</span> <span class="ph-hl">a book</span>.',
+    question:"Verb: <em>gave</em>. Which is the <strong>direct</strong> object?",
+    opts:[
+      { val:'her',  label:'her',    correct:false },
+      { val:'book', label:'a book', correct:true  },
+    ],
+    exp:"Verb: <em>gave</em>. Ask 'what?': <em>a book</em> — the book is the direct object. <em>Her</em> is the <strong>indirect object</strong>: it tells us to <em>whom</em> the book was given, and always comes before the direct object." },
+
+  { id:'do3', ruleTag:'⚠️ Linking verb — complement, not object',
+    sentenceHtml:'Petra is <span class="ph-hl">confused</span>.',
+    question:"Verb: <em>is</em>. What is the direct object?",
+    opts:[
+      { val:'confused', label:'confused',        correct:false },
+      { val:'petra',    label:'Petra',            correct:false },
+      { val:'none',     label:'No direct object', correct:true  },
+    ],
+    exp:"<em>Is</em> is a <strong>linking verb</strong> — it connects the subject to a description of it. Linking verbs never have direct objects; they have <strong>complements</strong>. 'Confused' describes Petra, making it a complement. A quick test: you cannot 'is' something." },
+
+  { id:'do4', ruleTag:'🎯 Direct object phrase',
+    sentenceHtml:'The dragon loves <span class="ph-hl">cooking hors d\'oeuvres</span>.',
+    question:"Verb: <em>loves</em>. What is the direct object?",
+    opts:[
+      { val:'dragon',  label:'The dragon',           correct:false },
+      { val:'cooking', label:"cooking hors d'oeuvres", correct:true },
+      { val:'loves',   label:'loves (the verb)',       correct:false },
+    ],
+    exp:"Verb: <em>loves</em>. Ask 'what?': <em>cooking hors d'oeuvres</em>. The entire gerund phrase receives the action of 'loves' — it is the direct object. The dragon is the subject, not an object." },
+
+  { id:'do5', ruleTag:'⚠️ Intransitive verb — no object possible',
+    sentenceHtml:'The bog witch is snoring <span class="ph-hl">at the moment</span>.',
+    question:"Verb: <em>is snoring</em>. What is the direct object?",
+    opts:[
+      { val:'moment', label:'at the moment',  correct:false },
+      { val:'witch',  label:'The bog witch',  correct:false },
+      { val:'none',   label:'No direct object', correct:true },
+    ],
+    exp:"<em>Is snoring</em> is an <strong>intransitive verb</strong> — you cannot snore something. Ask 'what?': nothing. There is no direct object. 'At the moment' is a prepositional phrase of time, not an object." },
+];
+
+// ================================================================
+//  CLAUSES, OBJECTS & SUBJECTS — Section 3: SUBJECTS
+// ================================================================
+const SUBJECT = [
+  { id:'su1', ruleTag:'🔍 Find the subject',
+    sentenceHtml:'<span class="ph-hl">The dragon</span> studies <span class="ph-hl">grammar</span>.',
+    question:"Who or what performs the verb 'studies'?",
+    opts:[
+      { val:'dragon',  label:'The dragon', correct:true  },
+      { val:'grammar', label:'grammar',    correct:false },
+    ],
+    exp:"Ask 'who studies?': <em>The dragon</em>. The dragon performs the action. Grammar is the direct object — the thing being studied, not the thing doing the studying." },
+
+  { id:'su2', ruleTag:'🔍 Ignore the prepositional phrase',
+    sentenceHtml:'<span class="ph-hl">Prince Mesoggie</span>, along with <span class="ph-hl">his puny army</span>, hung their wet clothes on the drawbridge.',
+    question:"Who performed 'hung'? (Strip out prepositional phrases first.)",
+    opts:[
+      { val:'mesoggie', label:'Prince Mesoggie', correct:true  },
+      { val:'army',     label:'his puny army',   correct:false },
+      { val:'both',     label:'Both of them',    correct:false },
+    ],
+    exp:"'Along with his puny army' is a <strong>prepositional phrase</strong> — the subject never lives inside one. Strip it out: 'Prince Mesoggie hung their wet clothes.' The subject is <em>Prince Mesoggie</em> alone, even though both characters feature in the sentence." },
+
+  { id:'su3', ruleTag:'🔍 Inverted sentence — subject after verb',
+    sentenceHtml:'Within <span class="ph-hl">the castle moat</span> are <span class="ph-hl">several snapping crocodiles</span>.',
+    question:"What is the subject of 'are'? (The sentence is inverted.)",
+    opts:[
+      { val:'moat', label:'the castle moat',            correct:false },
+      { val:'crocs',label:'several snapping crocodiles', correct:true  },
+    ],
+    exp:"'Within the castle moat' is a <strong>prepositional phrase</strong> — no subject there. In this inverted sentence, the subject follows the verb. Reorder it: 'Several snapping crocodiles are within the castle moat.' Now the subject is obvious." },
+
+  { id:'su4', ruleTag:'🔍 Subject as an extended phrase',
+    sentenceHtml:'<span class="ph-hl">The rules about onion fighting</span> could fill <span class="ph-hl">pages</span> in the royal rule book.',
+    question:"What is the subject of 'could fill'?",
+    opts:[
+      { val:'rules',  label:'The rules about onion fighting', correct:true  },
+      { val:'pages',  label:'pages',                          correct:false },
+      { val:'onion',  label:'onion fighting',                 correct:false },
+    ],
+    exp:"Ask 'what could fill pages?': <em>The rules about onion fighting</em>. The whole extended phrase is the subject — 'about onion fighting' modifies <em>rules</em> and is part of the subject. 'Pages' is the direct object." },
+
+  { id:'su5', ruleTag:'🔍 Subject of the main clause',
+    sentenceHtml:'When <span class="ph-hl">the king</span> yelled, <span class="ph-hl">the knights</span> scattered.',
+    question:"What is the subject of the <strong>main</strong> clause?",
+    opts:[
+      { val:'king',   label:'the king',   correct:false },
+      { val:'knights',label:'the knights', correct:true  },
+    ],
+    exp:"'The king' is the subject of the <strong>dependent</strong> clause ('When the king yelled'). The <strong>main</strong> clause is 'the knights scattered' — its subject is <em>the knights</em>. Both clauses have subjects, but the question asks about the main clause specifically." },
+];
+
+// ================================================================
+//  RENDER — CLAUSE INDEPENDENCE (yes/no binary)
+// ================================================================
+function renderClause() {
+  const grid = document.getElementById('cl-grid');
+  CLAUSE.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card ocn';
+    card.dataset.id = q.id; card.dataset.needs = q.isIndependent ? '1' : '0';
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} of ${CLAUSE.length}</div>
+      <div class="q-sent">
+        <span class="rule-tag-ocean">${q.ruleTag}</span><br>
+        <em>${q.contextHtml}</em>
+        <div style="font-size:.8rem;margin-top:.35rem;color:var(--muted);font-style:normal">Highlighted clause: <strong>${q.clause}</strong></div>
+      </div>
+      <div style="padding:0 1.3rem .4rem;font-size:.88rem;color:var(--muted);font-style:italic">${q.question}</div>
+      <div class="yn-row">
+        <button class="yn-btn" data-qid="${q.id}" data-val="0">✗ No — it's dependent</button>
+        <button class="yn-btn" data-qid="${q.id}" data-val="1">✓ Yes — it's independent</button>
+      </div>
+      <div class="exp-pan" id="ep-${q.id}">
+        <div class="exp-in" id="ei-${q.id}">
+          <div class="exp-res" id="er-${q.id}"></div>
+          <div>${q.exp}</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('#cl-grid .yn-btn').forEach(b => b.addEventListener('click', handleClauseAnswer));
+}
+
+function handleClauseAnswer(e) {
+  const btn=e.currentTarget, qid=btn.dataset.qid, card=btn.closest('.q-card');
+  if (card.dataset.answered) return;
+  card.dataset.answered='1';
+  const isOk = btn.dataset.val === card.dataset.needs;
+  const allBtns = card.querySelectorAll('.yn-btn');
+  const ep=document.getElementById('ep-'+qid), ei=document.getElementById('ei-'+qid), er=document.getElementById('er-'+qid);
+  allBtns.forEach(b=>{ b.disabled=true; if(b.dataset.val===card.dataset.needs) b.classList.add(isOk&&b===btn?'yn-ok':'yn-rev'); });
+  if (!isOk) btn.classList.add('yn-err');
+  const s=sc['tab-clause']; s.attempted++;
+  ep.classList.add('open');
+  if (isOk) { er.textContent='✅ Correct!'; er.className='exp-res ok'; ei.className='exp-in ok'; s.correct++; s.gems++; spawnGem(btn); setDragon('happy'); card.classList.add('card-flash'); setTimeout(()=>{ setDragon('neutral'); card.classList.remove('card-flash'); },2600); }
+  else { er.textContent='❌ Not quite — see below.'; er.className='exp-res err'; ei.className='exp-in err'; setDragon('sad'); setTimeout(()=>setDragon('neutral'),2400); }
+  updateClauseScore();
+}
+
+// ================================================================
+//  RENDER — PHRASE SECTIONS (tap-the-phrase mechanic)
+//  Shared renderer for Direct Object and Subject sections
+// ================================================================
+function renderPhraseSection(data, gridId) {
+  const grid = document.getElementById(gridId);
+  data.forEach((q, i) => {
+    const opts = shuffle([...q.opts]);
+    const card = document.createElement('div');
+    card.className = 'q-card ocn';
+    card.dataset.id = q.id;
+    card.dataset.correct = q.opts.find(o => o.correct).val;
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} of ${data.length}</div>
+      <div class="q-sent">
+        <span class="rule-tag-ocean">${q.ruleTag}</span><br>
+        <em>${q.sentenceHtml}</em>
+      </div>
+      <div style="padding:0 1.3rem .3rem;font-size:.88rem;color:var(--muted);font-style:italic">${q.question}</div>
+      <div class="phrase-opts">
+        ${opts.map(o => `<button class="phrase-btn" data-qid="${q.id}" data-val="${o.val}">${o.label}</button>`).join('')}
+      </div>
+      <div class="exp-pan" id="ep-${q.id}">
+        <div class="exp-in" id="ei-${q.id}">
+          <div class="exp-res" id="er-${q.id}"></div>
+          <div>${q.exp}</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.querySelectorAll(`#${gridId} .phrase-btn`).forEach(b => b.addEventListener('click', handlePhraseAnswer));
+}
+
+function renderDirectObj() { renderPhraseSection(DIRECT_OBJ, 'do-grid'); }
+function renderSubject()   { renderPhraseSection(SUBJECT,    'su-grid'); }
+
+function handlePhraseAnswer(e) {
+  const btn=e.currentTarget, qid=btn.dataset.qid, card=btn.closest('.q-card');
+  if (card.dataset.answered) return;
+  card.dataset.answered='1';
+  const isOk = btn.dataset.val === card.dataset.correct;
+  const allBtns = card.querySelectorAll('.phrase-btn');
+  const ep=document.getElementById('ep-'+qid), ei=document.getElementById('ei-'+qid), er=document.getElementById('er-'+qid);
+  allBtns.forEach(b=>{ b.disabled=true; if(b.dataset.val===card.dataset.correct) b.classList.add(isOk&&b===btn?'ph-ok':'ph-rev'); });
+  if (!isOk) btn.classList.add('ph-err');
+  const s=sc['tab-clause']; s.attempted++;
+  ep.classList.add('open');
+  if (isOk) { er.textContent='✅ Correct!'; er.className='exp-res ok'; ei.className='exp-in ok'; s.correct++; s.gems++; spawnGem(btn); setDragon('happy'); card.classList.add('card-flash'); setTimeout(()=>{ setDragon('neutral'); card.classList.remove('card-flash'); },2600); }
+  else { er.textContent='❌ Not quite — see below.'; er.className='exp-res err'; ei.className='exp-in err'; setDragon('sad'); setTimeout(()=>setDragon('neutral'),2400); }
+  updateClauseScore();
+}
+
+// ================================================================
 //  INIT
 // ================================================================
 buildNav();
 renderHoard();
-renderS1();
-renderS2();
-renderS3();
+renderS1(); renderS2(); renderS3();
 renderComma();
-renderEllipsis();
-renderQuotes();
-renderEmDash();
-renderColSemi();
-renderHyphen();
-updateHoardScore();
-updateSenseScore();
-updateCommaScore();
-updateQuoteScore();
-updateDashScore();
+renderEllipsis(); renderQuotes();
+renderEmDash(); renderColSemi(); renderHyphen();
+renderModifiers(); renderPrep(); renderSquint();
+renderClause(); renderDirectObj(); renderSubject();
+updateHoardScore(); updateSenseScore(); updateCommaScore();
+updateQuoteScore(); updateDashScore(); updateDangleScore(); updateClauseScore();
 
 setTimeout(() => {
   const b = document.getElementById('bubble');
