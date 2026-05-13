@@ -492,8 +492,8 @@
       <span class="sec-icon">🔎</span><h2 class="sec-title blue">Is, Are, Do, Does</h2>
     </div>
     <div class="rule-card blue">
-      The verb must agree with the <strong>subject</strong> — not the nearest noun. Ignore phrases beginning with <em>of</em>, <em>as well as</em>, or <em>along with</em>. Then ask: <strong>singular or plural?</strong><br>
-      Special cases: <em>-ics</em> words (economics, mathematics) are singular. Gerund phrases ("Playing chess") count as one subject. With <em>either/or</em> and <em>neither/nor</em>: if one element is plural, the verb is plural.
+      Find the true subject first — strip away noise phrases (<em>of</em>, <em>as well as</em>, <em>along with</em>) that never belong to the verb. With the real subject in hand, ask: <strong>singular or plural?</strong><br>
+      Three traps to watch for: <em>-ics</em> words (economics, mathematics) are always singular. Gerund phrases (<em>Playing chess</em>) are one idea — singular. With <em>either/or</em> and <em>neither/nor</em>, the verb agrees with the <strong>closer</strong> element: <em>Either the dragon or the knights are coming</em> — knights is closer, so plural.
     </div>
     <div id="s1-grid"></div>
     <div class="ch-break"><div class="ch-line"></div><span class="ch-drag">🐉</span><div class="ch-line"></div></div>
@@ -509,9 +509,8 @@
       <span class="sec-icon">🎭</span><h2 class="sec-title violet">Who or Whom?</h2>
     </div>
     <div class="rule-card violet">
-      <strong>Who</strong> is a subject pronoun — it does the action (like <em>he/she</em>). <strong>Whom</strong> is an object pronoun — something is done to it (like <em>him/her</em>).<br>
-      The same rules apply to <strong>whoever</strong> and <strong>whomever</strong>.<br>
-      🔑 <strong>The he/him test:</strong> rewrite the sentence and substitute <em>he</em> or <em>him</em>. If <em>he</em> sounds right → use <em>who</em>. If <em>him</em> sounds right → use <em>whom</em>.
+      <strong>Who</strong> is a subject pronoun — it does the action (like <em>he/she</em>). <strong>Whom</strong> is an object pronoun — it receives the action or follows a preposition directly (like <em>him/her</em>). Memory hook: <em>whom</em> and <em>him</em> both end in <strong>m</strong>.<br>
+      🔑 <strong>The he/him test:</strong> isolate the clause containing the blank, then substitute <em>he</em> or <em>him</em>. If <em>he</em> fits → <em>who</em>. If <em>him</em> fits → <em>whom</em>. The same logic applies to <strong>whoever</strong> and <strong>whomever</strong>.
     </div>
     <div id="s3-grid"></div>
   </main>
@@ -1055,8 +1054,8 @@ const HOARD = [
         no:"❌ The sentence needs a verb ('will ___'). Affect is the verb; effect is the noun." }},
 
   { id:'h6',  cat:'oneortwo', label:'✂️ One or Two?', title:"Awhile vs. A While",
-    exp:"<strong>Awhile</strong> is an adverb meaning <em>for a time</em>. <strong>A while</strong> is a noun phrase meaning <em>a period of time</em>. Writing <em>for awhile</em> would mean <em>for for a time</em> — redundant!",
-    rule:'After "for", always use two words: for a while. Without "for", you can say "stay awhile."',
+    exp:"<strong>Awhile</strong> is an adverb meaning <em>for a time</em> — the word 'for' is already baked into it. <strong>A while</strong> is a noun phrase (a + while) that needs a preposition in front of it. That's why <em>for awhile</em> doubles up: it means <em>for for a time</em>.",
+    rule:'Preposition before the blank (for / in / after)? → two words: <em>a while</em>. Verb before the blank? → one word: <em>awhile</em>.',
     eg:'"Stay awhile, dear knight!" / "The dragon waited for a while before roaring."',
     q:{ s:'The dragon stared at the grammar puzzle for _______ before answering.',
         opts:[{t:"a while",c:true},{t:"awhile",c:false,m:"Adverb after 'for' creates 'for for a time'"},{t:"some time",c:false,m:"Different phrase — tests the specific pair"},{t:"while",c:false,m:"Missing article needed for noun phrase"}],
@@ -1064,8 +1063,8 @@ const HOARD = [
         no:"❌ 'For awhile' = 'for for a time' — redundant! After 'for', write two words: a while." }},
 
   { id:'h7',  cat:'oneortwo', label:'✂️ One or Two?', title:"Anymore vs. Any More",
-    exp:"<strong>Anymore</strong> (one word) is an adverb meaning <em>any longer</em> — it refers to time. <strong>Any more</strong> (two words) means <em>additional</em> — it refers to quantity.",
-    rule:'Anymore = time ("no longer"). Any more = quantity ("additional").',
+    exp:"<strong>Anymore</strong> (one word) is an adverb meaning <em>any longer</em> — it modifies a verb and only appears in negative sentences or questions. <strong>Any more</strong> (two words) is a determiner meaning <em>additional</em> — it always precedes a noun.",
+    rule:'A noun follows the blank? → two words: <em>any more</em>. No noun — modifying a verb? → one word: <em>anymore</em>. Swap test: "additional" fits → any more. "any longer" fits → anymore.',
     eg:'"The king doesn\'t like banquets anymore." / "He doesn\'t want any more onions."',
     q:{ s:'After ten chapters, the dragon didn\'t want to study grammar _______ tonight.',
         opts:[{t:"anymore",c:true},{t:"any more",c:false,m:"Quantity phrase used where time adverb is needed"},{t:"any longer",c:false,m:"Correct meaning but tests the one-word form"},{t:"ever",c:false,m:"Changes the meaning too dramatically"}],
@@ -1118,18 +1117,18 @@ const HOARD = [
         no:"❌ 'Nor' is the clue — nor always follows neither, never either." }},
 
   { id:'h13', cat:'verbs', label:'⚡ Verb Trap', title:"Lay vs. Lie",
-    exp:"<strong>Lie</strong> (lie, lay, lain) is something you do to yourself — no direct object. <strong>Lay</strong> (lay, laid, laid) is something you do to something else — it always needs a direct object. The past tense of <em>lie</em> is <em>lay</em>, which causes endless confusion.",
-    rule:'Lie = action on yourself (no object). Lay = action on something else (needs an object).',
-    eg:'"I lie down." / "Yesterday I lay down." / "I lay the scroll on the table." (object: scroll)',
+    exp:"<strong>Lie</strong> (lie → lay → lain): what you do yourself — no direct object needed. <strong>Lay</strong> (lay → laid → laid): what you do to something else — always needs a direct object. The trap: the past tense of <em>lie</em> is <em>lay</em> — identical to the present tense of <em>lay</em>, which is where most errors happen.",
+    rule:'No object → lie. Object present → lay. Watch the past: <em>lay</em> = past of lie; <em>laid</em> = past of lay.',
+    eg:'"I lie on the floor." (present, no object) / "I lay the scroll on the table." (present, object: scroll) / "Yesterday I lay on the floor." (past of lie) / "Yesterday I laid the scroll down." (past of lay)',
     q:{ s:'After a long day of lessons, the dragon decided to _______ down for a nap.',
         opts:[{t:"lie",c:true},{t:"lay",c:false,m:"Transitive verb used without a direct object"},{t:"lain",c:false,m:"Past participle used in place of the infinitive"},{t:"laid",c:false,m:"Past tense of 'lay' — wrong tense and verb"}],
         ok:"✅ The dragon acts on itself — no object. No object → lie.",
         no:"❌ The dragon is reclining itself (no object). That makes it lie. Lay would need an object." }},
 
   { id:'h14', cat:'verbs', label:'⚡ Verb Trap', title:"Was vs. Were",
-    exp:"<strong>Was</strong> describes real past facts. <strong>Were</strong> is used in hypothetical or wishful situations — whenever <em>if</em>, <em>wish</em>, or <em>as if</em> signals something imaginary. This is the <em>subjunctive mood</em>.",
-    rule:'Real past → was. Hypothetical / wish / if → were (the subjunctive mood).',
-    eg:'"Yesterday I was exhausted." / "If I were king, I would ban grammar tests."',
+    exp:"<strong>Was</strong> is for real past facts (singular: I / he / she / it). <strong>Were</strong> is used when something is <em>not actually true</em> — hypothetical, wished-for, or imaginary. This is the <em>subjunctive mood</em>, and it applies to all persons: <em>if I were, if he were, if she were</em>.",
+    rule:'Ask: is this actually true? Yes (real past) → was. No (imaginary / counterfactual) → were. Triggers: <em>wish</em>, <em>as if</em>, and <em>if</em> when the condition is not real.',
+    eg:'"Yesterday I was exhausted." (real) / "If I were king, I\'d ban grammar tests." (not true — subjunctive) / "I wish I were taller." (wished-for) / "She acted as if she were the queen." (as if)',
     q:{ s:'If I _______ the dragon, I would know how to breathe fire correctly.',
         opts:[{t:"were",c:true},{t:"was",c:false,m:"Past factual form used in a hypothetical if-clause"},{t:"am",c:false,m:"Present tense in a past hypothetical context"},{t:"would be",c:false,m:"Belongs in the result clause, not the if-clause"}],
         ok:"✅ Hypothetical ('I'm not the dragon') → always were in an if-clause. Subjunctive!",
@@ -1414,7 +1413,7 @@ const S3 = [
   { id:'s3d', before:"Snarls,", ch:['who','whom'], ok:'who', after:"was the original dragon character, now lives at Longstride Castle.",
     exp:"He/him test: '<strong>He</strong> was the original dragon character' ✓ vs 'Him was...' ✗. <em>He</em> works → use <em>who</em>. Snarls is the subject of 'was'." },
   { id:'s3e', before:"Send the invitational scrolls to", ch:['whoever','whomever'], ok:'whoever', after:"knows Snarls.",
-    exp:"He/him test: '<strong>He</strong> knows Snarls' ✓ vs 'Him knows Snarls' ✗. <em>He</em> works → use <em>whoever</em>. Whoever is the subject of 'knows'." },
+    exp:"He/him test: '<strong>He</strong> knows Snarls' ✓ vs 'Him knows Snarls' ✗. <em>He</em> works → use <em>whoever</em>. Watch the trap: <em>to</em> here governs the whole clause ('to [whoever knows Snarls]') — not just the pronoun. Whoever is the subject of 'knows', not the object of 'to'." },
   { id:'s3f', before:"We will accommodate", ch:['whoever','whomever'], ok:'whomever', after:"you invite.",
     exp:"He/him test: 'You invite <strong>him</strong>' ✓ vs 'You invite he' ✗. <em>Him</em> works → use <em>whomever</em>. Whomever is the object of 'invite'." },
 ];
