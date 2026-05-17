@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spell It Right — Argumentative Writing Vocabulary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --navy-mid: #1a2d42;
+    --navy-light: #243b55;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dim: #8a6e2f;
+    --cream: #f5edd6;
+    --cream-dim: #c8bda0;
+    --red: #c0392b;
+    --green: #27ae60;
+    --green-light: #2ecc71;
+    --bg: #091422;
+    --card-bg: #111f30;
+    --border: rgba(201,168,76,0.25);
+    --text: #e8dcc8;
+    --text-dim: #9e9278;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ── BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 90%, rgba(13,27,42,0.8) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    width: 100%;
+    max-width: 860px;
+    padding: 2.4rem 2rem 1.4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.15;
+  }
+
+  h1 span { color: var(--gold); font-style: italic; }
+
+  .header-sub {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    color: var(--text-dim);
+    margin-top: 0.4rem;
+    font-size: 1rem;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    gap: 0.3rem;
+    padding: 0 2rem;
+    max-width: 860px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 1.6rem;
+  }
+
+  .tab-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.55rem 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+
+  .tab-btn:hover { color: var(--cream); border-color: rgba(201,168,76,0.5); }
+
+  .tab-btn.active {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* ── MAIN AREA ── */
+  main {
+    width: 100%;
+    max-width: 860px;
+    padding: 0 2rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── PROGRESS BAR ── */
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 3px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+
+  .progress-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  .mastered-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    background: rgba(39,174,96,0.15);
+    border: 1px solid rgba(39,174,96,0.3);
+    color: var(--green-light);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem 2.2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .word-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    margin-bottom: 1rem;
+  }
+
+  .swedish-tag {
+    display: inline-block;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold-light);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 2px;
+    margin-bottom: 0.8rem;
+  }
+
+  .definition {
+    font-size: 1.15rem;
+    color: var(--cream);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .example-sentence {
+    font-style: italic;
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    border-left: 2px solid var(--gold-dim);
+    padding-left: 1rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .example-sentence .blank {
+    display: inline-block;
+    min-width: 80px;
+    border-bottom: 1px solid var(--gold-dim);
+    color: transparent;
+    user-select: none;
+  }
+
+  /* ── INPUT ── */
+  .input-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .spell-input {
+    flex: 1;
+    min-width: 180px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--cream);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    padding: 0.7rem 1rem;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+    text-transform: lowercase;
+  }
+
+  .spell-input:focus { border-color: var(--gold); }
+  .spell-input:disabled { opacity: 0.5; }
+
+  .submit-btn {
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.4rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .submit-btn:hover { background: var(--gold-light); }
+  .submit-btn:active { transform: scale(0.98); }
+  .submit-btn:disabled { opacity: 0.4; cursor: default; }
+
+  /* ── FEEDBACK ── */
+  .feedback-area {
+    margin-top: 1.4rem;
+    display: none;
+  }
+
+  .feedback-area.visible { display: block; }
+
+  .letter-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .letter-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 44px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    animation: popIn 0.2s ease both;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+
+  .letter-box.correct {
+    background: rgba(39,174,96,0.18);
+    color: var(--green-light);
+    border: 1px solid rgba(39,174,96,0.4);
+  }
+
+  .letter-box.wrong {
+    background: rgba(192,57,43,0.18);
+    color: #e74c3c;
+    border: 1px solid rgba(192,57,43,0.4);
+  }
+
+  .letter-box.missing {
+    background: rgba(192,57,43,0.08);
+    color: #e74c3c;
+    border: 1px dashed rgba(192,57,43,0.4);
+    font-style: italic;
+  }
+
+  .feedback-result {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .feedback-result.correct-msg  { color: var(--green-light); }
+  .feedback-result.wrong-msg    { color: #e74c3c; }
+  .feedback-result.synonym-msg  { color: var(--gold-light); }
+  .feedback-result.confusion-msg { color: #e67e22; }
+
+  .confusion-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    background: rgba(230,126,34,0.08);
+    border: 1px solid rgba(230,126,34,0.3);
+    border-radius: 3px;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--cream-dim);
+    line-height: 1.45;
+  }
+
+  .confusion-note .icon { color: #e67e22; flex-shrink: 0; }
+
+  .tricky-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    background: rgba(201,168,76,0.07);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 3px;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--cream-dim);
+    line-height: 1.45;
+  }
+
+  .tricky-note .icon { color: var(--gold); flex-shrink: 0; }
+
+  .correct-word-reveal {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--gold);
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+  }
+
+  .correct-word-reveal .emphasis {
+    background: rgba(201,168,76,0.2);
+    border-radius: 2px;
+    padding: 0 2px;
+  }
+
+  .action-row {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-top: 0.4rem;
+  }
+
+  .next-btn {
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.2rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .next-btn:hover { background: var(--gold-light); }
+
+  .speak-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.6rem 1rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .speak-btn:hover { color: var(--cream); border-color: rgba(201,168,76,0.5); }
+
+  /* ── FLASH MODE ── */
+  .flash-word {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    color: var(--cream);
+    text-align: center;
+    padding: 2rem 0;
+    letter-spacing: 0.04em;
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.4s;
+  }
+
+  .flash-word.fading { opacity: 0; }
+
+  .flash-timer-bar {
+    height: 3px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    margin-bottom: 1.6rem;
+    overflow: hidden;
+  }
+
+  .flash-timer-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    width: 100%;
+    transition: width linear;
+  }
+
+  /* ── TEST MODE ── */
+  .test-config {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 2rem 0;
+    text-align: center;
+  }
+
+  .test-start-btn {
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.9rem 2.2rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .test-start-btn:hover { background: var(--gold-light); }
+
+  .test-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+  }
+
+  .test-question-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+  }
+
+  .score-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* ── RESULTS ── */
+  .results-card {
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .results-score {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 10vw, 5rem);
+    color: var(--gold);
+    line-height: 1;
+    margin: 1rem 0 0.3rem;
+  }
+
+  .results-label {
+    color: var(--text-dim);
+    font-style: italic;
+    margin-bottom: 1.6rem;
+  }
+
+  .results-breakdown {
+    text-align: left;
+    margin: 1.6rem 0;
+  }
+
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.95rem;
+  }
+
+  .result-row .rword { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+  .result-row .rtick { font-size: 1rem; }
+  .result-row .rtick.ok  { color: var(--green-light); }
+  .result-row .rtick.bad { color: #e74c3c; }
+  .result-row .rwrong { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-dim); text-decoration: line-through; }
+
+  /* ── WORD LIST SIDEBAR ── */
+  .word-list-toggle {
+    margin-bottom: 1rem;
+  }
+
+  .wl-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .wl-btn:hover { color: var(--cream); border-color: rgba(201,168,76,0.4); }
+
+  .word-list-panel {
+    display: none;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .word-list-panel.open { display: block; }
+
+  .word-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.4rem 1rem;
+  }
+
+  .wl-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    padding: 0.2rem 0;
+  }
+
+  .wl-item.mastered { color: var(--green-light); }
+  .wl-item.missed   { color: #e74c3c; }
+  .wl-item .wl-dot  { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+  /* ── STREAK ── */
+  .streak-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    margin-top: 1.2rem;
+    text-align: right;
+  }
+
+  .streak-display span { color: var(--gold); font-weight: 600; }
+
+  /* ── MODE DESCRIPTION ── */
+  .mode-desc {
+    font-style: italic;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-bottom: 1.4rem;
+    line-height: 1.5;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    header, .tabs, main { padding-left: 1.2rem; padding-right: 1.2rem; }
+    .card { padding: 1.4rem 1.2rem; }
+    .letter-box { width: 30px; height: 38px; font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-eyebrow">ESOL B1–B2 · Argumentative Writing · Spelling Practice</div>
+  <h1>Spell It <span>Right</span></h1>
+  <div class="header-sub">Master the words that matter — and the letters that trip you up.</div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" onclick="switchTab('define')">① Definitions</button>
+  <button class="tab-btn" onclick="switchTab('flash')">② Flash</button>
+  <button class="tab-btn" onclick="switchTab('test')">③ Minitest</button>
+  <button class="tab-btn" onclick="switchTab('wordlist')">Word List</button>
+</nav>
+
+<main>
+
+<!-- ═══════════ PANEL 1: DEFINITIONS ═══════════ -->
+<div id="panel-define" class="panel active">
+
+  <div class="word-list-toggle">
+    <button class="wl-btn" onclick="toggleWordList('wl-define')">▾ Show word list</button>
+    <div id="wl-define" class="word-list-panel"></div>
+  </div>
+
+  <div class="progress-row">
+    <div class="progress-track"><div class="progress-fill" id="def-progress"></div></div>
+    <div class="progress-label" id="def-progress-label">0 / 0</div>
+    <div class="mastered-badge" id="def-mastered">✓ 0 mastered</div>
+  </div>
+
+  <p class="mode-desc">You are given the Swedish translation, definition, and a gapped example sentence. Type <strong style="color:var(--cream)">one single English word</strong> from memory — no phrases, no guessing.</p>
+
+  <div class="card" id="def-card">
+    <div class="word-number" id="def-word-num">Word 1 of 28</div>
+    <div class="swedish-tag" id="def-swedish"></div>
+    <div class="definition" id="def-definition"></div>
+
+    <div class="input-row">
+      <input class="spell-input" id="def-input" type="text" placeholder="Type the word…" autocomplete="off" autocorrect="off" spellcheck="false"/>
+      <button class="submit-btn" id="def-submit" onclick="checkDefinition()">Check →</button>
+    </div>
+
+    <div class="feedback-area" id="def-feedback">
+      <div class="feedback-result" id="def-result-msg"></div>
+      <div class="letter-display" id="def-letters"></div>
+      <div class="correct-word-reveal" id="def-correct-reveal"></div>
+      <div class="tricky-note" id="def-tricky"><span class="icon">⚠</span><span id="def-tricky-text"></span></div>
+      <div class="example-sentence" id="def-example" style="margin-top:1rem;"></div>
+      <div class="action-row">
+        <button class="next-btn" onclick="nextDefinition()">Next word →</button>
+        <button class="speak-btn" onclick="speakCurrent('define')">🔊 Pronounce</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="streak-display">Streak: <span id="def-streak">0</span></div>
+
+  <div id="def-completion" class="card results-card" style="display:none;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;">All words mastered</div>
+    <div class="results-score" style="font-size:3.5rem;">✓</div>
+    <div class="results-label" id="def-completion-msg"></div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-dim);margin:0.5rem 0 1.6rem;" id="def-completion-errors"></div>
+    <button class="test-start-btn" onclick="initDefine()">Start again</button>
+  </div>
+
+</div>
+
+<!-- ═══════════ PANEL 2: FLASH ═══════════ -->
+<div id="panel-flash" class="panel">
+
+  <div class="progress-row">
+    <div class="progress-track"><div class="progress-fill" id="flash-progress"></div></div>
+    <div class="progress-label" id="flash-progress-label">0 / 0</div>
+    <div class="mastered-badge" id="flash-mastered">✓ 0 mastered</div>
+  </div>
+
+  <p class="mode-desc">The word flashes for <strong>3 seconds</strong>, then disappears. Type <strong style="color:var(--cream)">one single word</strong> from memory — no hints.</p>
+
+  <div class="card">
+    <div class="word-number" id="flash-word-num">Word 1 of 28</div>
+    <div class="flash-timer-bar"><div class="flash-timer-fill" id="flash-timer-fill"></div></div>
+    <div class="flash-word" id="flash-word-display">—</div>
+
+    <div id="flash-ready-area">
+      <div class="input-row">
+        <input class="spell-input" id="flash-input" type="text" placeholder="Type the word…" autocomplete="off" autocorrect="off" spellcheck="false" disabled/>
+        <button class="submit-btn" id="flash-submit" onclick="checkFlash()" disabled>Check →</button>
+      </div>
+      <div style="margin-top:0.8rem;">
+        <button class="next-btn" id="flash-show-btn" onclick="showFlashWord()">Show word</button>
+      </div>
+    </div>
+
+    <div class="feedback-area" id="flash-feedback">
+      <div class="feedback-result" id="flash-result-msg"></div>
+      <div class="letter-display" id="flash-letters"></div>
+      <div class="correct-word-reveal" id="flash-correct-reveal"></div>
+      <div class="tricky-note" id="flash-tricky"><span class="icon">⚠</span><span id="flash-tricky-text"></span></div>
+      <div class="action-row">
+        <button class="next-btn" onclick="nextFlash()">Next word →</button>
+        <button class="speak-btn" onclick="speakCurrent('flash')">🔊 Pronounce</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="streak-display">Streak: <span id="flash-streak">0</span></div>
+</div>
+
+<!-- ═══════════ PANEL 3: TEST ═══════════ -->
+<div id="panel-test" class="panel">
+  <div id="test-config-area" class="card test-config">
+    <div style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--cream);">Mini Spelling Test</div>
+    <p style="color:var(--text-dim);font-style:italic;font-size:0.95rem;max-width:360px;line-height:1.5;">10 randomly selected words from the full list. You will see only the Swedish translation and definition. No example sentence.</p>
+    <button class="test-start-btn" onclick="startTest()">Start Test →</button>
+  </div>
+
+  <div id="test-active-area" style="display:none;">
+    <div class="test-header">
+      <div class="test-question-label" id="test-q-label">Question 1 of 10</div>
+      <div class="score-display" id="test-score-display">Score: 0 / 0</div>
+    </div>
+
+    <div class="card">
+      <div class="swedish-tag" id="test-swedish"></div>
+      <div class="definition" id="test-definition" style="margin-bottom:1.4rem;"></div>
+
+      <div class="input-row">
+        <input class="spell-input" id="test-input" type="text" placeholder="Type the word…" autocomplete="off" autocorrect="off" spellcheck="false"/>
+        <button class="submit-btn" id="test-submit" onclick="checkTest()">Check →</button>
+      </div>
+
+      <div class="feedback-area" id="test-feedback">
+        <div class="feedback-result" id="test-result-msg"></div>
+        <div class="letter-display" id="test-letters"></div>
+        <div class="correct-word-reveal" id="test-correct-reveal"></div>
+        <div class="action-row" style="margin-top:0.8rem;">
+          <button class="next-btn" onclick="nextTest()">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="test-results-area" style="display:none;" class="card results-card">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;">Test Complete</div>
+    <div class="results-score" id="results-score">—</div>
+    <div class="results-label" id="results-label"></div>
+    <div class="results-breakdown" id="results-breakdown"></div>
+    <button class="test-start-btn" onclick="restartTest()">Try Again</button>
+  </div>
+</div>
+
+<!-- ═══════════ PANEL 4: WORD LIST ═══════════ -->
+<div id="panel-wordlist" class="panel">
+  <p class="mode-desc">All 28 words in the practice set. Click any word to hear it pronounced.</p>
+  <div class="card">
+    <div id="full-word-list-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0.6rem 2rem;"></div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ══════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════
+const WORDS = [
+  {
+    word: "necessary",
+    swedish: "nödvändig",
+    definition: "Needed; something you must have or do to achieve a goal.",
+    example: "Stricter regulation is necessary, but it alone is not sufficient to solve the problem.",
+    tricky: "One C, two S's. Think: one Collar, two Socks (NeCeSSary).",
+    validAnswers: ["essential","vital","crucial","required","needed","important"]
+  },
+  {
+    word: "recommend",
+    swedish: "rekommendera",
+    definition: "To suggest or advise something as a good choice.",
+    example: "The report's authors recommend a phased approach rather than immediate, sweeping reform.",
+    tricky: "One C, two M's. Unlike the Swedish 'rekommendera' — don't double the C.",
+    validAnswers: ["suggest","advise","propose","advocate","urge"]
+  },
+  {
+    word: "occurrence",
+    swedish: "förekomst / händelse",
+    definition: "An event or incident; the fact that something happens.",
+    example: "The occurrence of such crises at regular intervals suggests a systemic failure.",
+    tricky: "Double C, double R, -ence not -ance. All four: ocCuRRenCe.",
+    validAnswers: ["event","incident","instance","case","happening","pattern"]
+  },
+  {
+    word: "definitely",
+    swedish: "definitivt",
+    definition: "Without any doubt; certainly — used to make a statement stronger.",
+    example: "This is definitely not a new problem; historians have documented it for decades.",
+    tricky: "Contains 'finite'. Spell it: de-FINITE-ly. Never 'definately'.",
+    validAnswers: ["certainly","clearly","undoubtedly","unquestionably","absolutely"]
+  },
+  {
+    word: "separate",
+    swedish: "separat / åtskild",
+    definition: "To divide or keep apart; existing as a distinct thing.",
+    example: "A credible argument must separate correlation from causation.",
+    tricky: "There is 'a rat' in sep-A-R-A-te. Not 'seperate'.",
+    validAnswers: ["distinguish","divide","differentiate","isolate","disconnect"]
+  },
+  {
+    word: "argument",
+    swedish: "skäl / resonemang",
+    definition: "A reason or set of reasons given to support a position.",
+    example: "The argument collapses the moment its central assumption is questioned.",
+    tricky: "No E at the end. 'Argue' drops the E: argue → argument.",
+    validAnswers: ["reasoning","case","claim","point","rationale","position"],
+    confusionWords: [
+      { word: "reason", explanation: "'Reason' (skäl) is a single supporting point inside an argument. An 'argument' in academic English is the complete structure: a position plus the reasoning that backs it up. Your essay makes an argument — the individual skäl are the reasons within it." }
+    ]
+  },
+  {
+    word: "exaggerate",
+    swedish: "överdriva",
+    definition: "To represent something as larger or more extreme than it really is.",
+    example: "Critics argue that the media tend to exaggerate the scale of the threat.",
+    tricky: "Double G, one R. Ex-AGG-er-ate. A common single-G mistake.",
+    validAnswers: ["overstate","overestimate","inflate","amplify","distort","overplay"]
+  },
+  {
+    word: "privilege",
+    swedish: "privilegium / fördel",
+    definition: "A special right or advantage not available to everyone.",
+    example: "Access to quality legal representation remains a privilege of the wealthy.",
+    tricky: "Not 'priviledge'. The ending is -lege, not -ledge.",
+    validAnswers: ["advantage","benefit","right","luxury","entitlement"],
+    confusionWords: [
+      { word: "prejudice", explanation: "'Prejudice' (fördomar) is an unfair opinion formed without evidence — think of 'pre-judge'. 'Privilege' (privilegium) is an advantage or special right not available to everyone." }
+    ]
+  },
+  {
+    word: "conscience",
+    swedish: "samvete",
+    definition: "An inner sense of what is right and wrong; moral awareness.",
+    example: "Legislation can enforce behaviour, but it cannot replace individual conscience.",
+    tricky: "Silent SC at the start. Con-SCIENCE. The word 'science' is hidden inside.",
+    validAnswers: ["morality","ethics","judgment","integrity","values"],
+    confusionWords: [
+      { word: "conscious", explanation: "'Conscious' (medveten) means awake and aware of your surroundings. 'Conscience' (samvete) is your inner moral sense — notice it contains the word 'science'." }
+    ]
+  },
+  {
+    word: "accommodate",
+    swedish: "tillmötesgå / inrymma",
+    definition: "To make space for; to adapt to the needs of others.",
+    example: "A fair policy must accommodate the diverse circumstances of those it affects.",
+    tricky: "Double C, double M. Ac-COM-MO-date. Both doubled consonants are easy to miss.",
+    validAnswers: ["consider","address","include","adapt","adjust","account"]
+  },
+  {
+    word: "consequence",
+    swedish: "konsekvens",
+    definition: "A result or effect of an action, often an unwanted one.",
+    example: "The long-term consequence of ignoring inequality is social instability.",
+    tricky: "Ends in -ence, not -ance. Compare 'sequence' — same family.",
+    validAnswers: ["result","effect","outcome","impact","repercussion","implication"]
+  },
+  {
+    word: "evidence",
+    swedish: "bevis",
+    definition: "Facts or information used to support a claim or argument.",
+    example: "The evidence gathered over thirty years points to one clear conclusion.",
+    tricky: "Ends in -ence not -ance. Evi-DENCE.",
+    validAnswers: ["proof","data","facts","research","findings","support"],
+    confusionWords: [
+      { word: "evident", explanation: "'Evident' is an adjective meaning obvious or clearly visible: 'it is evident that…'. 'Evidence' is a noun — the actual facts or information you use to support a claim." }
+    ]
+  },
+  {
+    word: "relevant",
+    swedish: "som har med saken att göra / lämplig / passande",
+    definition: "Directly connected to the matter being discussed; applicable.",
+    example: "Historical examples are only relevant when the conditions are genuinely comparable.",
+    tricky: "Not 'relevent'. Think: re-LEV-ant. A level argument is relevant.",
+    validAnswers: ["applicable","pertinent","appropriate","suitable","useful","related"]
+  },
+  {
+    word: "guarantee",
+    swedish: "garanti / garantera",
+    definition: "A firm promise or assurance that something will happen.",
+    example: "Freedom of the press is no guarantee that the press will be truthful.",
+    tricky: "Ends in -ee. Guar-AN-tee. The -uarantee sequence trips many up.",
+    validAnswers: ["ensure","promise","assure","secure","certify","pledge"],
+    confusionWords: [
+      { word: "insurance", explanation: "'Insurance' (försäkring) is a financial product you buy to protect against losses. 'Guarantee' (garanti) is a firm promise that something will happen or is true — no money involved." }
+    ]
+  },
+  {
+    word: "environment",
+    swedish: "miljö",
+    definition: "The natural world; also the surroundings or conditions of a place.",
+    example: "Economic development has come at a steep cost to the environment.",
+    tricky: "Envi-RON-ment. The N is often dropped in speech but never in writing.",
+    validAnswers: ["nature","ecosystem","habitat","surroundings","climate","world"]
+  },
+  {
+    word: "immediately",
+    swedish: "omedelbart",
+    definition: "At once; without any delay.",
+    example: "The government acted immediately, though critics argued the measures were inadequate.",
+    tricky: "Immediate + ly. Double M: im-ME-di-ate-ly. Don't drop the E before -ly.",
+    validAnswers: ["instantly","promptly","urgently","swiftly","directly","at once"]
+  },
+  {
+    word: "particularly",
+    swedish: "i synnerhet / särskilt",
+    definition: "Especially; to a greater degree than usual.",
+    example: "This burden falls particularly hard on those already living in poverty.",
+    tricky: "Partic-U-lar-LY. Four syllables — don't swallow the -ular part.",
+    validAnswers: ["especially","notably","specifically","above all","in particular","most"],
+    confusionWords: [
+      { word: "greatly", explanation: "Good instinct — but 'greatly' intensifies verbs: 'this greatly improved the situation.' 'Particularly' intensifies adjectives and whole statements: 'particularly important', 'particularly in rural areas.' The word that follows is the clue — if it's an adjective or a place, reach for 'particularly'." }
+    ]
+  },
+  {
+    word: "throughout",
+    swedish: "genomgående / under hela",
+    definition: "In every part of something; from the beginning to the end.",
+    example: "Throughout the twentieth century, this tension between liberty and security persisted.",
+    tricky: "Through + out. The full word 'through' is inside it.",
+    validAnswers: ["across","during","within","over","along","spanning"],
+    confusionWords: [
+      { word: "through", explanation: "'Through' means from one side to the other: 'through the door'. 'Throughout' means across the whole of something from start to finish — it adds 'out', extending the reach in both space and time." }
+    ]
+  },
+  {
+    word: "significant",
+    swedish: "betydande / viktig",
+    definition: "Large or important enough to be worthy of attention.",
+    example: "There is a significant body of research supporting this conclusion.",
+    tricky: "Ends in -ant not -ent. Signific-ANT — an ant at the end.",
+    validAnswers: ["important","major","substantial","considerable","notable","large"]
+  },
+  {
+    word: "perspective",
+    swedish: "perspektiv / synvinkel",
+    definition: "A particular way of seeing or thinking about something.",
+    example: "From a long-term perspective, short-term economic gain rarely justifies environmental damage.",
+    tricky: "Per-SPEC-tive. The SPEC root means 'to see'. Not 'persepctive'.",
+    validAnswers: ["viewpoint","standpoint","angle","view","position","lens"]
+  },
+  {
+    word: "criticism",
+    swedish: "kritik",
+    definition: "The expression of disapproval; analysis that identifies problems.",
+    example: "The most common criticism of this approach is that it ignores structural inequality.",
+    tricky: "Ends in -icism, not -ism alone. Criti-C-ISM.",
+    validAnswers: ["critique","objection","challenge","opposition","complaint","attack"]
+  },
+  {
+    word: "phenomenon",
+    swedish: "fenomen",
+    definition: "A remarkable or observable fact, event, or circumstance.",
+    example: "Mass migration is not a new phenomenon; it has reshaped civilisations throughout history.",
+    tricky: "Phe-NOM-enon. Double N at the end: phenom-E-NON. Plural: phenomena.",
+    validAnswers: ["trend","development","event","issue","occurrence","reality"],
+    confusionWords: [
+      { word: "phenomena", explanation: "'Phenomena' is the plural — use it for more than one: 'these phenomena'. When referring to a single one, use 'phenomenon': 'this phenomenon'. Mixing them up is one of the most common errors in academic writing." }
+    ]
+  },
+  {
+    word: "government",
+    swedish: "regering / statsmakt",
+    definition: "The group of people with authority to make and enforce laws for a country.",
+    example: "When the market fails, government intervention may be the only viable response.",
+    tricky: "Gov-ERN-ment. The N is often dropped in speech but must be written.",
+    validAnswers: ["authorities","state","administration","leadership","power","regime"]
+  },
+  {
+    word: "influence",
+    swedish: "påverkan / inflytande",
+    definition: "The power to shape or affect someone's thinking or behaviour.",
+    example: "Corporate lobbying exerts a disproportionate influence over public policy.",
+    tricky: "In-FLU-ence. Ends in -ence not -ance.",
+    validAnswers: ["impact","effect","pressure","sway","power","control"]
+  },
+  {
+    word: "whether",
+    swedish: "huruvida / om",
+    definition: "Used to express a doubt or choice between two alternatives.",
+    example: "The central question is whether individual freedom should override collective welfare.",
+    tricky: "Not 'weather'. Wheth-ER: begins with 'wh', like 'which' and 'why'.",
+    validAnswers: ["if"],
+    confusionWords: [
+      { word: "weather", explanation: "'Weather' (väder) is rain, sun, wind — what's happening outside. 'Whether' (huruvida/om) introduces a doubt or choice: 'whether A or B'. One is atmospheric, the other is logical." }
+    ]
+  },
+  {
+    word: "therefore",
+    swedish: "därför",
+    definition: "For that reason; as a logical consequence of what was just stated.",
+    example: "The sample size was too small; therefore, the results cannot be generalised.",
+    tricky: "There + fore. One word, not two. 'There' is visibly inside it.",
+    validAnswers: ["thus","consequently","hence","so","accordingly","as a result"],
+    confusionWords: [
+      { word: "because", explanation: "'Because' (eftersom/för att) introduces a reason — it looks back at the cause: 'I was late because the bus broke down.' 'Therefore' (därför) introduces a consequence — it looks forward to the result: 'The bus broke down; therefore I was late.' In argumentative writing, mix these up and your logic reverses." }
+    ]
+  },
+  {
+    word: "although",
+    swedish: "fastän / trots att",
+    definition: "In spite of the fact that; used to introduce a contrasting idea.",
+    example: "Although both sides present valid points, the weight of evidence favours regulation.",
+    tricky: "Al-THOUGH. The 'ough' is silent, as in 'though'. Not 'altough'.",
+    validAnswers: ["though","even though","while","whereas","despite","whilst"],
+    confusionWords: [
+      { word: "eventhough", explanation: "'Even though' is always two separate words in English — never written as one. You've got the right idea though: 'even though' means the same as 'although' and works just as well in argumentative writing. Just remember the space." }
+    ]
+  },
+  {
+    word: "conclusion",
+    swedish: "slutsats / slutledning",
+    definition: "A judgment reached by reasoning; the final section of an argument.",
+    example: "In conclusion, the data supports the view that early intervention is cost-effective.",
+    tricky: "Con-CLU-sion. Ends in -sion not -tion.",
+    validAnswers: ["verdict","finding","judgment","outcome","result","summary"],
+    confusionWords: [
+      { word: "exclusion", explanation: "'Exclusion' (utestängning) means being shut out or left out of something. 'Conclusion' (slutsats) is the judgment you reach at the end of reasoning — it concludes, rather than excludes." }
+    ]
+  }
+];
+
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+let defQueue       = [];
+let defIndex       = 0;
+let defMastered    = new Set();
+let defMissed      = new Set();
+let defNeedsReview = new Set();
+let defStreak      = 0;
+let defTotalErrors = 0;
+let defSecondAttempt = false;
+let defCurrent     = null;
+let defAnswered    = false;
+
+let flashQueue    = [];
+let flashIndex    = 0;
+let flashMastered = new Set();
+let flashMissed   = new Set();
+let flashStreak   = 0;
+let flashCurrent  = null;
+let flashAnswered = false;
+let flashShowing  = false;
+let flashTimer    = null;
+
+let testWords   = [];
+let testIndex   = 0;
+let testScore   = 0;
+let testAnswers = [];
+let testAnswered = false;
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildQueue(missed) {
+  const q = shuffle(WORDS);
+  // Put missed words first by interleaving
+  if (missed.size > 0) {
+    const missedWords = WORDS.filter(w => missed.has(w.word));
+    const rest        = WORDS.filter(w => !missed.has(w.word));
+    return [...shuffle(missedWords), ...shuffle(rest)];
+  }
+  return q;
+}
+
+function initDefine() {
+  defQueue         = shuffle([...WORDS]);
+  defIndex         = 0;
+  defMastered      = new Set();
+  defMissed        = new Set();
+  defNeedsReview   = new Set();
+  defStreak        = 0;
+  defTotalErrors   = 0;
+  defSecondAttempt = false;
+  loadDefWord();
+}
+
+function initFlash() {
+  flashQueue    = buildQueue(flashMissed);
+  flashIndex    = 0;
+  flashMastered = new Set();
+  flashMissed   = new Set();
+  flashStreak   = 0;
+  loadFlashWord();
+}
+
+// ══════════════════════════════════════════════
+// DEFINE MODE
+// ══════════════════════════════════════════════
+function loadDefWord() {
+  // Drain any mastered words from the front
+  while (defQueue.length > 0 && defMastered.has(defQueue[0].word)) {
+    defQueue.shift();
+  }
+
+  if (defQueue.length === 0) {
+    showDefCompletion();
+    return;
+  }
+
+  defCurrent       = defQueue[0];
+  defAnswered      = false;
+  defSecondAttempt = false;
+
+  document.getElementById('def-card').style.display       = 'block';
+  document.getElementById('def-completion').style.display = 'none';
+  document.getElementById('def-word-num').textContent     =
+    `${defMastered.size} mastered · ${defQueue.length} remaining`;
+  document.getElementById('def-swedish').textContent      = defCurrent.swedish;
+  document.getElementById('def-definition').textContent   = defCurrent.definition;
+
+  const inp = document.getElementById('def-input');
+  inp.value = '';
+  inp.disabled = false;
+  inp.focus();
+  document.getElementById('def-submit').disabled = false;
+  document.getElementById('def-feedback').classList.remove('visible');
+  document.getElementById('def-example').innerHTML = '';
+  const prev = document.getElementById('def-feedback').querySelector('.confusion-note');
+  if (prev) prev.remove();
+  updateDefProgress();
+}
+
+function showDefCompletion() {
+  document.getElementById('def-card').style.display       = 'none';
+  document.getElementById('def-completion').style.display = 'block';
+
+  const total  = WORDS.length;
+  const errors = defTotalErrors;
+  let msg = errors === 0
+    ? 'Flawless — every word correct on the first attempt.'
+    : errors <= 5
+    ? 'Excellent work — very few mistakes.'
+    : errors <= 10
+    ? 'Good effort — keep practising the ones that came around twice.'
+    : 'Keep going — repetition is how spelling sticks.';
+
+  document.getElementById('def-completion-msg').textContent = msg;
+  document.getElementById('def-completion-errors').textContent = `Total errors: ${errors}`;
+  updateDefProgress();
+}
+
+function updateDefProgress() {
+  const pct = (defMastered.size / WORDS.length) * 100;
+  document.getElementById('def-progress').style.width = pct + '%';
+  document.getElementById('def-progress-label').textContent =
+    `${defMastered.size} / ${WORDS.length}`;
+  document.getElementById('def-mastered').textContent =
+    `✓ ${defMastered.size} mastered`;
+  document.getElementById('def-streak').textContent = defStreak;
+}
+
+function checkDefinition() {
+  if (defAnswered) return;
+  const input   = document.getElementById('def-input').value.trim().toLowerCase();
+  const correct = defCurrent.word.toLowerCase();
+  if (!input) return;
+
+  // Confusion word check
+  const confusionMatch = (defCurrent.confusionWords || []).find(c => c.word.toLowerCase() === input);
+  if (confusionMatch) {
+    defSecondAttempt = true;
+    renderConfusionFeedback('def', input, defCurrent.word, confusionMatch.explanation);
+    return;
+  }
+
+  // Synonym check
+  const isSynonym = (defCurrent.validAnswers || []).some(a => a.toLowerCase() === input);
+  if (isSynonym) {
+    defSecondAttempt = true;
+    renderSynonymFeedback('def', input, defCurrent.word);
+    return;
+  }
+
+  defAnswered = true;
+  document.getElementById('def-input').disabled  = true;
+  document.getElementById('def-submit').disabled = true;
+
+  const isCorrect = input === correct;
+
+  if (isCorrect) {
+    defMissed.delete(defCurrent.word);
+    defNeedsReview.delete(defCurrent.word);
+
+    if (defSecondAttempt && defTotalErrors <= 10) {
+      // High achiever on second attempt — rotate to back for one more confirmation
+      defNeedsReview.add(defCurrent.word);
+      defQueue.push(defQueue.shift());
+    } else {
+      // First attempt correct, or >10 errors on second attempt — mastered, remove
+      defMastered.add(defCurrent.word);
+      defQueue.shift();
+    }
+    defStreak++;
+  } else {
+    defMissed.add(defCurrent.word);
+    defNeedsReview.delete(defCurrent.word);
+    defTotalErrors++;
+    defStreak = 0;
+    // Rotate wrong word to back of queue
+    defQueue.push(defQueue.shift());
+  }
+
+  renderFeedback('def', input, correct, isCorrect);
+  speakWord(defCurrent.word);
+  updateDefProgress();
+}
+
+function nextDefinition() {
+  loadDefWord();
+}
+
+// ══════════════════════════════════════════════
+// FLASH MODE
+// ══════════════════════════════════════════════
+function loadFlashWord() {
+  if (flashIndex >= flashQueue.length) {
+    flashQueue = buildQueue(flashMissed);
+    flashIndex = 0;
+  }
+  flashCurrent  = flashQueue[flashIndex];
+  flashAnswered = false;
+  flashShowing  = false;
+
+  document.getElementById('flash-word-num').textContent =
+    `Word ${flashIndex + 1} of ${flashQueue.length}`;
+  document.getElementById('flash-word-display').textContent = '—';
+  document.getElementById('flash-word-display').classList.remove('fading');
+  document.getElementById('flash-timer-fill').style.transition = 'none';
+  document.getElementById('flash-timer-fill').style.width = '100%';
+  document.getElementById('flash-input').value   = '';
+  document.getElementById('flash-input').disabled = true;
+  document.getElementById('flash-submit').disabled = true;
+  document.getElementById('flash-show-btn').disabled = false;
+  document.getElementById('flash-show-btn').textContent = 'Show word';
+  document.getElementById('flash-feedback').classList.remove('visible');
+  updateFlashProgress();
+  updateWordListPanel('wl-flash');
+}
+
+function showFlashWord() {
+  if (flashShowing) return;
+  flashShowing = true;
+  document.getElementById('flash-show-btn').disabled = true;
+  document.getElementById('flash-word-display').textContent = flashCurrent.word;
+  speakWord(flashCurrent.word);
+
+  const DURATION = 3000;
+  const fill = document.getElementById('flash-timer-fill');
+  // trigger reflow
+  fill.style.transition = 'none';
+  fill.style.width = '100%';
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      fill.style.transition = `width ${DURATION}ms linear`;
+      fill.style.width = '0%';
+    });
+  });
+
+  flashTimer = setTimeout(() => {
+    document.getElementById('flash-word-display').classList.add('fading');
+    setTimeout(() => {
+      document.getElementById('flash-word-display').textContent = '✏️ Now type it';
+      document.getElementById('flash-word-display').classList.remove('fading');
+      document.getElementById('flash-word-display').style.fontSize = '1.4rem';
+      document.getElementById('flash-input').disabled  = false;
+      document.getElementById('flash-submit').disabled = false;
+      document.getElementById('flash-input').focus();
+    }, 400);
+  }, DURATION);
+}
+
+function checkFlash() {
+  if (flashAnswered) return;
+  const input   = document.getElementById('flash-input').value.trim().toLowerCase();
+  const correct = flashCurrent.word.toLowerCase();
+  if (!input) return;
+  flashAnswered = true;
+  document.getElementById('flash-input').disabled  = true;
+  document.getElementById('flash-submit').disabled = true;
+  document.getElementById('flash-word-display').textContent = '';
+  document.getElementById('flash-word-display').style.fontSize = '';
+
+  const isCorrect = input === correct;
+  if (isCorrect) {
+    flashMastered.add(flashCurrent.word);
+    flashMissed.delete(flashCurrent.word);
+    flashStreak++;
+  } else {
+    flashMissed.add(flashCurrent.word);
+    flashStreak = 0;
+  }
+
+  renderFeedback('flash', input, correct, isCorrect);
+  updateFlashProgress();
+}
+
+function nextFlash() {
+  flashIndex++;
+  document.getElementById('flash-word-display').style.fontSize = '';
+  loadFlashWord();
+}
+
+function updateFlashProgress() {
+  const pct = (flashMastered.size / WORDS.length) * 100;
+  document.getElementById('flash-progress').style.width = pct + '%';
+  document.getElementById('flash-progress-label').textContent =
+    `${flashIndex + 1} / ${flashQueue.length}`;
+  document.getElementById('flash-mastered').textContent =
+    `✓ ${flashMastered.size} mastered`;
+  document.getElementById('flash-streak').textContent = flashStreak;
+}
+
+// ══════════════════════════════════════════════
+// TEST MODE
+// ══════════════════════════════════════════════
+function startTest() {
+  testWords    = shuffle(WORDS).slice(0, 10);
+  testIndex    = 0;
+  testScore    = 0;
+  testAnswers  = [];
+  testAnswered = false;
+  document.getElementById('test-config-area').style.display  = 'none';
+  document.getElementById('test-results-area').style.display = 'none';
+  document.getElementById('test-active-area').style.display  = 'block';
+  loadTestWord();
+}
+
+function loadTestWord() {
+  const w = testWords[testIndex];
+  testAnswered = false;
+  document.getElementById('test-q-label').textContent =
+    `Question ${testIndex + 1} of ${testWords.length}`;
+  document.getElementById('test-score-display').textContent =
+    `Score: ${testScore} / ${testIndex}`;
+  document.getElementById('test-swedish').textContent    = w.swedish;
+  document.getElementById('test-definition').textContent = w.definition;
+
+  const inp = document.getElementById('test-input');
+  inp.value = ''; inp.disabled = false; inp.focus();
+  document.getElementById('test-submit').disabled = false;
+  document.getElementById('test-feedback').classList.remove('visible');
+}
+
+function checkTest() {
+  if (testAnswered) return;
+  const w       = testWords[testIndex];
+  const input   = document.getElementById('test-input').value.trim().toLowerCase();
+  const correct = w.word.toLowerCase();
+  if (!input) return;
+
+  // Confusion word check
+  const confusionMatch = (w.confusionWords || []).find(c => c.word.toLowerCase() === input);
+  if (confusionMatch) {
+    renderConfusionFeedback('test', input, w.word, confusionMatch.explanation);
+    return;
+  }
+
+  // Synonym check
+  const isSynonym = (w.validAnswers || []).some(a => a.toLowerCase() === input);
+  if (isSynonym) {
+    renderSynonymFeedback('test', input, w.word);
+    return;
+  }
+
+  testAnswered = true;
+  document.getElementById('test-input').disabled  = true;
+  document.getElementById('test-submit').disabled = true;
+
+  const isCorrect = input === correct;
+  if (isCorrect) testScore++;
+  testAnswers.push({ word: w.word, given: input, correct: isCorrect });
+
+  renderFeedback('test', input, correct, isCorrect);
+  speakWord(w.word);
+  document.getElementById('test-score-display').textContent =
+    `Score: ${testScore} / ${testIndex + 1}`;
+}
+
+function nextTest() {
+  testIndex++;
+  if (testIndex >= testWords.length) {
+    showResults();
+  } else {
+    loadTestWord();
+  }
+}
+
+function showResults() {
+  document.getElementById('test-active-area').style.display  = 'none';
+  document.getElementById('test-results-area').style.display = 'block';
+  document.getElementById('results-score').textContent = `${testScore}/10`;
+
+  const labels = ['Keep practising!','Not bad — keep going!','Solid effort!',
+                  'Good work!','Very good!','Excellent!','Perfect!'];
+  const idx = Math.min(Math.floor((testScore / 10) * (labels.length - 1)), labels.length - 1);
+  document.getElementById('results-label').textContent = labels[idx];
+
+  const bd = document.getElementById('results-breakdown');
+  bd.innerHTML = '';
+  testAnswers.forEach(a => {
+    const row = document.createElement('div');
+    row.className = 'result-row';
+    row.innerHTML = `
+      <span class="rword">${a.word}</span>
+      ${!a.correct ? `<span class="rwrong">${a.given}</span>` : ''}
+      <span class="rtick ${a.correct ? 'ok' : 'bad'}">${a.correct ? '✓' : '✗'}</span>
+    `;
+    bd.appendChild(row);
+  });
+}
+
+function restartTest() {
+  document.getElementById('test-results-area').style.display = 'none';
+  document.getElementById('test-config-area').style.display  = 'block';
+}
+
+// ══════════════════════════════════════════════
+// SYNONYM FEEDBACK
+// ══════════════════════════════════════════════
+function renderSynonymFeedback(mode, input, targetWord) {
+  const fb    = document.getElementById(`${mode}-feedback`);
+  const msgEl = document.getElementById(`${mode}-result-msg`);
+  const letEl = document.getElementById(`${mode}-letters`);
+  const revEl = document.getElementById(`${mode}-correct-reveal`);
+  const trickyEl = document.getElementById(`${mode}-tricky-text`);
+  const exampleEl = document.getElementById(`${mode}-example`);
+
+  fb.classList.add('visible');
+  msgEl.textContent = `✓ Good word — but today we're practising '${targetWord}'. Try again!`;
+  msgEl.className   = 'feedback-result synonym-msg';
+  letEl.innerHTML   = '';
+  if (revEl)     revEl.innerHTML = '';
+  if (trickyEl)  trickyEl.textContent = '';
+  if (exampleEl) exampleEl.innerHTML = '';
+
+  // Remove any previous confusion note
+  const prev = fb.querySelector('.confusion-note');
+  if (prev) prev.remove();
+
+  // Re-enable input for another attempt
+  const inp = document.getElementById(`${mode}-input`);
+  if (inp) { inp.disabled = false; inp.select(); inp.focus(); }
+  const sub = document.getElementById(`${mode}-submit`);
+  if (sub) sub.disabled = false;
+}
+
+function renderConfusionFeedback(mode, input, targetWord, explanation) {
+  const fb    = document.getElementById(`${mode}-feedback`);
+  const msgEl = document.getElementById(`${mode}-result-msg`);
+  const letEl = document.getElementById(`${mode}-letters`);
+  const revEl = document.getElementById(`${mode}-correct-reveal`);
+  const trickyEl  = document.getElementById(`${mode}-tricky-text`);
+  const exampleEl = document.getElementById(`${mode}-example`);
+
+  fb.classList.add('visible');
+  msgEl.textContent = `'${input}' is a different word. Read the note below, then try again.`;
+  msgEl.className   = 'feedback-result confusion-msg';
+  letEl.innerHTML   = '';
+  if (revEl)     revEl.innerHTML = '';
+  if (trickyEl)  trickyEl.textContent = '';
+  if (exampleEl) exampleEl.innerHTML = '';
+
+  // Remove any previous confusion note
+  const prev = fb.querySelector('.confusion-note');
+  if (prev) prev.remove();
+
+  // Insert the formative explanation
+  const note = document.createElement('div');
+  note.className = 'confusion-note';
+  note.innerHTML = `<span class="icon">↔</span><span>${explanation}</span>`;
+  // Insert after msgEl
+  msgEl.insertAdjacentElement('afterend', note);
+
+  // Re-enable input for another attempt
+  const inp = document.getElementById(`${mode}-input`);
+  if (inp) { inp.disabled = false; inp.select(); inp.focus(); }
+  const sub = document.getElementById(`${mode}-submit`);
+  if (sub) sub.disabled = false;
+}
+
+// ══════════════════════════════════════════════
+// SHARED FEEDBACK RENDERER
+// ══════════════════════════════════════════════
+function renderFeedback(mode, input, correct, isCorrect) {
+  const fb     = document.getElementById(`${mode}-feedback`);
+  const msgEl  = document.getElementById(`${mode}-result-msg`);
+  const letEl  = document.getElementById(`${mode}-letters`);
+  const revEl  = document.getElementById(`${mode}-correct-reveal`);
+
+  fb.classList.add('visible');
+
+  if (isCorrect) {
+    msgEl.textContent = '✓ Correct!';
+    msgEl.className   = 'feedback-result correct-msg';
+  } else {
+    msgEl.textContent = '✗ Not quite.';
+    msgEl.className   = 'feedback-result wrong-msg';
+  }
+
+  // Letter-by-letter comparison
+  letEl.innerHTML = '';
+  const maxLen = Math.max(input.length, correct.length);
+  for (let i = 0; i < maxLen; i++) {
+    const box = document.createElement('div');
+    box.className = 'letter-box';
+    box.style.animationDelay = (i * 40) + 'ms';
+    if (i < input.length) {
+      box.textContent = input[i];
+      box.classList.add(input[i] === correct[i] ? 'correct' : 'wrong');
+    } else {
+      // missing letter
+      box.textContent = correct[i];
+      box.classList.add('missing');
+    }
+    letEl.appendChild(box);
+  }
+
+  // Populate example sentence (define mode only)
+  const exampleEl = document.getElementById(`${mode}-example`);
+  if (exampleEl) {
+    const wordObj = WORDS.find(w => w.word === correct);
+    if (wordObj) {
+      const highlighted = wordObj.example.replace(
+        new RegExp(`\\b${wordObj.word}\\b`, 'i'),
+        `<strong style="color:var(--gold-light);font-style:normal;">${wordObj.word}</strong>`
+      );
+      exampleEl.innerHTML = `<span style="color:var(--text-dim);font-size:0.8rem;font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:0.4rem;">Example sentence</span>${highlighted}`;
+    }
+  }
+
+  // Show correct spelling if wrong
+  if (revEl) {
+    const wordObj = WORDS.find(w => w.word === correct);
+    if (!isCorrect && wordObj) {
+      revEl.innerHTML = `Correct spelling: <strong style="color:var(--gold)">${wordObj.word}</strong>`;
+    } else {
+      revEl.innerHTML = '';
+    }
+  }
+
+  // Tricky note (not in test mode)
+  const trickyEl = document.getElementById(`${mode}-tricky-text`);
+  if (trickyEl) {
+    const wordObj = WORDS.find(w => w.word === correct);
+    trickyEl.textContent = wordObj ? wordObj.tricky : '';
+  }
+}
+
+
+
+// ══════════════════════════════════════════════
+// WORD LIST PANEL
+// ══════════════════════════════════════════════
+function updateWordListPanel(panelId) {
+  // used for mini panels in define/flash modes (removed for brevity — just show full list)
+}
+
+function toggleWordList(panelId) {
+  const el = document.getElementById(panelId);
+  el.classList.toggle('open');
+  if (el.classList.contains('open') && !el.dataset.built) {
+    buildWordListGrid(el);
+    el.dataset.built = '1';
+  }
+}
+
+function buildWordListGrid(container) {
+  container.innerHTML = '';
+  const grid = document.createElement('div');
+  grid.className = 'word-list-grid';
+  WORDS.forEach(w => {
+    const item = document.createElement('div');
+    item.className = 'wl-item';
+    item.innerHTML = `<span class="wl-dot"></span><span>${w.word}</span><span style="color:var(--text-dim);font-size:0.65rem;margin-left:0.3rem;"> — ${w.swedish}</span>`;
+    item.style.cursor = 'pointer';
+    item.title = 'Click to hear pronunciation';
+    item.addEventListener('click', () => speakWord(w.word));
+    grid.appendChild(item);
+  });
+  container.appendChild(grid);
+}
+
+function buildFullWordList() {
+  const grid = document.getElementById('full-word-list-grid');
+  WORDS.forEach(w => {
+    const item = document.createElement('div');
+    item.style.cssText = 'padding:0.6rem 0;border-bottom:1px solid rgba(255,255,255,0.05);cursor:pointer;';
+    item.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--cream)">${w.word}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--gold)">${w.swedish}</span>
+      </div>
+      <div style="font-size:0.85rem;color:var(--text-dim);margin-top:0.2rem;font-style:italic">${w.definition}</div>
+      <div style="font-size:0.75rem;color:var(--gold-dim);margin-top:0.25rem;">⚠ ${w.tricky}</div>
+    `;
+    item.title = 'Click to hear pronunciation';
+    item.addEventListener('click', () => speakWord(w.word));
+    grid.appendChild(item);
+  });
+}
+
+// ══════════════════════════════════════════════
+// SPEECH
+// ══════════════════════════════════════════════
+function speakWord(word) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(word);
+  utt.lang  = 'en-GB';
+  utt.rate  = 0.85;
+  window.speechSynthesis.speak(utt);
+}
+
+function speakCurrent(mode) {
+  if (mode === 'define' && defCurrent) speakWord(defCurrent.word);
+  if (mode === 'flash'  && flashCurrent) speakWord(flashCurrent.word);
+}
+
+// ══════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════
+function switchTab(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`panel-${name}`).classList.add('active');
+  const btns = document.querySelectorAll('.tab-btn');
+  const map  = { define: 0, flash: 1, test: 2, wordlist: 3 };
+  btns[map[name]].classList.add('active');
+}
+
+// ══════════════════════════════════════════════
+// KEYBOARD
+// ══════════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const panel = document.querySelector('.panel.active');
+    if (!panel) return;
+    if (panel.id === 'panel-define') {
+      if (!defAnswered) checkDefinition();
+      else nextDefinition();
+    } else if (panel.id === 'panel-flash') {
+      if (!flashShowing) { showFlashWord(); }
+      else if (flashAnswered) nextFlash();
+      else checkFlash();
+    } else if (panel.id === 'panel-test') {
+      if (!testAnswered) checkTest();
+      else nextTest();
+    }
+  }
+});
+
+// ══════════════════════════════════════════════
+// BOOT
+// ══════════════════════════════════════════════
+initDefine();
+initFlash();
+buildFullWordList();
+</script>
+</body>
+</html>
