@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jobs of the Future — A Research Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --navy-mid: #162032;
+    --navy-light: #1e2d40;
+    --gold: #c9a84c;
+    --gold-light: #e2c878;
+    --gold-pale: #f5e6b8;
+    --cream: #f4efe4;
+    --text-main: #e8e0d0;
+    --text-muted: #9ba8b5;
+    --text-dim: #6b7a8d;
+    --red-accent: #c0392b;
+    --green-accent: #27ae60;
+    --blue-accent: #2980b9;
+    --orange-accent: #d4782a;
+    --border: rgba(201,168,76,0.25);
+    --border-soft: rgba(201,168,76,0.12);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--navy);
+    color: var(--text-main);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 90%, rgba(41,128,185,0.04) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .wrapper { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 2rem 6rem; }
+  header { padding: 5rem 0 3rem; border-bottom: 1px solid var(--border); margin-bottom: 3.5rem; }
+  .report-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .report-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--gold-pale);
+    margin-bottom: 1rem;
+  }
+  .subtitle { font-size: 1.1rem; color: var(--text-muted); font-style: italic; margin-bottom: 2rem; max-width: 680px; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-dim); letter-spacing: 0.08em; }
+  .meta-row span { color: var(--gold); margin-right: 0.3rem; }
+  .exec-summary {
+    background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(13,27,42,0.6) 100%);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--gold);
+    padding: 2rem 2.5rem;
+    margin-bottom: 3.5rem;
+    border-radius: 0 6px 6px 0;
+  }
+  .exec-summary h2 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 1rem; }
+  .exec-summary p { color: var(--text-main); font-size: 1.02rem; margin-bottom: 0.7rem; }
+  .verdict { margin-top: 1.2rem; padding: 0.9rem 1.2rem; background: rgba(201,168,76,0.07); border-radius: 4px; font-weight: 600; color: var(--gold-light); font-style: italic; }
+  section { margin-bottom: 4rem; }
+  .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border-soft); }
+  .section-number { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--gold); letter-spacing: 0.1em; white-space: nowrap; padding: 0.2rem 0.5rem; border: 1px solid var(--border); border-radius: 3px; }
+  h2.section-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700; color: var(--gold-pale); line-height: 1.2; }
+  h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--gold-light); margin: 2.2rem 0 0.9rem; }
+  p { margin-bottom: 1.1rem; color: var(--text-main); }
+  .tier-container { display: grid; gap: 1.5rem; margin: 2rem 0; }
+  .tier-card { border-radius: 8px; padding: 1.8rem 2rem; border: 1px solid; position: relative; overflow: hidden; }
+  .tier-card::before { content: attr(data-tier); position: absolute; top: 1rem; right: 1.2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.5; }
+  .tier-certain { background: rgba(39,174,96,0.07); border-color: rgba(39,174,96,0.35); }
+  .tier-certain::before { color: var(--green-accent); }
+  .tier-certain h3 { color: #4ec980; margin-top: 0; }
+  .tier-probable { background: rgba(41,128,185,0.07); border-color: rgba(41,128,185,0.35); }
+  .tier-probable::before { color: var(--blue-accent); }
+  .tier-probable h3 { color: #5aade0; margin-top: 0; }
+  .tier-speculative { background: rgba(212,120,42,0.07); border-color: rgba(212,120,42,0.35); }
+  .tier-speculative::before { color: var(--orange-accent); }
+  .tier-speculative h3 { color: #e09050; margin-top: 0; }
+  .tier-card ul { list-style: none; padding: 0; margin-top: 0.8rem; }
+  .tier-card ul li { padding: 0.45rem 0 0.45rem 1.5rem; position: relative; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.97rem; color: var(--text-main); }
+  .tier-card ul li:last-child { border-bottom: none; }
+  .tier-certain ul li::before { content: '✓'; position: absolute; left: 0; color: var(--green-accent); font-weight: bold; }
+  .tier-probable ul li::before { content: '~'; position: absolute; left: 0; color: var(--blue-accent); font-weight: bold; }
+  .tier-speculative ul li::before { content: '?'; position: absolute; left: 0; color: var(--orange-accent); font-weight: bold; }
+  .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0; }
+  .data-card { background: var(--navy-light); border: 1px solid var(--border-soft); border-radius: 6px; padding: 1.3rem 1.5rem; text-align: center; }
+  .data-number { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--gold); display: block; line-height: 1.1; margin-bottom: 0.4rem; }
+  .data-label { font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; }
+  .data-source { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--text-dim); margin-top: 0.5rem; display: block; }
+  .claim-box { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin: 2rem 0; }
+  .claim-header { padding: 1rem 1.5rem; background: rgba(201,168,76,0.08); border-bottom: 1px solid var(--border-soft); font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; color: var(--gold); text-transform: uppercase; }
+  .claim-content { padding: 1.5rem; }
+  .claim-quote { font-size: 1.05rem; font-style: italic; color: var(--gold-pale); border-left: 3px solid var(--gold); padding-left: 1rem; margin-bottom: 1.2rem; }
+  .verdict-row { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; }
+  .badge { display: inline-block; padding: 0.3rem 0.8rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; font-weight: 600; text-transform: uppercase; }
+  .badge-red { background: rgba(192,57,43,0.2); color: #e07060; border: 1px solid rgba(192,57,43,0.4); }
+  .badge-orange { background: rgba(212,120,42,0.2); color: #e09050; border: 1px solid rgba(212,120,42,0.4); }
+  .badge-green { background: rgba(39,174,96,0.15); color: #4ec980; border: 1px solid rgba(39,174,96,0.35); }
+  .badge-blue { background: rgba(41,128,185,0.15); color: #5aade0; border: 1px solid rgba(41,128,185,0.35); }
+  .comparison-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.92rem; }
+  .comparison-table thead tr { background: rgba(201,168,76,0.1); border-bottom: 2px solid var(--border); }
+  .comparison-table th { padding: 0.9rem 1rem; text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .comparison-table td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-soft); vertical-align: top; color: var(--text-main); line-height: 1.5; }
+  .comparison-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+  .risk-pill { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 20px; font-size: 0.72rem; font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+  .risk-low { background: rgba(39,174,96,0.15); color: #4ec980; }
+  .risk-medium { background: rgba(212,120,42,0.15); color: #e09050; }
+  .risk-high { background: rgba(192,57,43,0.15); color: #e07060; }
+  .nordic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 1.5rem 0; }
+  @media (max-width: 640px) { .nordic-grid { grid-template-columns: 1fr; } }
+  .nordic-card { background: var(--navy-light); border: 1px solid var(--border-soft); border-radius: 6px; padding: 1.3rem 1.4rem; }
+  .nordic-card h4 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold-light); margin-bottom: 0.7rem; display: flex; align-items: center; gap: 0.5rem; }
+  .nordic-card ul { list-style: none; padding: 0; }
+  .nordic-card ul li { font-size: 0.9rem; color: var(--text-muted); padding: 0.3rem 0; padding-left: 1.2rem; position: relative; }
+  .nordic-card ul li::before { content: '→'; position: absolute; left: 0; color: var(--gold); font-size: 0.8rem; }
+  .sources { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-soft); }
+  .sources h2 { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 1.2rem; }
+  .source-item { font-size: 0.82rem; color: var(--text-dim); padding: 0.4rem 0; display: flex; gap: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
+  .source-item .src-org { font-family: 'JetBrains Mono', monospace; color: var(--gold); font-size: 0.7rem; white-space: nowrap; min-width: 90px; }
+  .pull-quote { margin: 2.5rem 0; padding: 1.5rem 2rem; border-left: 4px solid var(--gold); background: rgba(201,168,76,0.04); }
+  .pull-quote p { font-size: 1.15rem; font-style: italic; color: var(--gold-pale); margin: 0 0 0.5rem; }
+  .pull-quote .attribution { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.08em; }
+  .disclaimer { font-size: 0.8rem; color: var(--text-dim); font-style: italic; padding: 1rem; background: var(--navy-mid); border-radius: 4px; margin-top: 3rem; }
+  .toc { background: var(--navy-mid); border: 1px solid var(--border-soft); border-radius: 6px; padding: 1.5rem 2rem; margin-bottom: 3rem; }
+  .toc h2 { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.9rem; }
+  .toc ol { list-style: none; counter-reset: toc; padding: 0; }
+  .toc ol li { counter-increment: toc; padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.92rem; }
+  .toc ol li::before { content: counter(toc, decimal-leading-zero) '. '; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--gold); margin-right: 0.4rem; }
+  .toc ol li a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+  .toc ol li a:hover { color: var(--gold-light); }
+  .annotation { font-size: 0.83rem; color: var(--text-dim); font-style: italic; background: rgba(255,255,255,0.02); padding: 0.6rem 1rem; border-radius: 4px; margin: 1rem 0; }
+  .highlight { color: var(--gold-light); font-weight: 600; }
+  .de-emphasis { color: var(--text-dim); }
+  @media (max-width: 640px) { .data-grid { grid-template-columns: 1fr 1fr; } .comparison-table { font-size: 0.82rem; } .comparison-table th, .comparison-table td { padding: 0.6rem 0.5rem; } }
+  @media print { body { background: white; color: black; } .wrapper { max-width: 100%; } }
+
+  /* Job cards */
+  .job-cards { display: flex; flex-direction: column; gap: 0.6rem; margin: 1.5rem 0; }
+  .job-card { background: var(--navy-light); border: 1px solid var(--border-soft); border-radius: 6px; overflow: hidden; }
+  .job-card-header { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1.2rem; cursor: pointer; user-select: none; gap: 1rem; transition: background 0.15s; }
+  .job-card-header:hover { background: rgba(201,168,76,0.06); }
+  .job-card-left { display: flex; align-items: center; gap: 0.9rem; flex: 1; min-width: 0; }
+  .job-icon { font-size: 1.3rem; flex-shrink: 0; width: 2rem; text-align: center; }
+  .job-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold-pale); font-weight: 600; }
+  .job-card-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+  .job-pill { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; padding: 0.2rem 0.55rem; border-radius: 20px; letter-spacing: 0.05em; white-space: nowrap; }
+  .pill-tech { background: rgba(41,128,185,0.15); color: #5aade0; border: 1px solid rgba(41,128,185,0.3); }
+  .pill-green { background: rgba(39,174,96,0.12); color: #4ec980; border: 1px solid rgba(39,174,96,0.28); }
+  .pill-human { background: rgba(201,168,76,0.12); color: var(--gold-light); border: 1px solid rgba(201,168,76,0.28); }
+  .pill-edu { background: rgba(153,102,204,0.12); color: #c090e0; border: 1px solid rgba(153,102,204,0.28); }
+  .job-chevron { color: var(--text-dim); font-size: 0.8rem; flex-shrink: 0; transition: transform 0.2s; }
+  .job-card.open .job-chevron { transform: rotate(90deg); }
+  .job-card-body { display: none; padding: 0 1.2rem 1.2rem 1.2rem; border-top: 1px solid var(--border-soft); }
+  .job-card.open .job-card-body { display: block; }
+  .job-analogy { margin-top: 0.9rem; padding: 0.7rem 1rem; background: rgba(201,168,76,0.05); border-left: 3px solid var(--gold); border-radius: 0 4px 4px 0; font-style: italic; font-size: 0.9rem; color: var(--text-muted); }
+  .job-analogy strong { color: var(--gold-light); font-style: normal; }
+  .job-body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem 1.5rem; margin-top: 0.9rem; font-size: 0.87rem; }
+  @media (max-width: 560px) { .job-body-grid { grid-template-columns: 1fr; } }
+  .job-body-item { color: var(--text-muted); }
+  .job-body-item span { color: var(--gold); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; display: block; margin-bottom: 0.15rem; letter-spacing: 0.06em; }
+  .job-desc { margin-top: 0.9rem; font-size: 0.93rem; color: var(--text-main); line-height: 1.6; }
+
+  /* Subject table */
+  .subject-table { width: 100%; border-collapse: collapse; margin: 0.5rem 0 2rem; }
+  .subject-table thead tr { background: rgba(201,168,76,0.08); border-bottom: 2px solid var(--border); }
+  .subject-table th { padding: 0.75rem 1rem; text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .subject-row { cursor: pointer; }
+  .subject-row:hover .subject-main-td { background: rgba(201,168,76,0.04); }
+  .subject-main-td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--border-soft); vertical-align: middle; transition: background 0.15s; }
+  .subject-expand-td { display: none; padding: 0 1rem 1rem 1rem; background: rgba(255,255,255,0.015); border-bottom: 1px solid var(--border-soft); }
+  .subject-row.open + .subject-expand-row .subject-expand-td { display: table-cell !important; }
+  .subject-expand-row .subject-expand-td { display: none; }
+  .subject-name-cell { display: flex; align-items: center; gap: 0.7rem; }
+  .subject-emoji { font-size: 1.2rem; flex-shrink: 0; }
+  .subject-label { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--gold-pale); }
+  .subject-chevron { font-size: 0.7rem; color: var(--text-dim); transition: transform 0.2s; margin-left: auto; padding-right: 0.3rem; }
+  .subject-row.open .subject-chevron { transform: rotate(90deg); }
+  .comp-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .comp-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; padding: 0.2rem 0.5rem; border-radius: 3px; letter-spacing: 0.04em; background: rgba(201,168,76,0.1); color: var(--gold-light); border: 1px solid rgba(201,168,76,0.2); }
+  .ai-risk-cell { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; text-align: center; white-space: nowrap; }
+  .expand-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding-top: 0.8rem; }
+  @media (max-width: 580px) { .expand-inner { grid-template-columns: 1fr; } }
+  .expand-box { background: var(--navy-light); border: 1px solid var(--border-soft); border-radius: 5px; padding: 0.9rem 1rem; font-size: 0.87rem; color: var(--text-muted); line-height: 1.55; }
+  .expand-box strong { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+  .expand-surprise { grid-column: 1 / -1; background: rgba(201,168,76,0.05); border-left: 3px solid var(--gold); border-radius: 0 5px 5px 0; padding: 0.9rem 1rem; font-size: 0.9rem; color: var(--text-main); font-style: italic; }
+  .expand-surprise strong { font-style: normal; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="report-label">Research Report · Labour Market &amp; The Future · May 2026</div>
+    <h1>Jobs of the Future:<br>What Do We Actually Know?</h1>
+    <p class="subtitle">An evidence-based look at global and Nordic trends — and a critical examination of the claim that "practical jobs" are better than graduate careers for the future.</p>
+    <div class="meta-row">
+      <div><span>Sources:</span> WEF, McKinsey, OECD, SKR, Saco, Swedish Employment Agency, SCB, Stanford HAI, Goldman Sachs</div>
+      <div><span>Geography:</span> Global + Sweden / Nordic focus</div>
+      <div><span>Time horizon:</span> 2026–2040</div>
+    </div>
+  </header>
+
+  <div class="exec-summary">
+    <h2>Summary &amp; Main Conclusion</h2>
+    <p>People often say: "Get a practical job — that's the future." But this idea mixes up <em>three separate questions</em>: the risk of automation, the demand caused by population changes, and changes in pay and status. These three things do not always point in the same direction.</p>
+    <p>Data from the world's leading research organisations shows a more complex picture. <strong>Right now, AI mostly threatens routine office jobs and entry-level graduate roles</strong> — not advanced jobs that need creativity, ethical judgment, and complex human interaction. Physical jobs in unpredictable environments (plumbers, electricians) are relatively safe in the short term. But so are doctors, psychologists, and teachers.</p>
+    <p>Health and care services do need more workers — but because of population changes, not because university education is becoming less useful. The argument is actually for training <em>more</em> people in healthcare graduate roles (nurses, doctors, social workers), and for raising pay in the care sector.</p>
+    <div class="verdict">
+      Short version: The future job market rewards complexity, human contact, and the ability to adapt — whether you work with your hands or your mind. It is not practical vs. academic. It is routine vs. complex.
+    </div>
+  </div>
+
+  <div class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#global">The global picture: What the leading research organisations say</a></li>
+      <li><a href="#ai-hotet">The real threat from AI — who is actually affected?</a></li>
+      <li><a href="#sverige">Sweden and the Nordic countries: The power of demographics</a></li>
+      <li><a href="#gransakning">Examining the claim: Practical jobs vs. graduate careers</a></li>
+      <li><a href="#certaintytiers">What do we know for certain, probably, and speculatively?</a></li>
+      <li><a href="#slutsatser">Conclusions and implications</a></li>
+      <li><a href="#gymnasieannen">Appendix: The skills value of school subjects</a></li>
+    </ol>
+  </div>
+
+  <!-- ═══ SECTION 1 ═══ -->
+  <section id="global">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <h2 class="section-title">The Global Picture</h2>
+    </div>
+
+    <p>Three of the world's most respected organisations for job market research — the World Economic Forum (WEF), the McKinsey Global Institute, and the OECD — have all published detailed analyses in 2024–2025. They broadly agree on the big picture, but the details are more nuanced.</p>
+
+    <div class="data-grid">
+      <div class="data-card">
+        <span class="data-number">+78M</span>
+        <div class="data-label">Net new jobs globally by 2030 (170M created, 92M lost)</div>
+        <span class="data-source">WEF Future of Jobs 2025</span>
+      </div>
+      <div class="data-card">
+        <span class="data-number">22%</span>
+        <div class="data-label">Share of formal jobs globally that will change significantly by 2030</div>
+        <span class="data-source">WEF Future of Jobs 2025</span>
+      </div>
+      <div class="data-card">
+        <span class="data-number">27%</span>
+        <div class="data-label">Of working hours in Europe could be automated by 2030</div>
+        <span class="data-source">McKinsey Global Institute</span>
+      </div>
+      <div class="data-card">
+        <span class="data-number">39%</span>
+        <div class="data-label">Of workers' core skills are expected to need replacing by 2030</div>
+        <span class="data-source">WEF 2025</span>
+      </div>
+    </div>
+
+    <h3>The most important WEF finding: human qualities are rising in value</h3>
+    <p>The WEF Future of Jobs Report 2025 is based on surveys with over 1,000 employers, representing 14 million employees. It identifies the four fastest-growing <em>skills</em> for 2030: creative thinking, resilience (the ability to handle pressure and change), curiosity, and leadership. This is the biggest shift towards purely human skills that WEF has ever recorded in this report series.</p>
+
+    <div class="pull-quote">
+      <p>"Leadership and social influence has seen the most substantial increase in importance, with a 22 percentage-point rise in the share of respondents identifying them as core skills — the largest shift we have ever recorded."</p>
+      <div class="attribution">World Economic Forum, Future of Jobs Report 2025</div>
+    </div>
+
+    <p>McKinsey confirms this. Demand for social and emotional skills is expected to grow by up to 26% in the US and 22% in Europe by 2030. The OECD's Learning Compass 2030 framework is built around three core human abilities: creating new value, resolving dilemmas (difficult choices with no easy answer), and taking responsibility.</p>
+
+    <h3>The fastest-growing job titles globally</h3>
+    <p>WEF ranks the jobs with the highest percentage growth by 2030. The list is dominated by technology roles, but also includes clearly "human" roles. Click on any category to learn what it actually means:</p>
+
+    <div class="job-cards">
+
+      <div class="job-card" onclick="this.classList.toggle('open')">
+        <div class="job-card-header">
+          <div class="job-card-left">
+            <div class="job-icon">📊</div>
+            <div class="job-title">Big Data Specialists</div>
+          </div>
+          <div class="job-card-pills">
+            <span class="job-pill pill-tech">Tech</span>
+            <span class="job-pill pill-edu">University degree</span>
+          </div>
+          <div class="job-chevron">▶</div>
+        </div>
+        <div class="job-card-body">
+          <p class="job-desc">Companies and governments collect enormous amounts of data — about customers, traffic, diseases, climate, and much more. A big data specialist can sort, analyse, and find patterns in these huge collections of data, which no human could read through manually. They use statistics and programming tools like Python and SQL to answer questions like "Why do we lose customers on Thursdays?" or "What pattern appears before a patient has a heart attack?"</p>
+          <div class="job-analogy"><strong>Simply put:</strong> If a company is a fishing net full of millions of fish scales, the big data specialist is the person who can tell you exactly which fish were caught, where, and why — without counting every scale by hand.</div>
+          <div class="job-body-grid">
+            <div class="job-body-item"><span>Why it is growing</span>AI adoption and digitalisation — everything generates data</div>
+            <div class="job-body-item"><span>Typical education</span>Statistics, computer science, mathematics — 3–5 years university</div>
+            <div class="job-body-item"><span>WEF growth</span>Fastest-growing category globally to 2030 (+110%)</div>
+            <div class="job-body-item"><span>Example workplaces</span>Spotify, hospitals, banks, logistics companies, public agencies</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="job-card" onclick="this.classList.toggle('open')">
+        <div class="job-card-header">
+          <div class="job-card-left">
+            <div class="job-icon">💳</div>
+            <div class="job-title">Fintech Engineers</div>
+          </div>
+          <div class="job-card-pills">
+            <span class="job-pill pill-tech">Tech</span>
+            <span class="job-pill pill-edu">University degree</span>
+          </div>
+          <div class="job-chevron">▶</div>
+        </div>
+        <div class="job-card-body">
+          <p class="job-desc">Fintech = financial technology. It means technology that changes how we handle money. A fintech engineer builds and maintains the systems behind mobile payments, digital banks, cryptocurrency platforms, and automated investment services. These people are programmers who also understand how financial markets work — a rare and valuable combination.</p>
+          <div class="job-analogy"><strong>Simply put:</strong> Next time you pay with your phone and don't even think about it — someone built that system. A fintech engineer makes sure your money arrives in 0.3 seconds, that fraud is stopped automatically, and that the app does not crash when a million people pay at the same time.</div>
+          <div class="job-body-grid">
+            <div class="job-body-item"><span>Why it is growing</span>Cashless societies, cryptocurrency, digital banking</div>
+            <div class="job-body-item"><span>Typical education</span>Computer engineering or financial mathematics, 4–5 years</div>
+            <div class="job-body-item"><span>Known fintech companies</span>Klarna, Stripe, PayPal, Revolut</div>
+            <div class="job-body-item"><span>AI risk</span>Low — requires high security awareness and specialist knowledge</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="job-card" onclick="this.classList.toggle('open')">
+        <div class="job-card-header">
+          <div class="job-card-left">
+            <div class="job-icon">🤖</div>
+            <div class="job-title">AI / Machine Learning Specialists</div>
+          </div>
+          <div class="job-card-pills">
+            <span class="job-pill pill-tech">Tech</span>
+            <span class="job-pill pill-edu">University degree (+)</span>
+          </div>
+          <div class="job-chevron">▶</div>
+        </div>
+        <div class="job-card-body">
+          <p class="job-desc">AI (Artificial Intelligence) specialists build systems that allow computers to "learn" things without being given specific rules for every situation. ML = Machine Learning. These are the people who trained the face recognition on your phone, the voice assistant in your car, and the AI that recommends your next show on Netflix. They are among the most sought-after professionals in the world right now.</p>
+          <div class="job-analogy"><strong>Simply put:</strong> A regular programmer writes rules — "if X happens, do Y". An AI/ML specialist instead teaches the machine to <em>find its own rules</em> by showing it millions of examples. It is the difference between teaching a child to ride a bike with instructions and just letting them try until they figure it out.</div>
+          <div class="job-body-grid">
+            <div class="job-body-item"><span>Why it is growing</span>Every industry is adopting AI — demand is extremely broad</div>
+            <div class="job-body-item"><span>Typical education</span>Computer science, mathematics — often a master's degree or higher</div>
+            <div class="job-body-item"><span>Pay level</span>Among the highest in tech globally</div>
+            <div class="job-body-item"><span>The irony</span>AI specialists are the least threatened by AI — they build it</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="job-card" onclick="this.classList.toggle('open')">
+        <div class="job-card-header">
+          <div class="job-card-left">
+            <div class="job-icon">🌱</div>
+            <div class="job-title">Sustainability / ESG Specialists</div>
+          </div>
+          <div class="job-card-pills">
+            <span class="job-pill pill-green">Sustainability</span>
+            <span class="job-pill pill-edu">University degree</span>
+          </div>
+          <div class="job-chevron">▶</div>
+        </div>
+        <div class="job-card-body">
+          <p class="job-desc">ESG stands for Environmental (the environment), Social (social responsibility), and Governance (how a company is managed and controlled). New EU rules now require all large companies to report on their environmental impact, their working conditions, and how they are governed ethically. An ESG specialist makes sure the company follows these rules, measures carbon emissions, reports to investors, and finds ways to become more sustainable. It is a job that barely existed ten years ago.</p>
+          <div class="job-analogy"><strong>Simply put:</strong> If a company is a person, the ESG specialist checks that this person does not just make money — but does it in a way that does not harm the environment, exploit workers, or cheat on the accounts. Then they write a report about it that investors and the EU require.</div>
+          <div class="job-body-grid">
+            <div class="job-body-item"><span>Why it is growing</span>EU rules (CSRD, taxonomy), investor demands, climate agenda</div>
+            <div class="job-body-item"><span>Typical education</span>Environmental science, economics, law, social science</div>
+            <div class="job-body-item"><span>Key fact</span>EU requires ESG reporting from 50,000+ companies from 2025</div>
+            <div class="job-body-item"><span>Nordic relevance</span>Strong — Sweden leads ESG work in the Nordic countries</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="job-card" onclick="this.classList.toggle('open')">
+        <div class="job-card-header">
+          <div class="job-card-left">
+            <div class="job-icon">🛡️</div>
+            <div class="job-title">Cybersecurity Analysts</div>
+          </div>
+          <div class="job-card-pills">
+            <span class="job-pill pill-tech">Tech</span>
+            <span class="job-pill pill-edu">University degree</span>
+          </div>
+          <div class="job-chevron">▶</div>
+        </div>
+        <div class="job-card-body">
+          <p class="job-desc">Cyber attacks against companies, hospitals, and government organisations are increasing rapidly. A cybersecurity analyst protects systems against hackers, monitors for break-in attempts, and responds when an attack happens. With Sweden's entry into NATO and increasing threats from hybrid warfare (a mix of digital and physical attacks), demand for these specialists has grown strongly in the Nordic countries.</p>
+          <div class="job-analogy"><strong>Simply put:</strong> If a company's IT system is a building, the cybersecurity analyst is the security guard, the locksmith, and the alarm expert — all in one. They also actively look for holes in the walls before the criminals find them.</div>
+          <div class="job-body-grid">
+            <div class="job-body-item"><span>Why it is growing</span>Digitalisation, geopolitics, NATO membership, ransomware attacks</div>
+            <div class="job-body-item"><span>Typical education</span>Computer science or networking — vocational higher education also available</div>
+            <div class="job-body-item"><span>Shortage in Sweden</span>Extreme — classified as a critical shortage occupation</div>
+            <div class="job-body-item"><span>Pay trend</span>Strongly rising due to skills shortage</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="job-card" onclick="this.classList.toggle('open')">
+        <div class="job-card-header">
+          <div class="job-card-left">
+            <div class="job-icon">🏥</div>
+            <div class="job-title">Healthcare and Care Workers</div>
+          </div>
+          <div class="job-card-pills">
+            <span class="job-pill pill-human">Human contact</span>
+            <span class="job-pill pill-edu">Vocational to university</span>
+          </div>
+          <div class="job-chevron">▶</div>
+        </div>
+        <div class="job-card-body">
+          <p class="job-desc">This is a broad category. It ranges from care assistants and nursing assistants (vocational training) to registered nurses (3 years university), midwives (master's level), doctors, and specialists (5–11 years). What they all share is direct human contact in healthcare and care situations — something that AI and robots are poor at. This category is growing strongly in Sweden and the Nordic countries for purely demographic reasons: people are living longer and there are more elderly people with long-term conditions.</p>
+          <div class="job-analogy"><strong>Simply put:</strong> Sweden needs approximately 30% more workers in elder care alone by 2031 — that is hundreds of thousands of jobs. This is not a trend. It is a mathematical fact based on how many people are turning 80.</div>
+          <div class="job-body-grid">
+            <div class="job-body-item"><span>Why it is growing</span>Ageing population — independent of the economy and AI</div>
+            <div class="job-body-item"><span>Education range</span>Upper secondary / vocational (care assistant) to 11 years (medical specialist)</div>
+            <div class="job-body-item"><span>AI automation risk</span>Low — physical presence and empathy are the core of the work</div>
+            <div class="job-body-item"><span>Important distinction</span>Best pay/careers = graduate-level healthcare roles, not entry-level</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="job-card" onclick="this.classList.toggle('open')">
+        <div class="job-card-header">
+          <div class="job-card-left">
+            <div class="job-icon">⚡</div>
+            <div class="job-title">Renewable Energy Technicians</div>
+          </div>
+          <div class="job-card-pills">
+            <span class="job-pill pill-green">Green transition</span>
+            <span class="job-pill pill-edu">Varied</span>
+          </div>
+          <div class="job-chevron">▶</div>
+        </div>
+        <div class="job-card-body">
+          <p class="job-desc">This category covers all roles connected to building, operating, and maintaining renewable energy: wind turbine technicians (who climb turbines to service them), solar panel engineers (who design and install solar systems), electricity grid engineers (who make sure green electricity reaches the right places), and energy storage specialists (who work with battery technology). Sweden has a target of 100% renewable electricity and is expanding its capacity rapidly — which requires enormous numbers of workers.</p>
+          <div class="job-analogy"><strong>Simply put:</strong> Sweden needs to replace fossil fuels with solar, wind, and water power on a large scale. It is like replacing the engine on a plane while it is still flying — and it requires thousands of technicians, engineers, and project managers to do it without the lights going out.</div>
+          <div class="job-body-grid">
+            <div class="job-body-item"><span>Why it is growing</span>EU Green Deal, Sweden's climate targets, energy prices</div>
+            <div class="job-body-item"><span>Education range</span>Vocational higher education (2 years) to master's engineer (5 years)</div>
+            <div class="job-body-item"><span>Physical component</span>High — many roles require practical fieldwork</div>
+            <div class="job-body-item"><span>Sweden specifically</span>Major wind power expansion is happening in northern Sweden right now</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="job-card" onclick="this.classList.toggle('open')">
+        <div class="job-card-header">
+          <div class="job-card-left">
+            <div class="job-icon">📚</div>
+            <div class="job-title">Teachers and Trainers</div>
+          </div>
+          <div class="job-card-pills">
+            <span class="job-pill pill-human">Human contact</span>
+            <span class="job-pill pill-edu">University degree</span>
+          </div>
+          <div class="job-chevron">▶</div>
+        </div>
+        <div class="job-card-body">
+          <p class="job-desc">This includes pre-school teachers, primary school teachers, secondary school teachers, vocational trainers, and corporate trainers at companies. WEF highlights education as a fast-growing category for two reasons: first, Sweden has an acute and structural teacher shortage; second, rapid technological change is creating enormous demand for adult retraining and skills development — a market that does not yet fully exist.</p>
+          <div class="job-analogy"><strong>Simply put:</strong> When 39% of all professional skills are expected to become outdated by 2030, hundreds of millions of adults need to learn new things. Someone has to teach them. It is not only school teachers who are needed — a whole new field of adult education and retraining coaches is emerging.</div>
+          <div class="job-body-grid">
+            <div class="job-body-item"><span>Why it is growing</span>Teacher shortage + massive retraining needs across the economy</div>
+            <div class="job-body-item"><span>Typical education</span>Teaching degree 3.5–4.5 years (depending on subject)</div>
+            <div class="job-body-item"><span>AI risk</span>Low — relationships, motivation, and personal adaptation remain human</div>
+            <div class="job-body-item"><span>Swedish job market</span>Low competition for jobs — good employment prospects</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="annotation">Note: "Fastest-growing in percentage terms" ≠ "most new jobs in total". Healthcare creates more jobs in absolute numbers than AI specialists, even if the percentage growth is lower.</div>
+  </section>
+
+  <!-- ═══ SECTION 2 ═══ -->
+  <section id="ai-hotet">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <h2 class="section-title">The Real Threat from AI — Who Is Actually Affected?</h2>
+    </div>
+
+    <p>The most surprising and important finding from 2024–2025 research is that AI automation <strong>turns the traditional automation story upside down</strong>. Earlier waves of technology threatened blue-collar jobs — repetitive physical work. AI's current abilities are aimed at cognitive tasks: writing, analysis, coding, research. These are the core skills of office work.</p>
+
+    <div class="pull-quote">
+      <p>"The Stanford HAI AI Index noted a marked increase in AI adoption in knowledge work sectors — finance, law, software, and professional services — and identified knowledge workers as disproportionately exposed compared to manual laborers. This flips the conventional automation narrative."</p>
+      <div class="attribution">Stanford HAI AI Index 2024</div>
+    </div>
+
+    <h3>Which jobs are most at risk from AI replacement?</h3>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Job type</th>
+          <th>AI risk (at task level)</th>
+          <th>Explanation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Market analysts, budget analysts</td>
+          <td><span class="risk-pill risk-high">High</span></td>
+          <td>Bloomberg: 53% of market analyst tasks can be replaced</td>
+        </tr>
+        <tr>
+          <td>Bookkeepers, accountants</td>
+          <td><span class="risk-pill risk-high">High</span></td>
+          <td>Rule-based, structured information work — ideal for AI</td>
+        </tr>
+        <tr>
+          <td>Customer service, telemarketing</td>
+          <td><span class="risk-pill risk-high">High</span></td>
+          <td>Already declining sharply 2022–2024</td>
+        </tr>
+        <tr>
+          <td>Entry-level sales representatives</td>
+          <td><span class="risk-pill risk-high">High</span></td>
+          <td>Bloomberg: 67% of sales rep tasks are exposed to AI</td>
+        </tr>
+        <tr>
+          <td>Junior programmers</td>
+          <td><span class="risk-pill risk-high">High</span></td>
+          <td>Big Tech cut graduate hiring by 25% in 2024 vs. 2023</td>
+        </tr>
+        <tr>
+          <td>Generalist communications, copywriting</td>
+          <td><span class="risk-pill risk-medium">Medium</span></td>
+          <td>Creative depth and context still require a human</td>
+        </tr>
+        <tr>
+          <td>Senior doctors, senior lawyers</td>
+          <td><span class="risk-pill risk-medium">Medium</span></td>
+          <td>AI supports rather than replaces; ethics and overall judgment remain human</td>
+        </tr>
+        <tr>
+          <td>Managers (9–21% automation risk)</td>
+          <td><span class="risk-pill risk-low">Low</span></td>
+          <td>Bloomberg: leadership roles show low exposure to AI</td>
+        </tr>
+        <tr>
+          <td>Teachers, psychologists, social workers</td>
+          <td><span class="risk-pill risk-low">Low</span></td>
+          <td>Requires human relationships, ethical judgment, and personal adaptation</td>
+        </tr>
+        <tr>
+          <td>Plumbers, electricians, carpenters</td>
+          <td><span class="risk-pill risk-low">Low</span></td>
+          <td>Unpredictable physical environments — Goldman Sachs: "unlikely to be affected"</td>
+        </tr>
+        <tr>
+          <td>Construction machine operators (cranes, diggers)</td>
+          <td><span class="risk-pill risk-medium">Medium</span></td>
+          <td>McKinsey: 88% automation potential for machine operators in the long term</td>
+        </tr>
+        <tr>
+          <td>Midwives, registered nurses</td>
+          <td><span class="risk-pill risk-low">Low</span></td>
+          <td>Direct physical care and human contact — assessed as having minimal AI impact</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>The important distinction: tasks vs. jobs</h3>
+    <p>Research consistently shows that AI replaces <em>tasks</em>, not whole <em>jobs</em>. A lawyer who currently spends 40% of their time reviewing documents can use AI to refocus on more complex advice. A doctor can use AI for routine diagnosis and spend more time on complex cases and patient communication. This means <strong>the number of people in a profession may fall without the profession disappearing</strong> — and the level of education required may actually increase.</p>
+
+    <div class="claim-box">
+      <div class="claim-header">Important finding: Gartner 2025</div>
+      <div class="claim-content">
+        <div class="claim-quote">Fewer than 1% of global layoffs in 2025 could be directly linked to AI productivity gains. Most companies are using AI as a strategic narrative to justify traditional cost-cutting.</div>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">In other words: the "white-collar recession" of 2024–2025 is caused by the economic cycle, rising interest rates, and pandemic over-hiring — not because AI has actually taken the jobs yet. But this does not change the long-term direction.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 3 ═══ -->
+  <section id="sverige">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <h2 class="section-title">Sweden and the Nordic Countries: The Power of Demographics</h2>
+    </div>
+
+    <p>In Sweden and the Nordic countries, there is one extra factor that shapes the picture: demographics (population change). The ageing of the population creates a <strong>structural shortage of workers</strong> that is independent of AI cycles and the economy — and it is this shortage that is often misunderstood in the debate about "practical jobs".</p>
+
+    <div class="data-grid">
+      <div class="data-card">
+        <span class="data-number">+50%</span>
+        <div class="data-label">Increase in the number of people over 80 in Sweden by 2031</div>
+        <span class="data-source">SKR / Statistics Sweden</span>
+      </div>
+      <div class="data-card">
+        <span class="data-number">+30%</span>
+        <div class="data-label">Elder care needs to increase its number of employees by 2031</div>
+        <span class="data-source">SKR Workforce Forecast</span>
+      </div>
+      <div class="data-card">
+        <span class="data-number">410,000</span>
+        <div class="data-label">New jobs needed in the welfare sector 2021–2031 due to demographics and retirements</div>
+        <span class="data-source">SKR (Association of Swedish Municipalities and Regions)</span>
+      </div>
+      <div class="data-card">
+        <span class="data-number">6/10</span>
+        <div class="data-label">Swedish municipalities where the working-age population is SHRINKING by 2033</div>
+        <span class="data-source">SKR 2024</span>
+      </div>
+    </div>
+
+    <h3>The big structural problem</h3>
+    <p>SKR — the Association of Swedish Municipalities and Regions — identifies one of Sweden's most serious structural challenges. The welfare sector needs 410,000 more employees by 2031. But only 253,000 new people of working age will enter the labour market during the same period. The gap is almost 160,000 people. This cannot be solved by recruitment alone. <strong>It is a mathematical problem</strong>, not simply a question of pay or attractiveness.</p>
+
+    <p>Critically: almost all of the growth in the working-age population consists of people born abroad. Today, more than one in three care assistants in municipalities are foreign-born, as are almost half of dentists and more than one in three doctors in regional healthcare.</p>
+
+    <h3>Saco's forecast for graduate careers in 2026 (5-year horizon)</h3>
+    <p>Saco is the Swedish Confederation of Professional Associations — it represents graduates across all fields. In 2026, Saco published forecasts for around 60 graduate occupations. The picture challenges simple generalisations:</p>
+
+    <div class="nordic-grid">
+      <div class="nordic-card">
+        <h4>🟢 Low competition for jobs</h4>
+        <ul>
+          <li>Midwife</li>
+          <li>Biomedical scientist</li>
+          <li>Pre-school teacher</li>
+          <li>Geoscientist</li>
+          <li>Psychologist</li>
+          <li>Social worker</li>
+          <li>Teacher (various subjects)</li>
+          <li>Military officer</li>
+          <li>Civil engineer (defence industry)</li>
+          <li>IT / cybersecurity specialists</li>
+          <li>Medical physicist</li>
+          <li>Physiotherapist</li>
+        </ul>
+      </div>
+      <div class="nordic-card">
+        <h4>🔴 High competition for jobs</h4>
+        <ul>
+          <li>Architect (buildings/interiors)</li>
+          <li>Generalist communications professionals</li>
+          <li>Museum and cultural heritage roles</li>
+          <li>Generalist social science graduates</li>
+          <li>Generalist health science graduates</li>
+        </ul>
+        <h4 style="margin-top: 1rem;">⚖️ Balanced situation</h4>
+        <ul>
+          <li>Doctor</li>
+          <li>Lawyer</li>
+          <li>HR professional</li>
+          <li>Business economist</li>
+          <li>Environmental specialist</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="annotation">Saco's report states: "Despite the uncertainty created by rapid technological development, our forecasts show that the need for higher education will continue to be large in many areas." This directly challenges the idea that "graduates are not needed in the future".</div>
+
+    <h3>The Swedish Employment Agency's skills analysis for 2030</h3>
+    <p>The Swedish Public Employment Agency (Arbetsförmedlingen), working with McKinsey, analysed how skills needs are changing on the Swedish labour market up to 2030. Key findings:</p>
+
+    <ul style="list-style: none; padding: 0; margin: 1rem 0;">
+      <li style="padding: 0.6rem 0 0.6rem 1.4rem; position: relative; border-bottom: 1px solid var(--border-soft);">
+        <span style="position: absolute; left: 0; color: var(--gold);">→</span>
+        <span class="highlight">Social and empathy skills</span> are expected to grow as a share of working hours from 21% to 25% by 2030 — an increase <em>in every industry</em>.
+      </li>
+      <li style="padding: 0.6rem 0 0.6rem 1.4rem; position: relative; border-bottom: 1px solid var(--border-soft);">
+        <span style="position: absolute; left: 0; color: var(--gold);">→</span>
+        <span class="highlight">Digital and tech skills</span> are growing, but it is mainly basic digital knowledge — not advanced programming — that drives this. This benefits a wide range of workers, not just tech specialists.
+      </li>
+      <li style="padding: 0.6rem 0 0.6rem 1.4rem; position: relative;">
+        <span style="position: absolute; left: 0; color: var(--gold);">→</span>
+        <span class="highlight">Manual and physical skills</span> are falling the most <em>in relative demand</em>, but remain the largest single category in absolute terms in 2030. They are not disappearing.
+      </li>
+    </ul>
+
+    <h3>Nordic comparison to 2035</h3>
+    <p>A Nordic Council study (2024) on lifelong learning finds that all five Nordic countries face similar skills needs to 2035. These are driven by three major trends: an ageing population, digitalisation, and the green energy transition. In all five countries, the greatest needs are in healthcare, technology / IT, education, and green energy.</p>
+  </section>
+
+  <!-- ═══ SECTION 4 ═══ -->
+  <section id="gransakning">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <h2 class="section-title">Examining the Claim</h2>
+    </div>
+
+    <div class="claim-box">
+      <div class="claim-header">Claim being examined</div>
+      <div class="claim-content">
+        <div class="claim-quote">"Get a practical job like elder care or construction — graduate careers will be less relevant in the future."</div>
+        <div class="verdict-row">
+          <div class="badge badge-orange">Partly true</div>
+          <div class="badge badge-red">Misleading simplification</div>
+          <div class="badge badge-blue">Misses the real point</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>What is true in the claim</h3>
+    <p><strong>1. Healthcare and care services need many more workers.</strong> This is unavoidable based on population data. SKR's forecast is clear: elder care needs 30% more staff by 2031. This is a real argument for more people training in healthcare and care.</p>
+    <p><strong>2. Some graduate careers have a weak job market.</strong> Generalist communications professionals, cultural heritage specialists, and broad social science graduates without a clear occupational identity do face genuine difficulties. AI tools are compressing parts of their core tasks (text production, research), and the job market is already saturated in some of these areas.</p>
+    <p><strong>3. Hands-on trades are relatively safe in the short term.</strong> Goldman Sachs, McKinsey and WEF agree: physical jobs in unpredictable environments — plumbers, electricians, heating engineers, service technicians — are hard to automate with current robotics and AI. In the short term, this provides stability.</p>
+
+    <h3>What is false or misleading in the claim</h3>
+    <p><strong>1. "Healthcare and care" is not an argument against university education.</strong> The roles in healthcare with the greatest demand and best job market are strongly academic: doctors, nurses (3-year university degree), midwives (master's level), psychologists, social workers, physiotherapists. Care assistants are also needed, of course — but they generally earn less, work in more difficult conditions, and have fewer career options.</p>
+    <p><strong>2. Construction is not "safe" in the long term.</strong> McKinsey estimates that machine operation in construction (diggers, cranes) has 88% automation potential. Autonomous heavy equipment already exists commercially. Bricklaying robots are being developed. It is true that a carpenter solving unpredictable problems on a building site is hard to replace — but this is neither a simple nor a comfortable job.</p>
+    <p><strong>3. AI is currently threatening entry-level knowledge work most, not advanced graduate roles.</strong> An experienced doctor, a senior lawyer, or a specialist teacher does not compete with AI — they are enhanced by it. It is the junior analyst, the entry-level programmer, and the generalist communicator who face pressure from substitution.</p>
+    <p><strong>4. The claim confuses relative and absolute growth.</strong> If AI specialists grow by 110% in percentage terms and care assistants "only" grow by 30%, this says nothing about which sector creates more jobs in total. In absolute numbers, healthcare, schools, and social care will still create far more jobs.</p>
+
+    <h3>What the claim misses: the real dividing line</h3>
+    <p>The most important distinction in the research is <em>not</em> practical vs. university education. It is:</p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Vulnerable category</th>
+          <th>Robust category</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Routine tasks (regardless of collar colour)</td>
+          <td>Complex, context-dependent tasks</td>
+        </tr>
+        <tr>
+          <td>Structured environments (the same tasks every day)</td>
+          <td>Unstructured environments (every situation is different)</td>
+        </tr>
+        <tr>
+          <td>Jobs with low human-to-human interaction</td>
+          <td>Jobs with high empathetic and social components</td>
+        </tr>
+        <tr>
+          <td>Entry-level roles without specialisation</td>
+          <td>Deep specialist expertise in a specific field</td>
+        </tr>
+        <tr>
+          <td>Generalism with no clear market value</td>
+          <td>Clear occupational identity with market value</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>A <strong>care assistant with 20 years of experience in dementia care</strong> and an <strong>experienced construction project manager</strong> are both robust in the job market. But they compete in completely different sectors and have very different pay trajectories. Treating them as equally "the future" and contrasting them with "all graduate careers" is not meaningful as an analysis.</p>
+  </section>
+
+  <!-- ═══ SECTION 5 ═══ -->
+  <section id="certaintytiers">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <h2 class="section-title">Three Levels of Certainty</h2>
+    </div>
+
+    <div class="tier-container">
+
+      <div class="tier-card tier-certain" data-tier="Certain">
+        <h3>✓ What we know with high confidence</h3>
+        <ul>
+          <li>Population ageing in Sweden and the Nordic countries creates a structural shortage of healthcare and care workers that is impossible to avoid — no matter what AI does. SKR's forecasts are solid.</li>
+          <li>AI and automation will create more net jobs globally by 2030, not fewer. WEF's analysis of 1,000+ employers shows a net growth of +78 million jobs.</li>
+          <li>Manual and physical skills are declining in <em>relative</em> share but remain the largest category in <em>absolute</em> numbers. They are not disappearing.</li>
+          <li>AI is currently targeting routine, structured cognitive tasks — not whole jobs. It is tasks, not professions, that are being automated.</li>
+          <li>The four fastest-growing skills are genuinely human: creative thinking, resilience, curiosity, leadership. (WEF 2025)</li>
+          <li>Social and empathy skills are growing in demand across all industries in Sweden by 2030. (Swedish Employment Agency / McKinsey)</li>
+          <li>In 6 out of 10 Swedish municipalities, the working-age population is shrinking — this creates regional problems that are independent of national trends.</li>
+        </ul>
+      </div>
+
+      <div class="tier-card tier-probable" data-tier="Probable">
+        <h3>~ What we probably know</h3>
+        <ul>
+          <li>Entry-level office jobs will continue to fall in percentage terms over the next 5–10 years, though this is more due to "growth without hiring" strategies than mass replacement by AI.</li>
+          <li>Jobs requiring deep specialisation, ethical judgment, and complex human interaction (doctors, therapists, experienced teachers, managers) will remain robust and in demand.</li>
+          <li>Generalist roles without a clear occupational identity — broad communications, general social science, cultural roles without a specific market — will remain weak in the job market.</li>
+          <li>The green energy transition will create new demand for technical roles: solar panel technicians, wind turbine engineers, energy optimisation specialists, sustainability analysts.</li>
+          <li>Nordic rearmament (defence spending increases) will create genuinely new jobs over the next 10 years: military officers, cybersecurity specialists, and engineers in the defence industry.</li>
+          <li>AI will enhance (strengthen) more jobs than it eliminates in the period 2025–2035 — but the distribution of these effects may be uneven and hit young adults hardest.</li>
+          <li>Lifelong learning and regular retraining (every 5–8 years) will become the norm rather than the exception for most working people.</li>
+        </ul>
+      </div>
+
+      <div class="tier-card tier-speculative" data-tier="Speculative">
+        <h3>? What we can speculate about</h3>
+        <ul>
+          <li>Whether humanoid robots (Tesla Optimus and others) will actually succeed at unstructured physical work at scale within 15–20 years. If they do, this would dramatically change trades and manual jobs. The timeline is extremely uncertain.</li>
+          <li>Whether AI agents will reach the level of replacing whole workflows rather than individual tasks. Anthropic CEO Dario Amodei predicts that half of all entry-level office work could disappear within 5 years — but this is a maximum scenario, not a consensus view.</li>
+          <li>Whether Sweden will solve its care gap with technology (AI-assisted care, robots), immigration of workers, pay increases — or a combination. SKR is clear: recruitment alone is <em>not enough</em>.</li>
+          <li>Whether "human authenticity" — proving that something was created by a human — will create a pay and status premium in creative industries, as some research suggests.</li>
+          <li>Whether the 4-day working week will spread in the Nordic countries as a response to AI productivity gains, reducing the total hours needed without reducing employment.</li>
+          <li>How AI will affect the education sector: whether AI tutors can genuinely substitute for some teaching, and what this means for teachers beyond 2035.</li>
+          <li>Whether a universal basic income or similar policy reform will be introduced in a Nordic context as a response to structural displacement — still a fringe scenario, but now discussed seriously by policy researchers.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 6 ═══ -->
+  <section id="slutsatser">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <h2 class="section-title">Conclusions and Implications</h2>
+    </div>
+
+    <h3>1. The question is framed in the wrong way</h3>
+    <p>The debate about "practical jobs vs. graduate careers" dissolves when you realise that the most relevant distinction is a different one: <span class="highlight">routine vs. complex</span>, and <span class="highlight">generalist with no market value vs. specialist with a clear occupational identity</span>. A nurse, a teacher, and a civil engineer are all "graduate careers" — and all three have strong prospects. A generalist communications professional and a budget analyst are also "graduate careers" — and both face structural pressure from AI.</p>
+
+    <h3>2. Healthcare and care as an argument is more complex than it sounds</h3>
+    <p>It is true that healthcare and care needs enormous numbers of new workers. But the <em>graduate</em> roles in healthcare — nurses, midwives, social workers, psychologists — have the best job market prospects, better pay, and stronger career opportunities. Care assistants are also unavoidably needed, but this is not an argument against graduate education in general.</p>
+
+    <h3>3. Construction is not a simple safe choice</h3>
+    <p>Electricians and plumbers are robust in the short term. But machine operators and some construction roles have high automation potential over a 15–25 year horizon. "Get a practical job in construction" is advice with a use-by date that nobody can predict exactly.</p>
+
+    <h3>4. Global consensus points to human skills — but combined with digital understanding</h3>
+    <p>WEF, McKinsey, and OECD all agree that the skills rising most in value are creative thinking, leadership, empathy, and resilience — combined with basic digital literacy. This is an argument <em>for</em> broad university education with strong career links, not against it.</p>
+
+    <h3>5. Lifelong learning is the actual solution</h3>
+    <p>In a job market where 39% of core skills are expected to change by 2030 — and where defence spending increases, the green transition, and AI adoption are all driving change at the same time — the most important quality is not <em>which</em> education you start with. It is the ability to <span class="highlight">keep learning and adapting</span>. This is what WEF calls "resilience and adaptability" — the single most important skill for the future.</p>
+
+    <div class="pull-quote">
+      <p>The future of work belongs to those who can handle complexity, work with AI as a tool rather than seeing it as a competitor, and hold on to the genuinely human abilities that machines still cannot replicate: judgment, empathy, and contextual wisdom.</p>
+      <div class="attribution">Summary of consensus: WEF 2025 · McKinsey 2024 · OECD 2024 · Swedish Employment Agency 2024 · Saco 2026</div>
+    </div>
+  </section>
+
+  <!-- ═══ APPENDIX ═══ -->
+  <section id="gymnasieannen">
+    <div class="section-header">
+      <div class="section-number">Appendix</div>
+      <h2 class="section-title">The Skills Value of School Subjects</h2>
+    </div>
+
+    <p>A common question is how secondary school subjects connect to the future job market. The short answer: they do — but <em>not</em> in the direct way that careers advice often suggests. Secondary school is not designed to prepare you for a specific job in the way that History leads to archiving and Maths leads to engineering. Something more fundamental is happening.</p>
+
+    <p>WEF, McKinsey, and OECD consistently talk about <strong>skills</strong> — not subject knowledge. The skills rising most in value by 2030 are analytical thinking, creative thinking, resilience, ethical judgment, and complex communication. School subjects train exactly these skills — when they are taught well. The table below shows the connection between subject, skill, and relevance, and highlights some non-obvious links.</p>
+
+    <div class="annotation" style="margin-bottom: 1.5rem;">
+      Do not read this table as "this subject leads to these jobs". Read it as "this subject trains these abilities, and here is why those abilities are hard to automate and valuable in 2030+".
+    </div>
+
+    <table class="subject-table">
+      <thead>
+        <tr>
+          <th style="width:28%">Subject</th>
+          <th style="width:42%">Skills trained (WEF terminology)</th>
+          <th style="width:15%">Can AI replace?</th>
+          <th style="width:5%"></th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr class="subject-row" onclick="toggleSubject(this)">
+          <td class="subject-main-td"><div class="subject-name-cell"><span class="subject-emoji">📝</span><span class="subject-label">Swedish (Language &amp; Literature)</span><span class="subject-chevron">▶</span></div></td>
+          <td class="subject-main-td"><div class="comp-tags"><span class="comp-tag">Critical thinking</span><span class="comp-tag">Creative communication</span><span class="comp-tag">Argumentation</span><span class="comp-tag">Source criticism</span></div></td>
+          <td class="subject-main-td ai-risk-cell"><span class="risk-pill risk-low">Low</span></td>
+          <td class="subject-main-td"></td>
+        </tr>
+        <tr class="subject-expand-row">
+          <td class="subject-expand-td" colspan="4">
+            <div class="expand-inner">
+              <div class="expand-box"><strong>What the subject actually trains</strong>Building an argument, keeping a clear line of reasoning, adapting language to an audience, reading complex texts critically, and distinguishing between a claim and evidence. It is not "writing nicely" — it is structured thinking expressed in language.</div>
+              <div class="expand-box"><strong>Why it is valuable in 2030+</strong>AI already generates text on an industrial scale. What rises in value is the ability to <em>judge</em> text — to decide if the argument holds, if the source is trustworthy, if the presentation is manipulative. That requires a person with trained analytical reading skills.</div>
+              <div class="expand-surprise"><strong>The non-obvious connection:</strong> Swedish / Language Arts is in practice a critical thinking subject in linguistic form. In an era where AI produces convincing text about almost anything, the ability to see through a text is not a soft humanities skill — it is a safety-critical ability for democracy.</div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="subject-row" onclick="toggleSubject(this)">
+          <td class="subject-main-td"><div class="subject-name-cell"><span class="subject-emoji">🌐</span><span class="subject-label">English</span><span class="subject-chevron">▶</span></div></td>
+          <td class="subject-main-td"><div class="comp-tags"><span class="comp-tag">Global collaboration</span><span class="comp-tag">Digital literacy</span><span class="comp-tag">Knowledge access</span></div></td>
+          <td class="subject-main-td ai-risk-cell"><span class="risk-pill risk-low">Low</span></td>
+          <td class="subject-main-td"></td>
+        </tr>
+        <tr class="subject-expand-row">
+          <td class="subject-expand-td" colspan="4">
+            <div class="expand-inner">
+              <div class="expand-box"><strong>What the subject actually trains</strong>The ability to navigate a world where the dominant knowledge infrastructure — scientific articles, technical documentation, international meetings, AI tools — operates almost entirely in English.</div>
+              <div class="expand-box"><strong>Why it is valuable in 2030+</strong>Without English, you are locked out of 90% of global knowledge production. McKinsey identifies "global collaboration" as one of the fastest-growing skills in Europe. English is not a school subject — it is access to the world.</div>
+              <div class="expand-surprise"><strong>The non-obvious connection:</strong> AI tools like ChatGPT, Claude, and GitHub Copilot work significantly better in English than in other languages. Those who can prompt, instruct, and evaluate AI output in English have a structural advantage in exactly the jobs that require AI skills.</div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="subject-row" onclick="toggleSubject(this)">
+          <td class="subject-main-td"><div class="subject-name-cell"><span class="subject-emoji">∑</span><span class="subject-label">Mathematics</span><span class="subject-chevron">▶</span></div></td>
+          <td class="subject-main-td"><div class="comp-tags"><span class="comp-tag">Analytical thinking</span><span class="comp-tag">Abstract reasoning</span><span class="comp-tag">Precision under uncertainty</span></div></td>
+          <td class="subject-main-td ai-risk-cell"><span class="risk-pill risk-medium">Medium</span></td>
+          <td class="subject-main-td"></td>
+        </tr>
+        <tr class="subject-expand-row">
+          <td class="subject-expand-td" colspan="4">
+            <div class="expand-inner">
+              <div class="expand-box"><strong>What the subject actually trains</strong>The ability to hold an abstract problem in your head, break it down into parts, work methodically towards a solution, and accept that there is only one correct answer. It is a way of thinking, not a calculating skill.</div>
+              <div class="expand-box"><strong>Why it is valuable in 2030+</strong>AI can already calculate better than humans. What cannot be automated is knowing <em>which</em> problem to solve, <em>how</em> to express it mathematically, and <em>what</em> the answer actually means in the real world. That requires mathematical intuition — not a calculator.</div>
+              <div class="expand-surprise"><strong>The non-obvious connection:</strong> School-level maths alone does not qualify you for big data jobs — but it creates the cognitive foundation that makes it possible to learn statistics, programming, and data analysis. It is like going to the gym: you do not lift weights to carry heavy things all day, you lift so your body handles everything else better.</div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="subject-row" onclick="toggleSubject(this)">
+          <td class="subject-main-td"><div class="subject-name-cell"><span class="subject-emoji">🏛️</span><span class="subject-label">History</span><span class="subject-chevron">▶</span></div></td>
+          <td class="subject-main-td"><div class="comp-tags"><span class="comp-tag">Source criticism</span><span class="comp-tag">Causality analysis</span><span class="comp-tag">Pattern recognition</span><span class="comp-tag">Contextual interpretation</span></div></td>
+          <td class="subject-main-td ai-risk-cell"><span class="risk-pill risk-low">Low</span></td>
+          <td class="subject-main-td"></td>
+        </tr>
+        <tr class="subject-expand-row">
+          <td class="subject-expand-td" colspan="4">
+            <div class="expand-inner">
+              <div class="expand-box"><strong>What the subject actually trains</strong>Asking questions about sources, understanding that every story has a sender with interests, holding several competing interpretations in mind at once, and understanding that today's problems often have historical causes that do not appear in current news.</div>
+              <div class="expand-box"><strong>Why it is valuable in 2030+</strong>Disinformation, AI-generated "historical" images, and deepfakes make source criticism one of the most needed skills in society. ESG analysts, policy specialists, and journalists all need the ability to interpret information with a critical and historical perspective.</div>
+              <div class="expand-surprise"><strong>The non-obvious connection:</strong> History is school's best hidden training in resistance to disinformation. In a world where AI can produce a convincing historical source in seconds, the ability to ask "Who created this? When? For what purpose?" is not a humanities luxury — it is digital self-defence.</div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="subject-row" onclick="toggleSubject(this)">
+          <td class="subject-main-td"><div class="subject-name-cell"><span class="subject-emoji">🏛</span><span class="subject-label">Social Studies / Civics</span><span class="subject-chevron">▶</span></div></td>
+          <td class="subject-main-td"><div class="comp-tags"><span class="comp-tag">Systems thinking</span><span class="comp-tag">Ethical judgment</span><span class="comp-tag">Decision analysis</span><span class="comp-tag">Civic competence</span></div></td>
+          <td class="subject-main-td ai-risk-cell"><span class="risk-pill risk-low">Low</span></td>
+          <td class="subject-main-td"></td>
+        </tr>
+        <tr class="subject-expand-row">
+          <td class="subject-expand-td" colspan="4">
+            <div class="expand-inner">
+              <div class="expand-box"><strong>What the subject actually trains</strong>Understanding how systems connect — economics, politics, law, media — and how decisions at one level have consequences at another. Seeing beyond individual events to identify structures.</div>
+              <div class="expand-box"><strong>Why it is valuable in 2030+</strong>ESG specialists, sustainability strategists, public servants, and policy analysts all need exactly this ability. The EU's growing regulatory burden (AI Act, CSRD, the taxonomy) is creating explosive demand for people who can navigate complex system interdependencies.</div>
+              <div class="expand-surprise"><strong>The non-obvious connection:</strong> Social Studies is in practice training for AI governance. The AI Act, data protection law (GDPR), and upcoming regulation of autonomous systems all require people who understand how technical decisions have political and legal consequences. This is one of the fastest-growing competence areas of the 2030s — and it is fundamentally civics.</div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="subject-row" onclick="toggleSubject(this)">
+          <td class="subject-main-td"><div class="subject-name-cell"><span class="subject-emoji">🔬</span><span class="subject-label">Science (Biology / Chemistry / Physics)</span><span class="subject-chevron">▶</span></div></td>
+          <td class="subject-main-td"><div class="comp-tags"><span class="comp-tag">Scientific thinking</span><span class="comp-tag">Hypothesis testing</span><span class="comp-tag">Evidence-based reasoning</span></div></td>
+          <td class="subject-main-td ai-risk-cell"><span class="risk-pill risk-low">Low</span></td>
+          <td class="subject-main-td"></td>
+        </tr>
+        <tr class="subject-expand-row">
+          <td class="subject-expand-td" colspan="4">
+            <div class="expand-inner">
+              <div class="expand-box"><strong>What the subject actually trains</strong>The scientific method as a way of thinking: forming a hypothesis, designing a test, interpreting the result, and accepting that you might be wrong. Distinguishing between correlation and causation. Demanding evidence — not just persuasion.</div>
+              <div class="expand-box"><strong>Why it is valuable in 2030+</strong>The green transition, life sciences, and biotech are all fast-growing sectors in the Nordic countries. But even for those not working "in science", scientific thinking is an asset — it is the method for not being misled by false statistics, health pseudoscience, or AI hallucination (when AI produces confident but wrong answers).</div>
+              <div class="expand-surprise"><strong>The non-obvious connection:</strong> AI models "hallucinate" — they produce incorrect information with apparent confidence. Those trained to ask "How do we know that? What is the evidence?" are naturally equipped to work with AI tools without blindly trusting them. Scientific thinking is in practice AI literacy.</div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="subject-row" onclick="toggleSubject(this)">
+          <td class="subject-main-td"><div class="subject-name-cell"><span class="subject-emoji">⚖️</span><span class="subject-label">Religious Studies &amp; Ethics</span><span class="subject-chevron">▶</span></div></td>
+          <td class="subject-main-td"><div class="comp-tags"><span class="comp-tag">Ethical judgment</span><span class="comp-tag">Perspective-taking</span><span class="comp-tag">Philosophical reasoning</span><span class="comp-tag">Cultural understanding</span></div></td>
+          <td class="subject-main-td ai-risk-cell"><span class="risk-pill risk-low">Low</span></td>
+          <td class="subject-main-td"></td>
+        </tr>
+        <tr class="subject-expand-row">
+          <td class="subject-expand-td" colspan="4">
+            <div class="expand-inner">
+              <div class="expand-box"><strong>What the subject actually trains</strong>Understanding that reasonable people can hold fundamentally different values — and still cooperate. Asking questions about what is right, what is good, and what is fair, without simple answers. The ability to navigate moral complexity.</div>
+              <div class="expand-box"><strong>Why it is valuable in 2030+</strong>AI ethics is one of the fastest-growing professional fields of the 2020s. Who decides what AI is and is not allowed to do? How do we balance privacy against efficiency? These are fundamentally ethical and philosophical questions — and they cannot be answered by AI itself. ESG work, healthcare, and leadership also all require ethical judgment.</div>
+              <div class="expand-surprise"><strong>The non-obvious connection:</strong> Religious Studies and Ethics is school's most underrated preparation for the AI age. Every major tech company — Google, Microsoft, Meta, Anthropic — is now building teams for "responsible AI" and ethical review. This is a profession that requires exactly the skills that Religious Studies and Philosophy train: holding moral dilemmas open without oversimplifying them.</div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="subject-row" onclick="toggleSubject(this)">
+          <td class="subject-main-td"><div class="subject-name-cell"><span class="subject-emoji">🏃</span><span class="subject-label">Physical Education (PE)</span><span class="subject-chevron">▶</span></div></td>
+          <td class="subject-main-td"><div class="comp-tags"><span class="comp-tag">Resilience</span><span class="comp-tag">Stress management</span><span class="comp-tag">Teamwork</span><span class="comp-tag">Body awareness</span></div></td>
+          <td class="subject-main-td ai-risk-cell" style="color: var(--text-dim); font-size: 0.72rem; font-family: 'JetBrains Mono', monospace;">N/A</td>
+          <td class="subject-main-td"></td>
+        </tr>
+        <tr class="subject-expand-row">
+          <td class="subject-expand-td" colspan="4">
+            <div class="expand-inner">
+              <div class="expand-box"><strong>What the subject actually trains</strong>Handling effort, setbacks, and performance under pressure. Cooperating towards a shared goal. Understanding how the body and mental capacity are connected — and looking after your health as a long-term project.</div>
+              <div class="expand-box"><strong>Why it is valuable in 2030+</strong>WEF lists resilience and wellbeing as one of the most important qualities to 2030 — not as a soft bonus, but as productive capacity. In an era of rapid change and constant retraining, the ability to stay functional under pressure is a competitive advantage. Employers pay for it.</div>
+              <div class="expand-surprise"><strong>The honest connection — and its limits:</strong> PE is the subject with the weakest direct link to specific future jobs. But the link is still real: research shows that physical activity improves cognition, stress tolerance, and decision-making — all qualities that are highly valued. It is not a career path, it is a foundation for all other career paths.</div>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <script>
+      function toggleSubject(row) {
+        const wasOpen = row.classList.contains('open');
+        document.querySelectorAll('.subject-row.open').forEach(r => r.classList.remove('open'));
+        if (!wasOpen) row.classList.add('open');
+      }
+    </script>
+
+    <div class="annotation">
+      <strong style="color: var(--gold-light);">Overall conclusion:</strong> The core subjects at secondary school train — in essence — the skills that WEF, McKinsey, and OECD identify as most valuable in 2030: analytical thinking, ethical judgment, communication, and resilience. The one genuine gap between what school delivers and what the job market demands is explicit <em>digital and AI literacy</em>.
+    </div>
+  </section>
+
+  <div class="sources">
+    <h2>Sources</h2>
+    <div class="source-item"><div class="src-org">WEF</div><div>Future of Jobs Report 2025. Based on survey with 1,000+ employers, 14 million employees globally.</div></div>
+    <div class="source-item"><div class="src-org">McKinsey</div><div>A New Future of Work: The Race to Deploy AI and Raise Skills in Europe and Beyond (2024). + MGI Future of Work model.</div></div>
+    <div class="source-item"><div class="src-org">OECD</div><div>Learning Compass 2030; Future of Work policy framework.</div></div>
+    <div class="source-item"><div class="src-org">Stanford HAI</div><div>AI Index 2024. Analysis of AI exposure by occupational category.</div></div>
+    <div class="source-item"><div class="src-org">Goldman Sachs</div><div>Economist analysis of AI disruption and physical occupations, 2024.</div></div>
+    <div class="source-item"><div class="src-org">Bloomberg</div><div>Task automation studies: market analysts (53%), sales representatives (67%), managers (9–21%). 2024.</div></div>
+    <div class="source-item"><div class="src-org">Gartner</div><div>Global layoff analysis 2025: &lt;1% of redundancies directly linked to AI productivity gains.</div></div>
+    <div class="source-item"><div class="src-org">SKR</div><div>Welfare sector workforce supply — personnel forecast 2021–2031; In-depth analysis of elder care needs 2023–2033. (Association of Swedish Municipalities and Regions)</div></div>
+    <div class="source-item"><div class="src-org">Saco</div><div>Future Prospects 2031: Forecasts for ~60 graduate occupations. Published March 2026. (Swedish Confederation of Professional Associations)</div></div>
+    <div class="source-item"><div class="src-org">Arbetsförmedlingen</div><div>Skills development in the labour market to 2030 (with McKinsey). Occupational Barometer 2024. (Swedish Public Employment Agency)</div></div>
+    <div class="source-item"><div class="src-org">SCB</div><div>Trends and Forecasts 2023; Population Projection 2025–2070. (Statistics Sweden)</div></div>
+    <div class="source-item"><div class="src-org">Nordic Council</div><div>Lifelong Learning for the Future Labour Market (temanord2024-520).</div></div>
+    <div class="source-item"><div class="src-org">ILO</div><div>Generative AI Likely to Augment Rather Than Destroy Jobs (2023). (International Labour Organization)</div></div>
+  </div>
+
+  <div class="disclaimer">
+    This report is a synthesis analysis based on available forecast data in May 2026. Labour market forecasts contain structural uncertainty — especially for time horizons beyond 5–7 years. All figures should be read as indicative trends, not precise predictions.
+  </div>
+
+</div>
+</body>
+</html>
