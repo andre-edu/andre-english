@@ -90,6 +90,8 @@
       cursor: pointer;
       transition: transform 0.15s;
     }
+    .plays-strip { transition: opacity 0.25s; }
+    .plays-strip.hidden { opacity: 0; pointer-events: none; }
     .chip:hover { transform: translateY(-1px); }
     .chip.tragedy { color: #e09090; border-color: rgba(139,26,26,0.55); background: rgba(139,26,26,0.12); }
     .chip.comedy  { color: #90c898; border-color: rgba(40,100,50,0.55);  background: rgba(40,100,50,0.12); }
@@ -651,13 +653,17 @@
 
 <!-- ── PLAYS STRIP ── -->
 <div class="plays-strip">
-  <span class="strip-label">Eight plays:</span>
+  <span class="strip-label">Twelve plays:</span>
   <span class="chip tragedy" onclick="goToPlay('romeo')">Romeo &amp; Juliet</span>
   <span class="chip tragedy" onclick="goToPlay('macbeth')">Macbeth</span>
   <span class="chip tragedy" onclick="goToPlay('othello')">Othello</span>
   <span class="chip tragedy" onclick="goToPlay('hamlet')">Hamlet</span>
+  <span class="chip tragedy" onclick="goToPlay('lear')">King Lear</span>
+  <span class="chip tragedy" onclick="goToPlay('caesar')">Julius Caesar</span>
   <span class="chip comedy"  onclick="goToPlay('dream')">A Midsummer Night's Dream</span>
   <span class="chip comedy"  onclick="goToPlay('muchado')">Much Ado About Nothing</span>
+  <span class="chip comedy"  onclick="goToPlay('tempest')">The Tempest</span>
+  <span class="chip comedy"  onclick="goToPlay('twelfth')">Twelfth Night</span>
   <span class="chip history" onclick="goToPlay('henry')">Henry V</span>
   <span class="chip history" onclick="goToPlay('richard')">Richard III</span>
 </div>
@@ -859,6 +865,8 @@
     <ellipse cx="21" cy="16" rx="3.5" ry="4" fill="none" stroke="currentColor" stroke-width="1.8"/>
     <path d="M14.5 23 L16 21 L17.5 23" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
   </svg>Hamlet</button>
+    <button class="ps-btn tragedy"    onclick="loadPlay('lear',this)"><svg class="play-icon" viewBox="0 0 54 36" width="38" height="28" preserveAspectRatio="xMidYMid meet"><path d="M8 26 L2 6 L18 21 L27 5 L36 21 L52 6 L46 26 L46 32 L8 32 Z" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><line x1="8" y1="26" x2="46" y2="26" stroke="currentColor" stroke-width="1.2"/><circle cx="2" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="27" cy="5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="52" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><line x1="19" y1="26" x2="19" y2="14" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2" stroke-linecap="round"/><line x1="35" y1="26" x2="35" y2="14" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2" stroke-linecap="round"/></svg>King Lear</button>
+    <button class="ps-btn tragedy"    onclick="loadPlay('caesar',this)"><svg class="play-icon" viewBox="0 0 54 34" width="38" height="25" preserveAspectRatio="xMidYMid meet"><path d="M8 28 C5 18 7 9 27 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M46 28 C49 18 47 9 27 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M9 24 Q5 20 11 17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 17 Q8 12 15 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M18 9 Q17 5 22 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M45 24 Q49 20 43 17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M42 17 Q46 12 39 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M36 9 Q37 5 32 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14 30 Q27 34 40 30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Julius Caesar</button>
     <button class="ps-btn comedy"     onclick="loadPlay('dream',this)"><svg class="play-icon" preserveAspectRatio="xMidYMid meet" viewBox="0 0 42 36" width="38" height="32">
     <path d="M18 4 A14 14 0 1 0 18 32 A10 10 0 1 1 18 4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
     <path d="M32 7 L33.2 11 L37 11 L34 13.5 L35.2 17.5 L32 15 L28.8 17.5 L30 13.5 L27 11 L30.8 11 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
@@ -867,6 +875,8 @@
     <path d="M2 2 L28 2 L28 20 L12 20 L8 27 L8 20 L2 20 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
     <path d="M22 8 L48 8 L48 26 L42 26 L42 32 L38 26 L22 26 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
   </svg>Much Ado About Nothing</button>
+    <button class="ps-btn comedy"     onclick="loadPlay('tempest',this)"><svg class="play-icon" viewBox="0 0 54 36" width="38" height="28" preserveAspectRatio="xMidYMid meet"><line x1="10" y1="32" x2="40" y2="6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="40" y1="1" x2="40" y2="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="34" y1="7" x2="46" y2="7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="36" y1="3" x2="44" y2="11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="36" y1="11" x2="44" y2="3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="17" cy="24" r="1.2" fill="currentColor" opacity="0.55"/><circle cx="10" cy="16" r="0.9" fill="currentColor" opacity="0.45"/><circle cx="22" cy="17" r="0.8" fill="currentColor" opacity="0.4"/></svg>The Tempest</button>
+    <button class="ps-btn comedy"     onclick="loadPlay('twelfth',this)"><svg class="play-icon" viewBox="0 0 54 36" width="38" height="28" preserveAspectRatio="xMidYMid meet"><circle cx="13" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M22 12 L27 15 L22 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="41" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M32 12 L27 15 L32 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>Twelfth Night</button>
     <button class="ps-btn history"    onclick="loadPlay('richard',this)"><svg class="play-icon" viewBox="0 0 54 40" width="40" height="30" preserveAspectRatio="xMidYMid meet"><g transform="rotate(38, 27, 18)" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="27" y1="4" x2="27" y2="13" stroke-width="2.5"/><line x1="21" y1="8" x2="33" y2="8" stroke-width="2.5"/><path d="M21 13 L19 25 L35 25 L33 13 Z" stroke-width="2.2"/><path d="M14 25 L14 31 L40 31 L40 25" stroke-width="2.5"/></g></svg>Richard III</button>
     <button class="ps-btn history"    onclick="loadPlay('henry',this)"><svg class="play-icon" viewBox="0 0 54 36" width="40" height="27" preserveAspectRatio="xMidYMid meet"><path d="M8 26 L2 6 L18 21 L27 5 L36 21 L52 6 L46 26 L46 32 L8 32 Z" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><line x1="8" y1="26" x2="46" y2="26" stroke="currentColor" stroke-width="1.2"/><circle cx="2" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="27" cy="5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="52" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Henry V</button>
   </div>
@@ -957,8 +967,12 @@
     <button class="ps-btn tn-ps-btn tragedy" onclick="loadThenNow('macbeth',this)"><svg viewBox="0 0 28 46" width="13" height="22" style="flex-shrink:0;opacity:0.8"><path d="M14 40 L10 28 L10 8 L18 8 L18 28 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M5 22 L23 22" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>Macbeth</button>
     <button class="ps-btn tn-ps-btn tragedy" onclick="loadThenNow('othello',this)"><svg viewBox="0 0 44 30" width="22" height="15" style="flex-shrink:0;opacity:0.8"><path d="M3 15 Q22 3 41 15 Q22 27 3 15 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="22" cy="15" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="22" cy="15" r="2" fill="currentColor"/></svg>Othello</button>
     <button class="ps-btn tn-ps-btn tragedy" onclick="loadThenNow('hamlet',this)"><svg viewBox="0 0 32 38" width="16" height="20" style="flex-shrink:0;opacity:0.8"><path d="M16 4 C8 4 4 10 4 16 C4 22 7 26 12 28 L12 33 L20 33 L20 28 C25 26 28 22 28 16 C28 10 24 4 16 4 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><ellipse cx="11" cy="16" rx="3.5" ry="4" fill="none" stroke="currentColor" stroke-width="1.8"/><ellipse cx="21" cy="16" rx="3.5" ry="4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Hamlet</button>
+    <button class="ps-btn tn-ps-btn tragedy" onclick="loadThenNow('lear',this)"><svg viewBox="0 0 54 36" width="22" height="16" style="flex-shrink:0;opacity:0.8"><path d="M8 26 L2 6 L18 21 L27 5 L36 21 L52 6 L46 26 L46 32 L8 32 Z" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><line x1="8" y1="26" x2="46" y2="26" stroke="currentColor" stroke-width="1.2"/><line x1="19" y1="26" x2="19" y2="14" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2" stroke-linecap="round"/><line x1="35" y1="26" x2="35" y2="14" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2" stroke-linecap="round"/></svg>King Lear</button>
+    <button class="ps-btn tn-ps-btn tragedy" onclick="loadThenNow('caesar',this)"><svg viewBox="0 0 54 34" width="22" height="14" style="flex-shrink:0;opacity:0.8"><path d="M8 28 C5 18 7 9 27 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M46 28 C49 18 47 9 27 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M9 24 Q5 20 11 17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 17 Q8 12 15 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M45 24 Q49 20 43 17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M42 17 Q46 12 39 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14 30 Q27 34 40 30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Julius Caesar</button>
     <button class="ps-btn tn-ps-btn comedy" onclick="loadThenNow('dream',this)"><svg viewBox="0 0 42 36" width="20" height="17" style="flex-shrink:0;opacity:0.8"><path d="M18 4 A14 14 0 1 0 18 32 A10 10 0 1 1 18 4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>A Midsummer Night's Dream</button>
     <button class="ps-btn tn-ps-btn comedy" onclick="loadThenNow('muchado',this)"><svg viewBox="0 0 50 36" width="26" height="19" style="flex-shrink:0;opacity:0.8"><path d="M2 2 L28 2 L28 20 L12 20 L8 27 L8 20 L2 20 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M22 8 L48 8 L48 26 L42 26 L42 32 L38 26 L22 26 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg>Much Ado About Nothing</button>
+    <button class="ps-btn tn-ps-btn comedy"  onclick="loadThenNow('tempest',this)"><svg viewBox="0 0 54 36" width="22" height="16" style="flex-shrink:0;opacity:0.8"><line x1="10" y1="32" x2="40" y2="6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="40" y1="1" x2="40" y2="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="34" y1="7" x2="46" y2="7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="36" y1="3" x2="44" y2="11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="36" y1="11" x2="44" y2="3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>The Tempest</button>
+    <button class="ps-btn tn-ps-btn comedy"  onclick="loadThenNow('twelfth',this)"><svg viewBox="0 0 54 36" width="22" height="16" style="flex-shrink:0;opacity:0.8"><circle cx="13" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M22 12 L27 15 L22 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="41" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M32 12 L27 15 L32 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>Twelfth Night</button>
     <button class="ps-btn tn-ps-btn history" onclick="loadThenNow('henry',this)"><svg viewBox="0 0 54 36" width="22" height="15" style="flex-shrink:0;opacity:0.8"><path d="M8 26 L2 6 L18 21 L27 5 L36 21 L52 6 L46 26 L46 32 L8 32 Z" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><line x1="8" y1="26" x2="46" y2="26" stroke="currentColor" stroke-width="1.2"/></svg>Henry V</button>
     <button class="ps-btn tn-ps-btn history" onclick="loadThenNow('richard',this)"><svg viewBox="0 0 54 40" width="22" height="16" style="flex-shrink:0;opacity:0.8"><g transform="rotate(38,27,18)" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="27" y1="4" x2="27" y2="13" stroke-width="2.5"/><line x1="21" y1="8" x2="33" y2="8" stroke-width="2.5"/><path d="M21 13 L19 25 L35 25 L33 13 Z" stroke-width="2.2"/><path d="M14 25 L14 31 L40 31 L40 25" stroke-width="2.5"/></g></svg>Richard III</button>
   </div>
@@ -1177,6 +1191,107 @@ const thenNow = {
       {word:"radiance",note:'First recorded use of "radiance" to mean brilliant light or beauty appears in Shakespeare'},
       {word:"outbreak",note:'Shakespeare first used "outbreak" to describe a sudden explosion of violence or feeling'}
     ]
+  }  ,
+  tempest: {
+    scene:'Act IV, Scene I / Act V, Scene I',
+    context:"Prospero reflects on the nature of life, prepares to give up his magic, and chooses forgiveness over revenge.",
+    lines:[
+      { then:'"We are such stuff as dreams are made on, and our little life is rounded with a sleep."',
+        now: 'We are made of the same material as dreams, and our short lives end in sleep, just as dreams do.',
+        vocab:[{w:'such stuff as',m:'made of the same material as; the same thing as'},{w:'rounded with',m:'completed by; finished off by'}] },
+      { then:'"O brave new world that has such people in\'t!"',
+        now: 'What a wonderful, exciting new world this must be, if it contains people like this!',
+        vocab:[{w:'brave',m:'wonderful and exciting (old meaning), not courageous'},{w:"in't",m:'"in it"; Miranda says this seeing other human beings for the first time'}] },
+      { then:'"You taught me language, and my profit on\'t / Is I know how to curse."',
+        now: 'You taught me to speak your language, and the only benefit I got from it is that I can now curse you.',
+        vocab:[{w:'profit',m:'benefit; something gained from an experience'},{w:'context',m:"Said by Caliban to Prospero; he learned Prospero's language but was enslaved. The only advantage he found was the ability to insult his captor."}] },
+      { then:'"This island\'s mine, by Sycorax my mother."',
+        now: 'This island belongs to me; my mother Sycorax was the ruler here before you arrived.',
+        vocab:[{w:'Sycorax',m:"Caliban's mother, a powerful witch who ruled the island before Prospero arrived. Many modern readers see Caliban's claim as a powerful statement about colonialism."}] }
+    ],
+    coined:[
+      {word:'eyeball',note:'The first written record of "eyeball" as a single word appears in The Tempest'},
+      {word:'baseless',note:'Shakespeare coined "baseless" in The Tempest: "the baseless fabric of this vision"'},
+      {word:'countless',note:'First recorded use of "countless" appears in Shakespeare\'s writing'}
+    ]
+  },
+  lear: {
+    scene:'Act III, Scene II / Act IV, Scene VII',
+    context:"Lear, betrayed by his daughters and driven toward madness, rages in a storm on the open heath.",
+    lines:[
+      { then:'"How sharper than a serpent\'s tooth it is / To have a thankless child."',
+        now: 'It is more painful than a snake\'s bite to have a child who shows no gratitude.',
+        vocab:[{w:'serpent',m:'a snake; serpents are symbols of danger and betrayal'},{w:'thankless',m:'ungrateful; showing no appreciation for what has been given to you'}] },
+      { then:'"Blow, winds, and crack your cheeks! Rage! Blow!"',
+        now: 'Blow, winds, blow so hard that your cheeks crack! Rage! Keep blowing!',
+        vocab:[{w:'crack your cheeks',m:'a vivid image: the wind is imagined as a face blowing so hard its cheeks burst open. Lear feels the storm reflects his inner pain.'},{w:'rage',m:'be furious; storm violently'}] },
+      { then:'"I am a man more sinned against than sinning."',
+        now: 'More wrong has been done to me than I have done to others.',
+        vocab:[{w:'sinned against',m:'had a moral wrong done to you by someone else'},{w:'sinning',m:'doing wrong to others; committing wrongful acts'}] },
+      { then:'"Nothing will come of nothing."',
+        now: 'If you give nothing, you will receive nothing in return.',
+        vocab:[{w:'context',m:"Lear's warning to Cordelia when she refuses to flatter him. She refuses to exaggerate her love, and he punishes her. Ironically, she is the only daughter who truly loves him."}] },
+      { then:'"Pray, do not mock me. I am a very foolish fond old man."',
+        now: 'Please, do not make fun of me. I am a foolish, sentimental old man.',
+        vocab:[{w:'fond',m:'foolishly affectionate; overly emotional; sentimental'},{w:'mock',m:'to make fun of someone; to laugh at them cruelly'}] }
+    ],
+    coined:[
+      {word:'hot-blooded',note:'Shakespeare invented "hot-blooded", meaning passionate or easily angered'},
+      {word:'cold-blooded',note:'He coined the opposite too; first written use of "cold-blooded" appears in his plays'},
+      {word:'madcap',note:'Shakespeare used "madcap" to describe someone reckless and wildly unpredictable'}
+    ]
+  },
+  caesar: {
+    scene:'Act III, Scene II: Mark Antony\'s Funeral Speech',
+    context:"After Caesar's murder, Mark Antony delivers a speech that turns the crowd of Rome against the conspirators.",
+    lines:[
+      { then:'"Friends, Romans, countrymen, lend me your ears."',
+        now: 'Friends, fellow Romans, fellow citizens; please listen to me carefully.',
+        vocab:[{w:'lend me your ears',m:'an expression meaning "listen to me carefully"; one of the most famous opening lines in English'},{w:'countrymen',m:'people from the same country; fellow citizens'}] },
+      { then:'"Brutus is an honourable man."',
+        now: 'Brutus is a man of honour. (Said repeatedly and sarcastically; Antony actually means the opposite.)',
+        vocab:[{w:'honourable',m:'having strong moral principles; worthy of respect'},{w:'irony',m:'Antony repeats this phrase until the crowd realises he means Brutus is not honourable at all; it is one of the most famous uses of irony in literature'}] },
+      { then:'"Et tu, Bruté? Then fall, Caesar!"',
+        now: 'You too, Brutus? Then I accept my death.',
+        vocab:[{w:'Et tu, Brute',m:'Latin for "and you, Brutus?"; Caesar is most shocked that his closest friend is among the killers'}] },
+      { then:'"The evil that men do lives after them; / The good is oft interred with their bones."',
+        now: 'The bad things people do are remembered long after they die; the good things are often forgotten and buried with them.',
+        vocab:[{w:'interred',m:'buried underground'},{w:'oft',m:'old form of "often"'}] },
+      { then:'"This was the most unkindest cut of all."',
+        now: 'This was the most cruel wound of all.',
+        vocab:[{w:'unkindest cut',m:'"unkindest cut" refers to Brutus\'s stab wound, but also the deeper wound of betrayal by a trusted friend'},{w:'double superlative',m:'"most unkindest" is grammatically incorrect today but dramatically powerful; Shakespeare used double superlatives for emotional emphasis'}] }
+    ],
+    coined:[
+      {word:'eyebrow',note:'First recorded use of "eyebrow" as a single word appears in Shakespeare\'s writing'},
+      {word:'well-read',note:'Shakespeare first used this expression for someone who has read widely and learned a great deal'},
+      {word:'rant',note:'Shakespeare first used "rant" as a verb meaning to speak loudly, angrily, and without good reason'}
+    ]
+  },
+  twelfth: {
+    scene:'Act I, Scene I / Act II / Act III',
+    context:"Duke Orsino pines for Olivia, while Viola carries his messages and keeps her own feelings hidden.",
+    lines:[
+      { then:'"If music be the food of love, play on, / Give me excess of it."',
+        now: 'If music is what nourishes love and keeps it alive, then keep playing; give me as much as possible.',
+        vocab:[{w:'food of love',m:'what nourishes and sustains love; what keeps it alive and growing'},{w:'excess',m:'more than enough; too much of something'}] },
+      { then:'"What country, friends, is this?"',
+        now: 'What country have I arrived in, friends?',
+        vocab:[{w:'context',m:"Viola's first words after her shipwreck. A simple question, but it captures her situation completely; she is lost, alone, and starting from nothing."}] },
+      { then:'"Some are born great, some achieve greatness, and some have greatness thrust upon them."',
+        now: 'Some people are great from birth, some work hard to become great, and some have greatness forced upon them by circumstances.',
+        vocab:[{w:'thrust upon',m:'forced onto someone who did not ask for it; pushed onto someone against their will or expectations'}] },
+      { then:'"Dost thou think, because thou art virtuous, there shall be no more cakes and ale?"',
+        now: 'Do you think that just because you are well-behaved, everyone else must stop having fun?',
+        vocab:[{w:'dost / thou / art',m:'old forms of "do you" / "you" / "are"'},{w:'cakes and ale',m:'a symbol of pleasure, celebration, and fun; Sir Toby is defending his right to enjoy life'}] },
+      { then:'"I am not what I am."',
+        now: 'I am not who I appear to be.',
+        vocab:[{w:'context',m:'Said by Viola, who is disguised as a young man called Cesario. Interestingly, Iago says exactly the same words in Othello; both characters are hiding their true identity, but for very different reasons.'}] }
+    ],
+    coined:[
+      {word:'hobnob',note:'In Twelfth Night, characters say "hob, nob" meaning hit-or-miss. This gave us the modern word "hobnob", meaning to socialise with someone'},
+      {word:'bedroom',note:'Shakespeare first wrote this word down in English'},
+      {word:'puking',note:'Shakespeare first recorded this word; it appears in the "seven ages of man" speech in As You Like It'}
+    ]
   }
 };
 
@@ -1325,6 +1440,46 @@ const sortData = {
       tragedy:'Richard III is based on the real historical King Richard III and the Wars of the Roses. Because it dramatises real English royal history, it is classified as a history play.',
       comedy:'Richard III ends with the death of the king and the restoration of order under Henry Tudor. It is a history play, not a comedy.'
     }
+  }  ,
+  tempest: {
+    genre:'comedy', title:'The Tempest',
+    quote:'"We are such stuff as dreams are made on, and our little life is rounded with a sleep."',
+    modern:'We are made of the same material as dreams, and our short lives end in sleep, just as dreams do.',
+    themes:['Magic','Power','Forgiveness','Freedom'],
+    wrongs:{
+      tragedy:'The Tempest ends with forgiveness, reconciliation, and everyone returning home safely. There are no deaths among the main characters. That is a comedy ending.',
+      history:'The Tempest is set on a fictional island and involves invented characters. It has nothing to do with English royal history. It is a comedy.'
+    }
+  },
+  lear: {
+    genre:'tragedy', title:'King Lear',
+    quote:'"How sharper than a serpent\'s tooth it is to have a thankless child."',
+    modern:'It is more painful than a snake\'s bite to have a child who shows no gratitude.',
+    themes:['Family','Betrayal','Madness','Power'],
+    wrongs:{
+      comedy:'King Lear ends with the deaths of Lear, Cordelia, Goneril, Regan, and Edmund. It is one of Shakespeare\'s darkest tragedies, with no happy resolution whatsoever.',
+      history:'King Lear is based on a legendary pre-Roman British king, but it is not one of Shakespeare\'s history plays, which specifically dramatise real English royal history.'
+    }
+  },
+  caesar: {
+    genre:'tragedy', title:'Julius Caesar',
+    quote:'"Et tu, Bruté? Then fall, Caesar!"',
+    modern:'You too, Brutus? Then I accept my death.',
+    themes:['Power','Betrayal','Politics','Honour'],
+    wrongs:{
+      comedy:'Julius Caesar ends with the deaths of Caesar, Brutus, Cassius, and Portia. It is a tragedy about the consequences of political murder and the collapse of idealism.',
+      history:'Although Julius Caesar was a real historical figure, Shakespeare\'s history plays specifically dramatise English royal history. Julius Caesar is a tragedy set in ancient Rome.'
+    }
+  },
+  twelfth: {
+    genre:'comedy', title:'Twelfth Night',
+    quote:'"If music be the food of love, play on."',
+    modern:'If music is what feeds love and keeps it alive, then keep playing.',
+    themes:['Love','Disguise','Identity','Humour'],
+    wrongs:{
+      tragedy:'Twelfth Night ends with marriages, reunions, and celebrations. Despite some darker moments, it is firmly a comedy with a happy ending.',
+      history:'Twelfth Night is set in the fictional country of Illyria. It has nothing to do with English royal history. It is a comedy.'
+    }
   }
 };
 
@@ -1336,7 +1491,11 @@ const poolIcons = {
   dream:   '<svg viewBox="0 0 42 36" width="20" height="17"><path d="M18 4 A14 14 0 1 0 18 32 A10 10 0 1 1 18 4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>',
   henry:   '<svg viewBox="0 0 54 36" width="23" height="16"><path d="M8 26 L2 6 L18 21 L27 5 L36 21 L52 6 L46 26 L46 32 L8 32 Z" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><line x1="8" y1="26" x2="46" y2="26" stroke="currentColor" stroke-width="1.2"/><circle cx="2" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="27" cy="5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="52" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>',
   muchado: '<svg viewBox="0 0 50 36" width="26" height="19"><path d="M2 2 L28 2 L28 20 L12 20 L8 27 L8 20 L2 20 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M22 8 L48 8 L48 26 L42 26 L42 32 L38 26 L22 26 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg>',
-  richard: '<svg viewBox="0 0 54 40" width="22" height="16"><g transform="rotate(38, 27, 18)" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="27" y1="4" x2="27" y2="13" stroke-width="2.5"/><line x1="21" y1="8" x2="33" y2="8" stroke-width="2.5"/><path d="M21 13 L19 25 L35 25 L33 13 Z" stroke-width="2.2"/><path d="M14 25 L14 31 L40 31 L40 25" stroke-width="2.5"/></g></svg>'
+  richard: '<svg viewBox="0 0 54 40" width="22" height="16"><g transform="rotate(38, 27, 18)" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="27" y1="4" x2="27" y2="13" stroke-width="2.5"/><line x1="21" y1="8" x2="33" y2="8" stroke-width="2.5"/><path d="M21 13 L19 25 L35 25 L33 13 Z" stroke-width="2.2"/><path d="M14 25 L14 31 L40 31 L40 25" stroke-width="2.5"/></g></svg>',
+  tempest: '<svg viewBox="0 0 54 36" width="22" height="16"><line x1="10" y1="32" x2="40" y2="6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="40" y1="1" x2="40" y2="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="34" y1="7" x2="46" y2="7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="36" y1="3" x2="44" y2="11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="36" y1="11" x2="44" y2="3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>',
+  lear: '<svg viewBox="0 0 54 36" width="22" height="16"><path d="M8 26 L2 6 L18 21 L27 5 L36 21 L52 6 L46 26 L46 32 L8 32 Z" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><line x1="8" y1="26" x2="46" y2="26" stroke="currentColor" stroke-width="1.2"/><line x1="19" y1="26" x2="19" y2="14" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2" stroke-linecap="round"/><line x1="35" y1="26" x2="35" y2="14" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2" stroke-linecap="round"/></svg>',
+  caesar: '<svg viewBox="0 0 54 34" width="22" height="14"><path d="M8 28 C5 18 7 9 27 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M46 28 C49 18 47 9 27 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M9 24 Q5 20 11 17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 17 Q8 12 15 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M18 9 Q17 5 22 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M45 24 Q49 20 43 17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M42 17 Q46 12 39 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M36 9 Q37 5 32 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14 30 Q27 34 40 30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+  twelfth: '<svg viewBox="0 0 54 36" width="22" height="16"><circle cx="13" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M22 12 L27 15 L22 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="41" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M32 12 L27 15 L32 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>'
 };
 
 let selectedPlay = null;
@@ -1350,7 +1509,7 @@ function initSorter() {
   pool.innerHTML = '';
   placed = {};
   selectedPlay = null;
-  ['romeo','macbeth','othello','hamlet','dream','henry','muchado','richard'].forEach(key => {
+  ['romeo','macbeth','othello','hamlet','lear','caesar','dream','muchado','tempest','twelfth','henry','richard'].forEach(key => {
     const d = sortData[key];
     const card = document.createElement('div');
     card.className = 'pool-card';
@@ -1456,7 +1615,7 @@ switchTab = function(n) {
 
 
 /* ── TAB SWITCHING ── */
-const playOrder = ['romeo','macbeth','othello','hamlet','dream','henry','muchado','richard'];
+const playOrder = ['romeo','macbeth','othello','hamlet','lear','caesar','dream','muchado','tempest','twelfth','henry','richard'];
 function goToPlay(key) {
   switchTab(1);
   const idx = playOrder.indexOf(key);
@@ -1467,6 +1626,7 @@ function goToPlay(key) {
 function switchTab(n) {
   document.querySelectorAll('.tab-pane').forEach((p,i) => p.classList.toggle('active', i===n));
   document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===n));
+  document.querySelector('.plays-strip').classList.toggle('hidden', n === 2);
   if (n===1 && !window._tab2ready) { renderPlay('romeo'); window._tab2ready=true; }
 }
 
@@ -1669,6 +1829,99 @@ const plays = {
       {from:'buckingham', to:'richard3',   label:'betrays',  type:'hostile', curve:44},
       {from:'richard3',   to:'qelizabeth', label:'threatens',type:'hostile'},
       {from:'richmond',   to:'richard3',   label:'defeats',  type:'hostile'}
+    ]
+  }
+  ,
+  tempest: {
+    title:"The Tempest", genre:'comedy', year:'c. 1611',
+    summary:'A powerful sorcerer named Prospero has lived in exile on a remote island for twelve years with his daughter Miranda. When his enemies sail past, he conjures a storm to shipwreck them. The play explores power, revenge, forgiveness, and whether justice or mercy is the better response to wrongdoing.',
+    characters:[
+      {id:'prospero', name:'Prospero',  x:290,y:175, role:'Exiled sorcerer',   key:true,
+       desc:'The rightful Duke of Milan, living in exile on a magical island with his daughter. He controls the island through his powerful <em>magic</em>, commanding spirits and enslaving Caliban. He engineers the whole plot of the play but must decide at the end whether to take <em>revenge</em> on his enemies or forgive them.'},
+      {id:'miranda',  name:'Miranda',   x:455,y:295, role:"Prospero's daughter", key:true,
+       desc:"Prospero's young daughter, who has grown up on the island and never seen other human beings. She is gentle, <em>innocent</em>, and immediately falls in love with Ferdinand. Her famous line, \"O brave new world that has such people in't!\" captures her wonder at meeting other humans for the first time."},
+      {id:'caliban',  name:'Caliban',   x:120,y:305, role:'Island native',
+       desc:"The original inhabitant of the island, now enslaved by Prospero. He is treated as a monster, but his speeches reveal a <em>deep love</em> of the island's beauty. Many modern readers see him as a symbol of <em>colonialism</em>: someone whose home was taken by a more powerful outsider."},
+      {id:'ariel',    name:'Ariel',     x:128,y:95,  role:'Spirit servant',
+       desc:"A magical spirit who serves Prospero in exchange for a promised freedom. Ariel is <em>loyal</em> but longs desperately to be released. Unlike Caliban, Ariel carries out Prospero's commands willingly, making them an interesting contrast: one servant who obeys from <em>hope</em>, one from <em>fear</em>."},
+      {id:'ferdinand',name:'Ferdinand', x:460,y:110, role:'Prince of Naples',
+       desc:"The son of Prospero's enemy, who falls immediately and genuinely in love with Miranda. Prospero <em>tests</em> Ferdinand by making him carry logs like a servant, but Ferdinand accepts this happily for Miranda's sake. He represents <em>honest love</em> and loyalty."}
+    ],
+    edges:[
+      {from:'prospero',  to:'miranda',   label:'protects', type:'support'},
+      {from:'prospero',  to:'caliban',   label:'enslaves', type:'power'},
+      {from:'prospero',  to:'ariel',     label:'commands', type:'power'},
+      {from:'ferdinand', to:'miranda',   label:'loves',    type:'support'},
+      {from:'caliban',   to:'prospero',  label:'rebels',   type:'hostile'}
+    ]
+  },
+  lear: {
+    title:'King Lear', genre:'tragedy', year:'c. 1606',
+    summary:'An aging king decides to divide his kingdom between his three daughters based on how much they say they love him. Two daughters flatter him with lies; the third, Cordelia, refuses to exaggerate and is banished. As Lear loses power, his mind begins to break. It is one of the darkest, most devastating plays Shakespeare ever wrote.',
+    characters:[
+      {id:'lear',     name:'King Lear',  x:285,y:200, role:'King of Britain',   key:true,
+       desc:"An aging king who makes a catastrophic error of judgment: he gives his kingdom away to his two eldest daughters based on their flattery, and banishes his youngest daughter Cordelia for refusing to play along. His <em>pride</em> and need for love make him blind to the truth, and the consequences destroy him."},
+      {id:'cordelia', name:'Cordelia',   x:452,y:315, role:"Lear's youngest daughter", key:true,
+       desc:"Lear's youngest and most loving daughter. She refuses to perform exaggerated declarations of love, saying she loves him \"according to my bond; no more, no less.\" She is punished for her <em>honesty</em>. She represents genuine love in a play full of false love, and her death at the end is one of the most shocking in all of Shakespeare."},
+      {id:'goneril',  name:'Goneril',   x:118,y:108, role:"Lear's eldest daughter",
+       desc:"Lear's eldest daughter. She flatters Lear extravagantly to receive her share of the kingdom, then immediately strips him of his followers and humiliates him. She is ruthless and <em>power-hungry</em>, willing to betray anyone, including her own sister, to get what she wants."},
+      {id:'regan',    name:'Regan',     x:452,y:108, role:"Lear's second daughter",
+       desc:"Lear's second daughter. She mirrors Goneril in cruelty and ambition. Where Goneril is cold and calculating, Regan is perhaps even more <em>sadistic</em>. She and Goneril compete for the affection of Edmund, which leads to their mutual destruction."},
+      {id:'edmund',   name:'Edmund',    x:118,y:315, role:'Villain; bastard son',
+       desc:"The illegitimate son of the Earl of Gloucester. He is resentful of his lower status and decides to take what he wants by <em>scheming</em>. He manipulates almost everyone around him, including Goneril and Regan, and is responsible for some of the play's most terrible events. He is charming, clever, and completely ruthless."}
+    ],
+    edges:[
+      {from:'goneril',  to:'lear',     label:'betrays', type:'hostile'},
+      {from:'regan',    to:'lear',     label:'betrays', type:'hostile'},
+      {from:'cordelia', to:'lear',     label:'loves',   type:'support', curve:44},
+      {from:'lear',     to:'cordelia', label:'rejects', type:'hostile', curve:44},
+      {from:'edmund',   to:'lear',     label:'schemes', type:'hostile'}
+    ]
+  },
+  caesar: {
+    title:'Julius Caesar', genre:'tragedy', year:'c. 1599',
+    summary:'A group of Roman senators, led by Brutus and Cassius, murder Julius Caesar to prevent him from becoming a king. But the assassination creates chaos, not peace. Mark Antony turns the people of Rome against the conspirators with a brilliant speech, and civil war follows. The play asks: is it ever right to kill a tyrant?',
+    characters:[
+      {id:'caesar',  name:'Julius Caesar', x:290,y:185, role:'Roman ruler',         key:true,
+       desc:"The most powerful man in Rome, about to be made king. He is brave and intelligent, but also <em>arrogant</em>: he ignores warnings and refuses to show weakness. He is murdered by the conspirators before we truly get to know him, but his presence haunts the rest of the play even after his death."},
+      {id:'brutus',  name:'Brutus',         x:128,y:295, role:'Honourable conspirator', key:true,
+       desc:"A respected senator and Caesar's close friend. He joins the conspiracy not out of <em>ambition</em> but out of principle: he genuinely believes killing Caesar is best for Rome. His tragic flaw is that he is too <em>idealistic</em> and too easily manipulated by Cassius. \"Et tu, Bruté?\" are Caesar's dying words — Caesar is most shocked that Brutus is among the killers."},
+      {id:'cassius', name:'Cassius',         x:128,y:100, role:'Chief conspirator',
+       desc:"The man who organises the conspiracy against Caesar. Unlike Brutus, Cassius is motivated partly by <em>personal envy</em>: he cannot stand Caesar's power and fame. He is shrewd and persuasive, carefully manipulating Brutus into joining. He understands people's weaknesses and uses them."},
+      {id:'antony',  name:'Mark Antony',     x:453,y:185, role:"Caesar's ally",
+       desc:"Caesar's loyal friend and the play's most brilliant speaker. After the murder, he delivers the famous funeral speech that turns the Roman people against the conspirators with devastating effect. He repeats \"Brutus is an <em>honourable</em> man\" so many times that it becomes clear he means the opposite."},
+      {id:'portia',  name:'Portia',          x:453,y:320, role:"Brutus's wife",
+       desc:"Brutus's devoted wife. She senses that something is wrong and begs Brutus to share his secret with her. To prove she is strong enough to be trusted, she wounds herself in the thigh. She represents the <em>human cost</em> of political idealism — Brutus's choices destroy her too."}
+    ],
+    edges:[
+      {from:'cassius', to:'brutus',  label:'manipulates', type:'power'},
+      {from:'brutus',  to:'caesar',  label:'kills',       type:'hostile'},
+      {from:'antony',  to:'caesar',  label:'serves',      type:'support'},
+      {from:'antony',  to:'brutus',  label:'opposes',     type:'hostile'},
+      {from:'portia',  to:'brutus',  label:'warns',       type:'support'}
+    ]
+  },
+  twelfth: {
+    title:'Twelfth Night', genre:'comedy', year:'c. 1601\u201302',
+    summary:'Viola is shipwrecked on the coast of Illyria and, believing her twin brother Sebastian has drowned, disguises herself as a young man called Cesario. She falls in love with Duke Orsino while carrying his messages to Olivia, who falls in love with Viola/Cesario instead. Mistaken identity, unrequited love, and a subplot of humiliation create beautiful comic chaos.',
+    characters:[
+      {id:'viola',   name:'Viola',         x:290,y:195, role:'Shipwrecked heroine', key:true,
+       desc:"The play's heroine. Shipwrecked and alone, she disguises herself as a young man called Cesario and enters the service of Duke Orsino. She falls in love with Orsino but cannot reveal it; meanwhile Olivia falls in love with her disguise. She navigates this impossible situation with <em>intelligence</em>, patience, and good humour. She is one of Shakespeare's most likeable protagonists."},
+      {id:'orsino',  name:'Orsino',         x:118,y:100, role:'Duke of Illyria',     key:true,
+       desc:"The Duke of Illyria, hopelessly in love with Olivia. He is self-indulgent and <em>melodramatic</em> about his own feelings, opening the play with \"If music be the food of love, play on.\" He uses the disguised Viola/Cesario as a messenger. Ironically, the person he falls in love with (Viola) has been in front of him the whole time."},
+      {id:'olivia',  name:'Olivia',         x:462,y:100, role:'Countess of Illyria',
+       desc:"A wealthy countess who has withdrawn from society to mourn her dead brother. She is wooed by Orsino but does not love him. She falls unexpectedly and completely in love with Viola/Cesario instead, thinking Viola is a young man. Her <em>genuine</em> feeling for someone who cannot return it mirrors Viola's own situation."},
+      {id:'malvolio',name:'Malvolio',       x:462,y:325, role:'Pompous steward',
+       desc:"Olivia's self-important, humourless steward. He is tricked by Sir Toby and others into believing Olivia loves him: he appears in yellow stockings and is locked up as a madman. He is a comic villain, but his final line, \"I'll be revenged on the whole pack of you,\" gives him a <em>dignity</em> and bitterness that makes the audience uncomfortable with how far the joke went."},
+      {id:'sirtoby', name:'Sir Toby Belch', x:118,y:325, role:"Olivia's uncle",
+       desc:"Olivia's loud, drunk, cheerful uncle. He lives in her house and spends his time eating, drinking, and causing mischief. He masterminded the <em>cruel joke</em> on Malvolio. Despite being a comic character, he represents a darker side of comedy: someone who causes real harm and walks away laughing."}
+    ],
+    edges:[
+      {from:'orsino',  to:'olivia',   label:'loves',      type:'support'},
+      {from:'orsino',  to:'viola',    label:'loves',      type:'support', curve:44},
+      {from:'viola',   to:'orsino',   label:'loves',      type:'support', curve:44},
+      {from:'olivia',  to:'viola',    label:'loves',      type:'support'},
+      {from:'sirtoby', to:'malvolio', label:'humiliates', type:'hostile'}
     ]
   }
 };
