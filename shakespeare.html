@@ -1722,8 +1722,8 @@ const plays = {
        desc:"Hamlet's mother and Queen of Denmark. She married Claudius very quickly after her first husband died; a fact that disturbs Hamlet deeply. It is unclear how much she knew about Claudius's <em>crime</em>. She loves Hamlet deeply and tries to protect him. She dies accidentally, drinking the <em>poisoned wine</em> that Claudius intended for Hamlet."},
       {id:'ophelia',  name:'Ophelia',    x:430,y:330, role:"Hamlet's love",
        desc:"A young noblewoman who loves Hamlet. She is gentle and obedient to her father and brother. When Hamlet rejects her and then kills her father Polonius, she loses her mind and drowns; whether by accident or <em>suicide</em> is left ambiguous. Her <em>madness</em> is one of the most haunting scenes in all of Shakespeare."},
-      {id:'horatio',  name:'Horatio',    x:150,y:330, role:"Hamlet's friend",
-       desc:"Hamlet's most loyal and trusted friend. He is <em>calm</em> and rational where Hamlet is emotional and unstable. He is the only major character to survive the final scene. Hamlet's dying words ask Horatio to tell his story to the world, making Horatio the <em>witness</em> and keeper of the truth."},
+      {id:'polonius', name:'Polonius',    x:150,y:330, role:"King's chief advisor",
+       desc:"Ophelia's father and chief advisor to Claudius. He is well-meaning but meddling and long-winded, always offering advice nobody asked for — his speech includes the famous line 'To thine own self be true.' He uses his daughter as a <em>tool</em> to spy on Hamlet for the king. Hamlet stabs him accidentally through a curtain, thinking he is Claudius. His death is the <em>turning point</em> of the play: it drives Ophelia to madness, brings Laertes back for revenge, and sets the final tragedy in motion."},
       {id:'ghost',    name:'The Ghost',  x:290,y:65,  role:"Hamlet's father",
        desc:"The ghost of Hamlet's murdered father. He appears to Hamlet and reveals that Claudius killed him by pouring <em>poison</em> into his ear while he slept. He demands <em>revenge</em>. His existence raises the question: is he a real spirit, a demon sent to trick Hamlet, or a product of Hamlet's grief? This <em>ambiguity</em> haunts the whole play."}
     ],
@@ -1734,7 +1734,9 @@ const plays = {
       {from:'hamlet',   to:'claudius', label:'kills',    type:'hostile'},
       {from:'gertrude', to:'hamlet',   label:'loves',    type:'support'},
       {from:'hamlet',   to:'ophelia',  label:'loves',    type:'support'},
-      {from:'horatio',  to:'hamlet',   label:'serves',   type:'support'}
+      {from:'claudius', to:'polonius', label:'employs',  type:'power'},
+      {from:'polonius', to:'ophelia',  label:'controls', type:'power'},
+      {from:'hamlet',   to:'polonius', label:'kills',    type:'hostile'}
     ]
   },
   dream: {
@@ -1749,8 +1751,10 @@ const plays = {
        desc:"Oberon's <em>mischievous</em> servant and the most famous fairy in the play. He loves pranks and jokes. He causes most of the chaos in the forest, sometimes by accident and sometimes on purpose; he applies the <em>love potion</em> to the wrong Athenian man, making everything worse. His final speech, asking the audience to treat the whole story as a <em>dream</em>, is one of the most famous in Shakespeare."},
       {id:'bottom',  name:'Bottom',  x:420,y:340, role:'Weaver',
        desc:"A weaver from Athens rehearsing a play in the forest. Puck gives him a <em>donkey's head</em> as a prank. He is funny because he takes everything completely seriously and has no idea how ridiculous he looks. He is <em>good-natured</em> and enthusiastic; even surrounded by fairies, his main concern is whether the audience will be frightened by the actor playing the lion."},
-      {id:'hermia',  name:'Hermia',  x:150,y:340, role:'Young Athenian woman',
-       desc:'A young woman who is in love with <em>Lysander</em>, but her father wants her to marry Demetrius instead. She bravely runs away into the forest with Lysander, refusing to accept the <em>arranged marriage</em> her father has planned. The fairy magic causes even more confusion, but she is determined and fiercely loyal to the man she loves.'}
+      {id:'hermia',  name:'Hermia',  x:110,y:360, role:'Young Athenian woman',
+       desc:'A young woman who is in love with <em>Lysander</em>, but her father wants her to marry Demetrius instead. She bravely runs away into the forest with Lysander, refusing to accept the <em>arranged marriage</em> her father has planned. The fairy magic causes even more confusion, but she is determined and fiercely loyal to the man she loves.'},
+      {id:'helena',  name:'Helena',  x:280,y:392,  role:'Athenian noblewoman',
+       desc:"Hermia's closest friend, hopelessly in love with Demetrius who does not love her back. When Puck's love potion is applied to the wrong people, both Lysander and Demetrius suddenly pursue her obsessively. She is baffled and suspicious, convinced her friends are mocking her. Her genuine, <em>unrequited love</em> makes her the most emotionally real character in the play."}
     ],
     edges:[
       {from:'oberon', to:'puck',    label:'commands',   type:'power'},
@@ -1758,7 +1762,9 @@ const plays = {
       {from:'oberon', to:'titania', label:'quarrels',   type:'hostile'},
       {from:'titania',to:'bottom',  label:'loves',      type:'support'},
       {from:'puck',   to:'bottom',  label:'transforms', type:'power'},
-      {from:'puck',   to:'hermia',  label:'confuses',   type:'power'}
+      {from:'puck',   to:'hermia',  label:'confuses',   type:'power'},
+      {from:'hermia', to:'helena',  label:'friends',    type:'support'},
+      {from:'puck',   to:'helena',  label:'confuses',   type:'power'}
     ]
   },
   henry: {
@@ -1796,8 +1802,10 @@ const plays = {
        desc:'Beatrice\'s gentle and loving cousin. She agrees to marry Claudio, but Don John tricks Claudio into thinking she has been <em>unfaithful</em>. He publicly humiliates her at the altar, and she is so devastated that she pretends to die. When the truth comes out, she forgives Claudio; showing extraordinary <em>grace</em>.'},
       {id:'claudio',  name:'Claudio',   x:450,y:330, role:"Hero\'s fiancé",
        desc:"A young soldier who genuinely loves Hero but proves dangerously easy to deceive. When Don John tricks him, he publicly accuses and abandons Hero without questioning the evidence. He learns a painful lesson about <em>jumping to conclusions</em> and the damage that false accusations can cause."},
-      {id:'donjohn',  name:'Don John',  x:290,y:95,  role:'The villain',
-       desc:"The illegitimate brother of Don Pedro. He is bitter, sullen, and motivated by pure <em>malice</em>. He schemes to ruin Hero and Claudio\'s happiness simply because he enjoys causing harm. He is one of Shakespeare\'s simpler villains; evil without much explanation; which makes him all the more unsettling."}
+      {id:'donjohn',  name:'Don John',  x:130,y:330,  role:'The villain',
+       desc:"The illegitimate brother of Don Pedro. He is bitter, sullen, and motivated by pure <em>malice</em>. He schemes to ruin Hero and Claudio\'s happiness simply because he enjoys causing harm. He is one of Shakespeare\'s simpler villains; evil without much explanation; which makes him all the more unsettling."},
+      {id:'donpedro', name:'Don Pedro',  x:290,y:78,   role:'Prince of Aragon', key:true,
+       desc:'A powerful nobleman and Claudio\'s closest friend. He is the <em>architect</em> of both major plots in the play: he arranges the match between Claudio and Hero, and he masterminds the trick that makes Beatrice and Benedick fall in love, hiding in bushes and orchestrating overheard conversations. He means well, but his love of <em>scheming</em> causes as many problems as it solves.'}
     ],
     edges:[
       {from:'benedick', to:'beatrice', label:'loves',    type:'support', curve:44},
@@ -1805,7 +1813,9 @@ const plays = {
       {from:'beatrice', to:'hero',     label:'guards',   type:'support'},
       {from:'claudio',  to:'hero',     label:'loves',    type:'support'},
       {from:'donjohn',  to:'hero',     label:'slanders', type:'hostile'},
-      {from:'donjohn',  to:'claudio',  label:'deceives', type:'hostile', curve:-40}
+      {from:'donjohn',  to:'claudio',  label:'deceives', type:'hostile'},
+      {from:'donpedro', to:'beatrice', label:'tricks',   type:'power'},
+      {from:'donpedro', to:'benedick', label:'tricks',   type:'power'}
     ]
   },
   richard: {
@@ -1851,7 +1861,9 @@ const plays = {
       {from:'prospero',  to:'miranda',   label:'protects', type:'support'},
       {from:'prospero',  to:'caliban',   label:'enslaves', type:'power'},
       {from:'prospero',  to:'ariel',     label:'commands', type:'power'},
-      {from:'ferdinand', to:'miranda',   label:'loves',    type:'support'},
+      {from:'ferdinand', to:'miranda',   label:'loves',    type:'support', curve:44},
+      {from:'miranda',   to:'ferdinand', label:'loves',    type:'support', curve:44},
+      {from:'prospero',  to:'ferdinand', label:'tests',    type:'power'},
       {from:'caliban',   to:'prospero',  label:'rebels',   type:'hostile'}
     ]
   },
@@ -1867,15 +1879,20 @@ const plays = {
        desc:"Lear's eldest daughter. She flatters Lear extravagantly to receive her share of the kingdom, then immediately strips him of his followers and humiliates him. She is ruthless and <em>power-hungry</em>, willing to betray anyone, including her own sister, to get what she wants."},
       {id:'regan',    name:'Regan',     x:452,y:108, role:"Lear's second daughter",
        desc:"Lear's second daughter. She mirrors Goneril in cruelty and ambition. Where Goneril is cold and calculating, Regan is perhaps even more <em>sadistic</em>. She and Goneril compete for the affection of Edmund, which leads to their mutual destruction."},
-      {id:'edmund',   name:'Edmund',    x:118,y:315, role:'Villain; bastard son',
-       desc:"The illegitimate son of the Earl of Gloucester. He is resentful of his lower status and decides to take what he wants by <em>scheming</em>. He manipulates almost everyone around him, including Goneril and Regan, and is responsible for some of the play's most terrible events. He is charming, clever, and completely ruthless."}
+      {id:'edmund',    name:'Edmund',    x:118,y:315, role:'Villain; bastard son',
+       desc:"The illegitimate son of the Earl of Gloucester. He is resentful of his lower status and decides to take what he wants by <em>scheming</em>. He manipulates almost everyone around him, including Goneril and Regan, and is responsible for some of the play's most terrible events. He is charming, clever, and completely ruthless."},
+      {id:'gloucester',name:'Gloucester',x:285,y:370, role:'Earl of Gloucester',
+       desc:'A loyal nobleman whose story directly <em>mirrors</em> King Lear\'s: just as Lear is betrayed by two of his children, Gloucester is betrayed by his illegitimate son Edmund. His eyes are gouged out by Goneril and Regan in one of the most disturbing scenes in all of Shakespeare. Blinded and broken, he becomes a parallel image of Lear\'s suffering: two old men destroyed by the children they trusted most.'}
     ],
     edges:[
       {from:'goneril',  to:'lear',     label:'betrays', type:'hostile'},
       {from:'regan',    to:'lear',     label:'betrays', type:'hostile'},
       {from:'cordelia', to:'lear',     label:'loves',   type:'support', curve:44},
       {from:'lear',     to:'cordelia', label:'rejects', type:'hostile', curve:44},
-      {from:'edmund',   to:'lear',     label:'schemes', type:'hostile'}
+      {from:'edmund',   to:'lear',     label:'schemes', type:'hostile'},
+      {from:'edmund',   to:'goneril',  label:'courts',  type:'power'},
+      {from:'edmund',   to:'gloucester',label:'betrays', type:'hostile'},
+      {from:'gloucester',to:'lear',     label:'serves',  type:'support'}
     ]
   },
   caesar: {
@@ -1895,7 +1912,8 @@ const plays = {
     ],
     edges:[
       {from:'cassius', to:'brutus',  label:'manipulates', type:'power'},
-      {from:'brutus',  to:'caesar',  label:'kills',       type:'hostile'},
+      {from:'brutus',  to:'caesar',  label:'kills',       type:'hostile', curve:44},
+      {from:'caesar',  to:'brutus',  label:'trusts',      type:'support', curve:44},
       {from:'antony',  to:'caesar',  label:'serves',      type:'support'},
       {from:'antony',  to:'brutus',  label:'opposes',     type:'hostile'},
       {from:'portia',  to:'brutus',  label:'warns',       type:'support'}
@@ -1913,15 +1931,17 @@ const plays = {
        desc:"A wealthy countess who has withdrawn from society to mourn her dead brother. She is wooed by Orsino but does not love him. She falls unexpectedly and completely in love with Viola/Cesario instead, thinking Viola is a young man. Her <em>genuine</em> feeling for someone who cannot return it mirrors Viola's own situation."},
       {id:'malvolio',name:'Malvolio',       x:462,y:325, role:'Pompous steward',
        desc:"Olivia's self-important, humourless steward. He is tricked by Sir Toby and others into believing Olivia loves him: he appears in yellow stockings and is locked up as a madman. He is a comic villain, but his final line, \"I'll be revenged on the whole pack of you,\" gives him a <em>dignity</em> and bitterness that makes the audience uncomfortable with how far the joke went."},
-      {id:'sirtoby', name:'Sir Toby Belch', x:118,y:325, role:"Olivia's uncle",
-       desc:"Olivia's loud, drunk, cheerful uncle. He lives in her house and spends his time eating, drinking, and causing mischief. He masterminded the <em>cruel joke</em> on Malvolio. Despite being a comic character, he represents a darker side of comedy: someone who causes real harm and walks away laughing."}
+      {id:'sebastian', name:'Sebastian',      x:118,y:325, role:"Viola's twin brother",
+       desc:"Viola's twin brother, separated from her in the shipwreck and believed dead. He arrives in Illyria and is immediately mistaken for Cesario (Viola's disguise) by everyone who knows her. Olivia mistakes him for Cesario and proposes to him on the spot; he accepts, bewildered but delighted. When he and Viola finally appear together on stage, all the <em>confusion is resolved</em> in an instant. He is the key that unlocks the whole plot."}
     ],
     edges:[
-      {from:'orsino',  to:'olivia',   label:'loves',      type:'support'},
-      {from:'orsino',  to:'viola',    label:'loves',      type:'support', curve:44},
-      {from:'viola',   to:'orsino',   label:'loves',      type:'support', curve:44},
-      {from:'olivia',  to:'viola',    label:'loves',      type:'support'},
-      {from:'sirtoby', to:'malvolio', label:'humiliates', type:'hostile'}
+      {from:'orsino',   to:'olivia',   label:'loves',  type:'support'},
+      {from:'orsino',   to:'viola',    label:'loves',  type:'support', curve:44},
+      {from:'viola',    to:'orsino',   label:'loves',  type:'support', curve:44},
+      {from:'olivia',   to:'viola',    label:'loves',  type:'support'},
+      {from:'viola',    to:'sebastian',label:'twins',  type:'support'},
+      {from:'olivia',   to:'sebastian',label:'marries',type:'support', curve:-50},
+      {from:'malvolio', to:'olivia',   label:'pursues', type:'support'}
     ]
   }
 };
