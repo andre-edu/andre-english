@@ -641,6 +641,34 @@
       .lp-then  { border-right:none; border-bottom:1px solid var(--border); }
       .coined-row { grid-template-columns:1fr; }
     }
+
+    .setting-card {
+      padding: 1rem 1.1rem;
+      border-left: 3px solid var(--gold);
+      border-radius: 0 6px 6px 0;
+      background: rgba(255,255,255,0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .setting-place {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      color: var(--gold);
+      line-height: 1.3;
+    }
+    .setting-time {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .setting-hint {
+      margin-top: 0.6rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      opacity: 0.55;
+    }
   </style>
 </head>
 <body>
@@ -1722,6 +1750,7 @@ function switchTab(n) {
 const plays = {
   romeo: {
     title:'Romeo & Juliet', genre:'tragedy', year:'c. 1595',
+    setting:{place:'Verona, Italy', time:'c. 14th–15th century'},
     summary:'Two young lovers from <em>rival families</em> in Verona fall desperately in love, but their relationship is secret and forbidden. A series of misunderstandings, a sleeping potion, and a message that arrives too late lead to both their deaths. It is one of the most famous love stories ever written, but it is also a play about how <em>hatred between families</em> destroys the people they love most.',
     characters:[
       {id:'romeo',  name:'Romeo',         x:190,y:185, role:'Hero',             key:true,
@@ -1749,6 +1778,7 @@ const plays = {
   },
   macbeth: {
     title:'Macbeth', genre:'tragedy', year:'c. 1606',
+    setting:{place:'Scotland & England', time:'c. 11th century'},
     summary:'A Scottish general receives a <em>prophecy</em> from three witches: he will become king. Encouraged by his ambitious wife, he murders the king to take the throne; but the crime does not bring happiness. <em>Guilt</em>, paranoia, and increasing violence consume them both. Macbeth is Shakespeare\'s shortest tragedy, and arguably his darkest exploration of what <em>unchecked ambition</em> does to a person.',
     characters:[
       {id:'macbeth', name:'Macbeth',      x:240,y:220, role:'Protagonist',       key:true,
@@ -1761,7 +1791,7 @@ const plays = {
        desc:"A noble general and Macbeth's friend. The witches prophesied that his children would become kings. Macbeth sees him as a threat and has him killed, but Banquo's <em>ghost</em> returns to haunt the banquet, visible only to Macbeth. He represents the <em>conscience</em> that Macbeth cannot silence."},
       {id:'macduff', name:'Macduff',      x:475,y:230, role:'Scottish nobleman',
        desc:'A loyal nobleman who suspects Macbeth of murder. He flees to England and returns with an army to overthrow him. He is the one who kills Macbeth at the end. His personal <em>motivation</em> is powerful: Macbeth ordered the murder of Macduff\'s wife and children while he was away, making this a story of both justice and <em>revenge</em>.'},
-      {id:'witches', name:'The Witches',  x:370,y:350, role:'The three witches',
+      {id:'witches', nature:'witch',   name:'The Witches',  x:370,y:350, role:'The three witches',
        desc:"Three mysterious witches whose <em>prophecies</em> set the plot in motion. They tell Macbeth he will be king. Their predictions are always true, but dangerously misleading; they give him just enough information to make him act, but hide the consequences. They represent the <em>temptation</em> of power and the danger of believing what you want to hear."}
     ],
     edges:[
@@ -1775,6 +1805,7 @@ const plays = {
   },
   othello: {
     title:'Othello', genre:'tragedy', year:'c. 1603',
+    setting:{place:'Venice & Cyprus', time:'c. 16th century'},
     summary:"A Moorish general in Venice is manipulated by his <em>envious</em> ensign Iago into believing his wife Desdemona has been unfaithful. Consumed by <em>jealousy</em>, Othello kills her before discovering the terrible truth. The play is a devastating study of how <em>trust</em> can be destroyed by lies, and how prejudice and insecurity make a good man capable of a terrible crime.",
     characters:[
       {id:'othello',   name:'Othello',    x:300,y:190, role:'Moorish general',     key:true,
@@ -1800,6 +1831,7 @@ const plays = {
   },
   hamlet: {
     title:'Hamlet', genre:'tragedy', year:'c. 1600',
+    setting:{place:'Elsinore, Denmark', time:'Medieval (legendary)'},
     summary:'The Prince of Denmark discovers that his father was <em>murdered</em> by his uncle Claudius, who has married his mother and taken the throne. Hamlet struggles with doubt, grief, and the question of revenge, but cannot bring himself to act. It is Shakespeare\'s longest play, and his deepest exploration of <em>indecision</em>, mortality, and what it means to be human. The line <em>\'To be or not to be\'</em> is probably the most famous in all of English literature.',
     characters:[
       {id:'hamlet',   name:'Hamlet',     x:290,y:210, role:'Prince of Denmark',  key:true,
@@ -1812,7 +1844,7 @@ const plays = {
        desc:"A young noblewoman who loves Hamlet. She is gentle and obedient to her father and brother. When Hamlet rejects her and then kills her father Polonius, she loses her mind and drowns; whether by accident or <em>suicide</em> is left ambiguous. Her <em>madness</em> is one of the most haunting scenes in all of Shakespeare."},
       {id:'polonius', name:'Polonius',    x:150,y:330, role:"King's chief advisor",
        desc:"Ophelia's father and chief advisor to Claudius. He is well-meaning but meddling and long-winded, always offering advice nobody asked for — his speech includes the famous line 'To thine own self be true.' He uses his daughter as a <em>tool</em> to spy on Hamlet for the king. Hamlet stabs him accidentally through a curtain, thinking he is Claudius. His death is the <em>turning point</em> of the play: it drives Ophelia to madness, brings Laertes back for revenge, and sets the final tragedy in motion."},
-      {id:'ghost',    name:'The Ghost',  x:290,y:65,  role:"Hamlet's father",
+      {id:'ghost', nature:'spirit',     name:'The Ghost',  x:290,y:65,  role:"Hamlet's father",
        desc:"The ghost of Hamlet's murdered father. He appears to Hamlet and reveals that Claudius killed him by pouring <em>poison</em> into his ear while he slept. He demands <em>revenge</em>. His existence raises the question: is he a real spirit, a demon sent to trick Hamlet, or a product of Hamlet's grief? This <em>ambiguity</em> haunts the whole play."}
     ],
     edges:[
@@ -1829,13 +1861,14 @@ const plays = {
   },
   dream: {
     title:"A Midsummer Night's Dream", genre:'comedy', year:'c. 1595',
+    setting:{place:'Athens & enchanted forest', time:'Ancient Greece (mythologised)'},
     summary:'In an <em>enchanted forest</em> outside Athens, four young lovers flee into the night; and stumble into a world of fairies, magic, and mischief. The fairy king Oberon uses a <em>love potion</em> to manipulate his queen Titania, but his servant Puck applies it to the wrong people, causing comic chaos. It is one of Shakespeare\'s most joyful plays, full of <em>wordplay</em>, music, and the idea that love makes fools of us all.',
     characters:[
-      {id:'oberon',  name:'Oberon',  x:150,y:60, role:'King of the fairies',  key:true,
+      {id:'oberon',  name:'Oberon', nature:'fairy',    x:150,y:60, role:'King of the fairies',  key:true,
        desc:'The King of the Fairies. He is powerful and proud, and is having a <em>quarrel</em> with his queen Titania over a boy they both want to look after. He uses Puck to cast a <em>love spell</em> on Titania to humiliate her into giving up the boy. He also intervenes in the mortal lovers\' chaos, though Puck\'s mistakes make things considerably worse before they get better.'},
-      {id:'titania', name:'Titania', x:420,y:65, role:'Queen of the fairies', key:true,
+      {id:'titania', name:'Titania', nature:'fairy',   x:420,y:65, role:'Queen of the fairies', key:true,
        desc:'The Queen of the Fairies. She is beautiful and stubborn in her quarrel with Oberon. Under a <em>magical spell</em>, she falls in love with Bottom, who has been given a donkey\'s head by Puck. The comedy comes from her absolute sincerity; she genuinely adores him, completely unaware of how <em>ridiculous</em> the situation is.'},
-      {id:'puck',    name:'Puck',    x:285,y:175, role:"Oberon's servant",
+      {id:'puck',    name:'Puck', nature:'fairy',      x:285,y:175, role:"Oberon's servant",
        desc:"Oberon's <em>mischievous</em> servant and the most famous fairy in the play. He loves pranks and jokes. He causes most of the chaos in the forest, sometimes by accident and sometimes on purpose; he applies the <em>love potion</em> to the wrong Athenian man, making everything worse. His final speech, asking the audience to treat the whole story as a <em>dream</em>, is one of the most famous in Shakespeare."},
       {id:'bottom',  name:'Bottom',  x:420,y:290, role:'Weaver',
        desc:"A weaver from Athens rehearsing a play in the forest. Puck gives him a <em>donkey's head</em> as a prank. He is funny because he takes everything completely seriously and has no idea how ridiculous he looks. He is <em>good-natured</em> and enthusiastic; even surrounded by fairies, his main concern is whether the audience will be frightened by the actor playing the lion."},
@@ -1857,6 +1890,7 @@ const plays = {
   },
   henry: {
     title:'Henry V', genre:'history', year:'c. 1599',
+    setting:{place:'England & France', time:'1415'},
     summary:'The young King Henry V leads a tired, outnumbered English army to war against France. His famous <em>St Crispin\'s Day</em> speech inspires his men before the <em>Battle of Agincourt</em>, where they defeat a much larger French force. The play explores what makes a great leader, the cost of war, and the gap between <em>glory</em> and the brutal reality of battle.',
     characters:[
       {id:'henry',      name:'Henry V',    x:290,y:185, role:'King of England',          key:true,
@@ -1880,6 +1914,7 @@ const plays = {
   },
   muchado: {
     title:"Much Ado About Nothing", genre:'comedy', year:'c. 1598–99',
+    setting:{place:'Messina, Sicily', time:'c. 16th century'},
     summary:"Two pairs of lovers: Beatrice and Benedick, who argue brilliantly and deny they are in love, and Hero and Claudio, whose relationship is nearly destroyed by a scheming villain. The play shows that love can survive deception, and that wit is its own kind of romance.",
     characters:[
       {id:'beatrice', name:'Beatrice',  x:130,y:185, role:'Heroine',            key:true,
@@ -1908,6 +1943,7 @@ const plays = {
   },
   richard: {
     title:'Richard III', genre:'history', year:'c. 1592–93',
+    setting:{place:'England', time:'1483–85'},
     summary:"Richard, Duke of Gloucester, schemes and murders his way to the English throne. He is physically deformed, darkly funny, and utterly ruthless, yet so charming that he takes the audience along with him. Eventually his crimes catch up with him at the Battle of Bosworth Field.",
     characters:[
       {id:'richard3',  name:'Richard III',     x:290,y:200, role:'Protagonist / villain', key:true,
@@ -1932,15 +1968,16 @@ const plays = {
   ,
   tempest: {
     title:"The Tempest", genre:'comedy', year:'c. 1611',
+    setting:{place:'A remote island', time:'c. 16th century'},
     summary:'A powerful sorcerer named Prospero has lived in exile on a remote island for twelve years with his daughter Miranda. When his enemies sail past, he conjures a storm to shipwreck them. The play explores power, revenge, forgiveness, and whether justice or mercy is the better response to wrongdoing.',
     characters:[
       {id:'prospero', name:'Prospero',  x:290,y:175, role:'Exiled sorcerer',   key:true,
        desc:'The rightful Duke of Milan, living in exile on a magical island with his daughter. He controls the island through his powerful <em>magic</em>, commanding spirits and enslaving Caliban. He engineers the whole plot of the play but must decide at the end whether to take <em>revenge</em> on his enemies or forgive them.'},
       {id:'miranda',  name:'Miranda',   x:455,y:295, role:"Prospero's daughter", key:true,
        desc:"Prospero's young daughter, who has grown up on the island and never seen other human beings. She is gentle, <em>innocent</em>, and immediately falls in love with Ferdinand. Her famous line, \"O brave new world that has such people in't!\" captures her wonder at meeting other humans for the first time."},
-      {id:'caliban',  name:'Caliban',   x:120,y:305, role:'Island native',
-       desc:"The original inhabitant of the island, now enslaved by Prospero. He is treated as a monster, but his speeches reveal a <em>deep love</em> of the island's beauty. Many modern readers see him as a symbol of <em>colonialism</em>: someone whose home was taken by a more powerful outsider."},
-      {id:'ariel',    name:'Ariel',     x:128,y:95,  role:'Spirit servant',
+      {id:'caliban', nature:'monster',  name:'Caliban',   x:120,y:305, role:'Island native',
+       desc:"The original inhabitant of the island, now enslaved by Prospero. Shakespeare describes him as \"savage and deformed\" — born of the witch Sycorax, with the devil sometimes implied as his father. He occupies a deeply <em>ambiguous</em> place: neither fully human nor clearly supernatural. Many modern readers interpret him as a symbol of <em>colonialism</em>, representing peoples whose land and language were taken by a more powerful outsider. His famous cry — \"This island\'s mine\" — has become one of Shakespeare's most politically resonant lines."},
+      {id:'ariel', nature:'spirit',     name:'Ariel',     x:128,y:95,  role:'Spirit servant',
        desc:"A magical spirit who serves Prospero in exchange for a promised freedom. Ariel is <em>loyal</em> but longs desperately to be released. Unlike Caliban, Ariel carries out Prospero's commands willingly, making them an interesting contrast: one servant who obeys from <em>hope</em>, one from <em>fear</em>."},
       {id:'ferdinand',name:'Ferdinand', x:460,y:110, role:'Prince of Naples',
        desc:"The son of Prospero's enemy, who falls immediately and genuinely in love with Miranda. Prospero <em>tests</em> Ferdinand by making him carry logs like a servant, but Ferdinand accepts this happily for Miranda's sake. He represents <em>honest love</em> and loyalty."}
@@ -1957,6 +1994,7 @@ const plays = {
   },
   lear: {
     title:'King Lear', genre:'tragedy', year:'c. 1606',
+    setting:{place:'Ancient Britain', time:'Pre-Roman, legendary'},
     summary:'An aging king decides to divide his kingdom between his three daughters based on how much they say they love him. Two daughters flatter him with lies; the third, Cordelia, refuses to exaggerate and is banished. As Lear loses power, his mind begins to break. It is one of the darkest, most devastating plays Shakespeare ever wrote.',
     characters:[
       {id:'lear',     name:'King Lear',  x:285,y:200, role:'King of Britain',   key:true,
@@ -1985,6 +2023,7 @@ const plays = {
   },
   caesar: {
     title:'Julius Caesar', genre:'tragedy', year:'c. 1599',
+    setting:{place:'Rome', time:'44 BC'},
     summary:'A group of Roman senators, led by Brutus and Cassius, murder Julius Caesar to prevent him from becoming a king. But the assassination creates chaos, not peace. Mark Antony turns the people of Rome against the conspirators with a brilliant speech, and civil war follows. The play asks: is it ever right to kill a tyrant?',
     characters:[
       {id:'caesar',  name:'Julius Caesar', x:290,y:185, role:'Roman ruler',         key:true,
@@ -2009,6 +2048,7 @@ const plays = {
   },
   twelfth: {
     title:'Twelfth Night', genre:'comedy', year:'c. 1601\u201302',
+    setting:{place:'Illyria (Adriatic coast)', time:'c. 16th century'},
     summary:'Viola is shipwrecked on the coast of Illyria and, believing her twin brother Sebastian has drowned, disguises herself as a young man called Cesario. She falls in love with Duke Orsino while carrying his messages to Olivia, who falls in love with Viola/Cesario instead. Mistaken identity, unrequited love, and a subplot of humiliation create beautiful comic chaos.',
     characters:[
       {id:'viola',   name:'Viola',         x:290,y:195, role:'Shipwrecked heroine', key:true,
@@ -2035,6 +2075,7 @@ const plays = {
   ,
   asyoulike: {
     title:"As You Like It", genre:'comedy', year:'c. 1599\u20131600',
+    setting:{place:'Forest of Arden, France', time:'c. 16th century'},
     summary:"Rosalind is banished by her uncle and flees to the Forest of Arden disguised as a young man called Ganymede. Orlando, the man she loves, is also in the forest. She persuades him to practise his wooing on her \u2014 not knowing she is the real Rosalind. It is a play about love, identity, and how the natural world reveals what the court conceals.",
     characters:[
       {id:'rosalind',   name:'Rosalind',    x:290,y:185, role:'Heroine',                key:true,
@@ -2059,6 +2100,7 @@ const plays = {
   },
   merchant: {
     title:'The Merchant of Venice', genre:'comedy', year:'c. 1596\u201397',
+    setting:{place:'Venice & Belmont, Italy', time:'c. 16th century'},
     summary:"Bassanio needs money to court the wealthy Portia. His friend Antonio borrows it from Shylock, a Jewish moneylender, agreeing that if he cannot repay it, Shylock may take a pound of his flesh. When Antonio cannot repay, Portia disguises herself as a lawyer and defeats Shylock\\'s claim through a brilliant legal argument. The play raises difficult questions about justice, mercy, and prejudice that it never fully resolves.",
     characters:[
       {id:'shylock',  name:'Shylock',   x:128,y:185, role:'Jewish moneylender',  key:true,
@@ -2096,7 +2138,7 @@ function renderPlay(key) {
   document.getElementById('web-title').textContent = play.title;
   document.getElementById('play-intro').innerHTML =
     '<span class="play-year">' + play.year + '</span>' + play.summary;
-  document.getElementById('char-panel').innerHTML = '<p class="cp-empty">&#8592; Click a character<br>to learn more</p>';
+  document.getElementById('char-panel').innerHTML = '<div class="setting-card">' + '<div class="setting-place">' + play.setting.place + '</div>' + '<div class="setting-time">' + play.setting.time + '</div>' + '<p class="setting-hint">&#8592; Select a character</p>' + '</div>';
 
   const svg = document.getElementById('char-web');
   const cmap = {};
@@ -2166,7 +2208,14 @@ function renderPlay(key) {
 
   html += '</g>';
   play.characters.forEach(char => {
-    const sk = char.key ? '#e8c96d' : '#c9a84c';
+    const NATURE_COL = {
+      fairy:   '#e87aaa',
+      spirit:  '#6ab4d8',
+      witch:   '#9878c8',
+      monster: '#909099'
+    };
+    const nc  = char.nature ? NATURE_COL[char.nature] : null;
+    const sk  = nc || (char.key ? '#e8c96d' : '#c9a84c');
     const sw = char.key ? '2' : '1.2';
     const init = char.name.split(' ').map(w=>w[0]).join('').slice(0,2);
     const fs = char.name.length > 12 ? '10' : '11';
@@ -2177,8 +2226,9 @@ function renderPlay(key) {
     const spring  = char.key ? 'cubic-bezier(0.34,1.56,0.64,1)' : 'cubic-bezier(0.25,0.46,0.45,0.94)';
     html += '<g id="nd-'+char.id+'" class="char-node" onclick="selectChar(\''+char.id+'\')" style="cursor:pointer;transition:opacity 0.2s;animation:nodeIn 0.45s '+spring+' '+delay+'s both">';
     if (char.key) {
-      html += '<circle cx="'+char.x+'" cy="'+char.y+'" r="'+(NR+7)+'" fill="#e8c96d" opacity="0.13" filter="url(#glow-blur)"/>';
-      html += '<circle cx="'+char.x+'" cy="'+char.y+'" r="'+(NR+2)+'" fill="none" stroke="#e8c96d" stroke-width="0.7" opacity="0.3"/>';
+      const gc = nc || '#e8c96d';
+      html += '<circle cx="'+char.x+'" cy="'+char.y+'" r="'+(NR+7)+'" fill="'+gc+'" opacity="0.13" filter="url(#glow-blur)"/>';
+      html += '<circle cx="'+char.x+'" cy="'+char.y+'" r="'+(NR+2)+'" fill="none" stroke="'+gc+'" stroke-width="0.7" opacity="0.3"/>';
     }
     html += '<circle cx="'+char.x+'" cy="'+char.y+'" r="'+NR+'" fill="#0d1421" stroke="'+sk+'" stroke-width="'+sw+'"/>';
     html += '<text x="'+char.x+'" y="'+(char.y+5)+'" font-family="Playfair Display,serif" font-size="13" fill="'+sk+'" text-anchor="middle" font-weight="700">'+init+'</text>';
