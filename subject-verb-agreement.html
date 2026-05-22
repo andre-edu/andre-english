@@ -1,0 +1,2365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subject-Verb Agreement · English 6</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:        #1D9E75;
+      --teal-bright: #5DCAA5;
+      --teal-dim:    rgba(29,158,117,0.13);
+      --teal-border: rgba(93,202,165,0.28);
+      --gold:        #EF9F27;
+      --gold-dim:    rgba(239,159,39,0.13);
+      --gold-border: rgba(239,159,39,0.28);
+      --error:       #E24B4A;
+      --error-dim:   rgba(226,75,74,0.12);
+      --error-border:rgba(226,75,74,0.3);
+      --purple-dim:  rgba(83,74,183,0.15);
+      --purple-text: #AFA9EC;
+      --purple-bdr:  rgba(83,74,183,0.28);
+      --bg:          #0B0F1A;
+      --surface:     #111827;
+      --surface-2:   #1A2035;
+      --surface-3:   #1F2742;
+      --border:      rgba(255,255,255,0.07);
+      --border-2:    rgba(255,255,255,0.13);
+      --text:        #E6EDF3;
+      --text-2:      #8B949E;
+      --text-3:      #4D5566;
+      --font-d: 'Spectral', Georgia, serif;
+      --font-b: 'DM Sans', system-ui, sans-serif;
+      --r:  10px;
+      --rs: 6px;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-b);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    code {
+      font-family: 'DM Sans', monospace;
+      font-size: 0.88em;
+      background: var(--surface-2);
+      color: var(--teal-bright);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    /* ── HEADER ──────────────────────────────────────────────── */
+    .site-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+    }
+    .breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      padding: 14px 0 0;
+      font-size: 11px; letter-spacing: .04em;
+      color: var(--text-3);
+    }
+    .breadcrumb a {
+      color: var(--text-3); text-decoration: none;
+      transition: color .15s;
+    }
+    .breadcrumb a:hover { color: var(--teal-bright); }
+
+    .header-body {
+      padding: 14px 0 22px;
+      display: flex; align-items: flex-end;
+      justify-content: space-between; gap: 16px;
+      flex-wrap: wrap;
+    }
+    .page-title {
+      font-family: var(--font-d);
+      font-size: 30px; font-weight: 600;
+      color: var(--text); line-height: 1.1;
+    }
+    .page-title span { color: var(--teal-bright); }
+    .meta-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .meta-pill {
+      font-size: 11px; color: var(--text-2);
+      border: 1px solid var(--border-2);
+      padding: 3px 10px; border-radius: 20px;
+    }
+
+    /* ── TAB BAR ─────────────────────────────────────────────── */
+    .tab-nav {
+      display: flex; background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px; overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tab-btn {
+      display: flex; align-items: center; gap: 7px;
+      padding: 13px 18px;
+      font-family: var(--font-b);
+      font-size: 13px; font-weight: 400;
+      color: var(--text-2);
+      background: none; border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer; white-space: nowrap;
+      transition: color .15s;
+    }
+    .tab-btn svg {
+      width: 14px; height: 14px;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.6; flex-shrink: 0;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active {
+      color: var(--teal-bright);
+      border-bottom-color: var(--teal);
+      font-weight: 500;
+    }
+    .tab-n {
+      font-size: 10px; color: var(--text-3);
+      background: var(--surface-2);
+      padding: 1px 6px; border-radius: 10px;
+    }
+
+    /* ── MAIN ────────────────────────────────────────────────── */
+    .main {
+      max-width: 880px; margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .sec-label {
+      font-size: 10px; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--teal);
+      margin-bottom: 12px;
+    }
+
+    /* ── SENTENCE VISUALISER ─────────────────────────────────── */
+    .vis-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 28px 28px 22px;
+      margin-bottom: 28px;
+    }
+    .vis-sentence {
+      display: flex; align-items: center;
+      flex-wrap: wrap; gap: 0;
+      min-height: 58px; margin-bottom: 18px;
+      transition: opacity .22s ease;
+    }
+    .vis-sentence.fading { opacity: 0; }
+
+    .vw {
+      font-family: var(--font-d);
+      font-size: 24px; padding: 6px 12px;
+      border-radius: var(--rs);
+      border: 1px solid transparent;
+      transition: background .3s, color .3s, border-color .3s;
+      line-height: 1.25;
+    }
+    .vw.subj {
+      background: var(--teal-dim);
+      color: var(--teal-bright);
+      border-color: var(--teal-border);
+    }
+    .vw.verb {
+      background: var(--gold-dim);
+      color: var(--gold);
+      border-color: var(--gold-border);
+    }
+    .vw.verb.err {
+      background: var(--error-dim);
+      color: var(--error);
+      border-color: var(--error-border);
+    }
+    .vw.plain {
+      color: var(--text-2);
+    }
+    .v-bridge {
+      width: 1px; height: 36px;
+      background: var(--border-2);
+      margin: 0 4px; flex-shrink: 0;
+    }
+    .v-err-note {
+      display: none;
+      margin-top: 10px; padding: 9px 13px;
+      background: var(--error-dim);
+      border-left: 2px solid var(--error);
+      border-radius: 0 var(--rs) var(--rs) 0;
+      font-size: 12px; color: #F09595;
+      line-height: 1.55;
+    }
+    .v-err-note.show { display: block; }
+
+    .vis-legend {
+      display: flex; gap: 20px; margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .leg-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--text-2);
+    }
+    .leg-dot {
+      width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0;
+    }
+
+    .sent-toggles { display: flex; gap: 6px; flex-wrap: wrap; }
+    .sent-tog {
+      font-size: 12px; padding: 5px 14px;
+      border-radius: 20px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text-2);
+      cursor: pointer; font-family: var(--font-b);
+      transition: all .15s;
+    }
+    .sent-tog:hover { border-color: var(--border-2); color: var(--text); }
+    .sent-tog.active {
+      background: var(--teal-dim);
+      border-color: var(--teal-border);
+      color: var(--teal-bright);
+    }
+    .sent-tog.err-tog.active {
+      background: var(--error-dim);
+      border-color: var(--error-border);
+      color: var(--error);
+    }
+
+    /* ── RULE CARDS ──────────────────────────────────────────── */
+    .rule-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin-bottom: 28px;
+    }
+    @media (max-width: 580px) { .rule-grid { grid-template-columns: 1fr; } }
+
+    .rule-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 20px 20px 18px;
+    }
+    .rule-card.tc { border-top: 3px solid var(--teal); }
+    .rule-card.tg { border-top: 3px solid var(--gold); }
+
+    .rule-badge {
+      display: inline-block;
+      font-size: 10px; font-weight: 500; letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 3px 9px; border-radius: 20px;
+      margin-bottom: 11px;
+    }
+    .rule-badge.tc { background: var(--teal-dim); color: var(--teal-bright); }
+    .rule-badge.tg { background: var(--gold-dim); color: var(--gold); }
+
+    .rule-title {
+      font-size: 14px; font-weight: 500;
+      color: var(--text); margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .rule-desc {
+      font-size: 13px; color: var(--text-2);
+      line-height: 1.65; margin-bottom: 14px;
+    }
+    .rule-exs { display: flex; flex-direction: column; gap: 5px; }
+    .rule-ex {
+      font-family: var(--font-d);
+      font-size: 14px; font-style: italic;
+      color: var(--text);
+      padding: 6px 11px;
+      background: var(--surface-2);
+      border-radius: var(--rs);
+      border-left: 2px solid;
+      line-height: 1.4;
+    }
+    .rule-ex.tc { border-left-color: var(--teal); }
+    .rule-ex.tg { border-left-color: var(--gold); }
+    .rule-ex em { font-style: normal; font-weight: 600; }
+    .rule-ex.tc em { color: var(--teal-bright); }
+    .rule-ex.tg em { color: var(--gold); }
+
+    /* ── ENDINGS SECTION ─────────────────────────────────────── */
+    .endings-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 22px 22px 20px;
+      margin-bottom: 28px;
+    }
+    .endings-title {
+      font-size: 15px; font-weight: 500; color: var(--text);
+      margin-bottom: 3px;
+    }
+    .endings-sub {
+      font-size: 12px; color: var(--text-2); margin-bottom: 20px;
+    }
+    .endings-rows { display: flex; flex-direction: column; gap: 16px; }
+    .e-row { display: flex; gap: 16px; align-items: flex-start; }
+    .e-row-label {
+      font-size: 10px; letter-spacing: .07em;
+      text-transform: uppercase; color: var(--text-3);
+      min-width: 72px; padding-top: 3px; flex-shrink: 0;
+    }
+    .e-row-body { flex: 1; }
+    .e-when {
+      font-size: 12px; color: var(--text-2);
+      margin-bottom: 7px;
+    }
+    .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    .chip {
+      font-size: 12px; padding: 3px 10px; border-radius: 20px;
+      background: var(--purple-dim);
+      color: var(--purple-text);
+      border: 1px solid var(--purple-bdr);
+      font-weight: 500;
+    }
+    .pairs { display: flex; gap: 12px; flex-wrap: wrap; }
+    .vp {
+      font-size: 13px; display: flex; align-items: center; gap: 5px;
+      color: var(--text-2);
+    }
+    .vp .base { color: var(--text-2); }
+    .vp .arr  { color: var(--text-3); font-size: 11px; }
+    .vp .res  { color: var(--teal-bright); font-weight: 500; }
+    .vp .hl   {
+      background: var(--teal-dim);
+      border-radius: 3px; padding: 0 2px;
+      color: var(--teal-bright);
+    }
+    .e-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ── MCQ ─────────────────────────────────────────────────── */
+    .mcq-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+    .mcq-head {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      justify-content: space-between;
+    }
+    .mcq-lbl {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--teal);
+    }
+    .mcq-cnt { font-size: 12px; color: var(--text-3); }
+    .mcq-prog { height: 2px; background: var(--surface-2); }
+    .mcq-prog-fill {
+      height: 100%; background: var(--teal);
+      transition: width .35s ease;
+    }
+    .mcq-body {
+      padding: 24px 20px 6px;
+      transition: opacity .2s ease;
+    }
+    .mcq-prompt { font-size: 12px; color: var(--text-3); margin-bottom: 5px; }
+    .mcq-q {
+      font-family: var(--font-d);
+      font-size: 18px; color: var(--text);
+      margin-bottom: 20px; line-height: 1.4;
+    }
+    .mcq-opts { display: flex; flex-direction: column; gap: 7px; }
+    .mcq-opt {
+      display: flex; align-items: flex-start; gap: 12px;
+      width: 100%; padding: 11px 14px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--rs);
+      cursor: pointer; text-align: left;
+      font-family: var(--font-b);
+      transition: border-color .15s, background .15s;
+    }
+    .mcq-opt:hover:not(:disabled) {
+      border-color: var(--border-2);
+    }
+    .mcq-opt:disabled { cursor: default; }
+    .opt-key {
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 1px solid var(--border-2);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 11px; font-weight: 500; color: var(--text-2);
+      transition: background .2s, border-color .2s, color .2s;
+      margin-top: 1px;
+    }
+    .opt-body { flex: 1; }
+    .opt-sentence {
+      font-family: var(--font-d);
+      font-size: 15px; font-style: italic;
+      color: var(--text); line-height: 1.35;
+    }
+    .opt-feedback {
+      display: none;
+      font-size: 12px; line-height: 1.55;
+      margin-top: 5px; color: var(--text-2);
+    }
+
+    .mcq-opt.correct {
+      background: rgba(29,158,117,0.08);
+      border-color: var(--teal-border);
+    }
+    .mcq-opt.correct .opt-key {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #fff;
+    }
+    .mcq-opt.correct .opt-feedback {
+      display: block; color: #5DCAA5;
+    }
+    .mcq-opt.wrong {
+      background: rgba(226,75,74,0.07);
+      border-color: var(--error-border);
+    }
+    .mcq-opt.wrong .opt-key {
+      background: rgba(226,75,74,0.15);
+      border-color: rgba(226,75,74,0.35);
+      color: var(--error);
+    }
+    .mcq-opt.wrong .opt-feedback {
+      display: block; color: #F09595;
+    }
+
+    .mcq-foot {
+      padding: 12px 20px 20px;
+      display: flex; justify-content: flex-end;
+    }
+    .mcq-next-btn {
+      display: none;
+      font-size: 13px; padding: 8px 20px;
+      background: var(--teal);
+      border: none; border-radius: 20px;
+      color: #fff; cursor: pointer;
+      font-family: var(--font-b);
+      transition: opacity .15s;
+      align-items: center; gap: 6px;
+    }
+    .mcq-next-btn.show { display: inline-flex; }
+    .mcq-next-btn:hover { opacity: .85; }
+
+    /* Results */
+    .mcq-results {
+      display: none;
+      padding: 32px 20px;
+      text-align: center;
+    }
+    .mcq-results.show { display: block; }
+    .res-score {
+      font-family: var(--font-d);
+      font-size: 46px; font-weight: 600;
+      color: var(--teal-bright); line-height: 1;
+      margin-bottom: 8px;
+    }
+    .res-label {
+      font-size: 13px; color: var(--text-2);
+      margin-bottom: 20px; line-height: 1.5;
+    }
+    .res-tags {
+      display: flex; gap: 8px;
+      justify-content: center; flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .res-tag {
+      font-size: 11px; padding: 4px 12px; border-radius: 20px;
+      background: var(--teal-dim); color: var(--teal-bright);
+      border: 1px solid var(--teal-border);
+    }
+    .res-retry {
+      font-size: 13px; padding: 8px 22px;
+      background: var(--surface-2);
+      border: 1px solid var(--border-2);
+      border-radius: 20px; color: var(--text-2);
+      cursor: pointer; font-family: var(--font-b);
+      transition: color .15s, border-color .15s;
+    }
+    .res-retry:hover { color: var(--text); border-color: var(--teal-border); }
+
+    /* ── INTRO BLOCK ─────────────────────────────────────────── */
+    .intro-block {
+      border-left: 2px solid var(--teal);
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      background: var(--teal-dim);
+      border-radius: 0 var(--r) var(--r) 0;
+    }
+    .intro-text {
+      font-size: 15px; line-height: 1.7;
+      color: var(--text-2);
+    }
+    .intro-text em {
+      font-style: normal;
+      color: var(--teal-bright);
+      font-weight: 500;
+    }
+
+    /* ── TAB 2: COMPLEXITY LADDER ───────────────────────────── */
+    .ladder-wrap {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 20px 20px 16px; margin-bottom: 28px;
+    }
+    .ladder-desc { font-size: 12px; color: var(--text-2); margin-bottom: 14px; }
+    .ladder { display: flex; align-items: flex-end; gap: 8px; height: 96px; }
+    .l-step { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 8px; }
+    .l-bar { width: 100%; border-radius: 4px 4px 0 0; border: 1px solid; }
+    .l-lbl { font-size: 11px; text-align: center; line-height: 1.3; }
+    .l-step:nth-child(1) .l-bar { height: 24px; background: var(--teal-dim); border-color: var(--teal-border); }
+    .l-step:nth-child(2) .l-bar { height: 46px; background: rgba(56,139,253,.12); border-color: rgba(56,139,253,.28); }
+    .l-step:nth-child(3) .l-bar { height: 66px; background: var(--gold-dim); border-color: var(--gold-border); }
+    .l-step:nth-child(4) .l-bar { height: 88px; background: var(--purple-dim); border-color: var(--purple-bdr); }
+    .l-step:nth-child(1) .l-lbl { color: var(--teal-bright); }
+    .l-step:nth-child(2) .l-lbl { color: #79c0ff; }
+    .l-step:nth-child(3) .l-lbl { color: var(--gold); }
+    .l-step:nth-child(4) .l-lbl { color: var(--purple-text); }
+
+    /* ── TAB 2: CONCEPT SECTIONS ─────────────────────────────── */
+    .concept-block { margin-bottom: 32px; }
+    .concept-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .concept-num {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--teal-dim); border: 1px solid var(--teal-border);
+      color: var(--teal-bright); font-size: 11px; font-weight: 500;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .concept-title { font-family: var(--font-d); font-size: 18px; font-weight: 600; color: var(--text); }
+
+    /* ── TAB 2: INLINE CHECKS ────────────────────────────────── */
+    .ic-wrap {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 2px solid var(--gold);
+      border-radius: 0 var(--r) var(--r) 0;
+      padding: 16px 18px; margin-bottom: 12px;
+    }
+    .ic-lbl {
+      font-size: 10px; font-weight: 500; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 8px;
+    }
+    .ic-q { font-size: 14px; color: var(--text); margin-bottom: 12px; line-height: 1.5; }
+    .ic-q em { font-family: var(--font-d); font-style: italic; }
+    .ic-opts { display: flex; flex-direction: column; gap: 6px; }
+    .ic-opt {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 9px 12px; background: var(--surface-2);
+      border: 1px solid var(--border); border-radius: var(--rs);
+      cursor: pointer; text-align: left; width: 100%;
+      font-family: var(--font-b); transition: border-color .15s;
+    }
+    .ic-opt:hover:not(:disabled) { border-color: var(--border-2); }
+    .ic-opt:disabled { cursor: default; }
+    .ic-key {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 1px solid var(--border-2);
+      font-size: 10px; font-weight: 500; color: var(--text-2);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px; transition: all .15s;
+    }
+    .ic-txt { flex: 1; }
+    .ic-sent { font-family: var(--font-d); font-size: 14px; font-style: italic; color: var(--text); }
+    .ic-fb { display: none; font-size: 12px; color: var(--text-2); margin-top: 4px; line-height: 1.5; }
+    .ic-opt.correct { background: rgba(29,158,117,.08); border-color: var(--teal-border); }
+    .ic-opt.correct .ic-key { background: var(--teal); border-color: var(--teal); color: #fff; }
+    .ic-opt.correct .ic-fb { display: block; color: #5DCAA5; }
+    .ic-opt.wrong { background: rgba(226,75,74,.07); border-color: var(--error-border); }
+    .ic-opt.wrong .ic-key { background: var(--error-dim); border-color: rgba(226,75,74,.35); color: var(--error); }
+    .ic-opt.wrong .ic-fb { display: block; color: #F09595; }
+
+    /* ── TAB 2: OR/NOR BUILDER ───────────────────────────────── */
+    .builder-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 20px 20px 18px; margin-bottom: 12px;
+    }
+    .builder-sent {
+      font-family: var(--font-d); font-size: 22px;
+      display: flex; flex-wrap: wrap; align-items: center;
+      min-height: 50px; margin-bottom: 10px; transition: opacity .2s;
+    }
+    .builder-sent.fading { opacity: 0; }
+    .bw { padding: 3px 5px; }
+    .bw.plain { color: var(--text-2); }
+    .bw.s1 { background: var(--surface-2); color: var(--text-2); border-radius: var(--rs); padding: 3px 10px; border: 1px solid var(--border); }
+    .bw.s2 { background: var(--teal-dim); color: var(--teal-bright); border-radius: var(--rs); padding: 3px 10px; border: 1px solid var(--teal-border); }
+    .bw.vb { background: var(--gold-dim); color: var(--gold); border-radius: var(--rs); padding: 3px 10px; border: 1px solid var(--gold-border); }
+    .builder-note {
+      font-size: 12px; color: var(--text-2); padding: 8px 12px;
+      background: var(--surface-2); border-radius: var(--rs);
+      margin-bottom: 14px; line-height: 1.55;
+    }
+    .builder-note em { color: var(--teal-bright); font-style: normal; font-weight: 500; }
+    .builder-btns { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .builder-swap {
+      font-size: 12px; padding: 5px 14px; background: var(--surface-2);
+      border: 1px solid var(--border-2); border-radius: 20px; color: var(--text-2);
+      cursor: pointer; font-family: var(--font-b); transition: all .15s;
+    }
+    .builder-swap:hover { color: var(--teal-bright); border-color: var(--teal-border); }
+    .builder-cycle {
+      font-size: 12px; color: var(--text-3); background: none; border: none;
+      font-family: var(--font-b); cursor: pointer; padding: 5px 0; transition: color .15s;
+    }
+    .builder-cycle:hover { color: var(--text-2); }
+
+    /* ── TAB 2: PHRASE STRIPPER ──────────────────────────────── */
+    .stripper-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 18px 20px; margin-bottom: 12px;
+    }
+    .stripper-intro { font-size: 12px; color: var(--text-2); margin-bottom: 16px; }
+    .strip-rows { display: flex; flex-direction: column; gap: 16px; }
+    .strip-line {
+      font-family: var(--font-d); font-size: 16px; font-style: italic;
+      color: var(--text); line-height: 1.5; margin-bottom: 8px;
+    }
+    .strip-line .ts { color: var(--text); transition: all .3s; }
+    .strip-line .ts.lit { background: var(--teal-dim); color: var(--teal-bright); padding: 0 4px; border-radius: 3px; border: 1px solid var(--teal-border); }
+    .strip-line .phr { color: var(--text-2); transition: all .3s; }
+    .strip-line .phr.out { text-decoration: line-through; color: var(--text-3); opacity: .4; }
+    .strip-line .tv { color: var(--text); transition: all .3s; }
+    .strip-line .tv.lit { background: var(--gold-dim); color: var(--gold); padding: 0 4px; border-radius: 3px; border: 1px solid var(--gold-border); }
+    .strip-foot { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .strip-btn {
+      font-size: 11px; padding: 4px 12px; background: var(--surface-2);
+      border: 1px solid var(--border-2); border-radius: 20px; color: var(--text-2);
+      cursor: pointer; font-family: var(--font-b); transition: all .15s;
+    }
+    .strip-btn:hover { color: var(--teal-bright); border-color: var(--teal-border); }
+    .strip-exp { font-size: 11px; color: var(--text-3); display: none; line-height: 1.5; }
+    .strip-exp.show { display: block; }
+    .strip-exp em { color: var(--teal-bright); font-style: normal; }
+    .strip-sep { border: none; border-top: 1px solid var(--border); }
+
+    /* ── TAB 3: SUBJECT-FORM GRID ───────────────────────────── */
+    .sv-grid-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; margin-bottom:12px; }
+    .sv-grid { display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:1px; background:var(--border); border-radius:var(--rs); overflow:hidden; margin-bottom:10px; }
+    .svc { padding:9px 12px; font-size:13px; background:var(--surface); }
+    .svc.hd { background:var(--surface-2); font-size:10px; font-weight:500; letter-spacing:.07em; text-transform:uppercase; color:var(--text-3); }
+    .svc.sb { color:var(--text-2); font-size:13px; }
+    .svc.vb { color:var(--text); font-weight:500; }
+    .svc.vb.hi { color:var(--teal-bright); }
+    .sv-note { font-size:11px; color:var(--text-3); line-height:1.55; }
+
+    /* ── TAB 3: FACT VS WISH ─────────────────────────────────── */
+    .fw-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px; }
+    @media (max-width:560px) { .fw-grid { grid-template-columns:1fr; } }
+    .fw-panel { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:14px 16px; }
+    .fw-panel.fact { border-top:3px solid var(--teal); }
+    .fw-panel.wish { border-top:3px solid var(--purple-text); }
+    .fw-type { font-size:10px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
+    .fw-panel.fact .fw-type { color:var(--teal-bright); }
+    .fw-panel.wish .fw-type { color:var(--purple-text); }
+    .fw-sent { font-family:var(--font-d); font-size:16px; font-style:italic; color:var(--text); margin-bottom:8px; line-height:1.4; }
+    .fw-sent em { font-style:normal; font-weight:600; }
+    .fw-panel.fact .fw-sent em { color:var(--teal-bright); }
+    .fw-panel.wish .fw-sent em { color:var(--purple-text); }
+    .fw-note { font-size:12px; color:var(--text-2); line-height:1.5; }
+    .fw-rule { background:var(--surface); border:1px solid var(--border); border-left:2px solid var(--purple-text); border-radius:0 var(--rs) var(--rs) 0; padding:10px 14px; font-size:12px; color:var(--text-2); line-height:1.55; margin-bottom:12px; }
+    .fw-rule strong { color:var(--text); font-weight:500; }
+
+    /* ── TAB 3: DO/DOES SELECTOR ─────────────────────────────── */
+    .dos-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; margin-bottom:12px; }
+    .dos-intro { font-size:12px; color:var(--text-2); margin-bottom:16px; }
+    .dos-rows { display:flex; flex-direction:column; gap:14px; }
+    .dos-row { display:flex; align-items:flex-start; gap:12px; flex-wrap:wrap; }
+    .dos-sent { font-family:var(--font-d); font-size:15px; font-style:italic; color:var(--text); flex:1; min-width:180px; line-height:1.5; }
+    .dos-sent .blank { color:var(--text-3); border-bottom:1px dashed var(--border-2); }
+    .dos-btns { display:flex; gap:6px; flex-shrink:0; padding-top:2px; }
+    .dos-btn { font-size:12px; padding:5px 14px; background:var(--surface-2); border:1px solid var(--border-2); border-radius:20px; color:var(--text-2); cursor:pointer; font-family:var(--font-b); transition:all .15s; }
+    .dos-btn:hover:not(:disabled) { border-color:var(--teal-border); color:var(--teal-bright); }
+    .dos-btn:disabled { cursor:default; }
+    .dos-btn.correct { background:var(--teal-dim); border-color:var(--teal-border); color:var(--teal-bright); }
+    .dos-btn.wrong { background:var(--error-dim); border-color:var(--error-border); color:var(--error); }
+    .dos-fb { font-size:11px; color:var(--text-3); margin-top:4px; display:none; width:100%; line-height:1.5; }
+    .dos-fb.show { display:block; }
+    .dos-fb em { color:var(--teal-bright); font-style:normal; }
+    .dos-sep { border:none; border-top:1px solid var(--border); }
+
+    /* ── TAB 3: SENTENCE FLIPPER ─────────────────────────────── */
+    .flipper-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; margin-bottom:12px; }
+    .flipper-intro { font-size:12px; color:var(--text-2); margin-bottom:16px; }
+    .flipper-rows { display:flex; flex-direction:column; gap:16px; }
+    .flip-sent-wrap { position:relative; min-height:36px; margin-bottom:8px; }
+    .flip-sent { font-family:var(--font-d); font-size:16px; font-style:italic; color:var(--text); line-height:1.5; transition:opacity .22s; }
+    .flip-sent.hidden { opacity:0; pointer-events:none; position:absolute; top:0; left:0; }
+    .flip-sent .fsubj { transition:all .25s; }
+    .flip-sent .fsubj.lit { background:var(--teal-dim); color:var(--teal-bright); padding:1px 4px; border-radius:3px; border:1px solid var(--teal-border); }
+    .flip-sent .fverb { color:var(--text-3); transition:all .25s; }
+    .flip-sent .fverb.lit { background:var(--gold-dim); color:var(--gold); padding:1px 4px; border-radius:3px; border:1px solid var(--gold-border); }
+    .flip-foot { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .flip-btn { font-size:11px; padding:4px 12px; background:var(--surface-2); border:1px solid var(--border-2); border-radius:20px; color:var(--text-2); cursor:pointer; font-family:var(--font-b); transition:all .15s; }
+    .flip-btn:hover { color:var(--teal-bright); border-color:var(--teal-border); }
+    .flip-exp { font-size:11px; color:var(--text-3); display:none; line-height:1.5; }
+    .flip-exp.show { display:block; }
+    .flip-exp em { color:var(--teal-bright); font-style:normal; }
+    .flipper-sep { border:none; border-top:1px solid var(--border); }
+
+    /* ── TAB 4: GRIND MODE ───────────────────────────────────── */
+    .grind-start {
+      display:flex; flex-direction:column; align-items:center;
+      padding:56px 24px; text-align:center;
+    }
+    .grind-start-icon { font-size:40px; margin-bottom:16px; line-height:1; }
+    .grind-start-title {
+      font-family:var(--font-d); font-size:28px; font-weight:600;
+      color:var(--text); margin-bottom:8px;
+    }
+    .grind-start-rule {
+      font-size:13px; color:var(--text-2); margin-bottom:32px;
+      line-height:1.65; max-width:300px;
+    }
+    .grind-start-rule strong { color:var(--text); }
+    .grind-start-btn {
+      font-size:14px; padding:11px 36px;
+      background:var(--teal); border:none;
+      border-radius:24px; color:#fff;
+      cursor:pointer; font-family:var(--font-b);
+      transition:opacity .15s;
+    }
+    .grind-start-btn:hover { opacity:.85; }
+
+    .grind-wrap { padding-top:4px; }
+    .grind-meta {
+      display:flex; align-items:center;
+      justify-content:space-between; margin-bottom:16px;
+    }
+    .streak-wrap { display:flex; align-items:center; gap:8px; }
+    .streak-icon { font-size:15px; }
+    .streak-dots { display:flex; gap:4px; }
+    .streak-dot {
+      width:14px; height:14px; border-radius:50%;
+      background:var(--surface-2); border:1px solid var(--border-2);
+      transition:background .2s, border-color .2s;
+    }
+    .streak-dot.filled { background:var(--teal); border-color:var(--teal); }
+    .grind-attempts { font-size:12px; color:var(--text-3); }
+
+    .grind-card {
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:var(--r); padding:28px 28px 24px;
+    }
+    @keyframes flashCorrect {
+      0%,100% { border-color:var(--border); box-shadow:none; }
+      40% { border-color:var(--teal); box-shadow:0 0 0 3px rgba(29,158,117,0.12); }
+    }
+    @keyframes flashWrong {
+      0%,100% { border-color:var(--border); box-shadow:none; }
+      40% { border-color:var(--error); box-shadow:0 0 0 3px rgba(226,75,74,0.12); }
+    }
+    .grind-card.flash-c { animation:flashCorrect .8s ease forwards; }
+    .grind-card.flash-w { animation:flashWrong .9s ease forwards; }
+
+    .grind-tag {
+      font-size:10px; font-weight:500; letter-spacing:.08em;
+      text-transform:uppercase; margin-bottom:14px;
+    }
+    .grind-tag.teal   { color:var(--teal-bright); }
+    .grind-tag.blue   { color:#79c0ff; }
+    .grind-tag.purple { color:var(--purple-text); }
+    .grind-tag.gold   { color:var(--gold); }
+
+    .grind-sentence {
+      font-family:var(--font-d); font-size:22px; font-style:italic;
+      color:var(--text); line-height:1.45; margin-bottom:24px;
+    }
+    .grind-blank {
+      color:var(--text-3);
+      border-bottom:1px dashed var(--border-2); padding:0 2px;
+    }
+    .grind-opts { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .grind-opt {
+      padding:14px; font-size:18px;
+      font-family:var(--font-d); font-style:italic;
+      color:var(--text); background:var(--surface-2);
+      border:1px solid var(--border-2); border-radius:var(--r);
+      cursor:pointer; transition:all .15s;
+    }
+    .grind-opt:hover:not(:disabled) {
+      background:var(--surface-3); border-color:var(--teal-border);
+    }
+    .grind-opt:disabled { cursor:default; }
+    .grind-opt.correct      { background:var(--teal-dim); border-color:var(--teal-border); color:var(--teal-bright); }
+    .grind-opt.wrong        { background:var(--error-dim); border-color:var(--error-border); color:var(--error); }
+    .grind-opt.show-correct { background:var(--teal-dim); border-color:var(--teal-border); color:var(--teal-bright); }
+
+    .grind-results { padding:48px 24px; text-align:center; }
+    .gr-score {
+      font-family:var(--font-d); font-size:36px; font-weight:600;
+      color:var(--teal-bright); margin-bottom:8px;
+    }
+    .gr-stats { font-size:13px; color:var(--text-2); margin-bottom:28px; }
+    .gr-wrong-head {
+      font-size:10px; font-weight:500; letter-spacing:.08em;
+      text-transform:uppercase; color:var(--text-3);
+      margin-bottom:12px; text-align:left;
+    }
+    .gr-wrong-list { display:flex; flex-direction:column; gap:7px; text-align:left; margin-bottom:8px; }
+    .gr-wrong-item {
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:var(--rs); padding:10px 14px;
+      display:flex; align-items:baseline;
+      justify-content:space-between; gap:12px; flex-wrap:wrap;
+    }
+    .gr-wrong-sent {
+      font-family:var(--font-d); font-size:14px;
+      font-style:italic; color:var(--text); flex:1;
+    }
+    .gr-wrong-ans { font-size:13px; color:var(--teal-bright); font-weight:500; white-space:nowrap; }
+
+    /* ── STUBS ───────────────────────────────────────────────── */
+    .stub {
+      padding: 64px 0; text-align: center;
+    }
+    .stub-eyebrow {
+      font-size: 11px; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--text-3);
+      margin-bottom: 8px;
+    }
+    .stub-title {
+      font-family: var(--font-d);
+      font-size: 26px; color: var(--text-2);
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="breadcrumb">
+    <a href="../index.html">← English 6</a>
+    <span style="color:var(--text-3)">/</span>
+    <span>Subject-Verb Agreement</span>
+  </div>
+  <div class="header-body">
+    <h1 class="page-title">Subject-<span>Verb</span> Agreement</h1>
+    <div class="meta-row">
+      <span class="meta-pill">B1–B2</span>
+      <span class="meta-pill">Grammar</span>
+      <span class="meta-pill">4 sections</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="core">
+    <svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Core rule <span class="tab-n">1</span>
+  </button>
+  <button class="tab-btn" data-tab="complex">
+    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Complex subjects <span class="tab-n">2</span>
+  </button>
+  <button class="tab-btn" data-tab="verbs">
+    <svg viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Tricky verbs <span class="tab-n">3</span>
+  </button>
+  <button class="tab-btn" data-tab="practice">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+    Practice <span class="tab-n">4</span>
+  </button>
+</nav>
+
+<main class="main">
+
+  <!-- ░░ TAB 1: CORE RULE ░░ -->
+  <div class="tab-panel active" id="panel-core">
+
+    <div class="intro-block">
+      <p class="intro-text">
+        Every verb in English has to <em>match</em> its subject in number.
+        One dragon <em>breathes</em> — several dragons <em>breathe</em>.
+        That matching is called subject-verb agreement, and breaking it is one of the most noticeable grammar errors in written English, even when the meaning is otherwise clear.
+        The core rule is straightforward; the tricky part is finding the real subject when sentences get complicated.
+      </p>
+    </div>
+
+    <div class="sec-label">Sentence visualiser</div>
+    <div class="vis-card">
+      <div class="vis-sentence" id="vis-sent">
+        <span class="vw subj" id="v-subj">The dragon</span>
+        <span class="v-bridge"></span>
+        <span class="vw verb" id="v-verb">breathes</span>
+        <span class="vw plain" id="v-rest">&nbsp;fire every night.</span>
+      </div>
+      <div class="v-err-note" id="v-err-note">
+        <strong>Error:</strong> "The dragons" is plural, but "breathes" is a singular verb form.
+        The root form — <em>breathe</em> — is needed here.
+      </div>
+      <div class="vis-legend">
+        <div class="leg-item">
+          <div class="leg-dot" style="background:rgba(93,202,165,.4);border:1px solid rgba(93,202,165,.5)"></div>
+          <span>Subject — who or what the sentence is about</span>
+        </div>
+        <div class="leg-item">
+          <div class="leg-dot" style="background:rgba(239,159,39,.4);border:1px solid rgba(239,159,39,.5)"></div>
+          <span>Verb — must agree in number with the subject</span>
+        </div>
+      </div>
+      <div class="sent-toggles">
+        <button class="sent-tog active" onclick="setSent(0,this)">Singular</button>
+        <button class="sent-tog"        onclick="setSent(1,this)">Plural</button>
+        <button class="sent-tog"        onclick="setSent(2,this)">Negative</button>
+        <button class="sent-tog err-tog" onclick="setSent(3,this)">Error ✕</button>
+      </div>
+    </div>
+
+    <div class="sec-label">The rule</div>
+    <div class="rule-grid">
+      <div class="rule-card tc">
+        <span class="rule-badge tc">Singular</span>
+        <div class="rule-title">One subject → verb adds <code>-s</code> or <code>-es</code></div>
+        <div class="rule-desc">
+          When the subject is a single person, thing, or place (he, she, it, or a singular noun),
+          the present-tense verb takes an <code>-s</code> or <code>-es</code> ending.
+        </div>
+        <div class="rule-exs">
+          <div class="rule-ex tc">She <em>walks</em> to school.</div>
+          <div class="rule-ex tc">The witch <em>casts</em> a spell.</div>
+          <div class="rule-ex tc">It <em>hisses</em> in the dark.</div>
+        </div>
+      </div>
+      <div class="rule-card tg">
+        <span class="rule-badge tg">Plural</span>
+        <div class="rule-title">Two or more subjects → verb stays in root form</div>
+        <div class="rule-desc">
+          When the subject refers to more than one person or thing (they, we, you, or a plural noun),
+          the verb uses its base form — no ending added.
+        </div>
+        <div class="rule-exs">
+          <div class="rule-ex tg">They <em>walk</em> to school.</div>
+          <div class="rule-ex tg">The witches <em>cast</em> their spells.</div>
+          <div class="rule-ex tg">The cats <em>hiss</em> at midnight.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-label">When to add -s vs -es</div>
+    <div class="endings-card">
+      <div class="endings-title">The third-person singular ending rule</div>
+      <div class="endings-sub">
+        Add <code>-es</code> when the verb "hisses" — use <code>-s</code> for everything else.
+      </div>
+      <div class="endings-rows">
+
+        <div class="e-row">
+          <div class="e-row-label">Add -es</div>
+          <div class="e-row-body">
+            <div class="e-when">Verb ends in one of these sounds:</div>
+            <div class="chips">
+              <span class="chip">-ch</span>
+              <span class="chip">-s</span>
+              <span class="chip">-sh</span>
+              <span class="chip">-x</span>
+              <span class="chip">-z</span>
+            </div>
+            <div class="pairs">
+              <div class="vp"><span class="base">watch</span><span class="arr">→</span><span class="res">watch<span class="hl">es</span></span></div>
+              <div class="vp"><span class="base">miss</span><span class="arr">→</span><span class="res">miss<span class="hl">es</span></span></div>
+              <div class="vp"><span class="base">push</span><span class="arr">→</span><span class="res">push<span class="hl">es</span></span></div>
+              <div class="vp"><span class="base">fix</span><span class="arr">→</span><span class="res">fix<span class="hl">es</span></span></div>
+              <div class="vp"><span class="base">buzz</span><span class="arr">→</span><span class="res">buzz<span class="hl">es</span></span></div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="e-divider">
+
+        <div class="e-row">
+          <div class="e-row-label">Add -s</div>
+          <div class="e-row-body">
+            <div class="e-when">All other verbs:</div>
+            <div class="pairs">
+              <div class="vp"><span class="base">walk</span><span class="arr">→</span><span class="res">walk<span class="hl">s</span></span></div>
+              <div class="vp"><span class="base">eat</span><span class="arr">→</span><span class="res">eat<span class="hl">s</span></span></div>
+              <div class="vp"><span class="base">sleep</span><span class="arr">→</span><span class="res">sleep<span class="hl">s</span></span></div>
+              <div class="vp"><span class="base">run</span><span class="arr">→</span><span class="res">run<span class="hl">s</span></span></div>
+              <div class="vp"><span class="base">think</span><span class="arr">→</span><span class="res">think<span class="hl">s</span></span></div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="e-divider">
+
+        <div class="e-row">
+          <div class="e-row-label">Exception</div>
+          <div class="e-row-body">
+            <div class="e-when">Consonant + <code>-y</code> at the end → change to <code>-ies</code>:</div>
+            <div class="pairs">
+              <div class="vp"><span class="base">fly</span><span class="arr">→</span><span class="res">fl<span class="hl">ies</span></span></div>
+              <div class="vp"><span class="base">carry</span><span class="arr">→</span><span class="res">carr<span class="hl">ies</span></span></div>
+              <div class="vp"><span class="base">study</span><span class="arr">→</span><span class="res">stud<span class="hl">ies</span></span></div>
+              <div class="vp"><span class="base">deny</span><span class="arr">→</span><span class="res">den<span class="hl">ies</span></span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="sec-label">Quick check</div>
+    <div class="mcq-card">
+      <div class="mcq-head">
+        <span class="mcq-lbl">Diagnostic questions</span>
+        <span class="mcq-cnt" id="mcq-cnt">1 / 3</span>
+      </div>
+      <div class="mcq-prog">
+        <div class="mcq-prog-fill" id="mcq-fill" style="width:0%"></div>
+      </div>
+      <div class="mcq-body" id="mcq-body"></div>
+      <div class="mcq-foot">
+        <button class="mcq-next-btn" id="mcq-next" onclick="nextQ()">Next →</button>
+      </div>
+      <div class="mcq-results" id="mcq-results">
+        <div class="res-score" id="res-score"></div>
+        <div class="res-label" id="res-label"></div>
+        <div class="res-tags" id="res-tags"></div>
+        <button class="res-retry" onclick="resetMCQ()">Try again</button>
+      </div>
+    </div>
+
+  </div><!-- /panel-core -->
+
+  <!-- ░░ TAB 2: COMPLEX SUBJECTS ░░ -->
+  <div class="tab-panel" id="panel-complex">
+
+    <div class="intro-block">
+      <p class="intro-text">
+        The core rule is simple when the subject is obvious.
+        It gets harder when sentences use compound subjects, joining words like <em>or</em> and <em>nor</em>,
+        or have extra phrases inserted between the subject and the verb.
+        This section works through each scenario in order of difficulty.
+      </p>
+    </div>
+
+    <div class="sec-label">Complexity ladder</div>
+    <div class="ladder-wrap">
+      <div class="ladder-desc">Each level adds a new challenge to finding the true subject.</div>
+      <div class="ladder">
+        <div class="l-step"><div class="l-bar"></div><div class="l-lbl">and</div></div>
+        <div class="l-step"><div class="l-bar"></div><div class="l-lbl">or / nor</div></div>
+        <div class="l-step"><div class="l-bar"></div><div class="l-lbl">"of" phrases</div></div>
+        <div class="l-step"><div class="l-bar"></div><div class="l-lbl">interrupting phrases</div></div>
+      </div>
+    </div>
+
+    <!-- ── 1. AND ─────────────────────────────────────────────── -->
+    <div class="concept-block">
+      <div class="concept-head">
+        <div class="concept-num">1</div>
+        <div class="concept-title">Compound subjects with "and"</div>
+      </div>
+      <div class="rule-card tc" style="margin-bottom:12px;">
+        <div class="rule-desc">
+          Two or more subjects joined by <strong>and</strong> almost always form a plural compound and need a plural verb.
+          The exception is when the compound refers to a single fixed concept — a dish, a title, an established phrase.
+          In those cases the verb stays singular.
+        </div>
+        <div class="rule-exs">
+          <div class="rule-ex tc">A dragon and a phoenix <em class="tl">are</em> both mythical creatures. <span style="font-size:11px;color:var(--text-3);font-style:normal"> — two separate things → plural</span></div>
+          <div class="rule-ex tc">Fish and chips <em class="tl">is</em> the national dish of England. <span style="font-size:11px;color:var(--text-3);font-style:normal"> — one fixed dish → singular</span></div>
+          <div class="rule-ex tc">Law and order <em class="tl">is</em> the main theme of the novel. <span style="font-size:11px;color:var(--text-3);font-style:normal"> — single concept → singular</span></div>
+        </div>
+      </div>
+      <div class="ic-wrap">
+        <div class="ic-lbl">Check your understanding</div>
+        <div class="ic-q">Which verb correctly completes this sentence? <em>"A storm and a hurricane ___ threatening the coast."</em></div>
+        <div class="ic-opts">
+          <button class="ic-opt" data-c="0" data-fb="Incorrect. 'Is' is singular. A storm and a hurricane are two separate weather events — a plural compound — so the verb must be 'are'." onclick="pickIC(this)">
+            <span class="ic-key">A</span><div class="ic-txt"><div class="ic-sent">is</div><div class="ic-fb"></div></div>
+          </button>
+          <button class="ic-opt" data-c="1" data-fb="Correct. Two separate subjects joined by 'and' form a plural compound. The verb must be plural: 'are'." onclick="pickIC(this)">
+            <span class="ic-key">B</span><div class="ic-txt"><div class="ic-sent">are</div><div class="ic-fb"></div></div>
+          </button>
+          <button class="ic-opt" data-c="0" data-fb="Incorrect. 'Threatens' is a singular verb form — it follows the -s rule for a single subject. 'A storm and a hurricane' is a plural compound and needs 'are'." onclick="pickIC(this)">
+            <span class="ic-key">C</span><div class="ic-txt"><div class="ic-sent">threatens</div><div class="ic-fb"></div></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 2. OR / NOR ────────────────────────────────────────── -->
+    <div class="concept-block">
+      <div class="concept-head">
+        <div class="concept-num">2</div>
+        <div class="concept-title">Or and nor — the proximity rule</div>
+      </div>
+      <div class="rule-card tc" style="margin-bottom:12px;">
+        <div class="rule-desc">
+          When subjects are joined by <strong>or</strong> or <strong>nor</strong> (including <strong>either…or</strong> and <strong>neither…nor</strong>),
+          the verb agrees with the subject <strong>nearest to it</strong> — not the first one listed.
+          Swap the subjects and the verb must change too.
+        </div>
+        <div class="rule-exs">
+          <div class="rule-ex tc">Neither the captain nor <em class="tl">the sailors</em> <em class="tl">are</em> ready. <span style="font-size:11px;color:var(--text-3);font-style:normal"> — sailors (pl) nearest → are</span></div>
+          <div class="rule-ex tg">Neither the sailors nor <em class="gd">the captain</em> <em class="gd">is</em> ready. <span style="font-size:11px;color:var(--text-3);font-style:normal"> — captain (sg) nearest → is</span></div>
+        </div>
+      </div>
+      <div class="builder-card">
+        <div class="builder-sent" id="b-sent"></div>
+        <div class="builder-note" id="b-note"></div>
+        <div class="builder-btns">
+          <button class="builder-swap" onclick="swapBuilder()">⇄ Swap subjects</button>
+          <button class="builder-cycle" onclick="cycleBuilder()"><span id="b-cycle-label">Example 1 of 3</span> — try another →</button>
+        </div>
+      </div>
+      <div class="ic-wrap">
+        <div class="ic-lbl">Check your understanding</div>
+        <div class="ic-q">Which verb is correct? <em>"Neither the laptop nor the phones ___ charged."</em></div>
+        <div class="ic-opts">
+          <button class="ic-opt" data-c="0" data-fb="Incorrect. 'Is' agrees with 'laptop', but 'laptop' is not nearest — 'phones' is, and 'phones' is plural." onclick="pickIC(this)">
+            <span class="ic-key">A</span><div class="ic-txt"><div class="ic-sent">is</div><div class="ic-fb"></div></div>
+          </button>
+          <button class="ic-opt" data-c="1" data-fb="Correct. 'Phones' is the nearest subject to the verb and is plural, so the verb must be plural: 'are'." onclick="pickIC(this)">
+            <span class="ic-key">B</span><div class="ic-txt"><div class="ic-sent">are</div><div class="ic-fb"></div></div>
+          </button>
+          <button class="ic-opt" data-c="0" data-fb="Incorrect. 'Was' agrees with 'laptop' — but 'laptop' is not the nearest subject and agreement follows the nearest. 'Phones' (plural, nearest) governs the verb: 'are'." onclick="pickIC(this)">
+            <span class="ic-key">C</span><div class="ic-txt"><div class="ic-sent">was</div><div class="ic-fb"></div></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 3. OF PHRASES ──────────────────────────────────────── -->
+    <div class="concept-block">
+      <div class="concept-head">
+        <div class="concept-num">3</div>
+        <div class="concept-title">"Of" phrases</div>
+      </div>
+      <div class="rule-card tc" style="margin-bottom:12px;">
+        <div class="rule-desc">
+          The true subject always comes <strong>before</strong> a phrase beginning with <strong>of</strong>.
+          The noun inside the "of" phrase describes the subject — it does not replace it.
+          Strip the phrase out and the true subject becomes clear.
+        </div>
+        <div class="rule-exs">
+          <div class="rule-ex tc">The <em class="tl">pack</em> of wolves <em class="tl">howls</em> at the moon. <span style="font-size:11px;color:var(--text-3);font-style:normal"> — pack (sg) governs the verb</span></div>
+          <div class="rule-ex tc">The <em class="tl">pages</em> of the notebook <em class="tl">were</em> torn. <span style="font-size:11px;color:var(--text-3);font-style:normal"> — pages (pl) governs the verb</span></div>
+        </div>
+      </div>
+      <div class="stripper-card">
+        <div class="stripper-intro">Click <strong>Strip phrase</strong> to cross out the "of" phrase and reveal the true subject and verb.</div>
+        <div class="strip-rows">
+          <div class="strip-row" id="sr1" data-stripped="false">
+            <div class="strip-line">The <span class="ts">pack</span><span class="phr"> of wolves</span> <span class="tv">howls</span> at the moon.</div>
+            <div class="strip-foot">
+              <button class="strip-btn" onclick="toggleStrip(this,'sr1')">Strip phrase →</button>
+              <div class="strip-exp"><em>pack</em> (singular) is the true subject → <em>howls</em></div>
+            </div>
+          </div>
+          <hr class="strip-sep">
+          <div class="strip-row" id="sr2" data-stripped="false">
+            <div class="strip-line">The <span class="ts">pages</span><span class="phr"> of the notebook</span> <span class="tv">were</span> torn and yellowed.</div>
+            <div class="strip-foot">
+              <button class="strip-btn" onclick="toggleStrip(this,'sr2')">Strip phrase →</button>
+              <div class="strip-exp"><em>pages</em> (plural) is the true subject → <em>were</em></div>
+            </div>
+          </div>
+          <hr class="strip-sep">
+          <div class="strip-row" id="sr3" data-stripped="false">
+            <div class="strip-line">A <span class="ts">bottle</span><span class="phr"> of vitamins</span> <span class="tv">costs</span> more than I expected.</div>
+            <div class="strip-foot">
+              <button class="strip-btn" onclick="toggleStrip(this,'sr3')">Strip phrase →</button>
+              <div class="strip-exp"><em>bottle</em> (singular) is the true subject → <em>costs</em></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ic-wrap">
+        <div class="ic-lbl">Check your understanding</div>
+        <div class="ic-q">Which verb is correct? <em>"The team of scientists ___ working on a cure."</em></div>
+        <div class="ic-opts">
+          <button class="ic-opt" data-c="0" data-fb="Incorrect. 'Are' agrees with 'scientists', but 'scientists' is inside the 'of' phrase. The true subject is 'team', which is singular." onclick="pickIC(this)">
+            <span class="ic-key">A</span><div class="ic-txt"><div class="ic-sent">are</div><div class="ic-fb"></div></div>
+          </button>
+          <button class="ic-opt" data-c="1" data-fb="Correct. Strip out 'of scientists' and the sentence reads: 'The team is working on a cure.' — singular subject, singular verb." onclick="pickIC(this)">
+            <span class="ic-key">B</span><div class="ic-txt"><div class="ic-sent">is</div><div class="ic-fb"></div></div>
+          </button>
+          <button class="ic-opt" data-c="0" data-fb="Incorrect. 'Have' agrees with 'scientists' — but 'scientists' is inside the 'of' phrase and is not the true subject. Strip it out: 'The team is working on a cure.' The true subject is 'team', which is singular." onclick="pickIC(this)">
+            <span class="ic-key">C</span><div class="ic-txt"><div class="ic-sent">have</div><div class="ic-fb"></div></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 4. INTERRUPTING PHRASES ────────────────────────────── -->
+    <div class="concept-block">
+      <div class="concept-head">
+        <div class="concept-num">4</div>
+        <div class="concept-title">Interrupting phrases</div>
+      </div>
+      <div class="rule-card tc" style="margin-bottom:12px;">
+        <div class="rule-desc">
+          Phrases like <strong>as well as</strong>, <strong>along with</strong>, <strong>together with</strong>, and <strong>in addition to</strong>
+          can look as though they extend the subject — but they don't.
+          They are parenthetical additions, usually set off by commas.
+          Strip them out and the true subject, with its original number, remains.
+        </div>
+        <div class="rule-exs">
+          <div class="rule-ex tc">The <em class="tl">queen</em>, as well as her guards, <em class="tl">is</em> attending. <span style="font-size:11px;color:var(--text-3);font-style:normal"> — queen (sg) governs the verb</span></div>
+          <div class="rule-ex tc">The <em class="tl">students</em>, along with their tutor, <em class="tl">are</em> preparing. <span style="font-size:11px;color:var(--text-3);font-style:normal"> — students (pl) governs the verb</span></div>
+        </div>
+      </div>
+      <div class="stripper-card">
+        <div class="stripper-intro">Click <strong>Strip phrase</strong> to cross out the interrupting phrase and reveal the true subject.</div>
+        <div class="strip-rows">
+          <div class="strip-row" id="si1" data-stripped="false">
+            <div class="strip-line">The <span class="ts">king</span><span class="phr">, as well as his advisors,</span> <span class="tv">is</span> attending the summit.</div>
+            <div class="strip-foot">
+              <button class="strip-btn" onclick="toggleStrip(this,'si1')">Strip phrase →</button>
+              <div class="strip-exp"><em>king</em> (singular) is the true subject — the phrase is parenthetical → <em>is</em></div>
+            </div>
+          </div>
+          <hr class="strip-sep">
+          <div class="strip-row" id="si2" data-stripped="false">
+            <div class="strip-line">The <span class="ts">students</span><span class="phr">, along with their tutor,</span> <span class="tv">are</span> preparing for the exam.</div>
+            <div class="strip-foot">
+              <button class="strip-btn" onclick="toggleStrip(this,'si2')">Strip phrase →</button>
+              <div class="strip-exp"><em>students</em> (plural) is the true subject — the phrase is parenthetical → <em>are</em></div>
+            </div>
+          </div>
+          <hr class="strip-sep">
+          <div class="strip-row" id="si3" data-stripped="false">
+            <div class="strip-line"><span class="ts">Emma</span><span class="phr">, together with her colleagues,</span> <span class="tv">has</span> submitted the report.</div>
+            <div class="strip-foot">
+              <button class="strip-btn" onclick="toggleStrip(this,'si3')">Strip phrase →</button>
+              <div class="strip-exp"><em>Emma</em> (singular) is the true subject — the phrase is parenthetical → <em>has</em></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ic-wrap">
+        <div class="ic-lbl">Check your understanding</div>
+        <div class="ic-q">Which verb is correct? <em>"The president, together with his advisors, ___ attending the summit."</em></div>
+        <div class="ic-opts">
+          <button class="ic-opt" data-c="0" data-fb="Incorrect. 'Together with his advisors' is an interrupting phrase — it doesn't extend the subject. The true subject is 'the president', which is singular." onclick="pickIC(this)">
+            <span class="ic-key">A</span><div class="ic-txt"><div class="ic-sent">are</div><div class="ic-fb"></div></div>
+          </button>
+          <button class="ic-opt" data-c="1" data-fb="Correct. Strip out 'together with his advisors' and the sentence reads: 'The president is attending the summit.' — singular subject, singular verb." onclick="pickIC(this)">
+            <span class="ic-key">B</span><div class="ic-txt"><div class="ic-sent">is</div><div class="ic-fb"></div></div>
+          </button>
+          <button class="ic-opt" data-c="0" data-fb="Incorrect. 'Were' is past tense. The true subject 'the president' is also singular — it would take 'was' in the past, not 'were'." onclick="pickIC(this)">
+            <span class="ic-key">C</span><div class="ic-txt"><div class="ic-sent">were</div><div class="ic-fb"></div></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MCQ BANK ───────────────────────────────────────────── -->
+    <div class="sec-label">Quick check — all four concepts</div>
+    <div class="mcq-card">
+      <div class="mcq-head">
+        <span class="mcq-lbl">Diagnostic questions</span>
+        <span class="mcq-cnt" id="q2-cnt">1 / 6</span>
+      </div>
+      <div class="mcq-prog"><div class="mcq-prog-fill" id="q2-fill" style="width:0%"></div></div>
+      <div class="mcq-body" id="q2-body"></div>
+      <div class="mcq-foot">
+        <button class="mcq-next-btn" id="q2-next" onclick="nextQ2()">Next →</button>
+      </div>
+      <div class="mcq-results" id="q2-results">
+        <div class="res-score" id="q2-score"></div>
+        <div class="res-label" id="q2-label"></div>
+        <div class="res-tags" id="q2-tags"></div>
+        <button class="res-retry" onclick="resetMCQ2()">Try again</button>
+      </div>
+    </div>
+
+  </div><!-- /panel-complex -->
+
+  <!-- ░░ TAB 3: TRICKY VERBS ░░ -->
+  <div class="tab-panel" id="panel-verbs">
+
+    <div class="intro-block">
+      <p class="intro-text">
+        Three verbs cause most agreement errors in written English: <em>to be</em>, <em>to do</em>, and sentences with inverted word order.
+        Each has irregular forms or structural traps that break the normal pattern.
+        This section tackles all three in order of complexity.
+      </p>
+    </div>
+
+    <!-- ── 1. TO BE ────────────────────────────────────────────── -->
+    <div class="concept-block">
+      <div class="concept-head">
+        <div class="concept-num">1</div>
+        <div class="concept-title">To be — is, are, was, were</div>
+      </div>
+      <div class="rule-card tc" style="margin-bottom:12px;">
+        <div class="rule-desc">
+          <em>To be</em> is the most irregular verb in English — it has distinct forms for almost every subject and tense.
+          The most common errors are using <strong>was</strong> with a plural subject, or <strong>were</strong> with a singular subject in a factual statement.
+        </div>
+      </div>
+
+      <div class="sv-grid-card">
+        <div class="sv-grid">
+          <div class="svc hd">Subject</div>
+          <div class="svc hd">Present</div>
+          <div class="svc hd">Past</div>
+          <div class="svc sb">I</div>
+          <div class="svc vb hi">am</div>
+          <div class="svc vb">was</div>
+          <div class="svc sb">you</div>
+          <div class="svc vb">are</div>
+          <div class="svc vb">were</div>
+          <div class="svc sb">he / she / it</div>
+          <div class="svc vb hi">is</div>
+          <div class="svc vb">was</div>
+          <div class="svc sb">we</div>
+          <div class="svc vb">are</div>
+          <div class="svc vb">were</div>
+          <div class="svc sb">they</div>
+          <div class="svc vb">are</div>
+          <div class="svc vb">were</div>
+        </div>
+        <div class="sv-note">
+          <span style="color:var(--teal-bright);font-weight:500">am</span> and <span style="color:var(--teal-bright);font-weight:500">is</span> are unique forms — all other present-tense subjects use <strong style="color:var(--text)">are</strong>.
+          In the past, the split is simple: singular subjects (I, he, she, it) use <strong style="color:var(--text)">was</strong>; plural subjects (you, we, they) use <strong style="color:var(--text)">were</strong>.
+        </div>
+      </div>
+
+      <div class="rule-card tc" style="margin-bottom:10px;">
+        <div class="rule-badge tc">Fact vs wish — the subjunctive</div>
+        <div class="rule-desc">
+          There is one important exception to the singular/plural split: hypothetical <strong>if</strong>-clauses and wishful statements.
+          In these contexts, <strong>were</strong> is used for <em>all</em> subjects — including singular ones like <em>I</em>, <em>he</em>, and <em>she</em>.
+          This is the subjunctive mood, and it signals that something is imagined, not real.
+        </div>
+      </div>
+      <div class="fw-grid">
+        <div class="fw-panel fact">
+          <div class="fw-type">Fact</div>
+          <div class="fw-sent">She <em>was</em> tired after the race.</div>
+          <div class="fw-note">A real past event. Singular subject → <em>was</em>.</div>
+        </div>
+        <div class="fw-panel wish">
+          <div class="fw-type">Wish / hypothetical</div>
+          <div class="fw-sent">If she <em>were</em> a champion, she would train differently.</div>
+          <div class="fw-note">Imagined, not real. All subjects → <em>were</em>, even singular ones.</div>
+        </div>
+      </div>
+      <div class="fw-rule">
+        <strong>The rule:</strong> In hypothetical <em>if</em>-clauses and wishful statements, use <strong>were</strong> for every subject — including <em>I</em>, <em>he</em>, <em>she</em>, and <em>it</em>.
+        If the statement is factual, use the normal <em>was / were</em> split.
+      </div>
+
+      <div class="ic-wrap">
+        <div class="ic-lbl">Check your understanding</div>
+        <div class="ic-q">Which sentence uses the correct form of "to be"?</div>
+        <div class="ic-opts">
+          <button class="ic-opt" data-c="0" data-fb="Incorrect. 'Was' is the factual past form for a singular subject — but 'if I was' uses it in a hypothetical context. The subjunctive requires 'were' for all subjects in if-clauses." onclick="pickIC(this)">
+            <span class="ic-key">A</span><div class="ic-txt"><div class="ic-sent">If I was a better student, I would pass the exam.</div><div class="ic-fb"></div></div>
+          </button>
+          <button class="ic-opt" data-c="1" data-fb="Correct. 'If I were' uses the subjunctive mood — the correct form for hypothetical if-clauses, regardless of the subject." onclick="pickIC(this)">
+            <span class="ic-key">B</span><div class="ic-txt"><div class="ic-sent">If I were a better student, I would pass the exam.</div><div class="ic-fb"></div></div>
+          </button>
+          <button class="ic-opt" data-c="0" data-fb="Incorrect. 'If I am' uses the present tense inside a past hypothetical. The sentence uses 'would pass', which signals a past conditional — the if-clause needs 'were'." onclick="pickIC(this)">
+            <span class="ic-key">C</span><div class="ic-txt"><div class="ic-sent">If I am a better student, I would pass the exam.</div><div class="ic-fb"></div></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 2. TO DO ────────────────────────────────────────────── -->
+    <div class="concept-block">
+      <div class="concept-head">
+        <div class="concept-num">2</div>
+        <div class="concept-title">To do — does and do</div>
+      </div>
+      <div class="rule-card tc" style="margin-bottom:12px;">
+        <div class="rule-desc">
+          <em>To do</em> follows the standard third-person singular rule: <strong>does</strong> for he, she, and it — <strong>do</strong> for everyone else.
+          The same split applies in statements, questions, and negatives.
+        </div>
+        <div class="rule-exs">
+          <div class="rule-ex tc">She <em class="tl">does</em> not agree. &nbsp;·&nbsp; <em class="tl">Does</em> he know? <span style="font-size:11px;color:var(--text-3);font-style:normal"> — singular → does</span></div>
+          <div class="rule-ex tg">They <em class="gd">do</em> not agree. &nbsp;·&nbsp; <em class="gd">Do</em> you know? <span style="font-size:11px;color:var(--text-3);font-style:normal"> — plural / you / I / we → do</span></div>
+        </div>
+      </div>
+
+      <div class="dos-card">
+        <div class="dos-intro">Click the correct form for each sentence.</div>
+        <div class="dos-rows">
+          <div class="dos-row" id="dos1">
+            <div class="dos-sent">He <span class="blank">___</span> not understand the question.</div>
+            <div class="dos-btns">
+              <button class="dos-btn" data-res="wrong" data-fb="Incorrect. 'He' is a third-person singular subject — it takes <em>does</em>, not <em>do</em>." onclick="pickDos('dos1',this)">do</button>
+              <button class="dos-btn" data-res="correct" data-fb="Correct. 'He' is singular, so the auxiliary is <em>does</em>." onclick="pickDos('dos1',this)">does</button>
+            </div>
+            <div class="dos-fb" id="dos1-fb"></div>
+          </div>
+          <hr class="dos-sep">
+          <div class="dos-row" id="dos2">
+            <div class="dos-sent">They <span class="blank">___</span> not know the answer.</div>
+            <div class="dos-btns">
+              <button class="dos-btn" data-res="correct" data-fb="Correct. 'They' is plural — it takes <em>do</em>." onclick="pickDos('dos2',this)">do</button>
+              <button class="dos-btn" data-res="wrong" data-fb="Incorrect. 'Does' is for singular subjects (he, she, it). 'They' is plural and takes <em>do</em>." onclick="pickDos('dos2',this)">does</button>
+            </div>
+            <div class="dos-fb" id="dos2-fb"></div>
+          </div>
+          <hr class="dos-sep">
+          <div class="dos-row" id="dos3">
+            <div class="dos-sent"><span class="blank">___</span> she speak any other languages?</div>
+            <div class="dos-btns">
+              <button class="dos-btn" data-res="wrong" data-fb="Incorrect. 'She' is singular — the question auxiliary must be <em>Does</em>, not <em>Do</em>." onclick="pickDos('dos3',this)">Do</button>
+              <button class="dos-btn" data-res="correct" data-fb="Correct. 'She' is a singular subject — the question form is <em>Does</em>." onclick="pickDos('dos3',this)">Does</button>
+            </div>
+            <div class="dos-fb" id="dos3-fb"></div>
+          </div>
+          <hr class="dos-sep">
+          <div class="dos-row" id="dos4">
+            <div class="dos-sent"><span class="blank">___</span> your friends live nearby?</div>
+            <div class="dos-btns">
+              <button class="dos-btn" data-res="correct" data-fb="Correct. 'Your friends' is plural — the question form is <em>Do</em>." onclick="pickDos('dos4',this)">Do</button>
+              <button class="dos-btn" data-res="wrong" data-fb="Incorrect. 'Your friends' is plural — it takes <em>Do</em>, not <em>Does</em>." onclick="pickDos('dos4',this)">Does</button>
+            </div>
+            <div class="dos-fb" id="dos4-fb"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ic-wrap">
+        <div class="ic-lbl">Check your understanding</div>
+        <div class="ic-q">Which verb is correct? <em>"She ___ not want to be late."</em></div>
+        <div class="ic-opts">
+          <button class="ic-opt" data-c="0" data-fb="Incorrect. 'Do' is the plural form — used with they, we, you, and I. 'She' is a third-person singular subject and takes 'does'." onclick="pickIC(this)">
+            <span class="ic-key">A</span><div class="ic-txt"><div class="ic-sent">do</div><div class="ic-fb"></div></div>
+          </button>
+          <button class="ic-opt" data-c="1" data-fb="Correct. 'She' is singular — it takes the third-person singular auxiliary: 'does'." onclick="pickIC(this)">
+            <span class="ic-key">B</span><div class="ic-txt"><div class="ic-sent">does</div><div class="ic-fb"></div></div>
+          </button>
+          <button class="ic-opt" data-c="0" data-fb="Incorrect. 'Did' is past tense. The sentence is present tense — there is no time marker indicating a past event." onclick="pickIC(this)">
+            <span class="ic-key">C</span><div class="ic-txt"><div class="ic-sent">did</div><div class="ic-fb"></div></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 3. INVERTED ORDER ───────────────────────────────────── -->
+    <div class="concept-block">
+      <div class="concept-head">
+        <div class="concept-num">3</div>
+        <div class="concept-title">Inverted word order — here and there</div>
+      </div>
+      <div class="rule-card tc" style="margin-bottom:12px;">
+        <div class="rule-desc">
+          In sentences beginning with <strong>here</strong> or <strong>there</strong>, the verb comes <em>before</em> the subject.
+          The subject is hidden after the verb — and the verb must agree with it.
+          The error is almost always defaulting to a singular verb before the subject appears.
+          To find the true subject, flip the sentence into normal word order.
+        </div>
+        <div class="rule-exs">
+          <div class="rule-ex tc">There <em class="tl">are</em> three wolves at the door. <span style="font-size:11px;color:var(--text-3);font-style:normal"> — three wolves are there → plural</span></div>
+          <div class="rule-ex tc">Here <em class="tl">is</em> the key you lost. <span style="font-size:11px;color:var(--text-3);font-style:normal"> — the key is here → singular</span></div>
+        </div>
+      </div>
+
+      <div class="flipper-card">
+        <div class="flipper-intro">Click <strong>Find subject</strong> to flip the sentence into normal order and reveal the true subject.</div>
+        <div class="flipper-rows">
+
+          <div class="flip-row" id="fl1" data-state="0" data-verb="are">
+            <div class="flip-sent-wrap">
+              <div class="flip-sent" id="fl1-inv">There <span class="fverb">___</span> several wolves at the edge of the forest.</div>
+              <div class="flip-sent hidden" id="fl1-can"><span class="fsubj">Several wolves</span> <span class="fverb">___</span> at the edge of the forest.</div>
+            </div>
+            <div class="flip-foot">
+              <button class="flip-btn" onclick="doFlip('fl1')">Find subject →</button>
+              <div class="flip-exp" id="fl1-exp"><em>wolves</em> (plural) is the true subject → <em>are</em></div>
+            </div>
+          </div>
+
+          <hr class="flipper-sep">
+
+          <div class="flip-row" id="fl2" data-state="0" data-verb="is">
+            <div class="flip-sent-wrap">
+              <div class="flip-sent" id="fl2-inv">Here <span class="fverb">___</span> the information you requested.</div>
+              <div class="flip-sent hidden" id="fl2-can"><span class="fsubj">The information</span> <span class="fverb">___</span> here.</div>
+            </div>
+            <div class="flip-foot">
+              <button class="flip-btn" onclick="doFlip('fl2')">Find subject →</button>
+              <div class="flip-exp" id="fl2-exp"><em>information</em> (singular, uncountable) is the true subject → <em>is</em></div>
+            </div>
+          </div>
+
+          <hr class="flipper-sep">
+
+          <div class="flip-row" id="fl3" data-state="0" data-verb="are">
+            <div class="flip-sent-wrap">
+              <div class="flip-sent" id="fl3-inv">There <span class="fverb">___</span> many reasons to be hopeful.</div>
+              <div class="flip-sent hidden" id="fl3-can"><span class="fsubj">Many reasons</span> <span class="fverb">___</span> to be hopeful.</div>
+            </div>
+            <div class="flip-foot">
+              <button class="flip-btn" onclick="doFlip('fl3')">Find subject →</button>
+              <div class="flip-exp" id="fl3-exp"><em>reasons</em> (plural) is the true subject → <em>are</em></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="ic-wrap">
+        <div class="ic-lbl">Check your understanding</div>
+        <div class="ic-q">Which verb is correct? <em>"There ___ no easy answers to this question."</em></div>
+        <div class="ic-opts">
+          <button class="ic-opt" data-c="0" data-fb="Incorrect. 'Is' defaults to singular — but the true subject is 'answers' (plural). Flip the sentence: 'No easy answers are there' — plural subject needs 'are'." onclick="pickIC(this)">
+            <span class="ic-key">A</span><div class="ic-txt"><div class="ic-sent">is</div><div class="ic-fb"></div></div>
+          </button>
+          <button class="ic-opt" data-c="1" data-fb="Correct. The true subject is 'answers' (plural). Flip it: 'No easy answers are to this question.' Plural subject → 'are'." onclick="pickIC(this)">
+            <span class="ic-key">B</span><div class="ic-txt"><div class="ic-sent">are</div><div class="ic-fb"></div></div>
+          </button>
+          <button class="ic-opt" data-c="0" data-fb="Incorrect. 'Has' is a singular auxiliary for a different verb entirely. The verb here is 'to be' — and the true subject 'answers' is plural, so the form is 'are'." onclick="pickIC(this)">
+            <span class="ic-key">C</span><div class="ic-txt"><div class="ic-sent">has</div><div class="ic-fb"></div></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MCQ BANK ───────────────────────────────────────────── -->
+    <div class="sec-label">Quick check — all three concepts</div>
+    <div class="mcq-card">
+      <div class="mcq-head">
+        <span class="mcq-lbl">Diagnostic questions</span>
+        <span class="mcq-cnt" id="q3-cnt">1 / 6</span>
+      </div>
+      <div class="mcq-prog"><div class="mcq-prog-fill" id="q3-fill" style="width:0%"></div></div>
+      <div class="mcq-body" id="q3-body"></div>
+      <div class="mcq-foot">
+        <button class="mcq-next-btn" id="q3-next" onclick="nextQ3()">Next →</button>
+      </div>
+      <div class="mcq-results" id="q3-results">
+        <div class="res-score" id="q3-score"></div>
+        <div class="res-label" id="q3-label"></div>
+        <div class="res-tags" id="q3-tags"></div>
+        <button class="res-retry" onclick="resetMCQ3()">Try again</button>
+      </div>
+    </div>
+
+  </div><!-- /panel-verbs -->
+
+  <!-- ░░ TAB 4: PRACTICE ░░ -->
+  <div class="tab-panel" id="panel-practice">
+
+    <!-- Start screen -->
+    <div class="grind-start" id="grind-start">
+      <div class="grind-start-icon">🔥</div>
+      <div class="grind-start-title">Streak Mode</div>
+      <div class="grind-start-rule">
+        Get <strong>10 correct in a row</strong> to finish the round.
+        Wrong answers come back until you get them right.
+        No hints — just you and the rule.
+      </div>
+      <button class="grind-start-btn" onclick="startGrind()">Start</button>
+    </div>
+
+    <!-- Active grind -->
+    <div class="grind-wrap" id="grind-wrap" style="display:none">
+      <div class="grind-meta">
+        <div class="streak-wrap">
+          <span class="streak-icon">🔥</span>
+          <div class="streak-dots" id="streak-dots"></div>
+        </div>
+        <div class="grind-attempts" id="grind-attempts"></div>
+      </div>
+      <div class="grind-card" id="grind-card">
+        <div class="grind-tag" id="grind-tag"></div>
+        <div class="grind-sentence" id="grind-sentence"></div>
+        <div class="grind-opts" id="grind-opts"></div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="grind-results" id="grind-results" style="display:none">
+      <div class="gr-score">🔥 10 streak!</div>
+      <div class="gr-stats" id="gr-stats"></div>
+      <div class="gr-wrong-head" id="gr-wrong-head"></div>
+      <div class="gr-wrong-list" id="gr-wrong-list"></div>
+      <button class="grind-start-btn" onclick="startGrind()">Play again</button>
+    </div>
+
+  </div><!-- /panel-practice -->
+
+</main>
+
+<script>
+/* ── TAB SWITCHING ─────────────────────────────────────────── */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ── SENTENCE VISUALISER ───────────────────────────────────── */
+const SENTS = [
+  { subj:'The dragon',  verb:'breathes',        rest:' fire every night.',         err:false },
+  { subj:'The dragons', verb:'breathe',          rest:' fire every night.',         err:false },
+  { subj:'The dragon',  verb:"doesn't breathe", rest:' fire during the day.',      err:false },
+  { subj:'The dragons', verb:'breathes',         rest:' fire every night.',         err:true  }
+];
+
+function setSent(i, btn) {
+  const sent = document.getElementById('vis-sent');
+  sent.classList.add('fading');
+  setTimeout(() => {
+    const s = SENTS[i];
+    document.getElementById('v-subj').textContent = s.subj;
+    document.getElementById('v-verb').textContent = s.verb;
+    document.getElementById('v-rest').textContent = s.rest;
+    const ve = document.getElementById('v-verb');
+    const en = document.getElementById('v-err-note');
+    if (s.err) { ve.classList.add('err'); en.classList.add('show'); }
+    else       { ve.classList.remove('err'); en.classList.remove('show'); }
+    sent.classList.remove('fading');
+  }, 210);
+  document.querySelectorAll('.sent-tog').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+/* ── CRAIG BARTON MCQ ──────────────────────────────────────── */
+const QS = [
+  {
+    prompt: 'Choose the correct verb form:',
+    q: 'The dragon ___ fire every night.',
+    opts: [
+      { d:'breathe',   c:false, f:'Incorrect. "Breathe" is the plural (root) form. "The dragon" is singular and needs a verb ending in -s.' },
+      { d:'breathes',  c:true,  f:'Correct. "The dragon" is singular (= it), so the present-tense verb takes -s.' },
+      { d:'breathing', c:false, f:'Incorrect. "Breathing" is a participle — without an auxiliary (e.g. is breathing) it cannot be the main verb.' },
+      { d:'breathed',  c:false, f:'Incorrect. "Breathed" is past tense. The phrase "every night" signals a present habit.' }
+    ]
+  },
+  {
+    prompt: 'Which sentence is grammatically correct?',
+    q: null,
+    opts: [
+      { d:'The wolves hunts in the forest at night.', c:false, f:'Incorrect. "Wolves" is plural — it needs the root form: "hunt", not "hunts".' },
+      { d:'The wolf hunt alone in winter.',           c:false, f:'Incorrect. "Wolf" is singular — the verb needs -s: "hunts", not "hunt".' },
+      { d:'The wolves hunt in the forest at night.',  c:true,  f:'Correct. Plural subject (wolves) + root form (hunt). No -s is added for plural subjects.' },
+      { d:'The wolf huntses through the snow.',       c:false, f:'Incorrect. "Huntses" is not a word. "Hunt" does not end in a hissing sound, so it only adds -s: "hunts".' }
+    ]
+  },
+  {
+    prompt: 'Which sentence uses the correct -s or -es ending?',
+    q: null,
+    opts: [
+      { d:'She watchs the game every Friday.',  c:false, f:'Incorrect. "Watch" ends in -ch — a hissing ending that requires -es. The correct form is "watches".' },
+      { d:'He fixs the engine himself.',        c:false, f:'Incorrect. "Fix" ends in -x, another hissing ending. The correct form is "fixes", not "fixs".' },
+      { d:'It buzzes loudly at night.',         c:true,  f:'Correct. "Buzz" ends in -z (a hissing ending), so it takes -es: "buzzes".' },
+      { d:'The cat pushs through the door.',    c:false, f:'Incorrect. "Push" ends in -sh, one of the five hissing endings. The correct form is "pushes".' }
+    ]
+  },
+  {
+    prompt: 'Choose the correct verb form:',
+    q: 'You ___ a lot of sense right now.',
+    opts: [
+      { d:'makes',   c:false, f:'Incorrect. "Makes" is a singular third-person form — but "you" always takes the root form, even when referring to just one person.' },
+      { d:'make',    c:true,  f:'Correct. "You" always takes the root form in English, even in the singular. This is one of the few exceptions to the one-person = singular verb pattern.' },
+      { d:'makeing', c:false, f:'Incorrect. "Makeing" is not a word. Even if it were a participle, it would need an auxiliary verb: "you are making".' },
+      { d:'maked',   c:false, f:'Incorrect. "Maked" is not a word — the past tense of "make" is "made". This sentence is also present tense, not past.' }
+    ]
+  },
+  {
+    prompt: 'Choose the correct verb form:',
+    q: 'The children ___ to school on their bikes.',
+    opts: [
+      { d:'rides',  c:false, f:'Incorrect. "Rides" is the singular form, but "children" is a plural noun. Plural subjects take the root form.' },
+      { d:'ride',   c:true,  f:'Correct. "Children" is plural (more than one child), so the verb stays in its root form: "ride".' },
+      { d:'rided',  c:false, f:'Incorrect. "Rided" is not a word — a common error when treating irregular verbs as regular. The past tense of "ride" is "rode", but the sentence is present tense anyway.' },
+      { d:'riding', c:false, f:'Incorrect. "Riding" is a participle — it needs an auxiliary verb to work: "are riding". On its own it cannot be the main verb.' }
+    ]
+  },
+  {
+    prompt: 'Which sentence correctly applies the -ies ending rule?',
+    q: null,
+    opts: [
+      { d:'She flyes over the mountains at dawn.',    c:false, f:'Incorrect. "Fly" ends in consonant + y, so it changes to -ies: "flies", not "flyes". The -ies replaces the whole -y ending.' },
+      { d:'He playes football every Saturday.',       c:false, f:'Incorrect. "Play" ends in a vowel + y (a-y), so the -ies rule does not apply — it just adds -s: "plays". The -ies rule is only for consonant + y.' },
+      { d:'The eagle flies south every winter.',      c:true,  f:'Correct. "Fly" ends in consonant + y (l-y), so it correctly changes to "flies". This is the -ies rule applied properly.' },
+      { d:'She studyes for her exams every night.',   c:false, f:'Incorrect. "Studyes" is not how the rule works. Consonant + y → drop the y, add -ies: "studies". The y is replaced, not kept.' }
+    ]
+  }
+];
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+let curQ = 0, correct = 0, answered = false, curOpts = [];
+
+function initMCQ() {
+  curQ = 0; correct = 0; answered = false;
+  document.getElementById('mcq-results').classList.remove('show');
+  document.getElementById('mcq-body').style.display = '';
+  document.getElementById('mcq-body').style.opacity = '1';
+  document.getElementById('mcq-next').classList.remove('show');
+  renderQ(0);
+}
+
+function renderQ(qi) {
+  answered = false;
+  const q = QS[qi];
+  curOpts = shuffle([...q.opts]);
+  const keys = ['A','B','C','D'];
+
+  document.getElementById('mcq-cnt').textContent = `${qi + 1} / ${QS.length}`;
+  document.getElementById('mcq-fill').style.width = `${(qi / QS.length) * 100}%`;
+  document.getElementById('mcq-next').classList.remove('show');
+
+  let html = `<div class="mcq-prompt">${q.prompt}</div>`;
+  if (q.q) html += `<div class="mcq-q">${q.q}</div>`;
+  else     html += `<div class="mcq-q">Find the correct sentence.</div>`;
+
+  html += `<div class="mcq-opts">`;
+  curOpts.forEach((o, i) => {
+    html += `
+      <button class="mcq-opt" onclick="pickOpt(this,${i})">
+        <span class="opt-key">${keys[i]}</span>
+        <div class="opt-body">
+          <div class="opt-sentence">${o.d}</div>
+          <div class="opt-feedback">${o.f}</div>
+        </div>
+      </button>`;
+  });
+  html += `</div>`;
+  document.getElementById('mcq-body').innerHTML = html;
+}
+
+function pickOpt(el, i) {
+  if (answered) return;
+  answered = true;
+  const o = curOpts[i];
+
+  document.querySelectorAll('#mcq-body .mcq-opt').forEach(b => { b.disabled = true; });
+  el.classList.add(o.c ? 'correct' : 'wrong');
+
+  if (!o.c) {
+    document.querySelectorAll('#mcq-body .mcq-opt').forEach((b, j) => {
+      if (curOpts[j].c) b.classList.add('correct');
+    });
+  }
+  if (o.c) correct++;
+
+  const nb = document.getElementById('mcq-next');
+  nb.textContent = curQ < QS.length - 1 ? 'Next →' : 'See results →';
+  nb.classList.add('show');
+}
+
+function nextQ() {
+  curQ++;
+  if (curQ >= QS.length) { showResults(); return; }
+  const body = document.getElementById('mcq-body');
+  body.style.opacity = '0';
+  setTimeout(() => { renderQ(curQ); body.style.opacity = '1'; }, 200);
+}
+
+function showResults() {
+  document.getElementById('mcq-body').style.display = 'none';
+  document.getElementById('mcq-next').classList.remove('show');
+  document.getElementById('mcq-fill').style.width = '100%';
+  document.getElementById('mcq-cnt').textContent = `${QS.length} / ${QS.length}`;
+
+  const msgs = {
+    6: 'Perfect. Strong command of the core agreement rule and the endings.',
+    5: 'Strong. One slip — check which question you missed and revisit that section.',
+    4: 'Good. A couple to review — go back to the rule or endings cards above.',
+    3: 'Getting there. Worth working through the rules again before the practice tab.',
+    2: 'Keep practising. Focus on the singular/plural distinction and the -s/-es endings.',
+    1: 'Go back to the rule cards above and read through the endings section carefully.',
+    0: 'Start with the rule cards at the top, then try again.'
+  };
+  document.getElementById('res-score').textContent = `${correct}/${QS.length}`;
+  document.getElementById('res-label').textContent = msgs[correct];
+
+  const tags = ['Core rule', '-s / -es endings', 'Singular vs plural'];
+  document.getElementById('res-tags').innerHTML =
+    tags.map(t => `<span class="res-tag">${t}</span>`).join('');
+
+  document.getElementById('mcq-results').classList.add('show');
+}
+
+function resetMCQ() {
+  document.getElementById('mcq-results').classList.remove('show');
+  initMCQ();
+}
+
+/* ── INLINE CHECKS ─────────────────────────────────────────── */
+function pickIC(btn) {
+  const wrap = btn.closest('.ic-wrap');
+  if (wrap.dataset.done) return;
+  wrap.dataset.done = '1';
+  const correct = btn.dataset.c === '1';
+  wrap.querySelectorAll('.ic-opt').forEach(o => { o.disabled = true; });
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) {
+    wrap.querySelectorAll('.ic-opt').forEach(o => {
+      if (o.dataset.c === '1') o.classList.add('correct');
+    });
+  }
+  wrap.querySelectorAll('.ic-opt.correct, .ic-opt.wrong').forEach(o => {
+    o.querySelector('.ic-fb').textContent = o.dataset.fb;
+  });
+}
+
+/* ── OR/NOR BUILDER ────────────────────────────────────────── */
+const BUILDER = [
+  { pre:'Neither', conj:'nor',
+    subjects:[{t:'the captain',pl:false},{t:'the sailors',pl:true}],
+    rest:'responsible for the delay.', verb:['is','are'] },
+  { pre:'Either', conj:'or',
+    subjects:[{t:'the book',pl:false},{t:'the magazines',pl:true}],
+    rest:'suitable for this assignment.', verb:['is','are'] },
+  { pre:'Neither', conj:'nor',
+    subjects:[{t:'my friend',pl:false},{t:'my parents',pl:true}],
+    rest:'coming to the event.', verb:['is','are'] }
+];
+let bPair = 0, bOrder = [0, 1];
+
+function renderBuilder() {
+  const p = BUILDER[bPair];
+  const near = p.subjects[bOrder[1]];
+  const far  = p.subjects[bOrder[0]];
+  const verb = near.pl ? p.verb[1] : p.verb[0];
+  document.getElementById('b-sent').innerHTML =
+    `<span class="bw plain">${p.pre}&nbsp;</span>` +
+    `<span class="bw s1">${far.t}</span>` +
+    `<span class="bw plain">&nbsp;${p.conj}&nbsp;</span>` +
+    `<span class="bw s2">${near.t}</span>` +
+    `<span class="bw plain">&nbsp;</span>` +
+    `<span class="bw vb">${verb}</span>` +
+    `<span class="bw plain">&nbsp;${p.rest}</span>`;
+  document.getElementById('b-note').innerHTML =
+    `The nearest subject is <em>${near.t}</em> (${near.pl ? 'plural' : 'singular'}), so the verb is <em>${verb}</em>.`;
+  document.getElementById('b-cycle-label').textContent =
+    `Example ${bPair + 1} of ${BUILDER.length}`;
+}
+
+function swapBuilder() {
+  const s = document.getElementById('b-sent');
+  s.classList.add('fading');
+  setTimeout(() => { bOrder = [bOrder[1], bOrder[0]]; renderBuilder(); s.classList.remove('fading'); }, 200);
+}
+
+function cycleBuilder() {
+  const s = document.getElementById('b-sent');
+  s.classList.add('fading');
+  setTimeout(() => { bPair = (bPair + 1) % BUILDER.length; bOrder = [0, 1]; renderBuilder(); s.classList.remove('fading'); }, 200);
+}
+
+renderBuilder();
+
+/* ── PHRASE STRIPPER ───────────────────────────────────────── */
+function toggleStrip(btn, rowId) {
+  const row = document.getElementById(rowId);
+  const on = row.dataset.stripped !== 'true';
+  row.querySelectorAll('.phr').forEach(el => el.classList.toggle('out', on));
+  row.querySelectorAll('.ts').forEach(el => el.classList.toggle('lit', on));
+  row.querySelectorAll('.tv').forEach(el => el.classList.toggle('lit', on));
+  row.querySelector('.strip-exp').classList.toggle('show', on);
+  btn.textContent = on ? 'Reset' : 'Strip phrase →';
+  row.dataset.stripped = on ? 'true' : 'false';
+}
+
+/* ── MCQ2: COMPLEX SUBJECTS BANK ──────────────────────────── */
+const QS2 = [
+  {
+    prompt: 'Choose the correct verb form:',
+    q: 'A lion and a wolf ___ both apex predators.',
+    opts: [
+      { d:'is',       c:false, f:'Incorrect. "Is" is singular. "A lion and a wolf" are two separate animals joined by "and" — a plural compound requiring "are".' },
+      { d:'are',      c:true,  f:'Correct. Two separate subjects joined by "and" form a plural compound, requiring a plural verb: "are".' },
+      { d:'was',      c:false, f:'Incorrect. "Was" is both singular and past tense. The sentence is present tense and the compound subject is plural.' },
+      { d:'has been', c:false, f:'Incorrect. "Has been" is singular and uses perfect aspect. A simple present plural verb is needed: "are".' }
+    ]
+  },
+  {
+    prompt: 'Which sentence is grammatically correct?',
+    q: null,
+    opts: [
+      { d:'Fish and chips are my favourite meal.',    c:false, f:'Incorrect. "Fish and chips" names a single dish — a fixed culinary phrase — not two separate items. It takes a singular verb: "is".' },
+      { d:'Fish and chips is my favourite meal.',     c:true,  f:'Correct. "Fish and chips" is a fixed phrase naming one dish. Single-concept compounds take a singular verb.' },
+      { d:'Fish and chips are always my favourite meal.',  c:false, f:'Incorrect. "And" usually signals a plural compound — but "fish and chips" is a fixed phrase naming one dish, not two separate items. Fixed-concept compounds take a singular verb: "is".' },
+      { d:'Fish and chips has always my favourite.',  c:false, f:'Incorrect. This sentence is broken — it is missing the past participle "been". It also applies the wrong rule to the fixed phrase.' }
+    ]
+  },
+  {
+    prompt: 'Choose the correct verb form:',
+    q: 'Either the manager or the employees ___ responsible for the error.',
+    opts: [
+      { d:'is',  c:false, f:'Incorrect. "Employees" (plural) is the nearest subject to the verb. The proximity rule requires a plural verb: "are".' },
+      { d:'are', c:true,  f:'Correct. "Employees" (plural) is nearest to the verb, so the verb must be plural: "are".' },
+      { d:'was', c:false, f:'Incorrect. "Was" is past tense and singular. The nearest subject "employees" is plural and the sentence is present tense.' },
+      { d:'has', c:false, f:'Incorrect. "Has" is a third-person singular auxiliary. The nearest subject "employees" is plural and requires a simple present verb: "are".' }
+    ]
+  },
+  {
+    prompt: 'Choose the correct verb form:',
+    q: 'Neither the students nor the teacher ___ ready for the inspection.',
+    opts: [
+      { d:'are',  c:false, f:'Incorrect. "Are" agrees with "students", but "students" is not nearest — "teacher" is. "Teacher" is singular, so the verb must be "is".' },
+      { d:'is',   c:true,  f:'Correct. "Teacher" (singular) is the nearest subject to the verb. The proximity rule requires a singular verb: "is".' },
+      { d:'were', c:false, f:'Incorrect. "Were" is past tense. "Teacher" (singular, nearest) would also need "was" in the past — not "were".' },
+      { d:'be',   c:false, f:'Incorrect. "Be" is a base (infinitive) form — it cannot be the main finite verb of a sentence on its own.' }
+    ]
+  },
+  {
+    prompt: 'Which sentence is grammatically correct?',
+    q: null,
+    opts: [
+      { d:'The cost of the repairs were shocking.',   c:false, f:'Incorrect. "Were" agrees with "repairs", but "repairs" is inside the "of" phrase. The true subject is "cost" (singular), which requires "was".' },
+      { d:'The cost of the repairs was shocking.',    c:true,  f:'Correct. Strip out "of the repairs" and the sentence reads: "The cost was shocking." — singular subject, singular verb.' },
+      { d:'The costs of the repairs were shocking.',  c:false, f:'Incorrect — but a useful near-miss. "Costs" is plural, so "were" would actually be correct agreement. However, the question asks about "the cost" (singular), not "the costs".' },
+      { d:'The cost of the repairs have been shocking.', c:false, f:'Incorrect. "Have been" is a plural auxiliary — it agrees with "repairs", not with the true subject "cost". Strip the "of" phrase: "The cost has been shocking" is the correct form.' }
+    ]
+  },
+  {
+    prompt: 'Choose the correct verb form:',
+    q: 'The prime minister, as well as her cabinet, ___ announced new measures.',
+    opts: [
+      { d:'have', c:false, f:'Incorrect. "As well as her cabinet" is an interrupting phrase — it does not extend the subject. The true subject "the prime minister" is singular: "has".' },
+      { d:'has',  c:true,  f:'Correct. Strip out "as well as her cabinet" and the sentence reads: "The prime minister has announced new measures." — singular subject, singular verb.' },
+      { d:'are',  c:false, f:'Incorrect. "Are" is a present-tense plural verb. The true subject "the prime minister" is singular, and the sentence uses present perfect: "has".' },
+      { d:'had',  c:false, f:'Incorrect. "Had" signals past perfect, which changes the meaning. The correct tense here is present perfect: "has".' }
+    ]
+  }
+];
+
+let q2Cur = 0, q2Correct = 0, q2Answered = false, q2Opts = [];
+
+function initMCQ2() {
+  q2Cur = 0; q2Correct = 0; q2Answered = false;
+  document.getElementById('q2-results').classList.remove('show');
+  document.getElementById('q2-body').style.display = '';
+  document.getElementById('q2-body').style.opacity = '1';
+  document.getElementById('q2-next').classList.remove('show');
+  renderQ2(0);
+}
+
+function renderQ2(qi) {
+  q2Answered = false;
+  const q = QS2[qi];
+  q2Opts = shuffle([...q.opts]);
+  const keys = ['A','B','C','D'];
+  document.getElementById('q2-cnt').textContent = `${qi + 1} / ${QS2.length}`;
+  document.getElementById('q2-fill').style.width = `${(qi / QS2.length) * 100}%`;
+  document.getElementById('q2-next').classList.remove('show');
+  let html = `<div class="mcq-prompt">${q.prompt}</div>`;
+  html += q.q ? `<div class="mcq-q">${q.q}</div>` : `<div class="mcq-q">Find the correct sentence.</div>`;
+  html += `<div class="mcq-opts">`;
+  q2Opts.forEach((o, i) => {
+    html += `<button class="mcq-opt" onclick="pickOpt2(this,${i})">
+      <span class="opt-key">${keys[i]}</span>
+      <div class="opt-body"><div class="opt-sentence">${o.d}</div><div class="opt-feedback">${o.f}</div></div>
+    </button>`;
+  });
+  html += `</div>`;
+  document.getElementById('q2-body').innerHTML = html;
+}
+
+function pickOpt2(el, i) {
+  if (q2Answered) return;
+  q2Answered = true;
+  const o = q2Opts[i];
+  document.querySelectorAll('#q2-body .mcq-opt').forEach(b => { b.disabled = true; });
+  el.classList.add(o.c ? 'correct' : 'wrong');
+  if (!o.c) {
+    document.querySelectorAll('#q2-body .mcq-opt').forEach((b, j) => {
+      if (q2Opts[j].c) b.classList.add('correct');
+    });
+  }
+  if (o.c) q2Correct++;
+  const nb = document.getElementById('q2-next');
+  nb.textContent = q2Cur < QS2.length - 1 ? 'Next →' : 'See results →';
+  nb.classList.add('show');
+}
+
+function nextQ2() {
+  q2Cur++;
+  if (q2Cur >= QS2.length) { showResults2(); return; }
+  const body = document.getElementById('q2-body');
+  body.style.opacity = '0';
+  setTimeout(() => { renderQ2(q2Cur); body.style.opacity = '1'; }, 200);
+}
+
+function showResults2() {
+  document.getElementById('q2-body').style.display = 'none';
+  document.getElementById('q2-next').classList.remove('show');
+  document.getElementById('q2-fill').style.width = '100%';
+  document.getElementById('q2-cnt').textContent = `${QS2.length} / ${QS2.length}`;
+  const msgs = {
+    6:'Perfect. Strong command across all four complex subject patterns.',
+    5:'Strong. One to review — check which concept it targeted.',
+    4:'Good. A couple to revisit — go back to the relevant sections above.',
+    3:'Getting there. Work through the inline checks in each section before retrying.',
+    2:'Keep practising. Focus especially on the proximity rule and "of" phrases.',
+    1:'Work carefully through each section before retrying the bank.',
+    0:'Start from concept 1 and use the interactive exercises before retrying.'
+  };
+  document.getElementById('q2-score').textContent = `${q2Correct}/${QS2.length}`;
+  document.getElementById('q2-label').textContent = msgs[q2Correct];
+  const tags = ['and','or / nor','"of" phrases','interrupting phrases'];
+  document.getElementById('q2-tags').innerHTML = tags.map(t => `<span class="res-tag">${t}</span>`).join('');
+  document.getElementById('q2-results').classList.add('show');
+}
+
+function resetMCQ2() {
+  document.getElementById('q2-results').classList.remove('show');
+  initMCQ2();
+}
+
+initMCQ2();
+
+/* ── DO/DOES SELECTOR ──────────────────────────────────────── */
+function pickDos(rowId, btn) {
+  const row = document.getElementById(rowId);
+  if (row.dataset.done) return;
+  row.dataset.done = '1';
+  const correct = btn.dataset.res === 'correct';
+  row.querySelectorAll('.dos-btn').forEach(b => { b.disabled = true; });
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) {
+    row.querySelectorAll('.dos-btn').forEach(b => {
+      if (b.dataset.res === 'correct') b.classList.add('correct');
+    });
+  }
+  const fb = document.getElementById(rowId + '-fb');
+  fb.innerHTML = btn.dataset.fb;
+  fb.classList.add('show');
+}
+
+/* ── SENTENCE FLIPPER ──────────────────────────────────────── */
+function doFlip(id) {
+  const row = document.getElementById(id);
+  const state = parseInt(row.dataset.state || '0');
+  const inv = document.getElementById(id + '-inv');
+  const can = document.getElementById(id + '-can');
+  const btn = row.querySelector('.flip-btn');
+  const exp = document.getElementById(id + '-exp');
+  if (state === 0) {
+    inv.classList.add('hidden');
+    setTimeout(() => {
+      can.classList.remove('hidden');
+      can.querySelector('.fsubj').classList.add('lit');
+    }, 230);
+    btn.textContent = 'Show verb →';
+    row.dataset.state = '1';
+  } else if (state === 1) {
+    const fv = can.querySelector('.fverb');
+    fv.textContent = row.dataset.verb;
+    fv.classList.add('lit');
+    exp.classList.add('show');
+    btn.textContent = 'Reset';
+    row.dataset.state = '2';
+  } else {
+    inv.classList.remove('hidden');
+    can.classList.add('hidden');
+    can.querySelector('.fsubj').classList.remove('lit');
+    const fv = can.querySelector('.fverb');
+    fv.textContent = '___';
+    fv.classList.remove('lit');
+    exp.classList.remove('show');
+    btn.textContent = 'Find subject →';
+    row.dataset.state = '0';
+  }
+}
+
+/* ── MCQ3: TRICKY VERBS BANK ───────────────────────────────── */
+const QS3 = [
+  {
+    prompt: 'Choose the correct form of "to be":',
+    q: 'The results of the experiment ___ published last month.',
+    opts: [
+      { d:'was',  c:false, f:'Incorrect. "Was" agrees with "experiment" — but "experiment" is inside the "of" phrase and is not the true subject. "Results" (plural) governs the verb: "were".' },
+      { d:'were', c:true,  f:'Correct. Strip out "of the experiment" and the sentence reads: "The results were published last month." — plural subject, plural verb.' },
+      { d:'is',   c:false, f:'Incorrect. "Is" is present tense and singular. "Results" is plural, and "last month" signals past tense.' },
+      { d:'are',  c:false, f:'Incorrect. "Are" is present tense. "Last month" signals a past event — and "results" (plural) needs "were".' }
+    ]
+  },
+  {
+    prompt: 'Which sentence uses the correct form of "to be"?',
+    q: null,
+    opts: [
+      { d:'If he was taller, he would be a better player.',  c:false, f:'Incorrect. "Was" is the factual past form for a singular subject. In a hypothetical if-clause, the subjunctive requires "were" for all subjects.' },
+      { d:'If he were taller, he would be a better player.', c:true,  f:'Correct. "Were" is the subjunctive form used in hypothetical if-clauses for all subjects, including singular ones like "he".' },
+      { d:'If he is taller, he would be a better player.',   c:false, f:'Incorrect. "Is" is present tense. The "would be" in the main clause signals a past conditional — the if-clause needs the subjunctive "were".' },
+      { d:'If he be taller, he would be a better player.',   c:false, f:'Incorrect. "Be" is the bare infinitive — it cannot be the finite verb of an if-clause. The subjunctive form required is "were".' }
+    ]
+  },
+  {
+    prompt: 'Choose the correct form of "to do":',
+    q: 'She ___ not agree with the new policy.',
+    opts: [
+      { d:'do',   c:false, f:'Incorrect. "Do" is used with plural subjects and with I, you, and we. "She" is third-person singular — it needs "does".' },
+      { d:'does', c:true,  f:'Correct. "She" is a third-person singular subject — it takes the auxiliary "does" in negatives and questions.' },
+      { d:'did',  c:false, f:'Incorrect. "Did" is past tense. The sentence has no past time marker — it describes a present stance.' },
+      { d:'done', c:false, f:'Incorrect. "Done" is a past participle — it needs an auxiliary to function (e.g. "has done"). It cannot be the main auxiliary in a negative sentence.' }
+    ]
+  },
+  {
+    prompt: 'Choose the correct form of "to do":',
+    q: '___ your teacher know you are here?',
+    opts: [
+      { d:'Do',   c:false, f:'Incorrect. "Do" is for plural subjects and for I, you, and we. "Your teacher" is singular and third-person — it takes "Does".' },
+      { d:'Does', c:true,  f:'Correct. "Your teacher" is a singular third-person subject — the question auxiliary is "Does".' },
+      { d:'Did',  c:false, f:'Incorrect. "Did" is past tense. "Are here" in the same sentence signals the present — both clauses should match in tense.' },
+      { d:'Is',   c:false, f:'Incorrect. "Is" belongs to "to be", not "to do". The verb "know" requires the do/does auxiliary in questions.' }
+    ]
+  },
+  {
+    prompt: 'Choose the correct form of "to be":',
+    q: 'There ___ several wolves at the edge of the forest.',
+    opts: [
+      { d:'is',  c:false, f:'Incorrect. "Is" defaults to singular before the subject appears — but the true subject is "wolves" (plural). Flip it: "Several wolves are there." → "are".' },
+      { d:'are', c:true,  f:'Correct. The true subject is "wolves" (plural). Flip the sentence: "Several wolves are at the edge of the forest."' },
+      { d:'was', c:false, f:'Incorrect. "Was" is past tense and singular. The sentence is present tense, and the true subject "wolves" is plural.' },
+      { d:'has', c:false, f:'Incorrect. "Has" is a singular auxiliary for a different verb. The verb here is "to be" — and "wolves" (plural) needs "are".' }
+    ]
+  },
+  {
+    prompt: 'Choose the correct form of "to be":',
+    q: 'Here ___ the information you requested.',
+    opts: [
+      { d:'are',  c:false, f:'Incorrect. "Are" is plural — but "information" is an uncountable noun, which always takes a singular verb. Flip it: "The information is here."' },
+      { d:'is',   c:true,  f:'Correct. The true subject is "information" — uncountable, always singular. Flip the sentence: "The information is here."' },
+      { d:'were', c:false, f:'Incorrect. "Were" is past tense and plural. "Information" is singular and the sentence is present tense — the correct form is "is".' },
+      { d:'have', c:false, f:'Incorrect. "Have" is a plural auxiliary for a different verb. The verb here is "to be" — and "information" (singular) needs "is".' }
+    ]
+  }
+];
+
+let q3Cur = 0, q3Correct = 0, q3Answered = false, q3Opts = [];
+
+function initMCQ3() {
+  q3Cur = 0; q3Correct = 0; q3Answered = false;
+  document.getElementById('q3-results').classList.remove('show');
+  document.getElementById('q3-body').style.display = '';
+  document.getElementById('q3-body').style.opacity = '1';
+  document.getElementById('q3-next').classList.remove('show');
+  renderQ3(0);
+}
+
+function renderQ3(qi) {
+  q3Answered = false;
+  const q = QS3[qi];
+  q3Opts = shuffle([...q.opts]);
+  const keys = ['A','B','C','D'];
+  document.getElementById('q3-cnt').textContent = `${qi + 1} / ${QS3.length}`;
+  document.getElementById('q3-fill').style.width = `${(qi / QS3.length) * 100}%`;
+  document.getElementById('q3-next').classList.remove('show');
+  let html = `<div class="mcq-prompt">${q.prompt}</div>`;
+  html += q.q ? `<div class="mcq-q">${q.q}</div>` : `<div class="mcq-q">Find the correct sentence.</div>`;
+  html += `<div class="mcq-opts">`;
+  q3Opts.forEach((o, i) => {
+    html += `<button class="mcq-opt" onclick="pickOpt3(this,${i})">
+      <span class="opt-key">${keys[i]}</span>
+      <div class="opt-body"><div class="opt-sentence">${o.d}</div><div class="opt-feedback">${o.f}</div></div>
+    </button>`;
+  });
+  html += `</div>`;
+  document.getElementById('q3-body').innerHTML = html;
+}
+
+function pickOpt3(el, i) {
+  if (q3Answered) return;
+  q3Answered = true;
+  const o = q3Opts[i];
+  document.querySelectorAll('#q3-body .mcq-opt').forEach(b => { b.disabled = true; });
+  el.classList.add(o.c ? 'correct' : 'wrong');
+  if (!o.c) {
+    document.querySelectorAll('#q3-body .mcq-opt').forEach((b, j) => {
+      if (q3Opts[j].c) b.classList.add('correct');
+    });
+  }
+  if (o.c) q3Correct++;
+  const nb = document.getElementById('q3-next');
+  nb.textContent = q3Cur < QS3.length - 1 ? 'Next →' : 'See results →';
+  nb.classList.add('show');
+}
+
+function nextQ3() {
+  q3Cur++;
+  if (q3Cur >= QS3.length) { showResults3(); return; }
+  const body = document.getElementById('q3-body');
+  body.style.opacity = '0';
+  setTimeout(() => { renderQ3(q3Cur); body.style.opacity = '1'; }, 200);
+}
+
+function showResults3() {
+  document.getElementById('q3-body').style.display = 'none';
+  document.getElementById('q3-next').classList.remove('show');
+  document.getElementById('q3-fill').style.width = '100%';
+  document.getElementById('q3-cnt').textContent = `${QS3.length} / ${QS3.length}`;
+  const msgs = {
+    6:'Perfect. Strong command of all three tricky verb patterns.',
+    5:'Strong. One to review — check which concept it targeted.',
+    4:'Good. A couple to revisit — go back to the relevant section above.',
+    3:'Getting there. Work through the interactive exercises again before retrying.',
+    2:'Keep practising. Focus on the subjunctive and the inverted order sections.',
+    1:'Work carefully through each section before retrying the bank.',
+    0:'Start from section 1 and use the subject grid and flipper before retrying.'
+  };
+  document.getElementById('q3-score').textContent = `${q3Correct}/${QS3.length}`;
+  document.getElementById('q3-label').textContent = msgs[q3Correct];
+  const tags = ['to be','subjunctive were','to do','inverted order'];
+  document.getElementById('q3-tags').innerHTML = tags.map(t => `<span class="res-tag">${t}</span>`).join('');
+  document.getElementById('q3-results').classList.add('show');
+}
+
+function resetMCQ3() {
+  document.getElementById('q3-results').classList.remove('show');
+  initMCQ3();
+}
+
+initMCQ3();
+
+/* ── GRIND MODE ────────────────────────────────────────────── */
+const POOL = [
+  { s:'The dragon ___ fire every night.',                          opts:['breathes','breathe'], ans:0, tag:'core' },
+  { s:'The dragons ___ fire every night.',                         opts:['breathes','breathe'], ans:1, tag:'core' },
+  { s:'She ___ to school by bus.',                                 opts:['walk','walks'],       ans:1, tag:'core' },
+  { s:'They ___ to school by bus.',                                opts:['walk','walks'],       ans:0, tag:'core' },
+  { s:'The witch ___ her spell at midnight.',                      opts:['cast','casts'],       ans:1, tag:'core' },
+  { s:'The witches ___ their spells at midnight.',                  opts:['cast','casts'],       ans:0, tag:'core' },
+  { s:'It ___ loudly in the corner.',                              opts:['buzz','buzzes'],      ans:1, tag:'core' },
+  { s:'The eagle ___ south every winter.',                          opts:['fly','flies'],        ans:1, tag:'core' },
+  { s:'A lion and a wolf ___ dangerous predators.',                opts:['is','are'],           ans:1, tag:'complex' },
+  { s:'Fish and chips ___ the national dish of England.',          opts:['is','are'],           ans:0, tag:'complex' },
+  { s:'Neither the captain nor the sailors ___ ready.',            opts:['is','are'],           ans:1, tag:'complex' },
+  { s:'Neither the sailors nor the captain ___ ready.',            opts:['is','are'],           ans:0, tag:'complex' },
+  { s:'The pack of wolves ___ howling at the moon.',               opts:['is','are'],           ans:0, tag:'complex' },
+  { s:'The pages of the book ___ torn and yellowed.',              opts:['was','were'],         ans:1, tag:'complex' },
+  { s:'The king, as well as his guards, ___ attending.',           opts:['is','are'],           ans:0, tag:'complex' },
+  { s:'The students, along with their teacher, ___ preparing.',    opts:['is','are'],           ans:1, tag:'complex' },
+  { s:'She ___ not want to be late.',                              opts:['do','does'],          ans:1, tag:'verbs' },
+  { s:'They ___ not want to be late.',                             opts:['do','does'],          ans:0, tag:'verbs' },
+  { s:'___ your teacher know you are here?',                       opts:['Do','Does'],          ans:1, tag:'verbs' },
+  { s:'___ your friends live nearby?',                             opts:['Do','Does'],          ans:0, tag:'verbs' },
+  { s:'There ___ several wolves at the door.',                     opts:['is','are'],           ans:1, tag:'verbs' },
+  { s:'Here ___ the information you requested.',                   opts:['is','are'],           ans:0, tag:'verbs' },
+  { s:'If I ___ you, I would apologise immediately.',              opts:['was','were'],         ans:1, tag:'verbs' },
+  { s:'She ___ nervous before the exam.',                          opts:['was','were'],         ans:0, tag:'verbs' },
+  { s:'The price of the tickets ___ surprisingly low.',            opts:['was','were'],         ans:0, tag:'mixed' },
+  { s:'Either the coach or the players ___ to blame.',             opts:['is','are'],           ans:1, tag:'mixed' },
+  { s:'The results of the experiment ___ published last month.',   opts:['was','were'],         ans:1, tag:'mixed' },
+  { s:'Law and order ___ the main theme of the novel.',            opts:['is','are'],           ans:0, tag:'mixed' },
+  { s:'There ___ a strange noise coming from outside.',            opts:['is','are'],           ans:0, tag:'mixed' },
+  { s:'Emma, together with her colleagues, ___ submitted the report.', opts:['has','have'],    ans:0, tag:'mixed' }
+];
+
+const TAG_LABELS = { core:'Core rule', complex:'Complex subjects', verbs:'Tricky verbs', mixed:'Mixed' };
+const TAG_COLORS = { core:'teal', complex:'blue', verbs:'purple', mixed:'gold' };
+
+let gDeck, gStreak, gAttempts, gRetries, gWrong, gStart, gAdvancing;
+
+function startGrind() {
+  gDeck      = shuffle([...POOL]);
+  gStreak    = 0;
+  gAttempts  = 0;
+  gRetries   = 0;
+  gWrong     = [];
+  gStart     = Date.now();
+  gAdvancing = false;
+  document.getElementById('grind-start').style.display   = 'none';
+  document.getElementById('grind-results').style.display = 'none';
+  document.getElementById('grind-wrap').style.display    = 'block';
+  renderGrindCard();
+}
+
+function renderGrindCard() {
+  const card = gDeck[0];
+  document.getElementById('streak-dots').innerHTML =
+    Array.from({length:10}, (_,i) =>
+      `<div class="streak-dot${i < gStreak ? ' filled' : ''}"></div>`).join('');
+  document.getElementById('grind-attempts').textContent =
+    gAttempts > 0 ? `${gAttempts} attempt${gAttempts !== 1 ? 's' : ''}` : '';
+  const tagEl = document.getElementById('grind-tag');
+  tagEl.textContent = TAG_LABELS[card.tag];
+  tagEl.className = 'grind-tag ' + TAG_COLORS[card.tag];
+  document.getElementById('grind-sentence').innerHTML =
+    card.s.replace('___', '<span class="grind-blank">___</span>');
+  document.getElementById('grind-opts').innerHTML =
+    card.opts.map((opt, i) =>
+      `<button class="grind-opt" onclick="pickGrind(${i === card.ans}, this, ${i})">${opt}</button>`
+    ).join('');
+}
+
+function pickGrind(correct, btn, optIdx) {
+  if (gAdvancing) return;
+  gAdvancing = true;
+  gAttempts++;
+  const currentCard = gDeck[0];
+  const cardEl = document.getElementById('grind-card');
+  document.querySelectorAll('.grind-opt').forEach(o => { o.disabled = true; });
+
+  if (correct) {
+    btn.classList.add('correct');
+    cardEl.classList.add('flash-c');
+    gStreak++;
+    document.getElementById('streak-dots').innerHTML =
+      Array.from({length:10}, (_,i) =>
+        `<div class="streak-dot${i < gStreak ? ' filled' : ''}"></div>`).join('');
+    if (gStreak >= 10) { setTimeout(showGrindResults, 850); return; }
+    setTimeout(() => {
+      cardEl.classList.remove('flash-c');
+      gDeck.shift();
+      gAdvancing = false;
+      renderGrindCard();
+    }, 800);
+
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.grind-opt')[currentCard.ans].classList.add('show-correct');
+    cardEl.classList.add('flash-w');
+    gStreak = 0;
+    gRetries++;
+    if (!gWrong.includes(currentCard)) gWrong.push(currentCard);
+    gDeck.shift();
+    const insertAt = Math.min(2 + Math.floor(Math.random() * 4), gDeck.length);
+    gDeck.splice(insertAt, 0, currentCard);
+    setTimeout(() => {
+      cardEl.classList.remove('flash-w');
+      gAdvancing = false;
+      renderGrindCard();
+    }, 900);
+  }
+}
+
+function showGrindResults() {
+  document.getElementById('grind-wrap').style.display = 'none';
+  const secs = Math.round((Date.now() - gStart) / 1000);
+  const time = secs >= 60 ? `${Math.floor(secs/60)}m ${secs%60}s` : `${secs}s`;
+  document.getElementById('gr-stats').innerHTML =
+    `${gAttempts} attempt${gAttempts !== 1 ? 's' : ''} &nbsp;·&nbsp; ` +
+    `${gRetries} retr${gRetries !== 1 ? 'ies' : 'y'} &nbsp;·&nbsp; ${time}`;
+  const wrongHead = document.getElementById('gr-wrong-head');
+  const wrongList = document.getElementById('gr-wrong-list');
+  if (gWrong.length > 0) {
+    wrongHead.textContent = 'Sentences that caught you out:';
+    wrongList.innerHTML = gWrong.map(w =>
+      `<div class="gr-wrong-item">
+        <div class="gr-wrong-sent">${w.s.replace('___','<span class="grind-blank">___</span>')}</div>
+        <div class="gr-wrong-ans">→ ${w.opts[w.ans]}</div>
+      </div>`).join('');
+  } else {
+    wrongHead.textContent = 'Perfect run — no retries needed.';
+    wrongList.innerHTML = '';
+  }
+  document.getElementById('grind-results').style.display = 'block';
+}
+</script>
+</body>
+</html>
