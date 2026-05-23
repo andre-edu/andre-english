@@ -669,6 +669,38 @@
       color: var(--muted);
       opacity: 0.55;
     }
+
+    .site-footer {
+      margin-top: 3rem;
+      padding: 1.2rem 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1.5rem;
+      align-items: center;
+      font-family: 'Lora', Georgia, serif;
+      font-size: 0.72rem;
+      color: var(--muted);
+      opacity: 0.55;
+    }
+    .site-footer a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(138,128,112,0.3);
+      transition: opacity 0.2s;
+    }
+    .site-footer a:hover { opacity: 0.9; }
+
+    .plays-selection-note {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: 0.75rem;
+      color: var(--muted);
+      opacity: 0.65;
+      text-align: center;
+      margin-bottom: 1.1rem;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
@@ -682,7 +714,7 @@
 
 <!-- ── PLAYS STRIP ── -->
 <div class="plays-strip">
-  <span class="strip-label">Fourteen plays:</span>
+  <span class="strip-label">Sixteen plays:</span>
   <span class="chip tragedy" onclick="goToPlay('romeo')">Romeo &amp; Juliet</span>
   <span class="chip tragedy" onclick="goToPlay('macbeth')">Macbeth</span>
   <span class="chip tragedy" onclick="goToPlay('othello')">Othello</span>
@@ -695,7 +727,9 @@
   <span class="chip comedy"  onclick="goToPlay('twelfth')">Twelfth Night</span>
   <span class="chip comedy"  onclick="goToPlay('asyoulike')">As You Like It</span>
   <span class="chip comedy"  onclick="goToPlay('merchant')">The Merchant of Venice</span>
+  <span class="chip comedy"  onclick="goToPlay('shrew')">The Taming of the Shrew</span>
   <span class="chip history" onclick="goToPlay('henry')">Henry V</span>
+  <span class="chip history" onclick="goToPlay('richard2')">Richard II</span>
   <span class="chip history" onclick="goToPlay('richard')">Richard III</span>
 </div>
 
@@ -874,6 +908,7 @@
   <h2 class="sec-title">Shakespeare in Your Hands</h2>
   <p class="sec-sub">Choose a play, then click a character to learn about them.</p>
 
+  <p class="plays-selection-note">Shakespeare wrote 37 plays in total &mdash; this is a selection of the most widely studied. For a complete list, see the link at the bottom of the page.</p>
   <div class="play-switcher">
     <button class="ps-btn tragedy on" onclick="loadPlay('romeo',this)"><svg class="play-icon" preserveAspectRatio="xMidYMid meet" viewBox="0 0 46 28" width="38" height="32">
     <circle cx="15" cy="14" r="11" fill="none" stroke="currentColor" stroke-width="2.2"/>
@@ -910,8 +945,10 @@
     <button class="ps-btn comedy"     onclick="loadPlay('twelfth',this)"><svg class="play-icon" viewBox="0 0 54 36" width="38" height="28" preserveAspectRatio="xMidYMid meet"><circle cx="13" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M22 12 L27 15 L22 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="41" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M32 12 L27 15 L32 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>Twelfth Night</button>
     <button class="ps-btn comedy"     onclick="loadPlay('asyoulike',this)"><svg class="play-icon" viewBox="0 0 54 36" width="38" height="28" preserveAspectRatio="xMidYMid meet"><circle cx="27" cy="13" r="12" fill="none" stroke="currentColor" stroke-width="2.3"/><path d="M24 24 L24 33 L30 33 L30 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><path d="M18 33 L36 33" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15 18 Q10 10 20 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M39 18 Q44 10 34 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>As You Like It</button>
     <button class="ps-btn comedy"     onclick="loadPlay('merchant',this)"><svg class="play-icon" viewBox="0 0 54 36" width="38" height="28" preserveAspectRatio="xMidYMid meet"><line x1="27" y1="5" x2="27" y2="32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="7" y1="12" x2="47" y2="12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="27" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><line x1="10" y1="12" x2="10" y2="20" stroke="currentColor" stroke-width="1.5"/><line x1="17" y1="12" x2="17" y2="20" stroke="currentColor" stroke-width="1.5"/><path d="M7 20 Q13.5 29 20 20" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><line x1="37" y1="12" x2="37" y2="20" stroke="currentColor" stroke-width="1.5"/><line x1="44" y1="12" x2="44" y2="20" stroke="currentColor" stroke-width="1.5"/><path d="M34 20 Q40.5 29 47 20" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><path d="M23 32 L31 32" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>The Merchant of Venice</button>
+    <button class="ps-btn comedy"     onclick="loadPlay('shrew',this)"><svg class="play-icon" viewBox="0 0 54 36" width="38" height="28" preserveAspectRatio="xMidYMid meet"><line x1="6" y1="30" x2="48" y2="30" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><ellipse cx="27" cy="20" rx="7" ry="9" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="27" cy="10" r="5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M31 9 L37 11 L31 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M21 18 Q15 23 17 29" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M33 18 Q39 23 37 29" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M24 29 L22 33 M27 29 L27 34 M30 29 L32 33" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>The Taming of the Shrew</button>
     <button class="ps-btn history"    onclick="loadPlay('richard',this)"><svg class="play-icon" viewBox="0 0 54 40" width="40" height="30" preserveAspectRatio="xMidYMid meet"><g transform="rotate(38, 27, 18)" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="27" y1="4" x2="27" y2="13" stroke-width="2.5"/><line x1="21" y1="8" x2="33" y2="8" stroke-width="2.5"/><path d="M21 13 L19 25 L35 25 L33 13 Z" stroke-width="2.2"/><path d="M14 25 L14 31 L40 31 L40 25" stroke-width="2.5"/></g></svg>Richard III</button>
     <button class="ps-btn history"    onclick="loadPlay('henry',this)"><svg class="play-icon" viewBox="0 0 54 36" width="40" height="27" preserveAspectRatio="xMidYMid meet"><path d="M8 26 L2 6 L18 21 L27 5 L36 21 L52 6 L46 26 L46 32 L8 32 Z" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><line x1="8" y1="26" x2="46" y2="26" stroke="currentColor" stroke-width="1.2"/><circle cx="2" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="27" cy="5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="52" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Henry V</button>
+    <button class="ps-btn history"    onclick="loadPlay('richard2',this)"><svg class="play-icon" viewBox="0 0 54 36" width="38" height="28" preserveAspectRatio="xMidYMid meet"><ellipse cx="27" cy="15" rx="16" ry="14" fill="none" stroke="currentColor" stroke-width="2.3"/><path d="M23 29 L27 34 L31 29" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M25 7 L33 16 L26 23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><line x1="33" y1="16" x2="41" y2="11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="33" y1="16" x2="40" y2="21" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="25" y1="7" x2="18" y2="4" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>Richard II</button>
   </div>
 
   <div class="play-intro" id="play-intro"></div>
@@ -1008,7 +1045,9 @@
     <button class="ps-btn tn-ps-btn comedy"  onclick="loadThenNow('twelfth',this)"><svg viewBox="0 0 54 36" width="22" height="16" style="flex-shrink:0;opacity:0.8"><circle cx="13" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M22 12 L27 15 L22 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="41" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M32 12 L27 15 L32 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>Twelfth Night</button>
     <button class="ps-btn tn-ps-btn comedy"  onclick="loadThenNow('asyoulike',this)"><svg viewBox="0 0 54 36" width="22" height="16" style="flex-shrink:0;opacity:0.8"><circle cx="27" cy="13" r="12" fill="none" stroke="currentColor" stroke-width="2.3"/><path d="M24 24 L24 33 L30 33 L30 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><path d="M18 33 L36 33" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15 18 Q10 10 20 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M39 18 Q44 10 34 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>As You Like It</button>
     <button class="ps-btn tn-ps-btn comedy"  onclick="loadThenNow('merchant',this)"><svg viewBox="0 0 54 36" width="22" height="16" style="flex-shrink:0;opacity:0.8"><line x1="27" y1="5" x2="27" y2="32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="7" y1="12" x2="47" y2="12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="27" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><line x1="10" y1="12" x2="10" y2="20" stroke="currentColor" stroke-width="1.5"/><line x1="17" y1="12" x2="17" y2="20" stroke="currentColor" stroke-width="1.5"/><path d="M7 20 Q13.5 29 20 20" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><line x1="37" y1="12" x2="37" y2="20" stroke="currentColor" stroke-width="1.5"/><line x1="44" y1="12" x2="44" y2="20" stroke="currentColor" stroke-width="1.5"/><path d="M34 20 Q40.5 29 47 20" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><path d="M23 32 L31 32" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>The Merchant of Venice</button>
+    <button class="ps-btn tn-ps-btn comedy"  onclick="loadThenNow('shrew',this)"><svg viewBox="0 0 54 36" width="22" height="16" style="flex-shrink:0;opacity:0.8"><line x1="6" y1="30" x2="48" y2="30" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><ellipse cx="27" cy="20" rx="7" ry="9" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="27" cy="10" r="5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M31 9 L37 11 L31 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M21 18 Q15 23 17 29" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M33 18 Q39 23 37 29" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M24 29 L22 33 M27 29 L27 34 M30 29 L32 33" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>The Taming of the Shrew</button>
     <button class="ps-btn tn-ps-btn history" onclick="loadThenNow('henry',this)"><svg viewBox="0 0 54 36" width="22" height="15" style="flex-shrink:0;opacity:0.8"><path d="M8 26 L2 6 L18 21 L27 5 L36 21 L52 6 L46 26 L46 32 L8 32 Z" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><line x1="8" y1="26" x2="46" y2="26" stroke="currentColor" stroke-width="1.2"/></svg>Henry V</button>
+    <button class="ps-btn tn-ps-btn history"   onclick="loadThenNow('richard2',this)"><svg viewBox="0 0 54 36" width="22" height="16" style="flex-shrink:0;opacity:0.8"><ellipse cx="27" cy="15" rx="16" ry="14" fill="none" stroke="currentColor" stroke-width="2.3"/><path d="M23 29 L27 34 L31 29" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M25 7 L33 16 L26 23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><line x1="33" y1="16" x2="41" y2="11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="33" y1="16" x2="40" y2="21" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="25" y1="7" x2="18" y2="4" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>Richard II</button>
     <button class="ps-btn tn-ps-btn history" onclick="loadThenNow('richard',this)"><svg viewBox="0 0 54 40" width="22" height="16" style="flex-shrink:0;opacity:0.8"><g transform="rotate(38,27,18)" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="27" y1="4" x2="27" y2="13" stroke-width="2.5"/><line x1="21" y1="8" x2="33" y2="8" stroke-width="2.5"/><path d="M21 13 L19 25 L35 25 L33 13 Z" stroke-width="2.2"/><path d="M14 25 L14 31 L40 31 L40 25" stroke-width="2.5"/></g></svg>Richard III</button>
   </div>
 
@@ -1379,6 +1418,58 @@ const thenNow = {
       {word:'generous',note:'Shakespeare first used "generous" in its modern sense of freely giving to others'},
       {word:'fashionable',note:'First recorded use of "fashionable" as a word for following the latest trends appears in Shakespeare\'s writing'}
     ]
+  }  ,
+  shrew: {
+    scene:"Act II, Scene I / Act V, Scene II",
+    context:"Petruchio meets Katherine for the first time. Their battle of wits becomes a battle of wills. Later, Kate delivers her famous final speech.",
+    lines:[
+      { then:'"Come, come, you wasp; i\'faith, you are too angry."',
+        now: 'Come now, you angry wasp; honestly, you really are far too bad-tempered.',
+        vocab:[{w:'wasp',m:'an insect with a painful sting; used as a metaphor for someone sharp-tongued and quick to hurt'},{w:"i'faith",m:'shortened form of "in faith"; an old oath meaning "honestly" or "truly"'}] },
+      { then:'"She is my goods, my chattels; she is my house, my household stuff."',
+        now: 'She is my property and possessions; she is my home, my furniture.',
+        vocab:[{w:'goods',m:'property; things you own'},{w:'chattels',m:'moveable property; belongings legally owned by someone else. Petruchio is claiming total legal ownership of Katherine \u2014 which was largely how Elizabethan marriage law worked.'}] },
+      { then:'"Pardon, old father, my mistaking eyes, that have been so bedazzled with the sun."',
+        now: 'Forgive me, old man, for my confused eyes, which have been completely dazzled by the bright sun.',
+        vocab:[{w:'bedazzled',m:'completely dazzled; blinded or confused by brightness \u2014 Shakespeare coined this word in this scene'},{w:'context',m:'Petruchio insists the moon is the sun. Kate has just agreed with him to keep the peace \u2014 a sign that she is learning to manage him rather than resist him directly.'}] },
+      { then:'"Thy husband is thy lord, thy life, thy keeper."',
+        now: 'Your husband is your master, your entire life, your guardian.',
+        vocab:[{w:'lord',m:'master; the person with authority over you'},{w:'keeper',m:'guardian; one who looks after and controls'}] },
+      { then:'"Such duty as the subject owes the prince, / Even such a woman oweth to her husband."',
+        now: 'The same loyalty and obedience that a subject owes to their king, a woman owes to her husband.',
+        vocab:[{w:'oweth',m:'old form of "owes"'},{w:'context',m:"Part of Kate's final speech of submission. Whether she means it sincerely, says it ironically, or says it to survive is left entirely open. This ambiguity is why the play has been argued about for four centuries."}] }
+    ],
+    coined:[
+      {word:'bedazzle',note:'"Bedazzled" first appears in this play \u2014 Kate says her eyes have been "so bedazzled with the sun", meaning completely dazzled and confused'},
+      {word:'lonely',note:'Shakespeare first used "lonely" in its modern sense of feeling isolated and without company'},
+      {word:'bedroom',note:'Shakespeare first wrote this compound word down in English'}
+    ]
+  },
+  richard2: {
+    scene:"Act III, Scene II / Act V, Scene V",
+    context:"Richard, losing his kingdom, meditates on power, identity and what remains when a king loses his crown.",
+    lines:[
+      { then:'"For God\'s sake, let us sit upon the ground / And tell sad stories of the death of kings."',
+        now: 'Let us sit down on the bare earth and share the grim stories of how kings have fallen.',
+        vocab:[{w:'tell sad stories',m:'share sorrowful histories; Richard is beginning to understand his own vulnerability'},{w:'the death of kings',m:'the downfalls and deaths of kings throughout history; Richard suddenly sees himself as part of this pattern'}] },
+      { then:'"I have wasted time, and now doth time waste me."',
+        now: 'I wasted my time when I had it, and now time itself is wasting and destroying me.',
+        vocab:[{w:'wasted time',m:'spent time carelessly; failed to use it well'},{w:'doth',m:'old form of "does"'}] },
+      { then:'"I live with bread like you, feel want, taste grief, need friends."',
+        now: 'I eat bread like you do; I feel hunger, I experience grief, I need friends.',
+        vocab:[{w:'feel want',m:'experience hunger and need; to lack the basic things you need'},{w:'context',m:'Richard is asserting his common humanity \u2014 a king, but also just a person who suffers like anyone else. It is one of the most moving moments in the play.'}] },
+      { then:'"This royal throne of kings, this sceptred isle..."',
+        now: 'This throne worthy of kings, this island ruled by the royal sceptre...',
+        vocab:[{w:'sceptred isle',m:'England, referred to by the sceptre (the royal staff of power); one of the most famous descriptions of England in literature'},{w:'context',m:"Said by John of Gaunt as he lies dying \u2014 it is both a love-letter to England and a devastating critique of Richard\\'s misrule"}] },
+      { then:'"What must the king do now? Must he submit?"',
+        now: 'What must the king do at this point? Must he give in and accept defeat?',
+        vocab:[{w:'submit',m:'accept defeat; yield to a stronger force'},{w:'context',m:'Richard asking himself aloud what power he still has \u2014 and slowly realising the answer is almost none'}] }
+    ],
+    coined:[
+      {word:'bedroom',note:'Shakespeare first wrote this compound word down in English'},
+      {word:'unreal',note:'Shakespeare was among the first to use "unreal" \u2014 describing something that does not feel solid or true'},
+      {word:'worthless',note:'First recorded use of "worthless" with its modern meaning of having no value or merit appears in Shakespeare\'s writing'}
+    ]
   }
 };
 
@@ -1590,6 +1681,27 @@ const sortData = {
       history:'The Merchant of Venice is set in Venice and Belmont and involves fictional characters. It has nothing to do with English royal history.'
     },
     disputed:'The play ends in marriages \u2014 but Shylock is forced to convert his religion and loses everything he owns. His destruction is devastating, not comic. Many modern productions treat it as a tragedy. It is Shakespeare\'s most contested and uncomfortable play in terms of genre.'
+  }  ,
+  shrew: {
+    genre:'comedy', title:'The Taming of the Shrew',
+    quote:'"She is my goods, my chattels; she is my house, my household stuff."',
+    modern:'She is my property, my possessions; she is my home, my furniture.',
+    themes:['Gender','Power','Marriage','Submission'],
+    wrongs:{
+      tragedy:'The Taming of the Shrew ends with weddings and celebrations. It is classified as a comedy, though many modern audiences find its ending deeply uncomfortable.',
+      history:'The Taming of the Shrew is set in Padua, Italy, and involves fictional characters. It has nothing to do with English royal history.'
+    },
+    disputed:'Kate\'s final speech \u2014 in which she tells women to place their hands beneath their husbands\' feet as a sign of submission \u2014 is one of the most debated passages in all of Shakespeare. Some productions play it as sincere; others as crushing irony; others as a survival strategy. The play deliberately does not tell you which reading is correct.'
+  },
+  richard2: {
+    genre:'history', title:'Richard II',
+    quote:'"For God\'s sake, let us sit upon the ground / And tell sad stories of the death of kings."',
+    modern:'Let us sit down on the bare earth and share the grim history of how kings have fallen.',
+    themes:['Kingship','Power','Identity','Legitimacy'],
+    wrongs:{
+      tragedy:'Richard II dramatises the real historical deposition of King Richard II in 1399. Because it is based on real English royal history, it is classified as a history play \u2014 though the boundary between history and tragedy is deliberately blurred here.',
+      comedy:'Richard II ends with a king deposed, imprisoned, and murdered. It is a history play.'
+    }
   }
 };
 
@@ -1607,7 +1719,9 @@ const poolIcons = {
   caesar: '<svg viewBox="0 0 54 34" width="22" height="14"><path d="M8 28 C5 18 7 9 27 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M46 28 C49 18 47 9 27 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M9 24 Q5 20 11 17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 17 Q8 12 15 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M18 9 Q17 5 22 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M45 24 Q49 20 43 17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M42 17 Q46 12 39 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M36 9 Q37 5 32 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14 30 Q27 34 40 30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
   twelfth: '<svg viewBox="0 0 54 36" width="22" height="16"><circle cx="13" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M22 12 L27 15 L22 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="41" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M32 12 L27 15 L32 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>',
   asyoulike: '<svg viewBox="0 0 54 36" width="22" height="16"><circle cx="27" cy="13" r="12" fill="none" stroke="currentColor" stroke-width="2.3"/><path d="M24 24 L24 33 L30 33 L30 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><path d="M18 33 L36 33" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15 18 Q10 10 20 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M39 18 Q44 10 34 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  merchant: '<svg viewBox="0 0 54 36" width="22" height="16"><line x1="27" y1="5" x2="27" y2="32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="7" y1="12" x2="47" y2="12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="27" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><line x1="10" y1="12" x2="10" y2="20" stroke="currentColor" stroke-width="1.5"/><line x1="17" y1="12" x2="17" y2="20" stroke="currentColor" stroke-width="1.5"/><path d="M7 20 Q13.5 29 20 20" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><line x1="37" y1="12" x2="37" y2="20" stroke="currentColor" stroke-width="1.5"/><line x1="44" y1="12" x2="44" y2="20" stroke="currentColor" stroke-width="1.5"/><path d="M34 20 Q40.5 29 47 20" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><path d="M23 32 L31 32" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>'
+  merchant: '<svg viewBox="0 0 54 36" width="22" height="16"><line x1="27" y1="5" x2="27" y2="32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="7" y1="12" x2="47" y2="12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="27" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><line x1="10" y1="12" x2="10" y2="20" stroke="currentColor" stroke-width="1.5"/><line x1="17" y1="12" x2="17" y2="20" stroke="currentColor" stroke-width="1.5"/><path d="M7 20 Q13.5 29 20 20" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><line x1="37" y1="12" x2="37" y2="20" stroke="currentColor" stroke-width="1.5"/><line x1="44" y1="12" x2="44" y2="20" stroke="currentColor" stroke-width="1.5"/><path d="M34 20 Q40.5 29 47 20" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><path d="M23 32 L31 32" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+  shrew:    '<svg viewBox="0 0 54 36" width="22" height="16"><line x1="6" y1="30" x2="48" y2="30" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><ellipse cx="27" cy="20" rx="7" ry="9" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="27" cy="10" r="5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M31 9 L37 11 L31 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M21 18 Q15 23 17 29" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M33 18 Q39 23 37 29" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M24 29 L22 33 M27 29 L27 34 M30 29 L32 33" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  richard2: '<svg viewBox="0 0 54 36" width="22" height="16"><ellipse cx="27" cy="15" rx="16" ry="14" fill="none" stroke="currentColor" stroke-width="2.3"/><path d="M23 29 L27 34 L31 29" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M25 7 L33 16 L26 23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><line x1="33" y1="16" x2="41" y2="11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="33" y1="16" x2="40" y2="21" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="25" y1="7" x2="18" y2="4" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>'
 };
 
 let selectedPlay = null;
@@ -1621,7 +1735,7 @@ function initSorter() {
   pool.innerHTML = '';
   placed = {};
   selectedPlay = null;
-  ['romeo','macbeth','othello','hamlet','lear','caesar','dream','muchado','tempest','twelfth','asyoulike','merchant','henry','richard'].forEach(key => {
+  ['romeo','macbeth','othello','hamlet','lear','caesar','dream','muchado','tempest','twelfth','asyoulike','merchant','shrew','henry','richard2','richard'].forEach(key => {
     const d = sortData[key];
     const card = document.createElement('div');
     card.className = 'pool-card';
@@ -1731,7 +1845,7 @@ switchTab = function(n) {
 
 
 /* ── TAB SWITCHING ── */
-const playOrder = ['romeo','macbeth','othello','hamlet','lear','caesar','dream','muchado','tempest','twelfth','asyoulike','merchant','henry','richard'];
+const playOrder = ['romeo','macbeth','othello','hamlet','lear','caesar','dream','muchado','tempest','twelfth','asyoulike','merchant','shrew','henry','richard2','richard'];
 function goToPlay(key) {
   switchTab(1);
   const idx = playOrder.indexOf(key);
@@ -2123,6 +2237,58 @@ const plays = {
       {from:'antonio',  to:'shylock',   label:'scorns',   type:'hostile', curve:44},
       {from:'portia',   to:'bassanio',  label:'tests',    type:'power',   curve:44}
     ]
+  }  ,
+  shrew: {
+    title:"The Taming of the Shrew", genre:'comedy', year:'c. 1590\u201392',
+    setting:{place:'Padua & Verona, Italy', time:'c. 16th century'},
+    summary:"Petruchio, a brash gentleman, arrives in Padua looking for a wealthy wife. He agrees to marry the sharp-tongued Katherine, whose father will not allow her younger sister Bianca to be courted until Katherine is wed. Petruchio sets about \u2018taming\u2019 Katherine through psychological pressure, sleep deprivation, and constant destabilisation. The play ends with Kate\u2019s famous speech of submission \u2014 one of the most debated passages in all of Shakespeare.",
+    characters:[
+      {id:'katherine', name:'Katherine', x:285,y:190, role:'The \u201cshrew\u201d',           key:true,
+       desc:"The elder daughter of Baptista, known throughout Padua for her fierce temper and sharp tongue. She is <em>intelligent</em> and utterly unwilling to be passive. Whether she is truly \\'tamed\\' at the end, or is performing submission strategically, is one of Shakespeare\\'s most debated questions. Her final speech \u2014 in which she tells women to place their hands beneath their husbands\\' feet \u2014 is either sincere submission, bitter irony, or something in between. The play does not tell us which."},
+      {id:'petruchio', name:'Petruchio', x:452,y:190, role:"Katherine\'s suitor",          key:true,
+       desc:"A loud, brash gentleman who arrives in Padua looking for a rich wife and takes on the challenge of Katherine. He \u2018tames\\' her through systematic <em>sleep deprivation</em>, refusing to let her eat, and keeping her constantly destabilised \u2014 all while claiming it is an act of love. He uses the language of falconry: he is the falconer, she is the wild hawk to be broken. Whether the play endorses or satirises his methods has been argued for four hundred years."},
+      {id:'baptista',  name:'Baptista',  x:285,y:82,  role:"Father of Katherine & Bianca",
+       desc:"The wealthy merchant father who refuses to allow his preferred younger daughter Bianca to marry until Katherine is married first. He essentially <em>sells</em> Katherine \u2014 Petruchio negotiates a financial settlement with Baptista before speaking a single word to Kate. He represents the Elizabethan marriage market, where daughters were property to be transferred between men."},
+      {id:'bianca',    name:'Bianca',    x:128,y:315, role:"Katherine's younger sister",
+       desc:"The apparently sweet and obedient younger sister whom everyone prefers. She is presented as the ideal woman \u2014 quiet, agreeable, gentle \u2014 as a contrast to Kate. Multiple men compete for her hand. In the final scene, however, it is <em>Bianca</em> who refuses to come when her husband calls and Kate who obeys, which quietly undermines the play\\'s apparent moral."},
+      {id:'lucentio',  name:'Lucentio',  x:452,y:315, role:"Bianca's suitor",
+       desc:"A wealthy student from Pisa who falls immediately in love with Bianca and disguises himself as a Latin tutor to get close to her. His courtship is romantic and charming \u2014 a sharp contrast to Petruchio\\'s coercive approach. He eventually marries Bianca, but discovers in the final scene that the woman he thought was the perfect <em>obedient</em> wife has a will entirely of her own."}
+    ],
+    edges:[
+      {from:'petruchio', to:'katherine', label:'tames',    type:'power',   curve:44},
+      {from:'katherine', to:'petruchio', label:'defies',   type:'hostile', curve:44},
+      {from:'baptista',  to:'katherine', label:'controls', type:'power'},
+      {from:'baptista',  to:'bianca',    label:'prizes',   type:'support'},
+      {from:'lucentio',  to:'bianca',    label:'courts',   type:'support'},
+      {from:'katherine', to:'bianca',    label:'rivals',   type:'hostile'},
+      {from:'baptista',  to:'petruchio', label:'bargains', type:'power'}
+    ]
+  },
+  richard2: {
+    title:'Richard II', genre:'history', year:'c. 1595',
+    setting:{place:'England', time:'1399'},
+    summary:"Richard II is England\\'s legitimate but ineffective king \u2014 poetic, self-absorbed, and unable to govern. When he seizes the estates of his exiled cousin Henry Bolingbroke, Bolingbroke returns with an army. Richard collapses without much resistance and is imprisoned. The play is less about action than about language and identity: what does it mean to be a king when the crown is taken from you?",
+    characters:[
+      {id:'richard2',    name:'Richard II',        x:285,y:190, role:'King of England',           key:true,
+       desc:"England\\'s legitimate king, but a deeply <em>flawed</em> ruler. He is one of Shakespeare\\'s most poetic characters \u2014 his speeches are beautiful even as his power collapses. He seizes his dying uncle\\'s estates to fund his wars, which drives Bolingbroke to rebel. When Bolingbroke returns, Richard surrenders almost without a fight, then fills the air with extraordinary language about loss. The play asks whether a bad king who rules by divine right is more legitimate than a capable one who seizes power."},
+      {id:'bolingbroke', name:'Bolingbroke',        x:452,y:190, role:"Duke of Lancaster; Henry IV", key:true,
+       desc:"Richard\\'s cousin, banished and then stripped of his inheritance by Richard. He returns from exile with an army, ostensibly to reclaim his estates, and quickly gains enough support to depose Richard entirely. He is practical and politically astute \u2014 utterly unlike Richard. He becomes Henry IV but is haunted by the knowledge that he took the crown by <em>force</em>, setting a precedent that will shadow the rest of the history plays."},
+      {id:'gaunt',       name:'John of Gaunt',      x:128,y:100, role:"Royal uncle; Bolingbroke's father",
+       desc:"One of Shakespeare\\'s great dying statesmen. Bolingbroke\\'s father and Richard\\'s uncle. When he is dying, he delivers the famous \\'This sceptred isle\\' speech \u2014 a passionate love-letter to England that doubles as a devastating critique of Richard\\'s misrule. He dies knowing his son has been unjustly banished and his country is in the hands of a weak and self-indulgent king. His death is the <em>trigger</em> for everything that follows."},
+      {id:'isabel',      name:'Queen Isabel',        x:128,y:310, role:"Richard\\'s wife",
+       desc:"Richard\\'s devoted French queen, who has little political power but whose grief <em>humanises</em> Richard at his lowest point. When Richard is led to the Tower and the two must say goodbye, their farewell scene is one of the most tender in all of Shakespeare. She represents the human cost of political failure \u2014 a woman who loves a man unable to save either himself or her."},
+      {id:'york',        name:'Duke of York',        x:452,y:310, role:"Royal uncle; conflicted loyalist",
+       desc:"Richard\\'s aging uncle who tries desperately to stay loyal to the crown as the political ground shifts beneath him. He is caught between his duty to his legitimate king and his recognition that Bolingbroke\\'s cause has unstoppable momentum. When he eventually <em>submits</em> to Bolingbroke, it marks a turning point: even the last loyal nobleman has abandoned Richard. His conflict represents the impossible position of those caught between legal authority and effective power."}
+    ],
+    edges:[
+      {from:'richard2',    to:'bolingbroke', label:'exiles',  type:'hostile', curve:44},
+      {from:'bolingbroke', to:'richard2',    label:'deposes', type:'hostile', curve:44},
+      {from:'gaunt',       to:'richard2',    label:'warns',   type:'power'},
+      {from:'isabel',      to:'richard2',    label:'loves',   type:'support'},
+      {from:'york',        to:'bolingbroke', label:'submits', type:'power'},
+      {from:'gaunt',       to:'bolingbroke', label:'fathers', type:'support'},
+      {from:'york',        to:'richard2',    label:'serves',  type:'support'}
+    ]
   }
 };
 
@@ -2389,5 +2555,7 @@ function selectLoc(key) {
   `;
 }
 </script>
+
+  <footer class="site-footer"><span>Made by Andr&eacute; Lundberg using Claude AI</span><span>&middot;</span><span>Further reading: <a href="https://www.folger.edu/explore/shakespeares-works/all-works/" target="_blank" rel="noopener">Folger Shakespeare Library — all works</a></span></footer>
 </body>
 </html>
