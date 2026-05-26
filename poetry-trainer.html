@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poetry Memory Trainer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f5f3ef;
+  --card: #edeae4;
+  --card2: #e6e2db;
+  --text: #2a2723;
+  --mid: #6b6560;
+  --soft: #a09890;
+  --border: #d4cfc8;
+  --border2: #c4bfb8;
+  --accent: #4a7a6d;
+  --accent-bg: rgba(74,122,109,0.08);
+  --accent-hover: rgba(74,122,109,0.14);
+  --glow: rgba(74,122,109,0.1);
+  --r1: #b04040; --r2: #a06828; --r3: #4a7a6d; --r4: #3a6ea0;
+  --r1-bg: rgba(176,64,64,0.08); --r2-bg: rgba(160,104,40,0.09);
+  --r3-bg: rgba(74,122,109,0.09); --r4-bg: rgba(58,110,160,0.09);
+}
+body {
+  background: var(--bg); color: var(--text);
+  font-family: 'Inter', sans-serif; font-size: 15px;
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; padding: 2.5rem 1.5rem 4rem;
+}
+.wrap {
+  width: 100%; max-width: 680px;
+  display: flex; flex-direction: column; gap: 1.6rem;
+}
+header { text-align: center; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+h1 {
+  font-family: 'Inter', sans-serif; font-size: clamp(1.1rem, 2.8vw, 1.4rem);
+  font-weight: 600; color: var(--text); letter-spacing: 0.02em;
+}
+.poem-meta {
+  font-size: 0.78rem; font-weight: 400; color: var(--soft);
+  letter-spacing: 0.01em; margin-top: 0.25rem;
+}
+
+/* ── POEM INTRO ── */
+.poem-intro {
+  border-left: 2px solid var(--accent);
+  padding: 0.7rem 1rem;
+  background: var(--card);
+  border-radius: 0 4px 4px 0;
+  display: flex; flex-direction: column; gap: 0.35rem;
+}
+.intro-form {
+  font-size: 0.72rem; font-weight: 600; color: var(--accent);
+  letter-spacing: 0.03em; text-transform: uppercase;
+}
+.intro-text {
+  font-size: 0.85rem; font-weight: 400; color: var(--mid);
+  line-height: 1.55;
+}
+
+/* ── POEM SELECTOR ── */
+.poem-selector-wrap { display: flex; flex-direction: column; gap: 0.35rem; }
+.selector-label {
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.04em;
+  color: var(--soft); text-transform: uppercase;
+}
+.poem-select-outer { position: relative; display: inline-block; width: 100%; }
+.poem-select-outer::after {
+  content: '▾'; position: absolute; right: 0.9rem; top: 50%;
+  transform: translateY(-50%); color: var(--soft); pointer-events: none; font-size: 0.75rem;
+}
+select#poem-select {
+  width: 100%; appearance: none; -webkit-appearance: none;
+  font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 400;
+  background: var(--card); color: var(--text); border: 1px solid var(--border);
+  border-radius: 6px; padding: 0.65rem 2rem 0.65rem 0.85rem;
+  cursor: pointer; transition: border-color 0.15s; outline: none;
+}
+select#poem-select:hover, select#poem-select:focus { border-color: var(--accent); }
+select#poem-select option { background: var(--card); }
+
+/* ── LEVEL TOGGLE ── */
+.level-toggle {
+  display: flex; border: 1px solid var(--border); border-radius: 6px;
+  align-self: center; overflow: hidden; background: var(--card);
+}
+.level-btn {
+  font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.01em; background: transparent; border: none;
+  color: var(--soft); padding: 0.55rem 1.3rem; cursor: pointer;
+  transition: all 0.15s; line-height: 1.4; text-align: center;
+}
+.level-btn:first-child { border-right: 1px solid var(--border); }
+.level-btn.active { background: white; color: var(--accent); }
+.level-btn:hover:not(.active) { color: var(--text); background: var(--accent-bg); }
+.level-btn.disabled { opacity: 0.35; cursor: not-allowed; }
+.level-sub { display: block; font-size: 0.62rem; font-weight: 400; opacity: 0.65; margin-top: 1px; }
+
+/* ── GRID ── */
+.grid-label {
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.04em;
+  color: var(--soft); text-transform: uppercase; margin-bottom: 0.5rem;
+}
+.line-grid { display: grid; gap: 4px; }
+.grid-cell {
+  aspect-ratio: 1; border: 1px solid var(--border); background: white;
+  border-radius: 3px; transition: background 0.35s, border-color 0.35s;
+  position: relative; cursor: default;
+}
+.grid-cell .cell-num {
+  position: absolute; inset: 0; display: flex; align-items: center;
+  justify-content: center; font-size: clamp(0.42rem, 1.2vw, 0.58rem);
+  font-weight: 500; color: var(--soft);
+}
+.grid-cell.rated-1 { background: var(--r1-bg); border-color: var(--r1); }
+.grid-cell.rated-2 { background: var(--r2-bg); border-color: var(--r2); }
+.grid-cell.rated-3 { background: var(--r3-bg); border-color: var(--r3); }
+.grid-cell.rated-4 { background: var(--r4-bg); border-color: var(--r4); }
+.grid-cell.active  { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-bg); }
+
+/* ── ROUND INFO ── */
+.round-info {
+  font-size: 0.75rem; font-weight: 400; color: var(--soft);
+  text-align: center; letter-spacing: 0.01em;
+}
+.round-info span { color: var(--accent); font-weight: 500; }
+
+/* ── CARD ── */
+.card {
+  border: 1px solid var(--border); background: white;
+  border-radius: 8px; padding: 2rem 1.8rem 1.6rem; position: relative;
+  min-height: 150px; display: flex; flex-direction: column;
+  justify-content: space-between; gap: 1.4rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+.card-label {
+  font-size: 0.68rem; font-weight: 500; letter-spacing: 0.05em;
+  color: var(--soft); text-transform: uppercase;
+  position: absolute; top: 0.75rem; left: 1rem;
+}
+.card-sublabel {
+  font-size: 0.62rem; font-weight: 400; letter-spacing: 0.03em;
+  color: var(--border2); text-transform: uppercase;
+  position: absolute; top: 0.75rem; right: 1rem;
+}
+.line-text {
+  font-family: 'Lora', serif; font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  font-weight: 400; line-height: 1.9; color: var(--text);
+  text-align: center; min-height: 2rem;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.line-text.visible { opacity: 1; transform: translateY(0); }
+.line-text em { font-style: italic; color: var(--accent); font-weight: 400; }
+.reveal-btn {
+  font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 500;
+  letter-spacing: 0.01em; border: 1px solid var(--border); background: var(--card);
+  color: var(--mid); border-radius: 5px; padding: 0.6rem 1.6rem;
+  cursor: pointer; transition: all 0.15s; align-self: center;
+}
+.reveal-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+
+/* ── RATING ── */
+.rating-section { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
+.rating-label {
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.03em;
+  color: var(--soft); text-transform: uppercase;
+}
+.rating-btns { display: flex; gap: 0.5rem; }
+.r-btn {
+  font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
+  border: 1px solid; background: white; border-radius: 5px;
+  padding: 0.5rem 0; width: 3.2rem; cursor: pointer; transition: all 0.15s;
+  display: flex; flex-direction: column; align-items: center; gap: 0.2rem; line-height: 1;
+}
+.r-btn .r-sub { font-size: 0.52rem; font-weight: 400; opacity: 0.7; }
+.r-btn[data-r="1"] { border-color: var(--r1); color: var(--r1); }
+.r-btn[data-r="2"] { border-color: var(--r2); color: var(--r2); }
+.r-btn[data-r="3"] { border-color: var(--r3); color: var(--r3); }
+.r-btn[data-r="4"] { border-color: var(--r4); color: var(--r4); }
+.r-btn[data-r="1"]:hover { background: var(--r1-bg); }
+.r-btn[data-r="2"]:hover { background: var(--r2-bg); }
+.r-btn[data-r="3"]:hover { background: var(--r3-bg); }
+.r-btn[data-r="4"]:hover { background: var(--r4-bg); }
+.rating-section.hidden { display: none; }
+
+/* ── LEGEND ── */
+.legend { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.legend-item {
+  display: flex; align-items: center; gap: 0.35rem;
+  font-size: 0.68rem; font-weight: 400; color: var(--soft);
+}
+.legend-dot { width: 8px; height: 8px; border-radius: 2px; border: 1px solid; }
+.legend-dot.l1 { border-color: var(--r1); background: var(--r1-bg); }
+.legend-dot.l2 { border-color: var(--r2); background: var(--r2-bg); }
+.legend-dot.l3 { border-color: var(--r3); background: var(--r3-bg); }
+.legend-dot.l4 { border-color: var(--r4); background: var(--r4-bg); }
+
+/* ── DONE PANEL ── */
+.done-panel {
+  display: none; flex-direction: column; align-items: center; gap: 1.2rem;
+  padding: 1.8rem; border: 1px solid var(--border); border-radius: 8px;
+  background: white; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+.done-panel.visible { display: flex; }
+.done-title {
+  font-size: 0.9rem; font-weight: 600; letter-spacing: 0.05em;
+  color: var(--text); text-transform: uppercase;
+}
+.done-summary { font-size: 0.875rem; color: var(--mid); line-height: 1.6; }
+.done-summary strong { color: var(--text); }
+.btn-round {
+  font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 500;
+  letter-spacing: 0.01em; border: 1px solid var(--accent); background: var(--accent-bg);
+  color: var(--accent); border-radius: 5px; padding: 0.65rem 1.8rem;
+  cursor: pointer; transition: all 0.15s;
+}
+.btn-round:hover { background: var(--accent-hover); }
+.btn-restart { border-color: var(--border); color: var(--mid); background: var(--card); }
+.btn-restart:hover { border-color: var(--border2); background: var(--card2); }
+
+/* ── BOTTOM BAR ── */
+.bottom-bar { display: flex; justify-content: center; }
+.btn-ghost {
+  font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 400;
+  border: 1px solid var(--border); background: transparent; border-radius: 5px;
+  color: var(--soft); padding: 0.45rem 1.2rem; cursor: pointer; transition: all 0.15s;
+}
+.btn-ghost:hover { border-color: var(--border2); color: var(--mid); }
+
+.hint {
+  text-align: center; font-size: 0.68rem; font-weight: 400;
+  color: var(--border2); letter-spacing: 0.02em;
+}
+
+/* ── CLEARED ── */
+.cleared-wrap { border-top: 1px solid var(--border); padding-top: 1.2rem; }
+.cleared-label {
+  font-size: 0.68rem; font-weight: 500; letter-spacing: 0.05em;
+  color: var(--r4); text-transform: uppercase; margin-bottom: 0.8rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.cleared-label::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(to right, var(--border), transparent);
+}
+.cleared-lines { display: flex; flex-direction: column; gap: 0.05rem; }
+.cleared-line {
+  font-family: 'Lora', serif; font-size: clamp(0.88rem, 2vw, 1rem);
+  font-weight: 400; line-height: 1.8; color: var(--mid);
+  opacity: 0; transform: translateX(-5px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.cleared-line.show { opacity: 1; transform: translateX(0); }
+.cleared-line em { font-style: italic; color: var(--r4); }
+.cleared-line.placeholder { opacity: 0.18; color: var(--border2); transform: none; }
+.cleared-group-label {
+  font-size: 0.62rem; font-weight: 500; letter-spacing: 0.05em;
+  color: var(--r4); text-transform: uppercase;
+  margin-top: 0.9rem; margin-bottom: 0.25rem; opacity: 0.8;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1 id="poem-title">—</h1>
+    <p class="poem-meta" id="poem-author">—</p>
+  </header>
+
+  <!-- Poem selector -->
+  <div class="poem-selector-wrap">
+    <p class="selector-label">Select poem</p>
+    <div class="poem-select-outer">
+      <select id="poem-select"></select>
+    </div>
+  </div>
+
+  <!-- Poem intro -->
+  <div class="poem-intro" id="poem-intro">
+    <p class="intro-form" id="intro-form"></p>
+    <p class="intro-text" id="intro-text"></p>
+  </div>
+
+  <!-- Level toggle -->
+  <div class="level-toggle">
+    <button class="level-btn active" id="btn-level1">
+      Level 1<span class="level-sub">One line at a time</span>
+    </button>
+    <button class="level-btn" id="btn-level2">
+      Level 2<span class="level-sub" id="l2-sub">Stanzas</span>
+    </button>
+  </div>
+
+  <!-- Grid -->
+  <div>
+    <p class="grid-label" id="grid-label">Lines: progress overview</p>
+    <div class="line-grid" id="line-grid"></div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item l1"><div class="legend-dot l1"></div>1: No idea</div>
+    <div class="legend-item l2"><div class="legend-dot l2"></div>2: Unsure</div>
+    <div class="legend-item l3"><div class="legend-dot l3"></div>3: Mostly</div>
+    <div class="legend-item l4"><div class="legend-dot l4"></div>4: Got it</div>
+  </div>
+
+  <!-- Round info -->
+  <p class="round-info" id="round-info">
+    Round <span id="round-num">1</span>, <span id="queue-info">—</span>
+  </p>
+
+  <!-- Card -->
+  <div class="card" id="card">
+    <span class="card-label" id="card-label"></span>
+    <span class="card-sublabel" id="card-sublabel"></span>
+    <div class="line-text" id="line-text"></div>
+    <button class="reveal-btn" id="reveal-btn">Reveal ↓</button>
+    <div class="rating-section hidden" id="rating-section">
+      <p class="rating-label" id="rating-label">How well do you know this line?</p>
+      <div class="rating-btns">
+        <button class="r-btn" data-r="1">1<span class="r-sub">No idea</span></button>
+        <button class="r-btn" data-r="2">2<span class="r-sub">Unsure</span></button>
+        <button class="r-btn" data-r="3">3<span class="r-sub">Mostly</span></button>
+        <button class="r-btn" data-r="4">4<span class="r-sub">Got it</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done panel -->
+  <div class="done-panel" id="done-panel">
+    <p class="done-title">Round complete</p>
+    <p class="done-summary" id="done-summary"></p>
+    <button class="btn-round" id="btn-next-round">Next round &rarr;</button>
+    <button class="btn-round btn-restart" id="btn-full-restart">Start over</button>
+  </div>
+
+  <div class="bottom-bar">
+    <button class="btn-ghost" id="btn-always-restart">↺ Restart</button>
+  </div>
+
+  <p class="hint">Space = reveal &nbsp;·&nbsp; 1–4 = rate</p>
+
+  <!-- Cleared lines -->
+  <div class="cleared-wrap" id="cleared-wrap" style="display:none">
+    <p class="cleared-label" id="cleared-label">Cleared lines</p>
+    <div class="cleared-lines" id="cleared-lines"></div>
+  </div>
+
+</div>
+<script>
+// ═══════════════════════════════════════════════════
+//  POEM LIBRARY — add new poems here
+// ═══════════════════════════════════════════════════
+const POEMS = [
+  {
+    id: 'ozymandias',
+    title: 'Ozymandias',
+    author: 'Percy Bysshe Shelley, 1818',
+    form: 'Sonnet · Iambic pentameter · Irregular rhyme scheme',
+    intro: 'A traveller describes a crumbled statue of the ancient king Ramesses II, inscribed with a boastful decree. The poem explores the inevitable collapse of power and the arrogance of rulers. Written in 1817 as part of a competition with his friend Horace Smith.',
+    lines: [
+      { num:1,  text:"I met a <em>traveller</em> from an <em>antique land</em>," },
+      { num:2,  text:"Who said &mdash; &ldquo;Two <em>vast</em> and <em>trunkless legs of stone</em>" },
+      { num:3,  text:"Stand in the <em>desert</em>. . . . Near them, on the <em>sand</em>," },
+      { num:4,  text:"Half sunk a <em>shattered visage</em> lies, whose <em>frown</em>," },
+      { num:5,  text:"And wrinkled lip, and <em>sneer of cold command</em>," },
+      { num:6,  text:"Tell that its <em>sculptor</em> well those <em>passions</em> read" },
+      { num:7,  text:"Which yet <em>survive</em>, stamped on these <em>lifeless things</em>," },
+      { num:8,  text:"The hand that <em>mocked</em> them, and the heart that <em>fed</em>;" },
+      { num:9,  text:"And on the <em>pedestal</em>, these words appear:" },
+      { num:10, text:"My name is <em>Ozymandias</em>, <em>King of Kings</em>;" },
+      { num:11, text:"Look on my <em>Works</em>, ye Mighty, and <em>despair</em>!" },
+      { num:12, text:"<em>Nothing</em> beside remains. Round the <em>decay</em>" },
+      { num:13, text:"Of that <em>colossal Wreck</em>, <em>boundless</em> and bare" },
+      { num:14, text:"The lone and <em>level sands</em> stretch far away.&rdquo;" },
+    ],
+    groups: [
+      { label:'Stanza 1', range:'lines 1–4',   lines:[0,1,2,3] },
+      { label:'Stanza 2', range:'lines 5–11',  lines:[4,5,6,7,8,9,10] },
+      { label:'Stanza 3', range:'lines 12–14', lines:[11,12,13] },
+    ]
+  },
+  {
+    id: 'tomorrow',
+    title: 'Tomorrow (Macbeth V:v)',
+    author: 'William Shakespeare, ca. 1606',
+    form: 'Blank verse · Unrhymed iambic pentameter · Dramatic soliloquy',
+    intro: 'Macbeth speaks these lines upon hearing of Lady Macbeth\'s death. One of Shakespeare\'s most famous nihilistic passages, it reduces all of life to a meaningless performance. The rhythm mimics the exhausted, grinding quality of despair.',
+    lines: [
+      { num:1,  text:"<em>Tomorrow</em>, and tomorrow, and <em>tomorrow</em>," },
+      { num:2,  text:"<em>Creeps</em> in this <em>petty pace</em> from day to day," },
+      { num:3,  text:"To the <em>last syllable</em> of <em>recorded time</em>;" },
+      { num:4,  text:"And all our <em>yesterdays</em> have <em>lighted fools</em>" },
+      { num:5,  text:"The way to <em>dusty death</em>. Out, out, <em>brief candle</em>!" },
+      { num:6,  text:"Life&rsquo;s but a <em>walking shadow</em>, a <em>poor player</em>," },
+      { num:7,  text:"That <em>struts and frets</em> his hour upon the <em>stage</em>," },
+      { num:8,  text:"And then is <em>heard no more</em>. It is a <em>tale</em>" },
+      { num:9,  text:"Told by an <em>idiot</em>, full of <em>sound and fury</em>," },
+      { num:10, text:"<em>Signifying nothing</em>." },
+    ],
+    groups: [
+      { label:'Part 1', range:'lines 1–3',  lines:[0,1,2] },
+      { label:'Part 2', range:'lines 4–5',  lines:[3,4] },
+      { label:'Part 3', range:'lines 6–8',  lines:[5,6,7] },
+      { label:'Part 4', range:'lines 9–10', lines:[8,9] },
+    ]
+  },
+  {
+    id: 'witches',
+    title: "The Witches\' Chant (Macbeth IV:i)",
+    author: 'William Shakespeare, ca. 1606',
+    form: 'Trochaic tetrameter · Rhyming couplets · Incantation',
+    intro: 'The three witches stir a cauldron and cast a spell. Unlike Shakespeare\'s usual iambic pentameter, this uses trochaic tetrameter (STRESS-unstress), a deliberately inverted, "dark" metre associated with the supernatural. Notice how the strong opening beat drives the chant forward.',
+    lines: [
+      { num:1,  text:"<em>Double, double</em> toil and <em>trouble</em>;" },
+      { num:2,  text:"<em>Fire burn</em> and <em>caldron</em> bubble." },
+      { num:3,  text:"<em>Fillet</em> of a <em>fenny snake</em>," },
+      { num:4,  text:"In the caldron <em>boil and bake</em>;" },
+      { num:5,  text:"<em>Eye of newt</em> and <em>toe of frog</em>," },
+      { num:6,  text:"<em>Wool of bat</em> and <em>tongue of dog</em>," },
+      { num:7,  text:"<em>Adder&rsquo;s fork</em> and <em>blind-worm&rsquo;s sting</em>," },
+      { num:8,  text:"<em>Lizard&rsquo;s leg</em> and <em>howlet&rsquo;s wing</em>," },
+      { num:9,  text:"For a <em>charm</em> of <em>powerful trouble</em>," },
+      { num:10, text:"Like a <em>hell-broth</em> boil and bubble." },
+      { num:11, text:"<em>Double, double</em> toil and <em>trouble</em>;" },
+      { num:12, text:"<em>Fire burn</em> and <em>caldron</em> bubble." },
+      { num:13, text:"<em>Cool</em> it with a <em>baboon&rsquo;s blood</em>," },
+      { num:14, text:"Then the <em>charm</em> is firm and <em>good</em>." },
+    ],
+    groups: [
+      { label:'Part 1', range:'lines 1–4',  lines:[0,1,2,3] },
+      { label:'Part 2', range:'rad 5–8',  lines:[4,5,6,7] },
+      { label:'Part 3', range:'lines 9–14', lines:[8,9,10,11,12,13] },
+    ]
+  },
+  {
+    id: 'dylan',
+    title: 'Do Not Go Gentle Into That Good Night',
+    author: 'Dylan Thomas, 1947',
+    form: 'Villanelle · 19 lines · Iambic pentameter · Two repeating refrains',
+    intro: 'A villanelle is one of the most demanding fixed forms in English poetry: five tercets followed by a closing quatrain, with two lines recurring as refrains throughout. Thomas wrote this for his dying father. The rigid form mirrors the desperate, repetitive nature of grief and resistance.',
+    lines: [
+      { num:1,  text:"Do not go <em>gentle</em> into that <em>good night</em>," },
+      { num:2,  text:"Old age should burn and <em>rage</em> at <em>close of day</em>;" },
+      { num:3,  text:"<em>Rage, rage</em> against the <em>dying of the light</em>." },
+      { num:4,  text:"Though <em>wise men</em> at their end know dark is right," },
+      { num:5,  text:"Because their words had <em>forked no lightning</em> they" },
+      { num:6,  text:"Do not go <em>gentle</em> into that <em>good night</em>." },
+      { num:7,  text:"<em>Good men</em>, the last wave by, crying how <em>bright</em>" },
+      { num:8,  text:"Their <em>frail deeds</em> might have danced in a <em>green bay</em>," },
+      { num:9,  text:"<em>Rage, rage</em> against the <em>dying of the light</em>." },
+      { num:10, text:"<em>Wild men</em> who caught and sang the sun in <em>flight</em>," },
+      { num:11, text:"And learn, too late, they <em>grieved</em> it on its way," },
+      { num:12, text:"Do not go <em>gentle</em> into that <em>good night</em>." },
+      { num:13, text:"<em>Grave men</em>, near death, who see with <em>blinding sight</em>" },
+      { num:14, text:"Blind eyes could <em>blaze like meteors</em> and be gay," },
+      { num:15, text:"<em>Rage, rage</em> against the <em>dying of the light</em>." },
+      { num:16, text:"And you, <em>my father</em>, there on the <em>sad height</em>," },
+      { num:17, text:"<em>Curse, bless</em> me now with your <em>fierce tears</em>, I pray." },
+      { num:18, text:"Do not go <em>gentle</em> into that <em>good night</em>." },
+      { num:19, text:"<em>Rage, rage</em> against the <em>dying of the light</em>." },
+    ],
+    groups: [
+      { label:'Part 1', range:'lines 1–6',  lines:[0,1,2,3,4,5] },
+      { label:'Part 2', range:'lines 7–12', lines:[6,7,8,9,10,11] },
+      { label:'Part 3', range:'lines 13–19',lines:[12,13,14,15,16,17,18] },
+    ]
+  },
+  {
+    id: 'tyger',
+    title: 'The Tyger',
+    author: 'William Blake, 1794',
+    form: 'Trochaic tetrameter · Rhyming couplets · Six quatrains',
+    intro: 'From Blake\'s collection Songs of Experience, the darker counterpart to Songs of Innocence (which contains "The Lamb"). The poem is a series of unanswered questions addressed to the tiger itself, asking what divine or diabolical force could have created something so terrifying. The driving trochaic rhythm imitates a forge hammer.',
+    lines: [
+      { num:1,  text:"<em>Tyger! Tyger!</em> burning <em>bright</em>," },
+      { num:2,  text:"In the <em>forests of the night</em>," },
+      { num:3,  text:"What <em>immortal</em> hand or eye" },
+      { num:4,  text:"Could frame thy <em>fearful symmetry</em>?" },
+      { num:5,  text:"In what <em>distant deeps</em> or skies" },
+      { num:6,  text:"Burnt the <em>fire</em> of <em>thine eyes</em>?" },
+      { num:7,  text:"On what wings dare he <em>aspire</em>?" },
+      { num:8,  text:"What the hand dare <em>sieze the fire</em>?" },
+      { num:9,  text:"And what <em>shoulder</em>, &amp; what <em>art</em>," },
+      { num:10, text:"Could twist the <em>sinews</em> of thy <em>heart</em>?" },
+      { num:11, text:"And when thy heart began to <em>beat</em>," },
+      { num:12, text:"What <em>dread hand</em>? &amp; what <em>dread feet</em>?" },
+      { num:13, text:"What the <em>hammer</em>? what the <em>chain</em>?" },
+      { num:14, text:"In what <em>furnace</em> was thy <em>brain</em>?" },
+      { num:15, text:"What the <em>anvil</em>? what <em>dread grasp</em>" },
+      { num:16, text:"Dare its <em>deadly terrors</em> clasp?" },
+      { num:17, text:"When the stars threw down their <em>spears</em>," },
+      { num:18, text:"And <em>water&rsquo;d heaven</em> with their tears," },
+      { num:19, text:"Did he <em>smile</em> his work to see?" },
+      { num:20, text:"Did he who made the <em>Lamb</em> make <em>thee</em>?" },
+      { num:21, text:"<em>Tyger! Tyger!</em> burning <em>bright</em>" },
+      { num:22, text:"In the <em>forests of the night</em>," },
+      { num:23, text:"What <em>immortal</em> hand or eye" },
+      { num:24, text:"<em>Dare</em> frame thy <em>fearful symmetry</em>?" },
+    ],
+    groups: [
+      { label:'Part 1', range:'lines 1–8',  lines:[0,1,2,3,4,5,6,7] },
+      { label:'Part 2', range:'lines 9–16', lines:[8,9,10,11,12,13,14,15] },
+      { label:'Part 3', range:'lines 17–24',lines:[16,17,18,19,20,21,22,23] },
+    ]
+  },
+  {
+    id: 'dulce',
+    title: 'Dulce et Decorum Est',
+    author: 'Wilfred Owen, 1917/1920',
+    form: 'Irregular iambic pentameter · Pararhyme (slant rhyme) · 4 stanzas · 28 lines',
+    intro: 'Written in 1917 while Owen recovered from shell shock, and revised until his death. The title quotes a Latin maxim: "It is sweet and honourable to die for one\'s country," which Owen calls "the old Lie." His use of pararhyme (near-rhymes like sacks/backs, sludge/trudge) creates unease rather than resolution. Owen was killed in action exactly one week before the Armistice, 4 November 1918.',
+    lines: [
+      { num:1,  text:"<em>Bent double</em>, like old <em>beggars</em> under sacks," },
+      { num:2,  text:"<em>Knock-kneed</em>, coughing like hags, we <em>cursed through sludge</em>," },
+      { num:3,  text:"Till on the <em>haunting flares</em> we turned our backs," },
+      { num:4,  text:"And towards our <em>distant rest</em> began to <em>trudge</em>." },
+      { num:5,  text:"Men <em>marched asleep</em>. Many had lost their boots," },
+      { num:6,  text:"But limped on, <em>blood-shod</em>. All went <em>lame</em>; all <em>blind</em>;" },
+      { num:7,  text:"<em>Drunk with fatigue</em>; deaf even to the hoots" },
+      { num:8,  text:"Of <em>gas-shells</em> dropping softly behind." },
+      { num:9,  text:"<em>Gas! GAS!</em> Quick, boys! &mdash; An <em>ecstasy of fumbling</em>" },
+      { num:10, text:"Fitting the <em>clumsy helmets</em> just in time," },
+      { num:11, text:"But someone still was <em>yelling out and stumbling</em>" },
+      { num:12, text:"And <em>flound&rsquo;ring</em> like a man in <em>fire or lime</em> &mdash;" },
+      { num:13, text:"<em>Dim</em> through the <em>misty panes</em> and thick green light," },
+      { num:14, text:"As under a <em>green sea</em>, I saw him <em>drowning</em>." },
+      { num:15, text:"In all my <em>dreams</em> before my <em>helpless sight</em>," },
+      { num:16, text:"He plunges at me, <em>guttering</em>, <em>choking</em>, drowning." },
+      { num:17, text:"If in some <em>smothering dreams</em>, you too could pace" },
+      { num:18, text:"Behind the wagon that we <em>flung him in</em>," },
+      { num:19, text:"And watch the <em>white eyes writhing</em> in his face," },
+      { num:20, text:"His <em>hanging face</em>, like a <em>devil&rsquo;s sick of sin</em>;" },
+      { num:21, text:"If you could hear, at every jolt, the <em>blood</em>" },
+      { num:22, text:"Come <em>gargling</em> from the <em>froth-corrupted lungs</em>," },
+      { num:23, text:"<em>Obscene as cancer</em>, bitter as the <em>cud</em>" },
+      { num:24, text:"Of vile, incurable sores on <em>innocent tongues</em>, &mdash;" },
+      { num:25, text:"My friend, you would not tell with such <em>high zest</em>" },
+      { num:26, text:"To children <em>ardent</em> for some <em>desperate glory</em>," },
+      { num:27, text:"The old <em>Lie</em>: <em>Dulce et decorum est</em>" },
+      { num:28, text:"<em>Pro patria mori</em>." },
+    ],
+    groups: [
+      { label:'Part 1', range:'lines 1–8',  lines:[0,1,2,3,4,5,6,7] },
+      { label:'Part 2', range:'lines 9–16', lines:[8,9,10,11,12,13,14,15] },
+      { label:'Part 3', range:'lines 17–28',lines:[16,17,18,19,20,21,22,23,24,25,26,27] },
+    ]
+  },
+  {
+    id: 'frost',
+    title: 'Stopping by Woods on a Snowy Evening',
+    author: 'Robert Frost, 1923',
+    form: 'Iambic tetrameter · Interlocking rhyme AABA BBCB CCDC DDDD · 4 stanzas · 16 lines',
+    intro: 'Frost wrote this in a single sitting after a long night of work, reportedly in a kind of trance. The interlocking rhyme scheme chains each stanza to the next; the odd-one-out rhyme of one stanza becomes the main rhyme of the following one. The only moment the chain breaks is the repeated final line, where the form closes in on itself. Whether "sleep" means rest or death has been debated ever since.',
+    lines: [
+      { num:1,  text:"Whose <em>woods</em> these are I <em>think I know</em>." },
+      { num:2,  text:"His house is in the <em>village</em> though;" },
+      { num:3,  text:"He will not see me <em>stopping here</em>" },
+      { num:4,  text:"To watch his woods <em>fill up with snow</em>." },
+      { num:5,  text:"My little horse must think it <em>queer</em>" },
+      { num:6,  text:"To stop without a <em>farmhouse near</em>" },
+      { num:7,  text:"Between the woods and <em>frozen lake</em>" },
+      { num:8,  text:"The <em>darkest evening</em> of the year." },
+      { num:9,  text:"He gives his <em>harness bells</em> a shake" },
+      { num:10, text:"To ask if there is <em>some mistake</em>." },
+      { num:11, text:"The only other sound&rsquo;s the <em>sweep</em>" },
+      { num:12, text:"Of <em>easy wind</em> and <em>downy flake</em>." },
+      { num:13, text:"The woods are <em>lovely, dark and deep</em>," },
+      { num:14, text:"But I have <em>promises to keep</em>," },
+      { num:15, text:"And <em>miles to go</em> before I sleep," },
+      { num:16, text:"And <em>miles to go</em> before I <em>sleep</em>." },
+    ],
+    groups: [
+      { label:'Stanza 1', range:'lines 1–4',   lines:[0,1,2,3] },
+      { label:'Stanza 2', range:'lines 5–8',   lines:[4,5,6,7] },
+      { label:'Stanza 3', range:'lines 9–12',  lines:[8,9,10,11] },
+      { label:'Stanza 4', range:'lines 13–16', lines:[12,13,14,15] },
+    ]
+  },
+];
+// ═══════════════════════════════════════════════════
+
+// Per-poem session state
+const poemState = {};
+POEMS.forEach(p => {
+  poemState[p.id] = {
+    ratings:  new Array(p.lines.length).fill(0),
+    gRatings: new Array(p.groups.length).fill(0),
+    round: 1
+  };
+});
+
+let currentPoem = POEMS[0];
+let level = 1;
+let queue = [], queuePos = 0, revealed = false;
+
+// ── Populate selector ──
+const sel = document.getElementById('poem-select');
+POEMS.forEach((p, i) => {
+  const opt = document.createElement('option');
+  opt.value = i;
+  opt.textContent = p.title + '  ·  ' + p.author;
+  sel.appendChild(opt);
+});
+
+// ── Build grid ──
+function buildGrid() {
+  const gridEl = document.getElementById('line-grid');
+  gridEl.innerHTML = '';
+  const n = currentPoem.lines.length;
+  gridEl.style.gridTemplateColumns = `repeat(${n}, 1fr)`;
+  currentPoem.lines.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'grid-cell';
+    cell.id = 'cell-' + i;
+    cell.innerHTML = `<span class="cell-num">${i+1}</span>`;
+    gridEl.appendChild(cell);
+  });
+}
+
+function getState() { return poemState[currentPoem.id]; }
+
+function buildQueue() {
+  const st = getState();
+  queuePos = 0;
+  if (level === 1) {
+    if (st.round === 1) {
+      queue = currentPoem.lines.map((_,i) => i);
+    } else {
+      queue = currentPoem.lines.map((_,i) => i).filter(i => st.ratings[i] > 0 && st.ratings[i] < 4);
+      queue.sort((a,b) => a-b);
+    }
+  } else {
+    if (st.round === 1) {
+      queue = currentPoem.groups.map((_,i) => i);
+    } else {
+      queue = currentPoem.groups.map((_,i) => i).filter(i => st.gRatings[i] > 0 && st.gRatings[i] < 4);
+    }
+  }
+}
+
+function updateGrid() {
+  const st = getState();
+  currentPoem.lines.forEach((_, i) => {
+    const cell = document.getElementById('cell-' + i);
+    if (!cell) return;
+    cell.className = 'grid-cell';
+    if (level === 1) {
+      if (st.ratings[i] > 0) cell.classList.add('rated-' + st.ratings[i]);
+      if (!isDone() && queue[queuePos] === i) cell.classList.add('active');
+    } else {
+      const gi = currentPoem.groups.findIndex(g => g.lines.includes(i));
+      if (gi >= 0 && st.gRatings[gi] > 0) cell.classList.add('rated-' + st.gRatings[gi]);
+      if (!isDone() && gi === queue[queuePos]) cell.classList.add('active');
+    }
+  });
+}
+
+function isDone() { return queuePos >= queue.length; }
+
+function updateRoundInfo() {
+  const st = getState();
+  document.getElementById('round-num').textContent = st.round;
+  const remaining = queue.length - queuePos;
+  const unit = level === 1
+    ? (remaining === 1 ? 'line' : 'lines')
+    : (remaining === 1 ? 'part' : 'parts');
+  document.getElementById('queue-info').textContent = remaining + ' ' + unit + ' left';
+}
+
+function showCard() {
+  const st = getState();
+  revealed = false;
+  const lt = document.getElementById('line-text');
+  lt.innerHTML = '';
+  lt.classList.remove('visible');
+  document.getElementById('reveal-btn').style.display = '';
+  document.getElementById('rating-section').classList.add('hidden');
+  document.getElementById('done-panel').classList.remove('visible');
+  document.getElementById('card').style.display = '';
+  document.getElementById('round-info').style.visibility = 'visible';
+
+  if (level === 1) {
+    const idx = queue[queuePos];
+    document.getElementById('card-label').textContent = 'Line ' + currentPoem.lines[idx].num;
+    document.getElementById('card-sublabel').textContent = '';
+    document.getElementById('rating-label').textContent = 'How well do you know this line?';
+    document.getElementById('reveal-btn').textContent = 'Reveal line ↓';
+  } else {
+    const gi = queue[queuePos];
+    const g = currentPoem.groups[gi];
+    document.getElementById('card-label').textContent = g.label;
+    document.getElementById('card-sublabel').textContent = g.range;
+    document.getElementById('rating-label').textContent = 'How well do you know this part?';
+    document.getElementById('reveal-btn').textContent = 'Reveal ↓';
+  }
+  updateGrid();
+  updateRoundInfo();
+}
+
+function reveal() {
+  if (revealed) return;
+  revealed = true;
+  const lt = document.getElementById('line-text');
+  if (level === 1) {
+    const idx = queue[queuePos];
+    lt.innerHTML = currentPoem.lines[idx].text;
+  } else {
+    const gi = queue[queuePos];
+    lt.innerHTML = currentPoem.groups[gi].lines.map(i => currentPoem.lines[i].text).join('<br>');
+  }
+  lt.classList.add('visible');
+  document.getElementById('reveal-btn').style.display = 'none';
+  document.getElementById('rating-section').classList.remove('hidden');
+}
+
+function rate(r) {
+  const st = getState();
+  if (level === 1) {
+    const idx = queue[queuePos];
+    st.ratings[idx] = r;
+    const cell = document.getElementById('cell-' + idx);
+    if (cell) cell.className = 'grid-cell rated-' + r;
+  } else {
+    const gi = queue[queuePos];
+    st.gRatings[gi] = r;
+    currentPoem.groups[gi].lines.forEach(i => {
+      const cell = document.getElementById('cell-' + i);
+      if (cell) cell.className = 'grid-cell rated-' + r;
+    });
+  }
+  updateCleared();
+  queuePos++;
+  if (queuePos >= queue.length) showDone();
+  else showCard();
+}
+
+function updateCleared() {
+  const st = getState();
+  const wrap = document.getElementById('cleared-wrap');
+  const container = document.getElementById('cleared-lines');
+
+  if (level === 1) {
+    document.getElementById('cleared-label').textContent = 'Cleared lines';
+    if (!st.ratings.some(r => r === 4)) { wrap.style.display = 'none'; return; }
+    wrap.style.display = '';
+    container.innerHTML = '';
+    currentPoem.lines.forEach((line, i) => {
+      const div = document.createElement('div');
+      if (st.ratings[i] === 4) {
+        div.className = 'cleared-line';
+        div.innerHTML = line.text;
+        container.appendChild(div);
+        requestAnimationFrame(() => requestAnimationFrame(() => div.classList.add('show')));
+      } else {
+        div.className = 'cleared-line placeholder';
+        div.textContent = '—';
+        container.appendChild(div);
+      }
+    });
+  } else {
+    document.getElementById('cleared-label').textContent = 'Cleared parts';
+    if (!st.gRatings.some(r => r === 4)) { wrap.style.display = 'none'; return; }
+    wrap.style.display = '';
+    container.innerHTML = '';
+    currentPoem.groups.forEach((g, gi) => {
+      if (st.gRatings[gi] === 4) {
+        const lbl = document.createElement('div');
+        lbl.className = 'cleared-group-label';
+        lbl.textContent = g.label + ', ' + g.range;
+        container.appendChild(lbl);
+        g.lines.forEach(i => {
+          const div = document.createElement('div');
+          div.className = 'cleared-line';
+          div.innerHTML = currentPoem.lines[i].text;
+          container.appendChild(div);
+          requestAnimationFrame(() => requestAnimationFrame(() => div.classList.add('show')));
+        });
+      }
+    });
+  }
+}
+
+function showDone() {
+  const st = getState();
+  document.getElementById('card').style.display = 'none';
+  document.getElementById('round-info').style.visibility = 'hidden';
+  updateGrid();
+
+  const total = level === 1 ? currentPoem.lines.length : currentPoem.groups.length;
+  const arr = level === 1 ? st.ratings : st.gRatings;
+  const mastered = arr.filter(r => r === 4).length;
+  const weak = arr.filter(r => r === 1 || r === 2).length;
+  const remaining = arr.filter(r => r > 0 && r < 4).length;
+  const unit = level === 1 ? ['line','lines'] : ['part','parts'];
+
+  let summary = mastered === total
+    ? (level === 1 ? 'All lines mastered.' : 'The whole poem is done!')
+    : `<strong>${mastered}</strong> ${mastered===1?unit[0]:unit[1]} mastered (rated 4)`
+      + (weak > 0 ? `. <strong>${weak}</strong> need more work` : '') + '.';
+
+  document.getElementById('done-summary').innerHTML = summary;
+  const nextBtn = document.getElementById('btn-next-round');
+  if (mastered === total || remaining === 0) {
+    nextBtn.style.display = 'none';
+  } else {
+    nextBtn.style.display = '';
+    nextBtn.textContent = `Next round (${remaining} ${remaining===1?unit[0]:unit[1]}) →`;
+  }
+  document.getElementById('done-panel').classList.add('visible');
+}
+
+function nextRound() {
+  const st = getState();
+  st.round++;
+  buildQueue();
+  if (queue.length === 0) { showDone(); return; }
+  document.getElementById('done-panel').classList.remove('visible');
+  document.getElementById('card').style.display = '';
+  showCard();
+}
+
+function fullRestart() {
+  const p = currentPoem;
+  poemState[p.id] = {
+    ratings:  new Array(p.lines.length).fill(0),
+    gRatings: new Array(p.groups.length).fill(0),
+    round: 1
+  };
+  revealed = false;
+  buildQueue();
+  document.getElementById('done-panel').classList.remove('visible');
+  document.getElementById('card').style.display = '';
+  document.getElementById('round-info').style.visibility = 'visible';
+  document.getElementById('cleared-wrap').style.display = 'none';
+  document.getElementById('cleared-lines').innerHTML = '';
+  document.getElementById('rating-section').classList.add('hidden');
+  document.getElementById('reveal-btn').style.display = '';
+  const lt = document.getElementById('line-text');
+  lt.innerHTML = ''; lt.classList.remove('visible');
+  updateGrid();
+  showCard();
+}
+
+function switchPoem(idx) {
+  currentPoem = POEMS[idx];
+  document.getElementById('poem-title').textContent = currentPoem.title;
+  document.getElementById('poem-author').textContent = currentPoem.author;
+  document.getElementById('intro-form').textContent = currentPoem.form;
+  document.getElementById('intro-text').textContent = currentPoem.intro;
+  document.getElementById('l2-sub').textContent = currentPoem.groups.length + ' parts';
+  buildGrid();
+  fullRestart();
+}
+
+function switchLevel(l) {
+  if (level === l) return;
+  level = l;
+  document.getElementById('btn-level1').classList.toggle('active', l===1);
+  document.getElementById('btn-level2').classList.toggle('active', l===2);
+  document.getElementById('grid-label').textContent = l===1 ? 'Lines: progress overview' : 'Parts — progress overview';
+  fullRestart();
+}
+
+// ── Init ──
+switchPoem(0);
+
+// ── Listeners ──
+sel.addEventListener('change', e => switchPoem(parseInt(e.target.value)));
+document.getElementById('reveal-btn').addEventListener('click', reveal);
+document.querySelectorAll('.r-btn').forEach(btn => {
+  btn.addEventListener('click', () => rate(parseInt(btn.dataset.r)));
+});
+document.getElementById('btn-always-restart').addEventListener('click', fullRestart);
+document.getElementById('btn-next-round').addEventListener('click', nextRound);
+document.getElementById('btn-full-restart').addEventListener('click', fullRestart);
+document.getElementById('btn-level1').addEventListener('click', () => switchLevel(1));
+document.getElementById('btn-level2').addEventListener('click', () => switchLevel(2));
+
+document.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'ArrowRight') {
+    e.preventDefault();
+    if (!revealed) reveal();
+  }
+  if (['1','2','3','4'].includes(e.key) && revealed) rate(parseInt(e.key));
+});
+</script>
+</body>
+</html>
