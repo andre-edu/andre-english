@@ -162,6 +162,17 @@ select#poem-select option { background: var(--card); }
   cursor: pointer; transition: all 0.15s; align-self: center;
 }
 .reveal-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+.hint-btn {
+  font-size: 0.72rem; font-family: 'Inter', sans-serif; font-weight: 500;
+  background: none; border: 1px solid var(--border); border-radius: 5px;
+  padding: 0.3rem 0.65rem; cursor: pointer; transition: all 0.15s;
+  line-height: 1; color: var(--soft); letter-spacing: 0.03em;
+}
+.hint-btn:hover { border-color: var(--border2); background: var(--card); color: var(--mid); }
+.hint-btn.revealed { font-size: 1.1rem; color: inherit; border-color: var(--accent); background: var(--accent-bg); cursor: default; }
+.reveal-row {
+  display: flex; align-items: center; gap: 0.6rem; align-self: center;
+}
 
 /* ── RATING ── */
 .rating-section { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
@@ -234,6 +245,41 @@ select#poem-select option { background: var(--card); }
 .hint {
   text-align: center; font-size: 0.68rem; font-weight: 400;
   color: var(--border2); letter-spacing: 0.02em;
+}
+
+/* ── FULL POEM PANEL ── */
+.poem-panel-wrap {
+  border: 1px solid var(--border); border-radius: 8px;
+  background: white; overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+.poem-panel-toggle {
+  width: 100%; font-family: 'Inter', sans-serif; font-size: 0.78rem;
+  font-weight: 500; letter-spacing: 0.02em; background: var(--card);
+  border: none; color: var(--mid); padding: 0.65rem 1rem;
+  cursor: pointer; display: flex; justify-content: space-between;
+  align-items: center; transition: background 0.15s;
+}
+.poem-panel-toggle:hover { background: var(--card2); }
+.poem-panel-toggle .toggle-arrow {
+  font-size: 0.7rem; transition: transform 0.25s; color: var(--soft);
+}
+.poem-panel-toggle.open .toggle-arrow { transform: rotate(180deg); }
+.poem-panel-body {
+  display: none; padding: 1.4rem 1.6rem 1.6rem; border-top: 1px solid var(--border);
+}
+.poem-panel-body.visible { display: block; }
+.full-poem-lines { display: flex; flex-direction: column; gap: 0; }
+.full-poem-line {
+  font-family: 'Lora', serif; font-size: clamp(0.88rem, 2vw, 1rem);
+  font-weight: 400; line-height: 1.85; color: var(--mid);
+}
+.full-poem-line em { font-style: italic; color: var(--accent); }
+.full-poem-line-num {
+  font-size: 0.6rem; font-weight: 500; color: var(--border2);
+  font-family: 'Inter', sans-serif; display: inline-block;
+  width: 1.4rem; margin-right: 0.3rem; text-align: right;
+  vertical-align: middle;
 }
 
 /* ── CLEARED ── */
@@ -320,7 +366,10 @@ select#poem-select option { background: var(--card); }
     <span class="card-label" id="card-label"></span>
     <span class="card-sublabel" id="card-sublabel"></span>
     <div class="line-text" id="line-text"></div>
-    <button class="reveal-btn" id="reveal-btn">Reveal ↓</button>
+    <div class="reveal-row">
+      <button class="hint-btn" id="hint-btn" style="display:none">💡 Hint</button>
+      <button class="reveal-btn" id="reveal-btn">Reveal ↓</button>
+    </div>
     <div class="rating-section hidden" id="rating-section">
       <p class="rating-label" id="rating-label">How well do you know this line?</p>
       <div class="rating-btns">
@@ -346,6 +395,17 @@ select#poem-select option { background: var(--card); }
 
   <p class="hint">Space = reveal &nbsp;·&nbsp; 1–4 = rate</p>
 
+  <!-- Full poem panel -->
+  <div class="poem-panel-wrap">
+    <button class="poem-panel-toggle" id="poem-panel-toggle">
+      <span>📖 Show full poem</span>
+      <span class="toggle-arrow">▼</span>
+    </button>
+    <div class="poem-panel-body" id="poem-panel-body">
+      <div class="full-poem-lines" id="full-poem-lines"></div>
+    </div>
+  </div>
+
   <!-- Cleared lines -->
   <div class="cleared-wrap" id="cleared-wrap" style="display:none">
     <p class="cleared-label" id="cleared-label">Cleared lines</p>
@@ -365,20 +425,20 @@ const POEMS = [
     form: 'Sonnet · Iambic pentameter · Irregular rhyme scheme',
     intro: 'A traveller describes a crumbled statue of the ancient king Ramesses II, inscribed with a boastful decree. The poem explores the inevitable collapse of power and the arrogance of rulers. Written in 1817 as part of a competition with his friend Horace Smith.',
     lines: [
-      { num:1,  text:"I met a <em>traveller</em> from an <em>antique land</em>," },
-      { num:2,  text:"Who said &mdash; &ldquo;Two <em>vast</em> and <em>trunkless legs of stone</em>" },
-      { num:3,  text:"Stand in the <em>desert</em>. . . . Near them, on the <em>sand</em>," },
-      { num:4,  text:"Half sunk a <em>shattered visage</em> lies, whose <em>frown</em>," },
-      { num:5,  text:"And wrinkled lip, and <em>sneer of cold command</em>," },
-      { num:6,  text:"Tell that its <em>sculptor</em> well those <em>passions</em> read" },
-      { num:7,  text:"Which yet <em>survive</em>, stamped on these <em>lifeless things</em>," },
-      { num:8,  text:"The hand that <em>mocked</em> them, and the heart that <em>fed</em>;" },
-      { num:9,  text:"And on the <em>pedestal</em>, these words appear:" },
-      { num:10, text:"My name is <em>Ozymandias</em>, <em>King of Kings</em>;" },
-      { num:11, text:"Look on my <em>Works</em>, ye Mighty, and <em>despair</em>!" },
-      { num:12, text:"<em>Nothing</em> beside remains. Round the <em>decay</em>" },
-      { num:13, text:"Of that <em>colossal Wreck</em>, <em>boundless</em> and bare" },
-      { num:14, text:"The lone and <em>level sands</em> stretch far away.&rdquo;" },
+      { num:1,  hint:"🫵", text:"I met a <em>traveller</em> from an <em>antique land</em>," },
+      { num:2,  hint:"🗣️", text:"Who said &mdash; &ldquo;Two <em>vast</em> and <em>trunkless legs of stone</em>" },
+      { num:3,  hint:"🧍", text:"Stand in the <em>desert</em>. . . . Near them, on the <em>sand</em>," },
+      { num:4,  hint:"✂️", text:"Half sunk a <em>shattered visage</em> lies, whose <em>frown</em>," },
+      { num:5,  hint:"👴", text:"And wrinkled lip, and <em>sneer of cold command</em>," },
+      { num:6,  hint:"📢", text:"Tell that its <em>sculptor</em> well those <em>passions</em> read" },
+      { num:7,  hint:"⏳", text:"Which yet <em>survive</em>, stamped on these <em>lifeless things</em>," },
+      { num:8,  hint:"🤚", text:"The hand that <em>mocked</em> them, and the heart that <em>fed</em>;" },
+      { num:9,  hint:"🪨", text:"And on the <em>pedestal</em>, these words appear:" },
+      { num:10, hint:"👑", text:"My name is <em>Ozymandias</em>, <em>King of Kings</em>;" },
+      { num:11, hint:"👀", text:"Look on my <em>Works</em>, ye Mighty, and <em>despair</em>!" },
+      { num:12, hint:"🚫", text:"<em>Nothing</em> beside remains. Round the <em>decay</em>" },
+      { num:13, hint:"🏚️", text:"Of that <em>colossal Wreck</em>, <em>boundless</em> and bare" },
+      { num:14, hint:"🏜️", text:"The lone and <em>level sands</em> stretch far away.&rdquo;" },
     ],
     groups: [
       { label:'Stanza 1', range:'lines 1–4',   lines:[0,1,2,3] },
@@ -393,16 +453,16 @@ const POEMS = [
     form: 'Blank verse · Unrhymed iambic pentameter · Dramatic soliloquy',
     intro: 'Macbeth speaks these lines upon hearing of Lady Macbeth\'s death. One of Shakespeare\'s most famous nihilistic passages, it reduces all of life to a meaningless performance. The rhythm mimics the exhausted, grinding quality of despair.',
     lines: [
-      { num:1,  text:"<em>Tomorrow</em>, and tomorrow, and <em>tomorrow</em>," },
-      { num:2,  text:"<em>Creeps</em> in this <em>petty pace</em> from day to day," },
-      { num:3,  text:"To the <em>last syllable</em> of <em>recorded time</em>;" },
-      { num:4,  text:"And all our <em>yesterdays</em> have <em>lighted fools</em>" },
-      { num:5,  text:"The way to <em>dusty death</em>. Out, out, <em>brief candle</em>!" },
-      { num:6,  text:"Life&rsquo;s but a <em>walking shadow</em>, a <em>poor player</em>," },
-      { num:7,  text:"That <em>struts and frets</em> his hour upon the <em>stage</em>," },
-      { num:8,  text:"And then is <em>heard no more</em>. It is a <em>tale</em>" },
-      { num:9,  text:"Told by an <em>idiot</em>, full of <em>sound and fury</em>," },
-      { num:10, text:"<em>Signifying nothing</em>." },
+      { num:1,  hint:"📅", text:"<em>Tomorrow</em>, and tomorrow, and <em>tomorrow</em>," },
+      { num:2,  hint:"🐛", text:"<em>Creeps</em> in this <em>petty pace</em> from day to day," },
+      { num:3,  hint:"🚽", text:"To the <em>last syllable</em> of <em>recorded time</em>;" },
+      { num:4,  hint:"⏮️", text:"And all our <em>yesterdays</em> have <em>lighted fools</em>" },
+      { num:5,  hint:"💀", text:"The way to <em>dusty death</em>. Out, out, <em>brief candle</em>!" },
+      { num:6,  hint:"🕯️", text:"Life&rsquo;s but a <em>walking shadow</em>, a <em>poor player</em>," },
+      { num:7,  hint:"🎭", text:"That <em>struts and frets</em> his hour upon the <em>stage</em>," },
+      { num:8,  hint:"🔇", text:"And then is <em>heard no more</em>. It is a <em>tale</em>" },
+      { num:9,  hint:"🤪", text:"Told by an <em>idiot</em>, full of <em>sound and fury</em>," },
+      { num:10, hint:"🚫", text:"<em>Signifying nothing</em>." },
     ],
     groups: [
       { label:'Part 1', range:'lines 1–3',  lines:[0,1,2] },
@@ -418,20 +478,20 @@ const POEMS = [
     form: 'Trochaic tetrameter · Rhyming couplets · Incantation',
     intro: 'The three witches stir a cauldron and cast a spell. Unlike Shakespeare\'s usual iambic pentameter, this uses trochaic tetrameter (STRESS-unstress), a deliberately inverted, "dark" metre associated with the supernatural. Notice how the strong opening beat drives the chant forward.',
     lines: [
-      { num:1,  text:"<em>Double, double</em> toil and <em>trouble</em>;" },
-      { num:2,  text:"<em>Fire burn</em> and <em>caldron</em> bubble." },
-      { num:3,  text:"<em>Fillet</em> of a <em>fenny snake</em>," },
-      { num:4,  text:"In the caldron <em>boil and bake</em>;" },
-      { num:5,  text:"<em>Eye of newt</em> and <em>toe of frog</em>," },
-      { num:6,  text:"<em>Wool of bat</em> and <em>tongue of dog</em>," },
-      { num:7,  text:"<em>Adder&rsquo;s fork</em> and <em>blind-worm&rsquo;s sting</em>," },
-      { num:8,  text:"<em>Lizard&rsquo;s leg</em> and <em>howlet&rsquo;s wing</em>," },
-      { num:9,  text:"For a <em>charm</em> of <em>powerful trouble</em>," },
-      { num:10, text:"Like a <em>hell-broth</em> boil and bubble." },
-      { num:11, text:"<em>Double, double</em> toil and <em>trouble</em>;" },
-      { num:12, text:"<em>Fire burn</em> and <em>caldron</em> bubble." },
-      { num:13, text:"<em>Cool</em> it with a <em>baboon&rsquo;s blood</em>," },
-      { num:14, text:"Then the <em>charm</em> is firm and <em>good</em>." },
+      { num:1,  hint:"2️⃣", text:"<em>Double, double</em> toil and <em>trouble</em>;" },
+      { num:2,  hint:"🔥", text:"<em>Fire burn</em> and <em>caldron</em> bubble." },
+      { num:3,  hint:"🐍", text:"<em>Fillet</em> of a <em>fenny snake</em>," },
+      { num:4,  hint:"🫧", text:"In the caldron <em>boil and bake</em>;" },
+      { num:5,  hint:"👁️", text:"<em>Eye of newt</em> and <em>toe of frog</em>," },
+      { num:6,  hint:"🦇", text:"<em>Wool of bat</em> and <em>tongue of dog</em>," },
+      { num:7,  hint:"🐍", text:"<em>Adder&rsquo;s fork</em> and <em>blind-worm&rsquo;s sting</em>," },
+      { num:8,  hint:"🦎", text:"<em>Lizard&rsquo;s leg</em> and <em>howlet&rsquo;s wing</em>," },
+      { num:9,  hint:"✨", text:"For a <em>charm</em> of <em>powerful trouble</em>," },
+      { num:10, hint:"🍵", text:"Like a <em>hell-broth</em> boil and bubble." },
+      { num:11, hint:"2️⃣", text:"<em>Double, double</em> toil and <em>trouble</em>;" },
+      { num:12, hint:"🔥", text:"<em>Fire burn</em> and <em>caldron</em> bubble." },
+      { num:13, hint:"🐒", text:"<em>Cool</em> it with a <em>baboon&rsquo;s blood</em>," },
+      { num:14, hint:"✅", text:"Then the <em>charm</em> is firm and <em>good</em>." },
     ],
     groups: [
       { label:'Part 1', range:'lines 1–4',  lines:[0,1,2,3] },
@@ -446,25 +506,25 @@ const POEMS = [
     form: 'Villanelle · 19 lines · Iambic pentameter · Two repeating refrains',
     intro: 'A villanelle is one of the most demanding fixed forms in English poetry: five tercets followed by a closing quatrain, with two lines recurring as refrains throughout. Thomas wrote this for his dying father. The rigid form mirrors the desperate, repetitive nature of grief and resistance.',
     lines: [
-      { num:1,  text:"Do not go <em>gentle</em> into that <em>good night</em>," },
-      { num:2,  text:"Old age should burn and <em>rage</em> at <em>close of day</em>;" },
-      { num:3,  text:"<em>Rage, rage</em> against the <em>dying of the light</em>." },
-      { num:4,  text:"Though <em>wise men</em> at their end know dark is right," },
-      { num:5,  text:"Because their words had <em>forked no lightning</em> they" },
-      { num:6,  text:"Do not go <em>gentle</em> into that <em>good night</em>." },
-      { num:7,  text:"<em>Good men</em>, the last wave by, crying how <em>bright</em>" },
-      { num:8,  text:"Their <em>frail deeds</em> might have danced in a <em>green bay</em>," },
-      { num:9,  text:"<em>Rage, rage</em> against the <em>dying of the light</em>." },
-      { num:10, text:"<em>Wild men</em> who caught and sang the sun in <em>flight</em>," },
-      { num:11, text:"And learn, too late, they <em>grieved</em> it on its way," },
-      { num:12, text:"Do not go <em>gentle</em> into that <em>good night</em>." },
-      { num:13, text:"<em>Grave men</em>, near death, who see with <em>blinding sight</em>" },
-      { num:14, text:"Blind eyes could <em>blaze like meteors</em> and be gay," },
-      { num:15, text:"<em>Rage, rage</em> against the <em>dying of the light</em>." },
-      { num:16, text:"And you, <em>my father</em>, there on the <em>sad height</em>," },
-      { num:17, text:"<em>Curse, bless</em> me now with your <em>fierce tears</em>, I pray." },
-      { num:18, text:"Do not go <em>gentle</em> into that <em>good night</em>." },
-      { num:19, text:"<em>Rage, rage</em> against the <em>dying of the light</em>." },
+      { num:1,  hint:"🚫", text:"Do not go <em>gentle</em> into that <em>good night</em>," },
+      { num:2,  hint:"👴", text:"Old age should burn and <em>rage</em> at <em>close of day</em>;" },
+      { num:3,  hint:"😤", text:"<em>Rage, rage</em> against the <em>dying of the light</em>." },
+      { num:4,  hint:"🧠", text:"Though <em>wise men</em> at their end know dark is right," },
+      { num:5,  hint:"⚡", text:"Because their words had <em>forked no lightning</em> they" },
+      { num:6,  hint:"🚫", text:"Do not go <em>gentle</em> into that <em>good night</em>." },
+      { num:7,  hint:"🌊", text:"<em>Good men</em>, the last wave by, crying how <em>bright</em>" },
+      { num:8,  hint:"💃", text:"Their <em>frail deeds</em> might have danced in a <em>green bay</em>," },
+      { num:9,  hint:"😤", text:"<em>Rage, rage</em> against the <em>dying of the light</em>." },
+      { num:10, hint:"☀️", text:"<em>Wild men</em> who caught and sang the sun in <em>flight</em>," },
+      { num:11, hint:"😢", text:"And learn, too late, they <em>grieved</em> it on its way," },
+      { num:12, hint:"🚫", text:"Do not go <em>gentle</em> into that <em>good night</em>." },
+      { num:13, hint:"👁️", text:"<em>Grave men</em>, near death, who see with <em>blinding sight</em>" },
+      { num:14, hint:"☄️", text:"Blind eyes could <em>blaze like meteors</em> and be gay," },
+      { num:15, hint:"😤", text:"<em>Rage, rage</em> against the <em>dying of the light</em>." },
+      { num:16, hint:"👨", text:"And you, <em>my father</em>, there on the <em>sad height</em>," },
+      { num:17, hint:"😭", text:"<em>Curse, bless</em> me now with your <em>fierce tears</em>, I pray." },
+      { num:18, hint:"🚫", text:"Do not go <em>gentle</em> into that <em>good night</em>." },
+      { num:19, hint:"😤", text:"<em>Rage, rage</em> against the <em>dying of the light</em>." },
     ],
     groups: [
       { label:'Part 1', range:'lines 1–6',  lines:[0,1,2,3,4,5] },
@@ -479,30 +539,30 @@ const POEMS = [
     form: 'Trochaic tetrameter · Rhyming couplets · Six quatrains',
     intro: 'From Blake\'s collection Songs of Experience, the darker counterpart to Songs of Innocence (which contains "The Lamb"). The poem is a series of unanswered questions addressed to the tiger itself, asking what divine or diabolical force could have created something so terrifying. The driving trochaic rhythm imitates a forge hammer.',
     lines: [
-      { num:1,  text:"<em>Tyger! Tyger!</em> burning <em>bright</em>," },
-      { num:2,  text:"In the <em>forests of the night</em>," },
-      { num:3,  text:"What <em>immortal</em> hand or eye" },
-      { num:4,  text:"Could frame thy <em>fearful symmetry</em>?" },
-      { num:5,  text:"In what <em>distant deeps</em> or skies" },
-      { num:6,  text:"Burnt the <em>fire</em> of <em>thine eyes</em>?" },
-      { num:7,  text:"On what wings dare he <em>aspire</em>?" },
-      { num:8,  text:"What the hand dare <em>sieze the fire</em>?" },
-      { num:9,  text:"And what <em>shoulder</em>, &amp; what <em>art</em>," },
-      { num:10, text:"Could twist the <em>sinews</em> of thy <em>heart</em>?" },
-      { num:11, text:"And when thy heart began to <em>beat</em>," },
-      { num:12, text:"What <em>dread hand</em>? &amp; what <em>dread feet</em>?" },
-      { num:13, text:"What the <em>hammer</em>? what the <em>chain</em>?" },
-      { num:14, text:"In what <em>furnace</em> was thy <em>brain</em>?" },
-      { num:15, text:"What the <em>anvil</em>? what <em>dread grasp</em>" },
-      { num:16, text:"Dare its <em>deadly terrors</em> clasp?" },
-      { num:17, text:"When the stars threw down their <em>spears</em>," },
-      { num:18, text:"And <em>water&rsquo;d heaven</em> with their tears," },
-      { num:19, text:"Did he <em>smile</em> his work to see?" },
-      { num:20, text:"Did he who made the <em>Lamb</em> make <em>thee</em>?" },
-      { num:21, text:"<em>Tyger! Tyger!</em> burning <em>bright</em>" },
-      { num:22, text:"In the <em>forests of the night</em>," },
-      { num:23, text:"What <em>immortal</em> hand or eye" },
-      { num:24, text:"<em>Dare</em> frame thy <em>fearful symmetry</em>?" },
+      { num:1,  hint:"🐯", text:"<em>Tyger! Tyger!</em> burning <em>bright</em>," },
+      { num:2,  hint:"🌲", text:"In the <em>forests of the night</em>," },
+      { num:3,  hint:"🖐️", text:"What <em>immortal</em> hand or eye" },
+      { num:4,  hint:"😨", text:"Could frame thy <em>fearful symmetry</em>?" },
+      { num:5,  hint:"🌊", text:"In what <em>distant deeps</em> or skies" },
+      { num:6,  hint:"🔥", text:"Burnt the <em>fire</em> of <em>thine eyes</em>?" },
+      { num:7,  hint:"🪶", text:"On what wings dare he <em>aspire</em>?" },
+      { num:8,  hint:"🤲", text:"What the hand dare <em>sieze the fire</em>?" },
+      { num:9,  hint:"💪", text:"And what <em>shoulder</em>, &amp; what <em>art</em>," },
+      { num:10, hint:"❤️", text:"Could twist the <em>sinews</em> of thy <em>heart</em>?" },
+      { num:11, hint:"💓", text:"And when thy heart began to <em>beat</em>," },
+      { num:12, hint:"😰", text:"What <em>dread hand</em>? &amp; what <em>dread feet</em>?" },
+      { num:13, hint:"🔨", text:"What the <em>hammer</em>? what the <em>chain</em>?" },
+      { num:14, hint:"⚗️", text:"In what <em>furnace</em> was thy <em>brain</em>?" },
+      { num:15, hint:"⚒️", text:"What the <em>anvil</em>? what <em>dread grasp</em>" },
+      { num:16, hint:"😱", text:"Dare its <em>deadly terrors</em> clasp?" },
+      { num:17, hint:"⭐", text:"When the stars threw down their <em>spears</em>," },
+      { num:18, hint:"😭", text:"And <em>water&rsquo;d heaven</em> with their tears," },
+      { num:19, hint:"😊", text:"Did he <em>smile</em> his work to see?" },
+      { num:20, hint:"🐑", text:"Did he who made the <em>Lamb</em> make <em>thee</em>?" },
+      { num:21, hint:"🐯", text:"<em>Tyger! Tyger!</em> burning <em>bright</em>" },
+      { num:22, hint:"🌲", text:"In the <em>forests of the night</em>," },
+      { num:23, hint:"🖐️", text:"What <em>immortal</em> hand or eye" },
+      { num:24, hint:"⚖️", text:"<em>Dare</em> frame thy <em>fearful symmetry</em>?" },
     ],
     groups: [
       { label:'Part 1', range:'lines 1–8',  lines:[0,1,2,3,4,5,6,7] },
@@ -517,34 +577,34 @@ const POEMS = [
     form: 'Irregular iambic pentameter · Pararhyme (slant rhyme) · 4 stanzas · 28 lines',
     intro: 'Written in 1917 while Owen recovered from shell shock, and revised until his death. The title quotes a Latin maxim: "It is sweet and honourable to die for one\'s country," which Owen calls "the old Lie." His use of pararhyme (near-rhymes like sacks/backs, sludge/trudge) creates unease rather than resolution. Owen was killed in action exactly one week before the Armistice, 4 November 1918.',
     lines: [
-      { num:1,  text:"<em>Bent double</em>, like old <em>beggars</em> under sacks," },
-      { num:2,  text:"<em>Knock-kneed</em>, coughing like hags, we <em>cursed through sludge</em>," },
-      { num:3,  text:"Till on the <em>haunting flares</em> we turned our backs," },
-      { num:4,  text:"And towards our <em>distant rest</em> began to <em>trudge</em>." },
-      { num:5,  text:"Men <em>marched asleep</em>. Many had lost their boots," },
-      { num:6,  text:"But limped on, <em>blood-shod</em>. All went <em>lame</em>; all <em>blind</em>;" },
-      { num:7,  text:"<em>Drunk with fatigue</em>; deaf even to the hoots" },
-      { num:8,  text:"Of <em>gas-shells</em> dropping softly behind." },
-      { num:9,  text:"<em>Gas! GAS!</em> Quick, boys! &mdash; An <em>ecstasy of fumbling</em>" },
-      { num:10, text:"Fitting the <em>clumsy helmets</em> just in time," },
-      { num:11, text:"But someone still was <em>yelling out and stumbling</em>" },
-      { num:12, text:"And <em>flound&rsquo;ring</em> like a man in <em>fire or lime</em> &mdash;" },
-      { num:13, text:"<em>Dim</em> through the <em>misty panes</em> and thick green light," },
-      { num:14, text:"As under a <em>green sea</em>, I saw him <em>drowning</em>." },
-      { num:15, text:"In all my <em>dreams</em> before my <em>helpless sight</em>," },
-      { num:16, text:"He plunges at me, <em>guttering</em>, <em>choking</em>, drowning." },
-      { num:17, text:"If in some <em>smothering dreams</em>, you too could pace" },
-      { num:18, text:"Behind the wagon that we <em>flung him in</em>," },
-      { num:19, text:"And watch the <em>white eyes writhing</em> in his face," },
-      { num:20, text:"His <em>hanging face</em>, like a <em>devil&rsquo;s sick of sin</em>;" },
-      { num:21, text:"If you could hear, at every jolt, the <em>blood</em>" },
-      { num:22, text:"Come <em>gargling</em> from the <em>froth-corrupted lungs</em>," },
-      { num:23, text:"<em>Obscene as cancer</em>, bitter as the <em>cud</em>" },
-      { num:24, text:"Of vile, incurable sores on <em>innocent tongues</em>, &mdash;" },
-      { num:25, text:"My friend, you would not tell with such <em>high zest</em>" },
-      { num:26, text:"To children <em>ardent</em> for some <em>desperate glory</em>," },
-      { num:27, text:"The old <em>Lie</em>: <em>Dulce et decorum est</em>" },
-      { num:28, text:"<em>Pro patria mori</em>." },
+      { num:1,  hint:"🪲", text:"<em>Bent double</em>, like old <em>beggars</em> under sacks," },
+      { num:2,  hint:"🦵", text:"<em>Knock-kneed</em>, coughing like hags, we <em>cursed through sludge</em>," },
+      { num:3,  hint:"🌟", text:"Till on the <em>haunting flares</em> we turned our backs," },
+      { num:4,  hint:"😴", text:"And towards our <em>distant rest</em> began to <em>trudge</em>." },
+      { num:5,  hint:"💤", text:"Men <em>marched asleep</em>. Many had lost their boots," },
+      { num:6,  hint:"🩸", text:"But limped on, <em>blood-shod</em>. All went <em>lame</em>; all <em>blind</em>;" },
+      { num:7,  hint:"🥴", text:"<em>Drunk with fatigue</em>; deaf even to the hoots" },
+      { num:8,  hint:"💨", text:"Of <em>gas-shells</em> dropping softly behind." },
+      { num:9,  hint:"☠️", text:"<em>Gas! GAS!</em> Quick, boys! &mdash; An <em>ecstasy of fumbling</em>" },
+      { num:10, hint:"⛑️", text:"Fitting the <em>clumsy helmets</em> just in time," },
+      { num:11, hint:"😱", text:"But someone still was <em>yelling out and stumbling</em>" },
+      { num:12, hint:"🔥", text:"And <em>flound&rsquo;ring</em> like a man in <em>fire or lime</em> &mdash;" },
+      { num:13, hint:"🌫️", text:"<em>Dim</em> through the <em>misty panes</em> and thick green light," },
+      { num:14, hint:"🌊", text:"As under a <em>green sea</em>, I saw him <em>drowning</em>." },
+      { num:15, hint:"😰", text:"In all my <em>dreams</em> before my <em>helpless sight</em>," },
+      { num:16, hint:"🫁", text:"He plunges at me, <em>guttering</em>, <em>choking</em>, drowning." },
+      { num:17, hint:"💭", text:"If in some <em>smothering dreams</em>, you too could pace" },
+      { num:18, hint:"🚛", text:"Behind the wagon that we <em>flung him in</em>," },
+      { num:19, hint:"👁️", text:"And watch the <em>white eyes writhing</em> in his face," },
+      { num:20, hint:"😈", text:"His <em>hanging face</em>, like a <em>devil&rsquo;s sick of sin</em>;" },
+      { num:21, hint:"👂", text:"If you could hear, at every jolt, the <em>blood</em>" },
+      { num:22, hint:"🤢", text:"Come <em>gargling</em> from the <em>froth-corrupted lungs</em>," },
+      { num:23, hint:"🦀", text:"<em>Obscene as cancer</em>, bitter as the <em>cud</em>" },
+      { num:24, hint:"👅", text:"Of vile, incurable sores on <em>innocent tongues</em>, &mdash;" },
+      { num:25, hint:"🤺", text:"My friend, you would not tell with such <em>high zest</em>" },
+      { num:26, hint:"🌟", text:"To children <em>ardent</em> for some <em>desperate glory</em>," },
+      { num:27, hint:"🤥", text:"The old <em>Lie</em>: <em>Dulce et decorum est</em>" },
+      { num:28, hint:"⚔️", text:"<em>Pro patria mori</em>." },
     ],
     groups: [
       { label:'Part 1', range:'lines 1–8',  lines:[0,1,2,3,4,5,6,7] },
@@ -559,22 +619,22 @@ const POEMS = [
     form: 'Iambic tetrameter · Interlocking rhyme AABA BBCB CCDC DDDD · 4 stanzas · 16 lines',
     intro: 'Frost wrote this in a single sitting after a long night of work, reportedly in a kind of trance. The interlocking rhyme scheme chains each stanza to the next; the odd-one-out rhyme of one stanza becomes the main rhyme of the following one. The only moment the chain breaks is the repeated final line, where the form closes in on itself. Whether "sleep" means rest or death has been debated ever since.',
     lines: [
-      { num:1,  text:"Whose <em>woods</em> these are I <em>think I know</em>." },
-      { num:2,  text:"His house is in the <em>village</em> though;" },
-      { num:3,  text:"He will not see me <em>stopping here</em>" },
-      { num:4,  text:"To watch his woods <em>fill up with snow</em>." },
-      { num:5,  text:"My little horse must think it <em>queer</em>" },
-      { num:6,  text:"To stop without a <em>farmhouse near</em>" },
-      { num:7,  text:"Between the woods and <em>frozen lake</em>" },
-      { num:8,  text:"The <em>darkest evening</em> of the year." },
-      { num:9,  text:"He gives his <em>harness bells</em> a shake" },
-      { num:10, text:"To ask if there is <em>some mistake</em>." },
-      { num:11, text:"The only other sound&rsquo;s the <em>sweep</em>" },
-      { num:12, text:"Of <em>easy wind</em> and <em>downy flake</em>." },
-      { num:13, text:"The woods are <em>lovely, dark and deep</em>," },
-      { num:14, text:"But I have <em>promises to keep</em>," },
-      { num:15, text:"And <em>miles to go</em> before I sleep," },
-      { num:16, text:"And <em>miles to go</em> before I <em>sleep</em>." },
+      { num:1,  hint:"🌲", text:"Whose <em>woods</em> these are I <em>think I know</em>." },
+      { num:2,  hint:"🏘️", text:"His house is in the <em>village</em> though;" },
+      { num:3,  hint:"🛑", text:"He will not see me <em>stopping here</em>" },
+      { num:4,  hint:"❄️", text:"To watch his woods <em>fill up with snow</em>." },
+      { num:5,  hint:"🐴", text:"My little horse must think it <em>queer</em>" },
+      { num:6,  hint:"🏚️", text:"To stop without a <em>farmhouse near</em>" },
+      { num:7,  hint:"🧊", text:"Between the woods and <em>frozen lake</em>" },
+      { num:8,  hint:"🌑", text:"The <em>darkest evening</em> of the year." },
+      { num:9,  hint:"🔔", text:"He gives his <em>harness bells</em> a shake" },
+      { num:10, hint:"🤔", text:"To ask if there is <em>some mistake</em>." },
+      { num:11, hint:"💨", text:"The only other sound&rsquo;s the <em>sweep</em>" },
+      { num:12, hint:"🪶", text:"Of <em>easy wind</em> and <em>downy flake</em>." },
+      { num:13, hint:"😍", text:"The woods are <em>lovely, dark and deep</em>," },
+      { num:14, hint:"🤝", text:"But I have <em>promises to keep</em>," },
+      { num:15, hint:"😴", text:"And <em>miles to go</em> before I sleep," },
+      { num:16, hint:"😴", text:"And <em>miles to go</em> before I <em>sleep</em>." },
     ],
     groups: [
       { label:'Stanza 1', range:'lines 1–4',   lines:[0,1,2,3] },
@@ -688,10 +748,26 @@ function showCard() {
 
   if (level === 1) {
     const idx = queue[queuePos];
-    document.getElementById('card-label').textContent = 'Line ' + currentPoem.lines[idx].num;
+    const lineData = currentPoem.lines[idx];
+    document.getElementById('card-label').textContent = 'Line ' + lineData.num;
     document.getElementById('card-sublabel').textContent = '';
     document.getElementById('rating-label').textContent = 'How well do you know this line?';
     document.getElementById('reveal-btn').textContent = 'Reveal line ↓';
+    const hintBtn = document.getElementById('hint-btn');
+    if (lineData.hint) {
+      hintBtn.textContent = '💡 Hint';
+      hintBtn.classList.remove('revealed');
+      hintBtn.dataset.hint = lineData.hint;
+      hintBtn.style.display = '';
+      hintBtn.onclick = function() {
+        if (!this.classList.contains('revealed')) {
+          this.textContent = this.dataset.hint;
+          this.classList.add('revealed');
+        }
+      };
+    } else {
+      hintBtn.style.display = 'none';
+    }
   } else {
     const gi = queue[queuePos];
     const g = currentPoem.groups[gi];
@@ -699,6 +775,7 @@ function showCard() {
     document.getElementById('card-sublabel').textContent = g.range;
     document.getElementById('rating-label').textContent = 'How well do you know this part?';
     document.getElementById('reveal-btn').textContent = 'Reveal ↓';
+    document.getElementById('hint-btn').style.display = 'none';
   }
   updateGrid();
   updateRoundInfo();
@@ -856,6 +933,7 @@ function switchPoem(idx) {
   document.getElementById('intro-text').textContent = currentPoem.intro;
   document.getElementById('l2-sub').textContent = currentPoem.groups.length + ' parts';
   buildGrid();
+  buildFullPoem();
   fullRestart();
 }
 
@@ -867,6 +945,32 @@ function switchLevel(l) {
   document.getElementById('grid-label').textContent = l===1 ? 'Lines: progress overview' : 'Parts — progress overview';
   fullRestart();
 }
+
+function buildFullPoem() {
+  const container = document.getElementById('full-poem-lines');
+  container.innerHTML = '';
+  currentPoem.lines.forEach((line, i) => {
+    const div = document.createElement('div');
+    div.className = 'full-poem-line';
+    const num = document.createElement('span');
+    num.className = 'full-poem-line-num';
+    num.textContent = i + 1;
+    div.appendChild(num);
+    const span = document.createElement('span');
+    span.innerHTML = line.text;
+    div.appendChild(span);
+    container.appendChild(div);
+  });
+}
+
+document.getElementById('poem-panel-toggle').addEventListener('click', () => {
+  const body = document.getElementById('poem-panel-body');
+  const btn = document.getElementById('poem-panel-toggle');
+  const isOpen = body.classList.contains('visible');
+  body.classList.toggle('visible', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.querySelector('span').textContent = isOpen ? '📖 Show full poem' : '📖 Hide full poem';
+});
 
 // ── Init ──
 switchPoem(0);
