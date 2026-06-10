@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AM / PM Grinder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --ink:#f5f1ea;
+    --orange:#ff5b1f;
+    --orange-dim:#c4441a;
+    --panel:#141312;
+    --line:#2a2725;
+    --green:#4ade80;
+    --red:#ff4d4d;
+    --muted:#8a847c;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Space Grotesk',sans-serif;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:24px 18px 60px;
+    line-height:1.4;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important;transition:none!important}
+  }
+
+  header{width:100%;max-width:620px;display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:28px;gap:16px;flex-wrap:wrap}
+  .brand{display:flex;flex-direction:column;gap:2px}
+  .eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);font-weight:600}
+  h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(28px,7vw,42px);letter-spacing:-.02em;line-height:.95}
+
+  .scoreboard{display:flex;gap:18px;text-align:right}
+  .stat{display:flex;flex-direction:column;gap:1px}
+  .stat .num{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;line-height:1}
+  .stat .lbl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .streak .num{color:var(--orange)}
+
+  main{width:100%;max-width:620px;display:flex;flex-direction:column;gap:24px}
+
+  .prompt{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:40px 24px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .prompt .qlabel{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+  .clock{
+    font-family:'Syne',sans-serif;
+    font-weight:800;
+    font-size:clamp(56px,16vw,92px);
+    letter-spacing:.01em;
+    line-height:1;
+    font-variant-numeric:tabular-nums;
+  }
+  .clock .colon{color:var(--orange);animation:blink 1.6s steps(1) infinite}
+  @keyframes blink{50%{opacity:.25}}
+
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:460px){.options{grid-template-columns:1fr}}
+  .opt{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:18px 20px;
+    color:var(--ink);
+    font-family:'Space Grotesk',sans-serif;
+    font-size:18px;
+    font-weight:500;
+    cursor:pointer;
+    text-align:left;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    transition:border-color .12s,background .12s,transform .06s;
+  }
+  .opt .key{font-family:'Syne',sans-serif;font-weight:700;color:var(--orange);font-size:15px;min-width:18px}
+  .opt:hover:not(:disabled){border-color:var(--orange-dim);background:#1b1917}
+  .opt:active:not(:disabled){transform:translateY(1px)}
+  .opt:disabled{cursor:default}
+  .opt.correct{border-color:var(--green);background:rgba(74,222,128,.08)}
+  .opt.correct .key{color:var(--green)}
+  .opt.wrong{border-color:var(--red);background:rgba(255,77,77,.08)}
+  .opt.wrong .key{color:var(--red)}
+  .opt.faded{opacity:.4}
+
+  .feedback{
+    min-height:58px;
+    border-left:2px solid var(--line);
+    padding:8px 0 8px 16px;
+    font-size:15px;
+    color:var(--muted);
+    transition:border-color .15s,color .15s;
+  }
+  .feedback.good{border-color:var(--green);color:var(--ink)}
+  .feedback.bad{border-color:var(--red);color:var(--ink)}
+  .feedback b{color:var(--orange);font-weight:600}
+
+  .controls{display:flex;justify-content:space-between;align-items:center;gap:14px}
+  .next{
+    background:var(--orange);
+    color:#0a0a0a;
+    border:none;
+    border-radius:4px;
+    padding:14px 30px;
+    font-family:'Syne',sans-serif;
+    font-weight:700;
+    font-size:16px;
+    letter-spacing:.02em;
+    cursor:pointer;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .15s,transform .06s;
+  }
+  .next.show{opacity:1;pointer-events:auto}
+  .next:active{transform:translateY(1px)}
+  .reset{background:none;border:none;color:var(--muted);font-family:'Space Grotesk';font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+  .reset:hover{color:var(--ink)}
+
+  .hint{font-size:12px;color:var(--muted);text-align:center;letter-spacing:.04em}
+  kbd{background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:1px 6px;font-family:'Space Grotesk';font-size:11px;color:var(--ink)}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <span class="eyebrow">24h → 12h drill</span>
+    <h1>AM / PM Grinder</h1>
+  </div>
+  <div class="scoreboard">
+    <div class="stat streak"><span class="num" id="streak">0</span><span class="lbl">streak</span></div>
+    <div class="stat"><span class="num" id="best">0</span><span class="lbl">best</span></div>
+    <div class="stat"><span class="num" id="acc">—</span><span class="lbl">accuracy</span></div>
+  </div>
+</header>
+
+<main>
+  <div class="prompt">
+    <div class="qlabel">Convert this time</div>
+    <div class="clock" id="clock">--<span class="colon">:</span>--</div>
+  </div>
+
+  <div class="options" id="options"></div>
+
+  <div class="feedback" id="feedback">Pick the 12-hour equivalent. Tip: <b>AM = After Midnight</b>, <b>PM = Post Noon</b>.</div>
+
+  <div class="controls">
+    <button class="reset" id="reset">Reset score</button>
+    <button class="next" id="next">Next →</button>
+  </div>
+
+  <p class="hint">Keys <kbd>1</kbd>–<kbd>4</kbd> to answer · <kbd>Enter</kbd> for next</p>
+</main>
+
+<script>
+(function(){
+  const keys = ['A','B','C','D'];
+  let state = { correct:0, total:0, streak:0, best:0, answered:false, q:null };
+
+  const $ = id => document.getElementById(id);
+  const clockEl=$('clock'), optsEl=$('options'), fbEl=$('feedback'),
+        nextEl=$('next'), streakEl=$('streak'), bestEl=$('best'), accEl=$('acc');
+
+  const pad = n => String(n).padStart(2,'0');
+
+  // Format a 24h time {h,m} into its correct 12h string
+  function to12(h,m){
+    const period = h < 12 ? 'AM' : 'PM';
+    let h12 = h % 12;
+    if(h12===0) h12=12;
+    return `${h12}:${pad(m)} ${period}`;
+  }
+
+  // Build a question with Craig Barton style distractors (each maps to a named misconception)
+  function makeQuestion(){
+    // Bias toward the tricky zones: 12-12:59, 00-00:59, and afternoon 13-23
+    const buckets = [
+      ()=>({h:rand(13,23), m:rmin()}),                 // afternoon/evening (subtract 12)
+      ()=>({h:rand(13,23), m:rmin()}),
+      ()=>({h:0, m:rmin()}),                            // midnight hour -> 12 AM
+      ()=>({h:12, m:rmin()}),                           // noon hour -> 12 PM
+      ()=>({h:rand(1,11), m:rmin()}),                   // simple morning
+    ];
+    const {h,m} = buckets[rand(0,buckets.length-1)]();
+    const correct = to12(h,m);
+
+    const distractors = new Set();
+    const period = h<12?'AM':'PM';
+    const flip = period==='AM'?'PM':'AM';
+    let h12 = h%12; if(h12===0) h12=12;
+
+    // M1: right number, wrong period (the core AM/PM confusion)
+    distractors.add(`${h12}:${pad(m)} ${flip}`);
+    // M2: kept the 24h hour number, didn't subtract 12 (for PM times) / used 0 literally
+    if(h>12) distractors.add(`${h}:${pad(m)} ${period}`);
+    if(h===0) distractors.add(`0:${pad(m)} AM`);
+    if(h===12) distractors.add(`0:${pad(m)} PM`);
+    // M3: off-by-12 the wrong direction (added 12 instead of subtracting, or vice versa)
+    let altH = ((h12) % 12) + 12 > 12 ? (h12===12?12:h12) : h12;
+    distractors.add(`${h12===12?1:h12+0}:${pad(m)} ${flip}`);
+    // M4: midnight/noon swap — treated 12 as the other end
+    if(h===0) distractors.add(`12:${pad(m)} PM`);
+    if(h===12) distractors.add(`12:${pad(m)} AM`);
+    // generic fallbacks to guarantee 4 options
+    const fallbacks=[
+      `${h12===12?11:(h12%12)+1}:${pad(m)} ${period}`,
+      `${h12}:${pad(m)} ${flip}`,
+      `${(h12%12)+1}:${pad(m)} ${period}`,
+      `${h12===1?12:h12-1}:${pad(m)} ${period}`
+    ];
+    let fi=0;
+    distractors.delete(correct);
+    while(distractors.size<3 && fi<fallbacks.length){
+      if(fallbacks[fi]!==correct) distractors.add(fallbacks[fi]);
+      fi++;
+    }
+    let opts=[correct,...Array.from(distractors).slice(0,3)];
+    // pad if still short
+    while(opts.length<4) opts.push(`${(opts.length+h12)%12||12}:${pad(m)} ${period}`);
+    opts = shuffle(opts.slice(0,4));
+
+    return { h, m, correct, opts, explain: explainFor(h,m,period,h12) };
+  }
+
+  function explainFor(h,m,period,h12){
+    if(h===0) return `00:xx is the midnight hour. Midnight to noon is <b>AM</b>, and the 0 becomes <b>12</b>. So 00:${pad(m)} = <b>12:${pad(m)} AM</b>.`;
+    if(h===12) return `12:xx is the noon hour. Noon onward is <b>PM</b>, and 12 stays 12. So 12:${pad(m)} = <b>12:${pad(m)} PM</b>.`;
+    if(h>12) return `${h} is past noon, so it's <b>PM</b>. Subtract 12: ${h} − 12 = ${h12}. So ${pad(h)}:${pad(m)} = <b>${h12}:${pad(m)} PM</b>.`;
+    return `${pad(h)} is before noon, so it's <b>AM</b>, and the hour stays the same. So ${pad(h)}:${pad(m)} = <b>${h12}:${pad(m)} AM</b>.`;
+  }
+
+  function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+  function rmin(){return [0,5,10,15,20,25,30,35,40,45,50,55][rand(0,11)]}
+  function shuffle(arr){ // Fisher-Yates
+    for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
+    return arr;
+  }
+
+  function render(){
+    const q = state.q = makeQuestion();
+    state.answered=false;
+    clockEl.innerHTML = `${pad(q.h)}<span class="colon">:</span>${pad(q.m)}`;
+    optsEl.innerHTML='';
+    q.opts.forEach((label,i)=>{
+      const b=document.createElement('button');
+      b.className='opt';
+      b.innerHTML=`<span class="key">${keys[i]}</span><span>${label}</span>`;
+      b.onclick=()=>answer(i,b);
+      optsEl.appendChild(b);
+    });
+    fbEl.className='feedback';
+    fbEl.innerHTML='Pick the 12-hour equivalent.';
+    nextEl.classList.remove('show');
+  }
+
+  function answer(i,btn){
+    if(state.answered) return;
+    state.answered=true;
+    const q=state.q;
+    const chosen=q.opts[i];
+    const isRight=chosen===q.correct;
+    state.total++;
+    const buttons=[...optsEl.children];
+    buttons.forEach(b=>b.disabled=true);
+
+    if(isRight){
+      state.correct++; state.streak++; state.best=Math.max(state.best,state.streak);
+      btn.classList.add('correct');
+      buttons.forEach(b=>{if(b!==btn)b.classList.add('faded')});
+      fbEl.className='feedback good';
+      fbEl.innerHTML='Correct. '+q.explain;
+    }else{
+      state.streak=0;
+      btn.classList.add('wrong');
+      buttons.forEach(b=>{
+        if(b.textContent.includes(q.correct)) b.classList.add('correct');
+        else if(b!==btn) b.classList.add('faded');
+      });
+      fbEl.className='feedback bad';
+      fbEl.innerHTML='Not quite. '+q.explain;
+    }
+    updateScore();
+    nextEl.classList.add('show');
+    nextEl.focus();
+  }
+
+  function updateScore(){
+    streakEl.textContent=state.streak;
+    bestEl.textContent=state.best;
+    accEl.textContent = state.total? Math.round(100*state.correct/state.total)+'%' : '—';
+  }
+
+  nextEl.onclick=render;
+  $('reset').onclick=()=>{state={correct:0,total:0,streak:0,best:0,answered:false,q:null};updateScore();render();};
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Enter' && state.answered){render();return;}
+    const n=parseInt(e.key,10);
+    if(n>=1 && n<=4 && !state.answered){
+      const b=optsEl.children[n-1];
+      if(b) b.click();
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
