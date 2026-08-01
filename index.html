@@ -124,7 +124,7 @@
             transition: box-shadow 0.2s;
         }
         .category.open {
-            box-shadow: 0 4px 20px rgba(26,45,69,0.10);
+            border-color: var(--navy2);
         }
         .category.empty { opacity: 0.6; }
 
@@ -140,12 +140,6 @@
         .cat-header:hover { background: var(--row-hover); }
         .category.empty .cat-header { cursor: default; }
 
-        .cat-icon {
-            font-size: 1.25rem;
-            min-width: 2rem;
-            text-align: center;
-            line-height: 1;
-        }
         .cat-title {
             font-family: 'Spectral', serif;
             font-size: 1.1rem;
@@ -194,11 +188,10 @@
 
         .subgroup-label {
             padding: 0.6rem 1.25rem 0.4rem 1.5rem;
-            font-size: 0.78rem;
+            font-family: 'Spectral', serif;
+            font-size: 0.98rem;
             font-weight: 600;
-            color: var(--muted);
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
+            color: var(--teal);
             background: var(--paper);
             border-bottom: 1px solid var(--border);
             border-top: 1px solid var(--border);
@@ -212,18 +205,13 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            padding: 0.75rem 1.25rem 0.75rem 1.5rem;
+            padding: 0.75rem 1.25rem;
             border-bottom: 1px solid #f0ede8;
             transition: background 0.12s;
         }
         .module-row:last-child { border-bottom: none; }
         .module-row:hover { background: var(--row-hover); }
 
-        .module-icon {
-            font-size: 1.3rem;
-            min-width: 2rem;
-            text-align: center;
-        }
         .module-info { flex: 1; min-width: 0; }
         .module-name {
             font-weight: 600;
@@ -277,6 +265,120 @@
             font-style: italic;
         }
 
+        /* ── "Varför AI?" trigger + modal ── */
+        .why-ai-trigger {
+            display: inline-block;
+            margin-top: 1.25rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--teal2);
+            background: transparent;
+            border: 1.5px solid rgba(58,158,158,0.5);
+            border-radius: 5px;
+            padding: 0.35rem 0.85rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .why-ai-trigger:hover {
+            background: rgba(58,158,158,0.12);
+            border-color: var(--teal2);
+        }
+
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(26,45,69,0.55);
+            z-index: 100;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        .modal-backdrop.open {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .modal-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--teal);
+            border-radius: 8px;
+            max-width: 560px;
+            width: 100%;
+            margin: auto;
+            padding: 2rem 2.25rem 2.25rem;
+            position: relative;
+        }
+        .modal-card h2 {
+            font-family: 'Spectral', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 1rem;
+        }
+        .modal-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--ink);
+            margin-bottom: 0.9rem;
+        }
+        .modal-card p:last-of-type { margin-bottom: 0; }
+        .modal-card a {
+            color: var(--navy);
+            text-decoration: underline;
+            text-decoration-color: var(--teal);
+            text-underline-offset: 2px;
+        }
+        .modal-card a:hover { color: var(--teal); }
+        .modal-card .sig {
+            font-family: 'Spectral', serif;
+            font-style: italic;
+            color: var(--muted);
+            margin-top: 1.25rem;
+        }
+        .modal-close {
+            position: absolute;
+            top: 0.9rem;
+            right: 1rem;
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            line-height: 1;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+        }
+        .modal-close:hover { color: var(--navy); background: var(--row-hover); }
+
+        .lang-toggle {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 1.75rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border);
+        }
+        .lang-btn {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--muted);
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 0.3rem 0.8rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .lang-btn:hover { color: var(--navy); border-color: var(--navy2); }
+        .lang-btn.active {
+            color: var(--navy);
+            background: var(--paper);
+            border-color: var(--teal);
+            font-weight: 600;
+        }
+
         /* ── Footer ── */
         footer {
             text-align: center;
@@ -309,8 +411,41 @@
             <span class="header-tag">Gymnasium</span>
             <span class="header-tag">André Lundberg</span>
         </div>
+        <button class="why-ai-trigger" id="whyAiBtn">Varför AI? / Why AI?</button>
     </div>
 </header>
+
+<!-- ── "Varför AI?" modal ── -->
+<div class="modal-backdrop" id="whyAiModal">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Why AI?">
+        <button class="modal-close" id="whyAiClose" aria-label="Close">×</button>
+
+        <!-- Swedish version -->
+        <div class="lang-content" data-lang="sv">
+            <h2>Varför AI?</h2>
+            <p>Jag läste webbprogrammering med HTML och CSS i början av 2000-talet. Jag är varken särskilt kunnig eller duktig på det, och jag har inte använt det på över tjugo år.</p>
+            <p>Den här sidan är skapad som ett komplement till engelskundervisningen på gymnasiet. Jag vill vara öppen med att jag använt AI, framför allt Claude och ibland Gemini, för själva bygget av sidan.</p>
+            <p>När det gäller innehållet: material bygger på böcker i kombination med Geminis NotebookLM. Allt som står på sidan är dubbelkollat och bör stämma. Med det sagt kan små felaktigheter naturligtvis ha slunkit med. Hör gärna av dig om du hittar något: <a class="mail-link" href="#"></a>.</p>
+            <p>Min princip för AI-användning bygger på <a href="https://falkai.org/skola/" target="_blank" rel="noopener">Johan Falks utmärkta stödlinjer för AI i skolan</a>. I korthet: aldrig till rättning, och testet "hade jag som lärare gjort det här utan AI?" Om svaret är nej, då är det okej att använda.</p>
+            <p class="sig">— André</p>
+        </div>
+
+        <!-- English version -->
+        <div class="lang-content" data-lang="en" hidden>
+            <h2>Why AI?</h2>
+            <p>I studied web programming with HTML and CSS back in the early 2000s. I am neither especially skilled nor knowledgeable at it, and I have not touched it in over twenty years.</p>
+            <p>This site was made as a complement to my English teaching at upper secondary school. I want to be open about the fact that I have used AI, mainly Claude and sometimes Gemini, for the work of building the site itself.</p>
+            <p>As for the content: the material draws on books combined with Gemini's NotebookLM. Everything on the site has been double-checked and should be accurate. That said, small errors may of course have slipped through. Please get in touch if you find one: <a class="mail-link" href="#"></a>.</p>
+            <p>My principle for using AI is based on <a href="https://falkai.org/skola/" target="_blank" rel="noopener">Johan Falk's excellent guidelines for AI in schools</a>. In short: never for grading, and the test "would I, as a teacher, have done this without AI?" If the answer is no, then it is fine to use.</p>
+            <p class="sig">— André</p>
+        </div>
+
+        <div class="lang-toggle">
+            <button class="lang-btn active" data-set-lang="sv">Svenska</button>
+            <button class="lang-btn" data-set-lang="en">English</button>
+        </div>
+    </div>
+</div>
 
 <main>
     <div class="section-label">Module library, click a category to expand</div>
@@ -319,7 +454,6 @@
         <!-- 1. Literature -->
         <div class="category">
             <div class="cat-header">
-                <span class="cat-icon">📚</span>
                 <div style="flex:1;min-width:0">
                     <div class="cat-title">Literature</div>
                     <div class="cat-desc">Novels, film, short stories and close reading</div>
@@ -329,9 +463,8 @@
             </div>
             <div class="module-list">
 
-                <div class="subgroup-label">🎭 Drama &amp; Theatre</div>
+                <div class="subgroup-label">Drama &amp; Theatre</div>
                 <div class="module-row">
-                    <span class="module-icon">🎭</span>
                     <div class="module-info">
                         <div class="module-name">Shakespeare — Interactive Overview</div>
                         <div class="module-desc">Character webs, genre sorting, language bridge and Then vs. Now, 4-tab interactive covering 8 plays · B1–B2</div>
@@ -339,9 +472,8 @@
                     <a href="shakespeare.html" class="module-link">Open</a>
                 </div>
 
-                <div class="subgroup-label">📖 Novels &amp; Longer Fiction</div>
+                <div class="subgroup-label">Novels &amp; Longer Fiction</div>
                 <div class="module-row">
-                    <span class="module-icon">💔</span>
                     <div class="module-info">
                         <div class="module-name">The Fault in Our Stars</div>
                         <div class="module-desc">Assignment and reading guide covering themes of mortality, love and identity</div>
@@ -349,7 +481,6 @@
                     <span class="module-badge badge-soon">Coming soon</span>
                 </div>
                 <div class="module-row">
-                    <span class="module-icon">🌀</span>
                     <div class="module-info">
                         <div class="module-name">Dark Matter</div>
                         <div class="module-desc">Assignment guide covering parallel worlds, identity and choice</div>
@@ -358,9 +489,8 @@
                 </div>
 
 
-                <div class="subgroup-label">✍️ Short Stories &amp; Poetry</div>
+                <div class="subgroup-label">Short Stories &amp; Poetry</div>
                 <div class="module-row">
-                    <span class="module-icon">📜</span>
                     <div class="module-info">
                         <div class="module-name">Poetry Memory Trainer</div>
                         <div class="module-desc">7 canonical poems — Shelley, Shakespeare, Blake, Owen, Thomas, Frost — Leitner-based recall trainer with two difficulty levels · B2</div>
@@ -374,7 +504,6 @@
         <!-- 2. Grammar -->
         <div class="category">
             <div class="cat-header">
-                <span class="cat-icon">🔤</span>
                 <div style="flex:1;min-width:0">
                     <div class="cat-title">Grammar</div>
                     <div class="cat-desc">Parts of speech, sentence structure and academic style</div>
@@ -384,9 +513,8 @@
             </div>
             <div class="module-list">
 
-                <div class="subgroup-label">🔗 Sentence Structure</div>
+                <div class="subgroup-label">Sentence Structure</div>
                 <div class="module-row">
-                    <span class="module-icon">⚡</span>
                     <div class="module-info">
                         <div class="module-name">Subject-Verb Agreement</div>
                         <div class="module-desc">Core agreement rules, compound subjects, tricky verbs and inverted word order, 4-tab interactive with diagnostic MCQs and streak-mode grind · B1–B2</div>
@@ -394,9 +522,8 @@
                     <a href="subject-verb-agreement.html" class="module-link">Open</a>
                 </div>
 
-                <div class="subgroup-label">✒️ Usage &amp; Style</div>
+                <div class="subgroup-label">Usage &amp; Style</div>
                 <div class="module-row">
-                    <span class="module-icon">🐉</span>
                     <div class="module-info">
                         <div class="module-name">Dragon's Grammar Series</div>
                         <div class="module-desc">Word-pair confusion, subject-verb agreement and which/that, 30-question interactive quiz game with instant feedback · B2</div>
@@ -410,7 +537,6 @@
         <!-- 3. Thematic -->
         <div class="category open">
             <div class="cat-header">
-                <span class="cat-icon">🌐</span>
                 <div style="flex:1;min-width:0">
                     <div class="cat-title">Thematic</div>
                     <div class="cat-desc">Cross-curricular topics connecting English to science, media and society</div>
@@ -420,9 +546,8 @@
             </div>
             <div class="module-list">
 
-                <div class="subgroup-label">📱 Media &amp; Society</div>
+                <div class="subgroup-label">Media &amp; Society</div>
                 <div class="module-row">
-                    <span class="module-icon">🧠</span>
                     <div class="module-info">
                         <div class="module-name">Your Brain on Media</div>
                         <div class="module-desc">Cognitive effects of TikTok, reading, podcasts and more, Kurzgesagt-style interactive with vocab quiz · B1–B2</div>
@@ -430,9 +555,8 @@
                     <a href="brain-media-diet.html" class="module-link">Open</a>
                 </div>
 
-                <div class="subgroup-label">🧬 Psychology &amp; Behaviour</div>
+                <div class="subgroup-label">Psychology &amp; Behaviour</div>
                 <div class="module-row">
-                    <span class="module-icon">🧠</span>
                     <div class="module-info">
                         <div class="module-name">The Science of Learning</div>
                         <div class="module-desc">Evidence-based study strategies: spaced repetition, retrieval practice, sleep &amp; memory · Teacher's interactive reference</div>
@@ -441,7 +565,6 @@
                 </div>
                 
                 <div class="module-row">
-                    <span class="module-icon">🔭</span>
                     <div class="module-info">
                         <div class="module-name">The Curious Brain</div>
                         <div class="module-desc">The neuroscience of curiosity, interactive brain anatomy, dopamine reward cycles and memory priming · B2 level</div>
@@ -450,7 +573,6 @@
                 </div>
 
                 <div class="module-row">
-                    <span class="module-icon">📈</span>
                     <div class="module-info">
                         <div class="module-name">The OK Plateau</div>
                         <div class="module-desc">Why you stop improving without knowing it — Ericsson's deliberate practice, the three stages of skill acquisition, interactive learning curve · B1–B2</div>
@@ -459,7 +581,6 @@
                 </div>
 
                 <div class="module-row">
-                    <span class="module-icon">🏆</span>
                     <div class="module-info">
                         <div class="module-name">Compete. Collaborate. Learn.</div>
                         <div class="module-desc">Black Hat vs White Hat motivation, the Yerkes-Dodson curve, group dynamics and social loafing, 3-tab interactive · English 1–2</div>
@@ -467,9 +588,8 @@
                     <a href="english-motivation.html" class="module-link">Open</a>
                 </div>
 
-                <div class="subgroup-label">🕉️ Philosophy &amp; World Views</div>
+                <div class="subgroup-label">Philosophy &amp; World Views</div>
                 <div class="module-row">
-                    <span class="module-icon">💧</span>
                     <div class="module-info">
                         <div class="module-name">Primalwater — Advaita Vedanta</div>
                         <div class="module-desc">Seven concepts of Advaita Vedanta explained through a water system metaphor, animated interactive diagram with clickable concept cards · B1–B2</div>
@@ -477,9 +597,8 @@
                     <a href="advaita.html" class="module-link">Open</a>
                 </div>
 
-                <div class="subgroup-label">🗞️ Current Affairs &amp; Debate</div>
+                <div class="subgroup-label">Current Affairs &amp; Debate</div>
                 <div class="module-row">
-                    <span class="module-icon">💼</span>
                     <div class="module-info">
                         <div class="module-name">Jobs of the Future — Research Report</div>
                         <div class="module-desc">Evidence-based report on global &amp; Nordic job market trends: AI, automation, demographics and what school subjects are really worth · B1–B2</div>
@@ -493,7 +612,6 @@
         <!-- 4. Language Skills -->
         <div class="category">
             <div class="cat-header">
-                <span class="cat-icon">🗣️</span>
                 <div style="flex:1;min-width:0">
                     <div class="cat-title">Language Skills</div>
                     <div class="cat-desc">Listening, speaking, vocabulary and academic writing</div>
@@ -503,12 +621,11 @@
             </div>
             <div class="module-list">
 
-                <div class="subgroup-label">👂 Listening &amp; Speaking</div>
+                <div class="subgroup-label">Listening &amp; Speaking</div>
                 <div class="empty-note">No modules yet. Check back soon.</div>
 
-                <div class="subgroup-label">📝 Vocabulary Building</div>
+                <div class="subgroup-label">Vocabulary Building</div>
                 <div class="module-row">
-                    <span class="module-icon">✏️</span>
                     <div class="module-info">
                         <div class="module-name">Spell It Right</div>
                         <div class="module-desc">Spelling practice for argumentative writing, 28 high-frequency words, three modes, formative feedback · B1–B2</div>
@@ -516,9 +633,8 @@
                     <a href="spelling-practice.html" class="module-link">Open</a>
                 </div>
 
-                <div class="subgroup-label">🕐 Telling the Time</div>
+                <div class="subgroup-label">Telling the Time</div>
                 <div class="module-row">
-                    <span class="module-icon">⏰</span>
                     <div class="module-info">
                         <div class="module-name">AM / PM Grinder</div>
                         <div class="module-desc">24-hour to 12-hour conversion drill, randomly generated questions with diagnostic distractors and worked feedback, streak-mode practice · A2–B1</div>
@@ -526,7 +642,7 @@
                     <a href="ampm-grinder.html" class="module-link">Open</a>
                 </div>
 
-                <div class="subgroup-label">✍️ Writing Workshops</div>
+                <div class="subgroup-label">Writing Workshops</div>
                 <div class="empty-note">No modules yet. Check back soon.</div>
 
             </div>
@@ -548,6 +664,45 @@
             const isOpen = cat.classList.contains('open');
             document.querySelectorAll('.category.open').forEach(c => c.classList.remove('open'));
             if(!isOpen) cat.classList.add('open');
+        });
+    });
+
+    // ── "Varför AI?" modal ──
+    const whyModal = document.getElementById('whyAiModal');
+    const whyBtn   = document.getElementById('whyAiBtn');
+    const whyClose = document.getElementById('whyAiClose');
+
+    const openWhy  = () => whyModal.classList.add('open');
+    const closeWhy = () => whyModal.classList.remove('open');
+
+    whyBtn.addEventListener('click', openWhy);
+    whyClose.addEventListener('click', closeWhy);
+    whyModal.addEventListener('click', (e) => {
+        if (e.target === whyModal) closeWhy();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeWhy();
+    });
+
+    // Bot-safe email: assembled at runtime
+    (function () {
+        const addr = 'andre.lundberg' + '@' + 'vellinge.se';
+        document.querySelectorAll('.mail-link').forEach(a => {
+            a.textContent = addr;
+            a.href = 'mailto:' + addr;
+        });
+    })();
+
+    // Language toggle
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.dataset.setLang;
+            document.querySelectorAll('.lang-content').forEach(c => {
+                c.hidden = (c.dataset.lang !== lang);
+            });
+            document.querySelectorAll('.lang-btn').forEach(b => {
+                b.classList.toggle('active', b === btn);
+            });
         });
     });
 </script>
