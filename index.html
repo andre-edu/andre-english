@@ -388,6 +388,7 @@
             border-top: 1px solid var(--border);
         }
         footer a { color: var(--muted); }
+        .footer-credit { margin-top: 1.25rem; }
 
         @media(max-width: 600px) {
             .cat-desc { display: none; }
@@ -411,7 +412,6 @@
             <span class="header-tag">Gymnasium</span>
             <span class="header-tag">André Lundberg</span>
         </div>
-        <button class="why-ai-trigger" id="whyAiBtn">Varför AI? / Why AI?</button>
     </div>
 </header>
 
@@ -616,13 +616,19 @@
                     <div class="cat-title">Language Skills</div>
                     <div class="cat-desc">Listening, speaking, vocabulary and academic writing</div>
                 </div>
-                <span class="cat-count has-modules">2 modules</span>
+                <span class="cat-count has-modules">3 modules</span>
                 <span class="cat-arrow">▼</span>
             </div>
             <div class="module-list">
 
                 <div class="subgroup-label">Listening &amp; Speaking</div>
-                <div class="empty-note">No modules yet. Check back soon.</div>
+                <div class="module-row">
+                    <div class="module-info">
+                        <div class="module-name">Speak From Understanding</div>
+                        <div class="module-desc">Why to present without a script and how to prepare — retrieval, cue notes and paraphrasing, bilingual click-through with worked examples · B1–B2</div>
+                    </div>
+                    <a href="presenting.html" class="module-link">Open</a>
+                </div>
 
                 <div class="subgroup-label">Vocabulary Building</div>
                 <div class="module-row">
@@ -652,8 +658,11 @@
 </main>
 
 <footer>
-    © 2026 André Lundberg · Gymnasielärare · English 1 &amp; 2 ·
-    Made with <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a>
+    <button class="why-ai-trigger" id="whyAiBtn">Varför AI? / Why AI?</button>
+    <div class="footer-credit">
+        © 2026 André Lundberg · Gymnasielärare · English 1 &amp; 2 ·
+        Made with <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a>
+    </div>
 </footer>
 
 <script>
