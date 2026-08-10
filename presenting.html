@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Why to present without a script — and how to prepare. A short bilingual lesson.">
+<title>Speak from understanding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3EEE4;
+    --paper-deep:#E8E0D0;
+    --ink:#1B2A3A;
+    --ink-soft:#43536480;
+    --ochre:#C1741E;
+    --line:#1B2A3A1A;
+    --serif:"Fraunces",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    min-height:100vh;
+    min-height:100dvh;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ---- top rail: the thread of beats ---- */
+  .rail{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:2px;
+    padding:22px 28px 0 88px;
+    flex-wrap:wrap;
+  }
+  .rail .kicker{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-right:auto;
+  }
+  .tick{
+    width:26px;height:26px;
+    border:none;background:none;cursor:pointer;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-soft);
+    position:relative;
+    display:flex;align-items:center;justify-content:center;
+    transition:color .3s;
+  }
+  .tick::after{
+    content:"";position:absolute;bottom:2px;left:50%;
+    width:5px;height:5px;border-radius:50%;
+    background:var(--line);transform:translateX(-50%);
+    transition:background .3s,transform .3s,width .3s,height .3s;
+  }
+  .tick.done::after{background:var(--ink)}
+  .tick.active::after{background:var(--ochre);width:7px;height:7px}
+  .tick:hover{color:var(--ink)}
+
+  /* ---- stage ---- */
+  .stage{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px 28px;
+    position:relative;
+  }
+  .beat{
+    max-width:640px;
+    width:100%;
+    display:none;
+    animation:rise .7s cubic-bezier(.2,.7,.2,1) both;
+  }
+  .beat.on{display:block}
+  @keyframes rise{
+    from{opacity:0;transform:translateY(14px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .beat.on{animation:none}
+  }
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--ochre);
+    margin-bottom:20px;
+    display:flex;align-items:baseline;gap:12px;
+  }
+  .eyebrow .n{
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  h1{
+    font-weight:500;
+    font-size:clamp(2.1rem,6vw,3.4rem);
+    line-height:1.04;
+    letter-spacing:-.02em;
+    margin-bottom:26px;
+  }
+  .idea{
+    font-size:clamp(1.05rem,2.6vw,1.35rem);
+    line-height:1.5;
+    max-width:34ch;
+    color:#2b3b4c;
+  }
+  .idea em{
+    font-style:italic;
+    color:var(--ochre);
+    font-weight:500;
+  }
+  .pull{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.04em;
+    color:var(--ink-soft);
+    margin-top:30px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    max-width:40ch;
+    line-height:1.6;
+  }
+
+  /* ---- intro / cover ---- */
+  .cover h1{font-size:clamp(2.6rem,8vw,4.6rem)}
+  .cover .idea{margin-top:8px}
+
+  /* ---- steps beat: cue-card row ---- */
+  .cues{
+    display:flex;flex-direction:column;gap:0;
+    margin-top:10px;
+  }
+  .cue{
+    display:flex;gap:18px;align-items:baseline;
+    width:100%;text-align:left;
+    padding:16px 0;
+    border:none;border-top:1px solid var(--line);
+    background:none;cursor:pointer;color:inherit;
+    font-family:inherit;
+  }
+  .cue:last-child{border-bottom:1px solid var(--line)}
+  .cue .num{
+    font-family:var(--mono);font-size:12px;color:var(--ochre);
+    flex-shrink:0;
+  }
+  .cue .body{flex:1;display:flex;flex-direction:column}
+  .cue .lab{font-size:1.2rem;font-weight:500}
+  .cue .ex{
+    font-size:.98rem;line-height:1.5;color:#2b3b4c;
+    max-width:44ch;
+    max-height:0;opacity:0;overflow:hidden;
+    transition:max-height .4s cubic-bezier(.2,.7,.2,1),opacity .3s,margin-top .4s;
+  }
+  .cue .ex em{font-style:italic;color:var(--ochre);font-weight:500}
+  .cue[aria-expanded="true"] .ex{
+    max-height:500px;opacity:1;margin-top:8px;
+  }
+  .cue .chev{
+    flex-shrink:0;width:9px;height:9px;
+    border-right:1.5px solid var(--ink-soft);
+    border-bottom:1.5px solid var(--ink-soft);
+    transform:rotate(45deg);
+    transition:transform .35s;
+    margin-top:6px;
+  }
+  .cue[aria-expanded="true"] .chev{transform:rotate(-135deg)}
+  @media (prefers-reduced-motion:reduce){
+    .cue .ex{transition:none}
+    .cue .chev{transition:none}
+  }
+
+  /* ---- summary beat ---- */
+  .sum{display:flex;flex-direction:column;gap:14px;margin-top:6px}
+  .sum p{
+    font-size:clamp(1.15rem,3vw,1.5rem);
+    line-height:1.35;font-weight:500;
+  }
+  .sum .a{color:var(--ink-soft)}
+  .sum .b{color:var(--ink)}
+  .sum .arrow{color:var(--ochre)}
+
+  /* ---- controls ---- */
+  .controls{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 28px 26px;
+    gap:16px;
+  }
+  .nav{
+    font-family:var(--mono);
+    font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+    background:none;border:none;cursor:pointer;color:var(--ink);
+    padding:10px 2px;
+    display:flex;align-items:center;gap:9px;
+    transition:opacity .25s,gap .25s;
+  }
+  .nav:disabled{opacity:.22;cursor:default}
+  .nav.prev:hover:not(:disabled){gap:14px}
+  .nav.next:hover:not(:disabled){gap:14px}
+  .nav .ln{width:22px;height:1px;background:var(--ink);display:inline-block}
+  .progress{
+    font-family:var(--mono);font-size:11px;
+    letter-spacing:.14em;color:var(--ink-soft);
+  }
+
+  /* ---- rules panel (beat 5) ---- */
+  .rules{
+    margin-top:26px;
+    padding:16px 18px;
+    background:#C1741E12;
+    border-left:2px solid var(--ochre);
+    border-radius:2px;
+  }
+  .rules-head{
+    font-family:var(--mono);font-size:11.5px;
+    letter-spacing:.1em;color:var(--ochre);
+    margin-bottom:12px;line-height:1.4;
+  }
+  .rules-list{
+    list-style:none;display:flex;flex-wrap:wrap;gap:8px;
+  }
+  .rules-list li{
+    font-family:var(--mono);font-size:12px;
+    color:var(--ink);
+    padding:5px 11px;
+    border:1px solid var(--ochre);border-radius:2px;
+    counter-increment:rule;
+  }
+  .rules-list li::before{
+    content:counter(rule) "  ";
+    color:var(--ochre);font-size:10px;
+  }
+  .rules{counter-reset:rule}
+
+  /* ---- keyboard focus ---- */
+  :focus-visible{
+    outline:2px solid var(--ochre);
+    outline-offset:3px;
+    border-radius:1px;
+  }
+  .tick:focus-visible{outline-offset:1px}
+  *:focus:not(:focus-visible){outline:none}
+
+  @media (max-width:560px){
+    .rail{padding:16px 20px 0 76px}
+    .stage{padding:12px 22px}
+    .controls{padding:14px 22px 22px}
+    .idea{max-width:100%}
+    h1{font-size:clamp(1.7rem,7.5vw,2.4rem)}
+    .cover h1{font-size:clamp(2.1rem,10vw,3rem)}
+    .cue .lab{font-size:1.05rem}
+    .beat{animation-duration:.5s}
+  }
+  @media (max-width:380px){
+    h1{font-size:clamp(1.5rem,7vw,2rem);line-height:1.08}
+  }
+
+  /* ---- language toggle ---- */
+  .lang{
+    position:fixed;top:20px;left:24px;z-index:20;
+    display:flex;font-family:var(--mono);font-size:11px;
+    letter-spacing:.1em;
+    border:1px solid var(--line);border-radius:2px;overflow:hidden;
+  }
+  .lang button{
+    background:none;border:none;cursor:pointer;
+    padding:5px 9px;color:var(--ink-soft);
+    font-family:inherit;font-size:inherit;letter-spacing:inherit;
+    transition:background .2s,color .2s;
+  }
+  .lang button.on{background:var(--ink);color:var(--paper)}
+  .lang button:not(.on):hover{color:var(--ink)}
+  @media (max-width:560px){
+    .lang{top:16px;left:20px}
+  }
+</style>
+</head>
+<body>
+
+  <div class="lang" role="group" aria-label="Language">
+    <button data-lang="en" class="on">EN</button>
+    <button data-lang="sv">SWE</button>
+  </div>
+
+  <nav class="rail" aria-label="Beats">
+    <!-- ticks injected -->
+  </nav>
+
+  <main class="stage" id="stage">
+
+    <!-- 0 · cover -->
+    <section class="beat on cover" data-i="0">
+      <h1 data-en="Speak from<br>understanding." data-sv="Tala utifrån<br>förståelse.">Speak from<br>understanding.</h1>
+    </section>
+
+    <!-- 1 · the problem -->
+    <section class="beat" data-i="1">
+      <div class="eyebrow"><span class="n">01</span></div>
+      <h1 data-en="You can read words you don't&nbsp;understand." data-sv="Du kan läsa upp ord du inte&nbsp;förstår.">You can read words you don't&nbsp;understand.</h1>
+    </section>
+
+    <!-- 2 · reading vs knowing -->
+    <section class="beat" data-i="2">
+      <div class="eyebrow"><span class="n">02</span></div>
+      <h1 data-en="Reading aloud is decoding.<br>Speaking freely is understanding." data-sv="Att läsa innantill är att avkoda.<br>Att tala fritt är att förstå.">Reading aloud is decoding.<br>Speaking freely is understanding.</h1>
+    </section>
+
+    <!-- 3 · what it builds -->
+    <section class="beat" data-i="3">
+      <div class="eyebrow"><span class="n">03</span></div>
+      <h1 data-en="What you struggle to recall is what&nbsp;sticks." data-sv="Det du kämpar för att minnas är det som&nbsp;fastnar.">What you struggle to recall is what&nbsp;sticks.</h1>
+    </section>
+
+    <!-- 4 · not the loophole -->
+    <section class="beat" data-i="4">
+      <div class="eyebrow"><span class="n">04</span></div>
+      <h1 data-en="Memorising it word-for-word doesn't&nbsp;count." data-sv="Att lära sig det utantill ord för ord räknas&nbsp;inte.">Memorising it word-for-word doesn't&nbsp;count.</h1>
+    </section>
+
+    <!-- 5 · how to prepare -->
+    <section class="beat" data-i="5">
+      <div class="eyebrow"><span class="n">05</span></div>
+      <h1 data-en="Prepare structure,<br>not wording." data-sv="Öva in strukturen,<br>inte formuleringen.">Prepare structure,<br>not wording.</h1>
+      <div class="cues">
+        <button class="cue" aria-expanded="false">
+          <span class="num">01</span>
+          <span class="body"><span class="lab" data-en="Know your 3–5 beats" data-sv="Kunna dina 3–5 hållpunkter">Know your 3–5 beats</span><span class="ex" data-en="Give each stage a picture you can see, not a label. The French Revolution in five images:<br><em>1.</em> An empty grain basket — people are starving.<br><em>2.</em> A crowd storming the Bastille.<br><em>3.</em> The guillotine in the square.<br><em>4.</em> Napoleon crowning himself.<br><em>5.</em> A map of Europe redrawn.<br>Walk the pictures in order and the talk tells itself." data-sv="Ge varje steg en bild du kan se framför dig, inte en etikett. Franska revolutionen i fem bilder:<br><em>1.</em> En tom brödkorg — folket svälter.<br><em>2.</em> En folkmassa stormar Bastiljen.<br><em>3.</em> Giljotinen på torget.<br><em>4.</em> Napoleon kröner sig själv.<br><em>5.</em> En omritad karta över Europa.<br>Gå igenom bilderna i ordning så berättar framförandet sig självt.">Give each stage a picture you can see, not a label. The French Revolution in five images:<br><em>1.</em> An empty grain basket — people are starving.<br><em>2.</em> A crowd storming the Bastille.<br><em>3.</em> The guillotine in the square.<br><em>4.</em> Napoleon crowning himself.<br><em>5.</em> A map of Europe redrawn.<br>Walk the pictures in order and the talk tells itself.</span></span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <button class="cue" aria-expanded="false">
+          <span class="num">02</span>
+          <span class="body"><span class="lab" data-en="Cue notes, never sentences" data-sv="Stödord, aldrig meningar">Cue notes, never sentences</span><span class="ex" data-en="On paper or on a card, the rule is the same: keywords only. Write <em>&quot;trench warfare — stalemate&quot;</em>, not &quot;The war became a stalemate because…&quot;. A full sentence is a script in disguise — a line you <em>can</em> read is a line you <em>will</em> read." data-sv="På papper eller på ett kort gäller samma regel: bara nyckelord. Skriv <em>&quot;skyttegravskrig — dödläge&quot;</em>, inte &quot;Kriget blev ett dödläge eftersom…&quot;. En hel mening är ett manus i förklädnad — en rad du <em>kan</em> läsa är en rad du <em>kommer</em> att läsa.">On paper or on a card, the rule is the same: keywords only. Write <em>"trench warfare — stalemate"</em>, not "The war became a stalemate because…". A full sentence is a script in disguise — a line you <em>can</em> read is a line you <em>will</em> read.</span></span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <button class="cue" aria-expanded="false">
+          <span class="num">03</span>
+          <span class="body"><span class="lab" data-en="Paraphrase, five times" data-sv="Omformulera, fem gånger">Paraphrase, five times</span><span class="ex" data-en="Take one idea — say &quot;the treaty caused resentment&quot; — and say it aloud five different ways:<br><em>1.</em> The treaty left people bitter.<br><em>2.</em> Resentment grew out of the treaty's terms.<br><em>3.</em> People felt punished by it.<br><em>4.</em> It planted anger that lasted years.<br><em>5.</em> The deal humiliated a whole nation.<br>Now you know the <em>idea</em>, not one fragile sentence." data-sv="Ta en idé — säg &quot;fördraget väckte bitterhet&quot; — och säg den högt på fem olika sätt:<br><em>1.</em> Fördraget gjorde folk bittra.<br><em>2.</em> Bitterheten växte fram ur fördragets villkor.<br><em>3.</em> Människor kände sig bestraffade av det.<br><em>4.</em> Det sådde en ilska som varade i åratal.<br><em>5.</em> Uppgörelsen förödmjukade en hel nation.<br>Nu kan du <em>idén</em>, inte en enda skör mening.">Take one idea — say "the treaty caused resentment" — and say it aloud five different ways:<br><em>1.</em> The treaty left people bitter.<br><em>2.</em> Resentment grew out of the treaty's terms.<br><em>3.</em> People felt punished by it.<br><em>4.</em> It planted anger that lasted years.<br><em>5.</em> The deal humiliated a whole nation.<br>Now you know the <em>idea</em>, not one fragile sentence.</span></span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <button class="cue" aria-expanded="false">
+          <span class="num">04</span>
+          <span class="body"><span class="lab" data-en="Test under load" data-sv="Testa under belastning">Test under load</span><span class="ex" data-en="Run it once while walking or tidying. If you can talk through it while distracted, it's really in there." data-sv="Kör igenom det en gång medan du går eller städar. Om du kan prata dig igenom det medan du är distraherad sitter det verkligen.">Run it once while walking or tidying. If you can talk through it while distracted, it's really in there.</span></span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="rules">
+        <div class="rules-head" data-en="Before you present, show me your notes" data-sv="Innan du redovisar visar du mig ditt stödmaterial">Before you present, show me your notes</div>
+        <ul class="rules-list">
+          <li data-en="Handwritten" data-sv="Handskrivet">Handwritten</li>
+          <li data-en="Small format" data-sv="Litet format">Small format</li>
+          <li data-en="Keywords, not sentences" data-sv="Stödord, inte meningar">Keywords, not sentences</li>
+          <li data-en="Approved by me" data-sv="Godkänt av mig">Approved by me</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 6 · summary -->
+    <section class="beat" data-i="6">
+      <div class="sum">
+        <p class="a" data-en="A script hands you the words." data-sv="Ett manus ger dig orden.">A script hands you the words.</p>
+        <p class="b" data-en="Understanding hands you the <em style=&quot;font-style:italic;color:var(--ochre)&quot;>room.</em>" data-sv="Förståelse ger dig <em style=&quot;font-style:italic;color:var(--ochre)&quot;>rummet.</em>">Understanding hands you the <em style="font-style:italic;color:var(--ochre)">room.</em></p>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="controls">
+    <button class="nav prev" id="prev" disabled><span class="ln"></span><span data-en="Back" data-sv="Tillbaka">Back</span></button>
+    <span class="progress" id="progress">01 / 07</span>
+    <button class="nav next" id="next"><span data-en="Next" data-sv="Nästa">Next</span><span class="ln"></span></button>
+  </div>
+
+<script>
+  const beats=[...document.querySelectorAll('.beat')];
+  const total=beats.length;
+  const rail=document.querySelector('.rail');
+  const prev=document.getElementById('prev');
+  const next=document.getElementById('next');
+  const progress=document.getElementById('progress');
+  let i=0;
+
+  // build ticks
+  beats.forEach((_,idx)=>{
+    const t=document.createElement('button');
+    t.className='tick';t.textContent=idx===0?'·':idx;
+    t.setAttribute('aria-label','Go to beat '+idx);
+    t.addEventListener('click',()=>go(idx));
+    rail.appendChild(t);
+  });
+  const ticks=[...document.querySelectorAll('.tick')];
+
+  function go(n){
+    n=Math.max(0,Math.min(total-1,n));
+    beats[i].classList.remove('on');
+    i=n;
+    beats[i].classList.add('on');
+    ticks.forEach((t,idx)=>{
+      t.classList.toggle('active',idx===i);
+      t.classList.toggle('done',idx<i);
+    });
+    prev.disabled=i===0;
+    next.disabled=i===total-1;
+    progress.textContent=String(i+1).padStart(2,'0')+' / '+String(total).padStart(2,'0');
+  }
+
+  prev.addEventListener('click',()=>go(i-1));
+  next.addEventListener('click',()=>go(i+1));
+  document.addEventListener('keydown',e=>{
+    const onCue=document.activeElement&&document.activeElement.classList.contains('cue');
+    if(e.key==='ArrowRight'||(e.key===' '&&!onCue))go(i+1);
+    if(e.key==='ArrowLeft')go(i-1);
+  });
+  document.querySelectorAll('.cue').forEach(c=>{
+    c.addEventListener('click',()=>{
+      const open=c.getAttribute('aria-expanded')==='true';
+      c.setAttribute('aria-expanded',open?'false':'true');
+    });
+  });
+
+  // ---- language ----
+  const langBtns=[...document.querySelectorAll('.lang button')];
+  const translatable=[...document.querySelectorAll('[data-en]')];
+  function setLang(lang){
+    document.documentElement.lang=lang;
+    translatable.forEach(el=>{
+      const v=el.getAttribute('data-'+lang);
+      if(v!==null)el.innerHTML=v;
+    });
+    langBtns.forEach(b=>b.classList.toggle('on',b.dataset.lang===lang));
+    document.querySelectorAll('.cue[aria-expanded="true"]')
+      .forEach(c=>c.setAttribute('aria-expanded','false'));
+  }
+  langBtns.forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
+
+  // ---- swipe navigation (touch) ----
+  const stage=document.getElementById('stage');
+  let sx=0,sy=0,swiping=false;
+  stage.addEventListener('touchstart',e=>{
+    if(e.touches.length!==1){swiping=false;return;}
+    sx=e.touches[0].clientX;sy=e.touches[0].clientY;swiping=true;
+  },{passive:true});
+  stage.addEventListener('touchend',e=>{
+    if(!swiping)return;
+    swiping=false;
+    const dx=e.changedTouches[0].clientX-sx;
+    const dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.7){
+      go(dx<0?i+1:i-1);
+    }
+  },{passive:true});
+
+  setLang('en');
+  go(0);
+</script>
+</body>
+</html>
