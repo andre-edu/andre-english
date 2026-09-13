@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dark Matter — The Corridor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#0C1A1C;
+  --ground-2:#122629;
+  --ground-3:#183034;
+  --seam:#20464A;
+  --ink:#E6EDEB;
+  --ink-dim:#9DB3B1;
+  --teal:#56B6A6;
+  --teal-deep:#2C6F68;
+  --amber:#C9A227;
+  --wrong:#C4705C;
+  --r:3px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:'Spectral',Georgia,serif;font-weight:400;
+  font-size:17px;line-height:1.7;
+}
+.wrap{max-width:940px;margin:0 auto;padding:0 20px 100px}
+h1,h2,h3{font-weight:600;line-height:1.25;margin:0}
+h1{font-size:2.6rem;letter-spacing:-0.01em}
+h2{font-size:1.5rem}
+h3{font-size:1.05rem}
+p{margin:0 0 0.9em;max-width:66ch}
+button{font-family:'DM Sans',system-ui,sans-serif;font-size:0.95rem;cursor:pointer}
+.ui{font-family:'DM Sans',system-ui,sans-serif}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+
+/* ---------- masthead ---------- */
+header{padding:72px 0 40px;border-bottom:1px solid var(--seam)}
+header p.sub{color:var(--ink-dim);font-size:1.05rem;margin-top:14px}
+
+/* ---------- progress strip: four doors ---------- */
+.strip{display:flex;gap:6px;margin:34px 0 0;flex-wrap:wrap}
+.door{
+  flex:1 1 140px;min-width:120px;position:relative;
+  background:var(--ground-2);border:1px solid var(--seam);
+  padding:14px 14px 16px;
+  font-family:'DM Sans',sans-serif;
+}
+.door.open{border-color:var(--seam);background:var(--ground-3)}
+.door::after{
+  content:"";position:absolute;top:8px;bottom:8px;left:10px;width:1px;
+  background:var(--seam);
+}
+.door.open::after{background:var(--ink-dim)}
+.door .n{font-size:0.78rem;color:var(--ink-dim);letter-spacing:0.04em;margin-left:12px}
+.door .t{font-size:0.95rem;font-weight:500;margin-left:12px;margin-top:3px}
+.door .a{font-size:0.75rem;color:var(--amber);margin-left:12px;margin-top:6px;min-height:1em}
+.door.locked .t{color:var(--ink-dim)}
+
+/* ---------- sections ---------- */
+section{padding:56px 0 0}
+.lede{color:var(--ink-dim);font-size:0.95rem;margin-top:6px}
+
+/* ---------- cards ---------- */
+.people{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:26px 40px;margin-top:30px}
+.card h3{margin-bottom:7px}
+.card p{font-size:0.95rem;line-height:1.62;color:var(--ink-dim);margin:0}
+.card{border-top:1px solid var(--seam);padding-top:15px}
+.card.panel{border-top:0;border-left:1px solid var(--teal-deep);padding:2px 0 2px 18px}
+.card.panel h3{font-weight:400;font-style:italic}
+.places{margin:40px 0 0;padding:0;border-bottom:1px solid var(--seam)}
+.places .row{display:grid;grid-template-columns:210px 1fr;gap:0 28px;padding:14px 0;border-top:1px solid var(--seam)}
+.places dt{font-weight:600;margin:0}
+.places dd{margin:0;color:var(--ink-dim);font-size:0.94rem;line-height:1.62}
+.places h3{grid-column:1 / -1;font-size:0.95rem;font-weight:400;color:var(--ink-dim);margin:0 0 -4px}
+@media(max-width:620px){.places .row{grid-template-columns:1fr;gap:5px}}
+
+/* ---------- gate ---------- */
+.gate{border:1px solid var(--seam);background:var(--ground-2);padding:26px;margin-top:26px}
+.gate.sealed{text-align:left}
+.gate h3{margin-bottom:6px}
+.gate .meta{font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--ink-dim);margin-bottom:18px}
+.btn{
+  background:var(--teal-deep);color:#fff;border:0;border-radius:var(--r);
+  padding:11px 20px;font-weight:500;
+}
+.btn:hover{background:var(--teal)}
+.btn[disabled]{background:var(--ground-3);color:var(--ink-dim);cursor:not-allowed}
+.btn.ghost{background:transparent;border:1px solid var(--seam);color:var(--ink)}
+.btn.ghost:hover{border-color:var(--teal);background:transparent}
+
+.q{margin-top:4px}
+.q .stem{font-size:1.12rem;line-height:1.55;margin-bottom:20px;max-width:62ch}
+.q .count{font-family:'DM Sans',sans-serif;font-size:0.8rem;color:var(--ink-dim);margin-bottom:14px}
+.opts{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.opt{
+  width:100%;text-align:left;background:var(--ground-3);border:1px solid var(--seam);
+  color:var(--ink);border-radius:var(--r);padding:13px 16px;line-height:1.5;
+  font-family:'Spectral',serif;font-size:1rem;font-weight:400;
+}
+.opt:hover{border-color:var(--teal-deep)}
+.opt[disabled]{opacity:0.45;cursor:not-allowed}
+.opt.chosen-wrong{border-color:var(--wrong);color:var(--wrong)}
+.opt.chosen-right{border-color:var(--teal);color:var(--teal)}
+
+.fb{margin-top:22px;padding:22px 24px 22px 26px;border-left:3px solid var(--wrong);background:rgba(196,112,92,0.07)}
+.fb.right{border-left-color:var(--teal);background:rgba(86,182,166,0.07)}
+.fb .name{font-family:'DM Sans',sans-serif;font-size:0.8rem;color:var(--wrong);letter-spacing:0.04em;margin-bottom:6px}
+.fb.right .name{color:var(--teal)}
+.fb p{font-size:1.03rem;line-height:1.72;margin:0 0 0.8em;max-width:60ch}
+.fb p:last-child{margin:0}
+.locator{font-family:'DM Sans',sans-serif;font-size:0.86rem;color:var(--amber)}
+
+.cool{font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--ink-dim);margin-top:16px}
+.toll{margin-top:18px;padding:18px;border:1px dashed var(--seam)}
+.toll label{display:block;font-family:'DM Sans',sans-serif;font-size:0.84rem;color:var(--ink-dim);margin:0 0 5px}
+.toll input,.toll textarea{
+  width:100%;background:var(--ground);border:1px solid var(--seam);color:var(--ink);
+  border-radius:var(--r);padding:10px 12px;font-family:'Spectral',serif;font-size:1rem;
+  margin-bottom:14px;
+}
+.toll textarea{min-height:64px;resize:vertical}
+.toll .hint{font-family:'DM Sans',sans-serif;font-size:0.8rem;color:var(--ink-dim);margin:-8px 0 14px}
+
+/* ---------- seminar ---------- */
+.prop{border:1px solid var(--seam);background:var(--ground-2);padding:22px;margin-top:14px}
+.prop h3{font-style:italic;font-weight:400;font-size:1.15rem;margin-bottom:4px}
+.prop .obj{font-family:'DM Sans',sans-serif;font-size:0.86rem;color:var(--amber);margin:12px 0 14px}
+.slots{display:grid;gap:8px}
+.slot{display:grid;grid-template-columns:90px 1fr;gap:8px}
+.slot input{background:var(--ground);border:1px solid var(--seam);color:var(--ink);border-radius:var(--r);padding:8px 10px;font-family:'Spectral',serif;font-size:0.95rem}
+@media(max-width:560px){.slot{grid-template-columns:1fr}}
+
+/* ---------- stub marker ---------- */
+.stub{border:1px dashed var(--seam);padding:16px 18px;margin-top:16px}
+.stub .k{font-family:'DM Sans',sans-serif;font-size:0.78rem;color:var(--ink-dim);margin-bottom:6px}
+.stub p{font-size:0.92rem;color:var(--ink-dim);margin:0}
+
+.band{display:flex;gap:2px;margin:14px 0 4px;max-width:430px}
+.band .seg{flex:1;height:7px;background:var(--seam)}
+.band .seg.on{background:var(--teal)}
+.band-note{font-family:'DM Sans',sans-serif;font-size:0.78rem;color:var(--ink-dim);margin:0}
+
+.rail{position:fixed;left:36px;top:50%;transform:translateY(-50%);display:none;flex-direction:column;z-index:10}
+@media(min-width:1200px){.rail{display:flex}}
+.rail::before{content:"";position:absolute;left:9px;top:-30px;bottom:-30px;width:1px;background:var(--seam)}
+.rail button{background:none;border:0;padding:11px 0;width:19px;display:block}
+.rail .mark{display:block;width:19px;height:27px;border:1px solid var(--seam);background:var(--ground);position:relative}
+.rail .mark::after{content:"";position:absolute;left:3px;top:4px;bottom:4px;width:1px;background:var(--seam)}
+.rail button.open .mark{border-color:var(--ink-dim)}
+.rail button.open .mark::after{background:var(--ink-dim)}
+.rail button.here .mark{border-color:var(--teal);background:var(--ground-3)}
+.rail button.here .mark::after{background:var(--teal);left:6px}
+.rail button[disabled]{cursor:default}
+
+.fig{margin:30px 0 8px}
+.fig svg{width:100%;height:auto;display:block}
+.figcap{font-size:0.94rem;color:var(--ink-dim);max-width:62ch;margin:14px 0 0}
+
+.hidden{display:none !important}
+footer{margin-top:80px;padding-top:26px;border-top:1px solid var(--seam);font-family:'DM Sans',sans-serif;font-size:0.84rem;color:var(--ink-dim)}
+.code{font-family:'DM Sans',monospace;color:var(--teal);letter-spacing:0.08em}
+@media (prefers-reduced-motion:no-preference){
+  .card,.prop{animation:none}
+}
+</style>
+</head>
+<body>
+<nav class="rail" id="rail" aria-label="How far you have opened"></nav>
+<div class="wrap">
+
+<header>
+  <h1>The Corridor</h1>
+  <p class="sub">Notes on <em>Dark Matter</em> by Blake Crouch. The later sections stay shut until you can answer for the chapters before them.</p>
+  <div class="strip" id="strip"></div>
+</header>
+
+<!-- ============ TIER 0 ============ -->
+<section id="tier0">
+  <h2>Before the abduction</h2>
+  <p class="lede">Established in the opening chapters. Read it before you start, or alongside chapter one.</p>
+  <div class="cards" id="cards0"></div>
+</section>
+
+<!-- ============ VOCABULARY ============ -->
+<section id="vocab">
+  <h2>Words to know</h2>
+  <div class="stub">
+    <div class="k">Placeholder</div>
+    <p>Twenty to thirty words that block a Swedish reader, each with the sentence it appears in and a chapter locator, weighted toward the physics register. Pending the vocabulary pass.</p>
+  </div>
+</section>
+
+<!-- ============ GATES AND TIERS ============ -->
+<section id="gate1wrap"></section>
+<section id="tier1" class="hidden">
+  <h2>The laboratory</h2>
+    <div class="cards" id="cards1"></div>
+</section>
+
+<section id="gate2wrap" class="hidden"></section>
+<section id="tier2" class="hidden">
+  <h2>The Box</h2>
+    <div class="cards" id="cards2"></div>
+</section>
+
+<section id="gate3wrap" class="hidden"></section>
+<section id="tier3" class="hidden">
+  <h2>The many</h2>
+  <div class="fig" id="branches"></div>
+  <p class="figcap" id="branchcap"></p>
+    <div class="cards" id="cards3"></div>
+</section>
+
+<!-- ============ SEMINAR ============ -->
+<section id="seminar" class="hidden">
+  <h2>Seminar preparation</h2>
+  <p class="lede">Six claims. Pick one to defend. Every line you bring to the seminar needs a chapter and a quotation, and you have to answer the objection.</p>
+  <div id="props"></div>
+</section>
+
+<footer>
+  <p>Your progress is stored in this browser only. <span id="exportline"></span></p>
+  <p><button class="btn ghost" id="reset">Clear my progress</button></p>
+</footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* ============================================================
+   STORAGE (guarded: falls back to memory if unavailable)
+   ============================================================ */
+var mem = {};
+var store = {
+  get: function(k){ try { return localStorage.getItem(k); } catch(e){ return mem[k] || null; } },
+  set: function(k,v){ try { localStorage.setItem(k,v); } catch(e){ mem[k]=v; } },
+  del: function(k){ try { localStorage.removeItem(k); } catch(e){ delete mem[k]; } }
+};
+var KEY = "darkmatter.corridor.v1";
+
+var S = {
+  unlocked: [true,false,false,false],
+  wrongs: [0,0,0,0],          // wrong answers accrued at each gate
+  unlockedOnAttempt: [1,null,null,null],
+  seenVariants: {},           // spineId -> [variantIndex,...]
+  resurface: [],              // {spineId, dueGate}
+  seminar: {}                 // propId+row+field -> text
+};
+(function load(){
+  var raw = store.get(KEY);
+  if(!raw) return;
+  try { var o = JSON.parse(raw); for(var k in o){ if(o.hasOwnProperty(k)) S[k]=o[k]; } } catch(e){}
+})();
+function save(){ store.set(KEY, JSON.stringify(S)); }
+
+/* ============================================================
+   CONTENT: TIER CARDS
+   Tier 0 corrected: Ryan is a neuroscientist. The Jason2 line has
+   been moved out of Daniela's tier 0 card and into tier 1.
+   ============================================================ */
+var CARDS = [
+[
+ {k:"Character",n:"Jason Dessen",t:"A physics professor at Lakemont College in Chicago, living a quiet family life in Logan Square. Fifteen years ago he was working on quantum superposition and walked away from it. On his way home from a bar one night he is taken at gunpoint."},
+ {k:"Character",n:"Daniela Dessen",t:"Jason's wife. A painter who set her own career aside and now teaches art lessons from home. The marriage is warm and she has never held the choice against him."},
+ {k:"Character",n:"Charlie Dessen",t:"Their fifteen-year-old son. He was gravely ill during his first year, which is when Jason left research. He skateboards, reads manga and draws."},
+ {k:"Character",n:"Ryan Holder",t:"Jason's old college roommate, now a neuroscientist who has just won the Pavia Prize. At the bar he tells Jason he is wasting himself on undergraduates."},
+ {k:"Character",n:"The masked man",t:"A figure in a white geisha mask who takes Jason at gunpoint, drives him to an abandoned building and questions him closely about his marriage, his career and whether he regrets the life he chose."},
+ {k:"Character",n:"Dr Julianne Springer",t:"The doctor who examines Jason at Chicago Mercy after he escapes. She tells him his blood contains an unidentified psychoactive drug, and that no record exists of his wife, his son, or his job."},
+ {k:"Setting",n:"The Logan Square brownstone",t:"The Dessen family home. Family dinners, art supplies, ordinary domestic weight. It is the life Jason chose instead of the laboratory."},
+ {k:"Setting",n:"The Village Tap",t:"A neighbourhood bar run by a bartender called Matt, where Ryan's prize is being celebrated. Jason stops in to congratulate him and then walks home."},
+ {k:"Setting",n:"Chicago Mercy Hospital",t:"Where Jason goes for help. Blood tests, a brain scan, a room on the eighth floor, and the discovery that the life he remembers cannot be verified by anyone."}
+],
+[
+ {k:"Character",n:"Jason2",t:"The man in the mask is another Jason Dessen. In his world he kept the research and lost the marriage. He built a way between realities, won the Pavia Prize for it, and came back to take the life he did not choose."},
+ {k:"Character",n:"Leighton Vance",t:"Chief executive of Velocity Laboratories. He put five billion dollars of private money behind Jason's work and will use surveillance, imprisonment and killing to keep it contained."},
+ {k:"Character",n:"Amanda Lucas",t:"A psychiatrist who has worked at Velocity for nearly nine years. She runs Jason's debriefing and tries to help him make sense of what she believes is amnesia."},
+ {k:"Character",n:"Daniela Vargas",t:"In this world she left Jason fifteen years ago when he chose the cleanroom over her pregnancy. She never had Charlie. She is an internationally known artist, and her installation Entanglement came out of him."},
+ {k:"Panel",n:"Daniela Dessen, at home",t:"In Jason's own world, the man who comes home is Jason2. Daniela notices a new intensity in her husband, a wider smile, more attention, and has no reason yet to doubt him."},
+ {k:"Setting",n:"Chicago Power",t:"A derelict power station on Pulaski Drive near the lake. Crumbling brick, dead generators. Under its floor is the way down into Velocity Laboratories."},
+ {k:"Setting",n:"Velocity Laboratories",t:"A research facility on several levels beneath the power plant. Cleanrooms, containment cells, a glassed debriefing theatre, a mission control ringing an enormous hangar, and armed security throughout."},
+ {k:"Setting",n:"The gallery",t:"The loft and exhibition space where the other Daniela shows her work. Glossy floors, a violin trio, and a walk-through installation built out of the idea of superposition."}
+],
+[
+ {k:"Setting",n:"The Box",t:"A sixteen-foot cube of an unfamiliar alloy. Soundproof, airtight, shielded from radiation, wrapped in a magnetic field. Nothing outside can observe what is inside, and that is the entire point of it."},
+ {k:"Setting",n:"The Corridor",t:"What the mind sees inside the Box once the compound takes hold. An endless hallway with a door every twelve feet. It is not a building. When the drug wears off it collapses back into one box in one world."},
+ {k:"Setting",n:"The other Chicagos",t:"Worlds behind the doors. One buried in volcanic ash, one locked in ice, one emptied by a haemorrhagic virus. They show what it costs to travel without control over your own mind."},
+ {k:"Panel",n:"Amanda Lucas",t:"She opens the hangar doors and runs into the Box with Jason rather than stay and face Leighton. She becomes his fellow traveller, managing the supply and holding him together through several worlds that nearly kill them."},
+ {k:"Panel",n:"Jason Dessen",t:"Inside the Box he works out what he is looking at. The compound suppresses the observer effect in the prefrontal cortex. His own mind, his fear and his wanting, are the steering."}
+],
+[
+ {k:"Character",n:"The other Jasons",t:"Dozens of versions of the Jason we followed, each branched off during the journey, each having found the way back to the same home world. They find each other in a chatroom. Some try lotteries and cooperation. Some hunt."},
+ {k:"Panel",n:"Jason Dessen",t:"He comes home to find himself outnumbered by himself. He gets arrested on purpose to reach Daniela and Charlie safely, kills Jason2 at the cabin, and understands that Chicago will never stop producing rivals."},
+ {k:"Panel",n:"Jason2",t:"The stolen life does not hold. He does not know how to be Charlie's father and the small wrongnesses accumulate. When the others flood the city he arms himself, hunts them, and tracks the family north."},
+ {k:"Panel",n:"Daniela Dessen",t:"She works out that her husband was replaced, and reaches the real one after he contacts her from custody. Faced with a crowd of identical men with identical claims, she chooses."},
+ {k:"Panel",n:"Charlie Dessen",t:"He sees through Jason2 quickly. At the end, in the Corridor, his parents give him the handle and let him choose the world."},
+ {k:"Setting",n:"Ice River, Wisconsin",t:"A shuttered lake house six hours north of Chicago where the family hides. It becomes the site of a night siege."},
+ {k:"Setting",n:"The last door",t:"The world Charlie opens at the end. Warm, sunlit, just after rain, smelling of wet ground and flowers nobody has named."}
+]
+];
+
+/* ============================================================
+   CONTENT: ITEM POOL
+   Gate 1 = three spine items, three variants each. Fully written.
+   Gates 2 and 3 = one stub item each so the flow is walkable.
+   ============================================================ */
+var SPINE = {
+
+  choice: {
+    ch:[1,2],
+    gate:1,
+    locator:"Chapter 2, the interrogation in the generator room. Also chapter 1, the walk home from the Village Tap.",
+    variants:[
+      {stem:"Why did Jason leave research fifteen years ago?",
+       opts:[
+        {t:"He chose to stay when Daniela became pregnant",ok:true},
+        {t:"His research funding was withdrawn that year",m:"The external obstacle",e:"You have read a closed door where the book puts a fork. Nothing was taken from Jason. He weighed two futures and picked one, and the novel only aches because the road was open."},
+        {t:"Ryan Holder took credit for the work they shared",m:"Ryan as villain",e:"This is thriller convention arriving early. Ryan is decent, and that is exactly why the comparison stings. If he were a thief, Jason would have a grievance instead of a regret."},
+        {t:"His experiments failed and he lost confidence",m:"The failure narrative",e:"This makes Jason pitiable rather than accountable. His work was going well. He stopped it, which is a heavier thing than failing at it."}
+       ]},
+      {stem:"Jason2 asks Jason whether he regrets his decision. What decision does he mean?",
+       opts:[
+        {t:"Staying with Daniela rather than the research",ok:true},
+        {t:"Turning down a position that was later withdrawn",m:"The external obstacle",e:"The question only works because Jason had a real choice and made it. If circumstance decided for him there is nothing to regret and no reason to ask."},
+        {t:"Letting Ryan publish the work they did together",m:"Ryan as villain",e:"You are looking for someone to blame. The novel refuses to supply one, which is why the interrogation is so uncomfortable to read."},
+        {t:"Abandoning a line of research that had stalled",m:"The failure narrative",e:"A stalled project is not much of a sacrifice. The scene needs Jason to have given up something that was working."}
+       ]},
+      {stem:"What does the novel suggest about the moment Jason's career ended?",
+       opts:[
+        {t:"It was a choice he made and could have made otherwise",ok:true},
+        {t:"It was forced on him by circumstances he did not choose",m:"The external obstacle",e:"Read the scene again. The pregnancy created a choice, not a compulsion. Jason2 is standing in front of Jason precisely because the other option was live."},
+        {t:"It followed a serious falling out with a colleague",m:"Ryan as villain",e:"There is friction with Ryan at the bar, but it is Ryan's frustration with Jason, not a betrayal. The book keeps the antagonist inside Jason himself."},
+        {t:"It followed the collapse of the work he was doing",m:"The failure narrative",e:"The work did not collapse. In another world it won the Pavia Prize."}
+       ]},
+      {stem:"Jason2 says he built the Box because he wanted to know. Know what?",
+       opts:[
+        {t:"What his life would have been after the other choice",ok:true},
+        {t:"Whether he could have kept the career some other way",m:"The external obstacle",e:"He kept the career. What he wants is the thing he gave up for it, and no accident stands in his way."},
+        {t:"Whether Ryan had been right about him from the start",m:"Ryan as villain",e:"Ryan is not on Jason2's mind. The rival in this novel is always the other self, never a colleague."},
+        {t:"Why his own research had never quite come together",m:"The failure narrative",e:"His research worked completely. He is the most successful physicist in his world and it has not helped him at all."}
+       ]}
+    ]
+  },
+
+  pavia: {
+    ch:[3,5],
+    gate:1,
+    locator:"Chapter 3, waking at Velocity Laboratories with Leighton Vance. Also chapter 5, the database search at Mercy.",
+    variants:[
+      {stem:"In the world Jason wakes up in, whose achievement is the Box?",
+       opts:[
+        {t:"Another Jason Dessen, who stayed in research",ok:true},
+        {t:"Jason's own, from before he lost his memory",m:"The amnesia reading",e:"You have folded two men into one life with a gap in the middle. Velocity believes this, which is why they say it to him. The novel does not. There are two Jasons and both remember everything."},
+        {t:"Ryan Holder's, whose field here is physics",m:"Ryan as physicist",e:"Ryan is a neuroscientist. He won the Pavia Prize in neuroscience, and later builds the compound, not the Box. Keeping his field straight matters, because Ryan is not the man Jason would have become."},
+        {t:"Velocity's, with Jason's name attached to it",m:"The conspiracy reading",e:"Leighton is dangerous but he is not lying about this. The work really is a Jason Dessen's, which is what makes the story a mirror rather than a fraud."}
+       ]},
+      {stem:"Leighton greets Jason as a returning colleague. What is he wrong about?",
+       opts:[
+        {t:"That this is the Jason who used to work here",ok:true},
+        {t:"That the man before him has lost fourteen months",m:"The amnesia reading",e:"Leighton is not wrong to think something is missing. He is wrong about what. The gap is not in Jason's memory, it is between two people who share a face."},
+        {t:"That Jason has a background in physics research",m:"Ryan as physicist",e:"Jason is a physicist in both worlds. That is not the discrepancy. Watch instead for what each Jason did with the physics."},
+        {t:"That the work done at the laboratory is genuine",m:"The conspiracy reading",e:"The work is real. If it were not, Jason would have no way home and no novel."}
+       ]},
+      {stem:"What separates the two Jasons?",
+       opts:[
+        {t:"One kept the research, the other kept the family",ok:true},
+        {t:"One remembers his whole life and the other does not",m:"The amnesia reading",e:"Both remember their lives completely and in detail. That is what makes each of them certain he is the real one."},
+        {t:"One is a physicist and the other changed fields",m:"Ryan as physicist",e:"Neither changed field. One simply stopped. You may be thinking of Ryan, who works in neuroscience in both worlds."},
+        {t:"One is real and the other was made by Velocity",m:"The conspiracy reading",e:"Neither is a copy. Both are original, and the ending cannot get around it."}
+       ]},
+      {stem:"Velocity has fourteen months of records for a Jason Dessen. Whose months are they?",
+       opts:[
+        {t:"Jason2's, from before he left to swap places",ok:true},
+        {t:"The same man's, from a period he cannot recall",m:"The amnesia reading",e:"You are still trying to make one man out of two. Those fourteen months belong to somebody who is, at this moment, eating dinner in Logan Square."},
+        {t:"Ryan Holder's, filed under somebody else's name",m:"Ryan as physicist",e:"Ryan works in neuroscience, and his part of this comes later and elsewhere. The records are a physicist's."},
+        {t:"Fabricated, to give the project a public face",m:"The conspiracy reading",e:"The records are accurate. Everything Velocity believes about its missing scientist is true, just not about the man standing in front of them."}
+       ]}
+    ]
+  },
+
+  tumour: {
+    ch:[5],
+    gate:1,
+    locator:"Chapter 5, the scan and the toxicology result at Chicago Mercy.",
+    variants:[
+      {stem:"The hospital scans Jason's brain. What does the result establish?",
+       opts:[
+        {t:"There is nothing physically wrong with him",ok:true},
+        {t:"A tumour is interfering with his memory",m:"The tumour explanation",e:"The scan is clean, and Crouch puts it early on purpose. He is closing the exit the genre has trained you to expect, so that you cannot retreat into a medical reading."},
+        {t:"He is in the middle of a psychiatric episode",m:"The delusion reading",e:"The drug in his blood is real and measurable, and so is the fact that his family cannot be found in any record. A delusion does not erase a marriage from a database."},
+        {t:"He is inside a simulation run by the laboratory",m:"The simulation reading",e:"Nothing in the novel supports this. The other worlds are physically real and Jason can be killed in them, which is the source of most of the danger."}
+       ]},
+      {stem:"Why does the novel test Jason medically so early?",
+       opts:[
+        {t:"To rule out the explanations a reader wants",ok:true},
+        {t:"To set up a later revelation about his illness",m:"The tumour explanation",e:"No such revelation arrives. If you are still waiting for it at the end, you have been reading a different book alongside this one."},
+        {t:"To suggest that his account cannot be trusted",m:"The delusion reading",e:"The opposite. The tests confirm the drug and confirm the missing records. His account gets more reliable, not less."},
+        {t:"To hint that his surroundings are not genuine",m:"The simulation reading",e:"A hospital that produces real toxicology on a real drug is not a hint of artifice. Take the world in front of Jason as solid."}
+       ]},
+      {stem:"By the end of chapter five, what has been ruled out?",
+       opts:[
+        {t:"That Jason is ill, imagining this, or being deceived",ok:true},
+        {t:"That the drug he was given had any lasting effect",m:"The tumour explanation",e:"That is not what was ruled out. The drug is confirmed present. What is ruled out is a physical cause inside Jason's head."},
+        {t:"That Velocity Laboratories exists anywhere but here",m:"The delusion reading",e:"Velocity is verifiable and Jason has just come from it. What the chapter cannot verify is his family."},
+        {t:"That Jason is really the man Velocity thinks he is",m:"The simulation reading",e:"Not yet. That question stays open for several more chapters, and the uncertainty is doing useful work."}
+       ]},
+      {stem:"A reader who expects this to end with Jason waking in a hospital bed is reading which genre?",
+       opts:[
+        {t:"A psychological thriller, which this is not",ok:true},
+        {t:"A medical thriller, as the brain scan suggests",m:"The tumour explanation",e:"The scan does the opposite of confirming it. Crouch shows you the clean result so that you stop holding the door open."},
+        {t:"A story about a narrator who cannot be trusted",m:"The delusion reading",e:"Jason is reliable throughout. He is confused, which is different, and the confusion resolves into something worse than madness."},
+        {t:"Science fiction set inside a simulated world",m:"The simulation reading",e:"The worlds are physical. Amanda nearly freezes in one and people die in others, and none of it is recoverable."}
+       ]}
+    ]
+  },
+
+  danielas: {
+    ch:[1,6,11],
+    gate:2,
+    locator:"Chapter 6, the anteroom at the Oomph gallery. Also chapter 1, the kitchen in Logan Square, and chapter 11, the co-op in Bucktown.",
+    variants:[
+      {stem:"Which Daniela is the internationally known artist?",
+       opts:[
+        {t:"The one who never had a child with Jason",ok:true},
+        {t:"The one who married Jason and had Charlie",m:"The inversion",e:"You have swapped them. Jason's wife set the work aside after Charlie was born and teaches lessons from the house. The famous one is the woman who left."},
+        {t:"Both, at different stages of the same life",m:"One woman, two chapters",e:"There is no single life here. These are two women with the same childhood who stopped sharing a future fifteen years ago."},
+        {t:"Neither, since Jason2 arranged the whole show",m:"The staged world",e:"Entanglement is hers. She built it, and she tells Jason she thought about him the whole time she was building it."}
+       ]},
+      {stem:"What did Daniela Vargas give up that Daniela Dessen kept?",
+       opts:[
+        {t:"The family she might have had with him",ok:true},
+        {t:"The career in art she had been building",m:"The inversion",e:"Backwards. Vargas kept the career. Dessen kept the family and teaches lessons on the side."},
+        {t:"Nothing, the choice was Jason's to make",m:"One woman, two chapters",e:"Both women made choices. Reading Daniela as the object of Jason's decision rather than the maker of her own is the flattest reading available."},
+        {t:"Any lasting connection she had to Jason",m:"The clean break",e:"She did not give that up. The installation exists because she never stopped thinking about him, which is what makes the gallery scene hurt."}
+       ]},
+      {stem:"In chapter 11 Jason watches a woman in a Bucktown co-op and thinks about paths not taken. What does the scene establish?",
+       opts:[
+        {t:"That wondering about another life is normal",ok:true},
+        {t:"That the artist Daniela made the better choice",m:"Ranking the lives, for the career",e:"The novel refuses to rank them. It shows you a woman with the career, still wondering. That symmetry is the argument."},
+        {t:"That the wife Daniela made the better choice",m:"Ranking the lives, for the family",e:"Same problem in the other direction. Crouch gives neither woman a settled answer, and a reading that awards a winner loses the point."},
+        {t:"That Daniela exists in only the two versions",m:"One woman, two chapters",e:"There are as many as there are worlds. Two is simply how many this novel has time to show you."}
+       ]},
+      {stem:"What does Entanglement tell Jason before Daniela says anything?",
+       opts:[
+        {t:"That she built a career with him still in it",ok:true},
+        {t:"That she put him out of her mind entirely",m:"The clean break",e:"The opposite. The work came out of him, and she says so directly at the reception."},
+        {t:"That Velocity built the exhibit to test him",m:"The staged world",e:"Nothing is staged here. Jason has walked into an ordinary evening in a life that was not ordinary for him."},
+        {t:"That she is exactly the woman he married",m:"One woman, two chapters",e:"She is not. The signature on the sketch gives it away before he reaches the gallery: Vargas, not Dessen."}
+       ]}
+    ]
+  },
+
+  compound: {
+    ch:[8,9],
+    gate:2,
+    locator:"Chapter 8, inside the Box for the first time. Also chapter 9, where Jason works out what has been done to him.",
+    variants:[
+      {stem:"What does the compound in the ampoule actually do?",
+       opts:[
+        {t:"It stops one part of the brain from observing",ok:true},
+        {t:"It opens a passage from one world to another",m:"The magic potion",e:"It opens nothing. Injected anywhere but inside the Box it would do nothing useful at all. The Box supplies the isolation, the drug removes the last observer, which is the occupant."},
+        {t:"It supplies the power that the Box runs on",m:"The fuel",e:"The Box needs no fuel from a syringe. What the Box cannot do by itself is silence the mind of the person standing in it."},
+        {t:"It produces a vision of worlds that are not there",m:"The hallucinogen",e:"If this were a vision, Jason could not freeze to death in it. The doors lead to places that go on existing after he leaves."}
+       ]},
+      {stem:"Why is the Box not enough on its own?",
+       opts:[
+        {t:"Because the person standing inside is still observing",ok:true},
+        {t:"Because it needs the compound to generate the field",m:"The fuel",e:"The field is the Box's own. The problem the drug solves is biological, not electrical."},
+        {t:"Because the doors will not appear without the drug",m:"The magic potion",e:"Close, but the reasoning is backwards. The doors are not conjured by the drug. They are what superposition looks like once nothing is collapsing it, and the last thing collapsing it is you."},
+        {t:"Because a sober mind cannot perceive five dimensions",m:"The hallucinogen",e:"Perception is not the obstacle. Observation is. The distinction is the whole idea the novel is built on."}
+       ]},
+      {stem:"Which part of the brain does the compound act on?",
+       opts:[
+        {t:"The prefrontal cortex, and nowhere else",ok:true},
+        {t:"The visual cortex, to produce the corridor",m:"The hallucinogen",e:"The corridor is not painted onto Jason's vision. It is the mind rendering something that is there, in the only shape a human can hold."},
+        {t:"The hippocampus, to suspend his memory",m:"The amnesia reading",e:"Jason remembers everything throughout. When he meets the others, that becomes his problem."},
+        {t:"None, the effect is chemical not neural",m:"The fuel",e:"The effect is precisely neurological. Ryan spent four years on it for that reason."}
+       ]},
+      {stem:"Ryan Holder built the compound. Why him?",
+       opts:[
+        {t:"Because the problem was a brain, not a machine",ok:true},
+        {t:"Because he had already won the Pavia for physics",m:"Ryan as physicist",e:"Ryan works in neuroscience in both worlds. Getting his field right matters, because the Box needed a physicist and a brain scientist, and the two Jasons only supply one of those."},
+        {t:"Because he was the only person Jason2 could trust",m:"The loyalty reading",e:"Trust is not what recruited him. Expertise was. Jason2 needed somebody who could switch off a specific piece of cortex."},
+        {t:"Because the drug is a modified anaesthetic agent",m:"The magic potion",e:"It is not a general sedative. It is targeted at one function, and a blunt drug would not do."}
+       ]}
+    ]
+  },
+
+  corridor: {
+    ch:[8,10],
+    gate:2,
+    locator:"Chapter 8, the first superposition. Also chapter 10, where the mechanics are worked out.",
+    variants:[
+      {stem:"What is the corridor?",
+       opts:[
+        {t:"The shape a mind gives to superposition",ok:true},
+        {t:"A tunnel system running beneath Chicago",m:"The building",e:"Nobody built it. There is only ever one sixteen-foot box, and the hallway exists for as long as a mind inside it is not collapsing what it sees."},
+        {t:"A permanent junction between the worlds",m:"The station",e:"It is not a place that waits for you. Open a door or let the drug wear off and it is gone, and the box is standing in one world again."},
+        {t:"A shared hallucination caused by the drug",m:"The hallucinogen",e:"Two people see the same doors and step through together into a world that then kills them or does not. A hallucination does not do that."}
+       ]},
+      {stem:"What happens to the corridor when a door opens?",
+       opts:[
+        {t:"It collapses, and the box is in one world",ok:true},
+        {t:"It stays open in the space behind them",m:"The station",e:"There is no way back through a door that is no longer there. Every crossing costs another ampoule for that reason."},
+        {t:"It narrows to whichever worlds are nearby",m:"The building",e:"You are thinking of it as geography. It has no layout to narrow. The doors are not arranged in space."},
+        {t:"It follows whoever is holding the handle",m:"The portable corridor",e:"Nothing travels with anybody. The wave function resolves and what is left is a box standing in a world."}
+       ]},
+      {stem:"Jason and Amanda see the same corridor. What does that tell you?",
+       opts:[
+        {t:"That it shows something real, in a form the mind makes",ok:true},
+        {t:"That it is a physical structure the two of them stand in",m:"The building",e:"Shared is not the same as physical. They are both under the same drug in the same box, resolving the same superposition."},
+        {t:"That the drug produces a standard vision in everyone",m:"The hallucinogen",e:"A standard vision would not let them survive in the world behind the door. Something is on the other side whether or not they look at it."},
+        {t:"That Velocity trained them both to see it this way",m:"The staged world",e:"Nobody was trained. Amanda has never been inside before, which is part of why she is so frightened."}
+       ]},
+      {stem:"How long does the corridor last?",
+       opts:[
+        {t:"About an hour, for as long as the compound lasts",ok:true},
+        {t:"Indefinitely, until somebody opens one of the doors",m:"The station",e:"There is a clock on it. The drug wears off, the wave function collapses, and whatever world the box has landed in is where you are."},
+        {t:"Until the Box is shut down from somewhere outside",m:"The building",e:"Nothing outside can reach it. That isolation is what makes the state possible in the first place."},
+        {t:"Until the traveller's concentration finally breaks",m:"The willpower reading",e:"Concentration is not holding it open. Chemistry is. What concentration affects is which door you end up at."}
+       ]}
+    ]
+  },
+
+  navigation: {
+    ch:[9,10,11],
+    gate:3,
+    locator:"Chapters 9 and 10, learning what steers. Also chapter 11, where Jason starts writing his intentions down.",
+    variants:[
+      {stem:"What decides which world is behind the door?",
+       opts:[
+        {t:"The mind of the person opening it, below choice",ok:true},
+        {t:"Coordinates entered into the Box beforehand",m:"The console",e:"There is no console. No dial, no keyboard, no destination to type. Jason searches the Box for controls and there are none, which is the moment the real problem arrives."},
+        {t:"Chance alone, since the doors are identical",m:"The random draw",e:"If it were chance Jason could never get home, and the novel would have no ending. Something steers, and that is worse."},
+        {t:"Conscious intention, held firmly enough to work",m:"The willpower reading",e:"Not quite, and the gap is where the horror lives. Fear steers as well as wanting, which is how they keep arriving in ruined cities."}
+       ]},
+      {stem:"Why do Jason and Amanda keep reaching dead and ruined worlds?",
+       opts:[
+        {t:"Because their fear steers as well as their hope",ok:true},
+        {t:"Because ruined worlds outnumber the liveable ones",m:"The random draw",e:"Frequency is not the mechanism. They are being delivered to their own dread, which is a far less comfortable explanation."},
+        {t:"Because the Box drifts with no destination entered",m:"The console",e:"There is nothing to program. The steering is happening whether or not they understand it."},
+        {t:"Because they are not concentrating hard enough",m:"The willpower reading",e:"They concentrate constantly. The parts of them doing the work are not reachable by effort. Hence the notes Jason starts writing before he doses."}
+       ]},
+      {stem:"Why does Jason start writing detailed descriptions before he doses?",
+       opts:[
+        {t:"To aim the parts of his mind he cannot control",ok:true},
+        {t:"To keep a written record of it all for Velocity",m:"The staged world",e:"He is running from Velocity. Nobody is collecting his notes."},
+        {t:"To programme the Box before he steps inside",m:"The console",e:"The Box takes no input. The notes are aimed at himself."},
+        {t:"To prove to himself that the worlds are real",m:"The hallucinogen",e:"He stopped doubting that some worlds ago, usually the hard way."}
+       ]},
+      {stem:"What is the most unsettling implication of how the Box is steered?",
+       opts:[
+        {t:"That your unchosen wants decide where you go",ok:true},
+        {t:"That the machine has an agenda all of its own",m:"The console",e:"The machine wants nothing. It is a sealed cube. Everything that decides is inside the traveller."},
+        {t:"That no journey can ever be repeated exactly",m:"The random draw",e:"Repetition is not the theme. Responsibility is. The same mind in the same state goes somewhere similar."},
+        {t:"That a strong enough will can take you anywhere",m:"The willpower reading",e:"This is the reassuring version and the book withholds it. Will is not in charge, and Jason never fully gets control."}
+       ]}
+    ]
+  },
+
+  timemachine: {
+    ch:[9,10,14],
+    gate:3,
+    locator:"Chapters 9 and 10, on what the Box reaches. Also chapter 14, at the cabin.",
+    variants:[
+      {stem:"What can the Box not do?",
+       opts:[
+        {t:"Move backwards or forwards through time",ok:true},
+        {t:"Reach a world where Jason kept researching",m:"The narrow reading",e:"It reaches that one easily. It is the first world Jason wakes up in."},
+        {t:"Carry more than one traveller at a time",m:"The solo reading",e:"Amanda travels with him for most of the middle of the book, and three Dessens step in at the end."},
+        {t:"Return to a world that it has already left",m:"The one-way reading",e:"Jason spends the whole second half getting back to a world he left, and succeeds. What he cannot do is get back to a moment."}
+       ]},
+      {stem:"Why can Jason not simply undo the choice he made fifteen years ago?",
+       opts:[
+        {t:"Because the Box reaches presents, not any past",ok:true},
+        {t:"Because the drug supply would not last that long",m:"The supply reading",e:"Distance in time is not measured in ampoules. There is no route to fifteen years ago at any price."},
+        {t:"Because changing the past would wipe out Charlie",m:"The paradox reading",e:"You have imported a rule from time travel stories. This novel never reaches the point where that rule would apply."},
+        {t:"Because when it comes to it he does not want to",m:"The sentimental reading",e:"What he wants is not the obstacle. The physics is."}
+       ]},
+      {stem:"Every world the Box reaches shares what with Jason's own?",
+       opts:[
+        {t:"Nothing but the present moment itself",ok:true},
+        {t:"The same geography and the same people",m:"The narrow reading",e:"One is under volcanic ash and another is empty of people. The only reliable constant is when."},
+        {t:"A version of Jason living inside it",m:"Jason at the centre",e:"In several of them Jason was never born, and in one or two nobody was. The worlds do not arrange themselves around him."},
+        {t:"Another Box waiting somewhere in it",m:"The station",e:"He brings the box with him. It is the one object that crosses."}
+       ]},
+      {stem:"What does the limit on the Box cost Jason at the end?",
+       opts:[
+        {t:"Any chance of repairing what already happened",ok:true},
+        {t:"The chance to warn himself before the abduction",m:"The paradox reading",e:"That option was never on the table, which is why the ending has to be built out of a new world rather than a corrected one."},
+        {t:"The chance to see whether his choice was right",m:"The sentimental reading",e:"He does see. He has walked through the alternative and met the man who lived it."},
+        {t:"Any chance of ever finding his way home again",m:"The one-way reading",e:"He gets home. Home is what turns out to be the problem."}
+       ]}
+    ]
+  },
+
+  swarm: {
+    ch:[12,13],
+    gate:3,
+    locator:"Chapter 12, the bar on North Avenue and the chatroom. Also chapter 13.",
+    variants:[
+      {stem:"Where did the other Jasons come from?",
+       opts:[
+        {t:"They branched off him and found their way back",ok:true},
+        {t:"Velocity manufactured the whole lot of them",m:"The conspiracy reading",e:"Nobody made them. Every one of them is a Jason who went into the corridor wanting exactly what he wanted."},
+        {t:"They are copies the Box left behind on the way",m:"The clone reading",e:"There is no original and no copy. Each has the full life, the same wife, the same fifteen years."},
+        {t:"Jason2 recruited them and sent them after him",m:"The single villain",e:"Jason2 is as outnumbered as anybody, and he hunts them rather than leads them."}
+       ]},
+      {stem:"Killing Jason2 at the cabin does not solve the problem. Why not?",
+       opts:[
+        {t:"Because the other Jasons are still arriving",ok:true},
+        {t:"Because Daniela cannot forgive him for it",m:"The sentimental reading",e:"Her reaction is not what leaves the family unsafe. Arithmetic is."},
+        {t:"Because Velocity will only send more of them",m:"The conspiracy reading",e:"Velocity is in another world entirely and has no reach here."},
+        {t:"Because Jason2 was not the one who took him",m:"The mistaken identity reading",e:"He was. It changes nothing, because the threat was never limited to him."}
+       ]},
+      {stem:"Why does the swarm make the ending harder than a single rival would?",
+       opts:[
+        {t:"Because each has an equal claim on the family",ok:true},
+        {t:"Because there are too many of them to fight",m:"The numbers problem",e:"Numbers are the least of it. If they were faceless the problem would be tactical. The difficulty is that each one is him."},
+        {t:"Because a number of them are willing to kill",m:"The threat reading",e:"Some are and some propose lotteries. The reasonable ones are no easier to dismiss."},
+        {t:"Because none of them is the real Jason at all",m:"The clone reading",e:"All of them are, and no test exists that would sort them."}
+       ]},
+      {stem:"What does the swarm do to the idea of being someone in particular?",
+       opts:[
+        {t:"It removes any test that could single one out",ok:true},
+        {t:"It proves the original is the only genuine one",m:"The clone reading",e:"Nothing in the book supports a rank. Every Jason has the memories, the wedding, the sick baby, the fifteen years."},
+        {t:"It shows identity is decided by whoever loves you",m:"The sentimental reading",e:"Daniela does choose, which matters. But the novel does not present her choice as a verdict on which man was real."},
+        {t:"It shows identity is only a matter of paperwork",m:"The bureaucratic reading",e:"Records identify all of them equally well."}
+       ]}
+    ]
+  }
+};
+
+var GATE_META = [
+ null,
+ {n:1,title:"After chapter five",items:["choice","pavia","tumour"]},
+ {n:2,title:"After chapter nine",items:["danielas","compound","corridor"]},
+ {n:3,title:"After chapter fifteen",items:["navigation","timemachine","swarm"]}
+];
+
+var PROPS = [
+ {id:"p1",claim:"Jason2 is not a villain.",obj:"He murdered a version of Daniela's world to get what he wanted. Answer that."},
+ {id:"p2",claim:"The novel is about regret, not about physics.",obj:"If the physics is only decoration, why does Crouch spend so long on the observer effect?"},
+ {id:"p3",claim:"Daniela has no real agency in the plot.",obj:"She makes the choice the whole ending turns on. Answer that."},
+ {id:"p4",claim:"The ending is a happy one.",obj:"They abandon a world, a house and everyone they know, and the door is chosen by a fifteen-year-old."},
+ {id:"p5",claim:"The Jason who gets home has no better claim to the family than the others.",obj:"He is the one who was taken. Does being the original count for anything?"},
+ {id:"p6",claim:"Charlie opening the last door is the right ending.",obj:"He has the least information of the three. Why is he the one holding the handle?"}
+];
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+
+var DOORNAMES=["Before the abduction","The laboratory","The Box","The many"];
+function renderStrip(){
+  var s=document.getElementById("strip"); s.innerHTML="";
+  for(var i=0;i<4;i++){
+    var d=el("div","door "+(S.unlocked[i]?"open":"locked"));
+    d.appendChild(el("div","n","Tier "+i));
+    d.appendChild(el("div","t",S.unlocked[i]?DOORNAMES[i]:"Locked"));
+    var a="";
+    if(S.unlocked[i] && S.unlockedOnAttempt[i]!=null){
+      a = i===0 ? "Open from the start" : "Unlocked on attempt "+S.unlockedOnAttempt[i];
+    }
+    d.appendChild(el("div","a",a));
+    s.appendChild(d);
+  }
+}
+
+function renderCards(tier){
+  var box=document.getElementById("cards"+tier); if(!box) return;
+  box.innerHTML="";
+  var people=[],places=[];
+  CARDS[tier].forEach(function(c){ (c.k==="Setting"?places:people).push(c); });
+  if(people.length){
+    var g=el("div","people");
+    people.forEach(function(c){
+      var card=el("div","card"+(c.k==="Panel"?" panel":""));
+      card.appendChild(el("h3",null,c.n));
+      card.appendChild(el("p",null,c.t));
+      g.appendChild(card);
+    });
+    box.appendChild(g);
+  }
+  if(places.length){
+    var dl=el("dl","places");
+    places.forEach(function(c){
+      var row=el("div","row");
+      var dt=document.createElement("dt"); dt.textContent=c.n;
+      var dd=document.createElement("dd"); dd.textContent=c.t;
+      row.appendChild(dt); row.appendChild(dd); dl.appendChild(row);
+    });
+    box.appendChild(dl);
+  }
+}
+
+function renderSeminar(){
+  var box=document.getElementById("props"); box.innerHTML="";
+  PROPS.forEach(function(p){
+    var w=el("div","prop");
+    w.appendChild(el("h3",null,p.claim));
+    w.appendChild(el("div","obj","The objection you have to answer: "+p.obj));
+    var slots=el("div","slots");
+    for(var r=0;r<3;r++){
+      var row=el("div","slot");
+      var a=document.createElement("input");
+      a.placeholder="Chapter";
+      a.value=S.seminar[p.id+".c"+r]||"";
+      a.dataset.k=p.id+".c"+r;
+      var b=document.createElement("input");
+      b.placeholder="Quotation and what it proves";
+      b.value=S.seminar[p.id+".q"+r]||"";
+      b.dataset.k=p.id+".q"+r;
+      [a,b].forEach(function(inp){
+        inp.addEventListener("input",function(){S.seminar[this.dataset.k]=this.value;save();});
+      });
+      row.appendChild(a);row.appendChild(b);
+      slots.appendChild(row);
+    }
+    w.appendChild(slots);
+    box.appendChild(w);
+  });
+}
+
+/* ============================================================
+   GATE ENGINE
+   ============================================================ */
+var COOLDOWN_MS = 45000;
+
+function chapterBand(chs){
+  var b=el("div","band");
+  for(var i=1;i<=15;i++){
+    var seg=el("span","seg"+((chs||[]).indexOf(i)>=0?" on":""));
+    seg.title="Chapter "+i;
+    b.appendChild(seg);
+  }
+  return b;
+}
+
+function shuffle(a){ // Fisher-Yates
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}
+  return a;
+}
+
+function pickVariant(spineId){
+  var sp=SPINE[spineId];
+  var seen=S.seenVariants[spineId]||[];
+  var pool=[];
+  for(var i=0;i<sp.variants.length;i++){ if(seen.indexOf(i)<0) pool.push(i); }
+  if(!pool.length){ pool=[]; for(var j=0;j<sp.variants.length;j++) pool.push(j); seen=[]; }
+  var choice=pool[Math.floor(Math.random()*pool.length)];
+  seen.push(choice); S.seenVariants[spineId]=seen; save();
+  return choice;
+}
+
+function buildQueue(gate){
+  var q=[];
+  // resurfaced items first
+  S.resurface.forEach(function(r){ if(r.dueGate===gate && SPINE[r.spineId]) q.push({id:r.spineId,resurfaced:true}); });
+  S.resurface = S.resurface.filter(function(r){ return r.dueGate!==gate; });
+  GATE_META[gate].items.forEach(function(id){ q.push({id:id,resurfaced:false}); });
+  return q;
+}
+
+function renderGate(gate){
+  var wrap=document.getElementById("gate"+gate+"wrap");
+  if(!wrap) return;
+  wrap.classList.remove("hidden");
+  wrap.innerHTML="";
+  var g=el("div","gate sealed");
+  g.appendChild(el("h3",null,"Gate "+gate+" — "+GATE_META[gate].title));
+  var due=S.resurface.filter(function(r){return r.dueGate===gate;}).length;
+  g.appendChild(el("div","meta",
+    GATE_META[gate].items.length+" question"+(GATE_META[gate].items.length>1?"s":"")+
+    (due?", plus "+due+" returning from an earlier gate":"")+
+    ". A wrong answer does not lock you out. It costs you time and a trip back to the book."));
+  var b=el("button","btn ui"); b.textContent="Open gate "+gate;
+  b.onclick=function(){ runGate(gate,g); };
+  g.appendChild(b);
+  wrap.appendChild(g);
+  if(SPINE[GATE_META[gate].items[0]].stub){
+    var st=el("div","stub");
+    st.appendChild(el("div","k","Placeholder"));
+    st.appendChild(el("p",null,"One placeholder item so the flow is walkable. The real gate needs three spine items with three variants each."));
+    wrap.appendChild(st);
+  }
+}
+
+function runGate(gate,container){
+  var queue=buildQueue(gate);
+  var idx=0;
+  step();
+
+  function step(){
+    if(idx>=queue.length){ unlock(gate); return; }
+    var entry=queue[idx];
+    var spineId=entry.id;
+    var sp=SPINE[spineId];
+    var vi=pickVariant(spineId);
+    ask(spineId,sp,vi,entry.resurfaced,0);
+  }
+
+  function ask(spineId,sp,vi,resurfaced,wrongsHere){
+    var v=sp.variants[vi];
+    container.innerHTML="";
+    var q=el("div","q");
+    q.appendChild(el("div","count ui","Question "+(idx+1)+" of "+queue.length+
+      (resurfaced?" · returning from an earlier gate":"")));
+    q.appendChild(el("div","stem",v.stem));
+    var ul=el("ul","opts");
+    var opts=shuffle(v.opts.slice());
+    opts.forEach(function(o){
+      var li=document.createElement("li");
+      var btn=el("button","opt"); btn.textContent=o.t;
+      btn.onclick=function(){ answer(o,btn,ul,q,spineId,sp,vi,resurfaced,wrongsHere); };
+      li.appendChild(btn); ul.appendChild(li);
+    });
+    q.appendChild(ul);
+    container.appendChild(q);
+    var first=ul.querySelector("button"); if(first) first.focus();
+  }
+
+  function answer(o,btn,ul,q,spineId,sp,vi,resurfaced,wrongsHere){
+    Array.prototype.forEach.call(ul.querySelectorAll("button"),function(b){b.disabled=true;});
+    if(o.ok){
+      btn.className="opt chosen-right";
+      var fb=el("div","fb right");
+      fb.appendChild(el("div","name ui","Correct"));
+      fb.appendChild(el("p",null,"The book supports that reading."));
+      q.appendChild(fb);
+      var next=el("button","btn ui"); next.textContent = (idx+1>=queue.length) ? "Open the door" : "Next question";
+      next.style.marginTop="18px";
+      next.onclick=function(){ idx++; step(); };
+      q.appendChild(next); next.focus();
+      return;
+    }
+    // wrong
+    btn.className="opt chosen-wrong";
+    S.wrongs[gate]++;
+    if(wrongsHere===0){
+      S.resurface.push({spineId:spineId,dueGate:gate+1});
+      S.resurface.push({spineId:spineId,dueGate:gate+3});
+    }
+    save(); renderStrip();
+
+    var fb=el("div","fb");
+    fb.appendChild(el("div","name ui",o.m||"Not the reading the book supports"));
+    fb.appendChild(el("p",null,o.e||""));
+    fb.appendChild(el("p","locator","Go back to "+sp.locator));
+    fb.appendChild(chapterBand(sp.ch));
+    fb.appendChild(el("p","band-note","Fifteen chapters. The marked ones hold what you need."));
+    q.appendChild(fb);
+
+    if(wrongsHere===0){
+      var cool=el("div","cool ui","");
+      q.appendChild(cool);
+      var until=Date.now()+COOLDOWN_MS;
+      var retry=el("button","btn ui"); retry.textContent="Try another question on this point";
+      retry.disabled=true; retry.style.marginTop="14px";
+      retry.onclick=function(){ ask(spineId,sp,pickVariant(spineId),resurfaced,1); };
+      q.appendChild(retry);
+      var tick=setInterval(function(){
+        var left=Math.ceil((until-Date.now())/1000);
+        if(left<=0){ clearInterval(tick); cool.textContent="You can try a different question on this point now."; retry.disabled=false; retry.focus(); }
+        else { cool.textContent="Read the passage. Another question on this point in "+left+"s."; }
+      },250);
+      cool.textContent="Read the passage. Another question on this point in 45s.";
+    } else {
+      q.appendChild(buildToll(function(){ ask(spineId,sp,pickVariant(spineId),resurfaced,wrongsHere+1); }));
+    }
+  }
+
+  function buildToll(onDone){
+    var t=el("div","toll");
+    t.appendChild(el("p","hint ui","Second miss on this point. No timer this time. Find the passage and type what you found."));
+    var l1=el("label",null,"Page number"); t.appendChild(l1);
+    var pg=document.createElement("input"); pg.type="text"; pg.placeholder="e.g. 47"; t.appendChild(pg);
+    var l2=el("label",null,"About ten words from the passage"); t.appendChild(l2);
+    var qt=document.createElement("textarea"); qt.placeholder="Copy it from the book."; t.appendChild(qt);
+    t.appendChild(el("p","hint ui","Nothing here is graded or sent anywhere. Typing it is the point."));
+    var go=el("button","btn ui"); go.textContent="I found it"; go.disabled=true;
+    function check(){ go.disabled = !(pg.value.trim().length>0 && qt.value.trim().length>=20); }
+    pg.addEventListener("input",check); qt.addEventListener("input",check);
+    go.onclick=onDone;
+    t.appendChild(go);
+    return t;
+  }
+
+  function unlock(gate){
+    S.unlocked[gate]=true;
+    if(S.unlockedOnAttempt[gate]==null) S.unlockedOnAttempt[gate]=1+S.wrongs[gate];
+    save();
+    container.innerHTML="";
+    container.appendChild(el("h3",null,"Gate "+gate+" is open"));
+    container.appendChild(el("p",null,"Tier "+gate+" unlocked on attempt "+S.unlockedOnAttempt[gate]+"."));
+    refresh();
+    var target=document.getElementById("tier"+gate);
+    if(target) target.scrollIntoView({behavior:"smooth",block:"start"});
+  }
+}
+
+var DOORLABEL=["Before the abduction","The laboratory","The Box","The many"];
+function renderRail(){
+  var r=document.getElementById("rail"); if(!r) return;
+  r.innerHTML="";
+  var here=0; for(var i=0;i<4;i++){ if(S.unlocked[i]) here=i; }
+  for(var t=0;t<4;t++){
+    (function(t){
+      var b=document.createElement("button");
+      b.className=(S.unlocked[t]?"open":"")+(t===here?" here":"");
+      b.setAttribute("aria-label",S.unlocked[t]?DOORLABEL[t]:"Tier "+t+", locked");
+      b.title=S.unlocked[t]?DOORLABEL[t]:"Locked";
+      b.appendChild(el("span","mark"));
+      if(!S.unlocked[t]) b.disabled=true;
+      b.onclick=function(){
+        var sec=document.getElementById("tier"+t);
+        if(sec) sec.scrollIntoView({behavior:"smooth",block:"start"});
+      };
+      r.appendChild(b);
+    })(t);
+  }
+}
+
+function renderBranches(){
+  var box=document.getElementById("branches");
+  if(!box || box.getAttribute("data-done")) return;
+  var X=[100,210,370,530,760], CY=170, SPR=[70,40,22];
+  var lv=[[CY]];
+  for(var L=0;L<3;L++){
+    var nx=[];
+    for(var i=0;i<lv[L].length;i++){ nx.push(lv[L][i]-SPR[L]); nx.push(lv[L][i]+SPR[L]); }
+    lv.push(nx);
+  }
+  var hot={}; // the branch the reader followed: 0 -> 1 -> 2 -> 5
+  hot["0-0-1"]=1; hot["1-1-2"]=1; hot["2-2-5"]=1; hot["3-5"]=1;
+  function curve(xa,ya,xb,yb){
+    var d=(xb-xa)*0.5;
+    return "M"+xa+" "+ya+" C"+(xa+d)+" "+ya+","+(xb-d)+" "+yb+","+xb+" "+yb;
+  }
+  var cold=[], warm=[];
+  for(var L=0;L<3;L++){
+    for(var i=0;i<lv[L].length;i++){
+      for(var c=0;c<2;c++){
+        var ci=2*i+c;
+        var d=curve(X[L],lv[L][i],X[L+1],lv[L+1][ci]);
+        (hot[L+"-"+i+"-"+ci]?warm:cold).push(d);
+      }
+    }
+  }
+  for(var j=0;j<lv[3].length;j++){
+    var d2=curve(X[3],lv[3][j],X[4],CY);
+    (hot["3-"+j]?warm:cold).push(d2);
+  }
+  var s='<svg viewBox="0 0 830 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="One journey leaving the Box branches at every door and all the branches arrive back at the same Chicago">';
+  s+='<g fill="none" stroke="var(--seam)" stroke-width="1">'+cold.map(function(d){return '<path d="'+d+'"/>';}).join("")+'</g>';
+  s+='<g fill="none" stroke="var(--teal)" stroke-width="1.7">'+warm.map(function(d){return '<path d="'+d+'"/>';}).join("")+'</g>';
+  for(var L2=1;L2<=3;L2++){
+    for(var k=0;k<lv[L2].length;k++){
+      s+='<line x1="'+X[L2]+'" y1="'+(lv[L2][k]-6)+'" x2="'+X[L2]+'" y2="'+(lv[L2][k]+6)+'" stroke="var(--ink-dim)" stroke-width="1"/>';
+    }
+  }
+  s+='<rect x="62" y="154" width="32" height="32" fill="var(--ground)" stroke="var(--ink-dim)" stroke-width="1"/>';
+  s+='<line x1="70" y1="160" x2="70" y2="180" stroke="var(--ink-dim)" stroke-width="1"/>';
+  s+='<circle cx="772" cy="170" r="5" fill="var(--teal)"/>';
+  s+='<text x="78" y="212" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="13" fill="var(--ink-dim)">The Box</text>';
+  s+='<text x="772" y="212" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="13" fill="var(--ink-dim)">One Chicago</text>';
+  s+='</svg>';
+  box.innerHTML=s;
+  box.setAttribute("data-done","1");
+  var cap=document.getElementById("branchcap");
+  if(cap) cap.textContent="Every tick is a door. One man goes into the Box, and each door he does not open is still opened by a version of him who kept going. They are not copies and none of them is the spare. Every line on this diagram ends at the same address, where a woman and a boy are waiting for one of them.";
+}
+
+/* ============================================================
+   ITEM CHECK
+   Runs on load. Silent unless something needs fixing.
+   ============================================================ */
+function checkItems(maxSpread){
+  maxSpread = maxSpread || 8;
+  var problems=[];
+  Object.keys(SPINE).forEach(function(id){
+    SPINE[id].variants.forEach(function(v,i){
+      var where=id+" variant "+(i+1);
+      var lens=v.opts.map(function(o){return o.t.length;});
+      var spread=Math.max.apply(null,lens)-Math.min.apply(null,lens);
+      if(spread>maxSpread) problems.push(where+": options differ by "+spread+" characters (limit "+maxSpread+")");
+      var correct=v.opts.filter(function(o){return o.ok;});
+      if(correct.length!==1) problems.push(where+": "+correct.length+" correct answers, expected 1");
+      var labels=v.opts.filter(function(o){return !o.ok;}).map(function(o){return o.m;});
+      var seen={};
+      labels.forEach(function(l){
+        if(seen[l]) problems.push(where+': two distractors share the label "'+l+'"');
+        seen[l]=1;
+      });
+      v.opts.forEach(function(o){
+        if(!o.ok && (!o.e || o.e.length<20)) problems.push(where+': distractor "'+o.t+'" has no real feedback');
+      });
+    });
+    if(!SPINE[id].ch || !SPINE[id].ch.length) problems.push(id+": no chapter numbers, so the band will be blank");
+    if(!SPINE[id].locator) problems.push(id+": no locator, so failure feedback cannot send them anywhere");
+  });
+  var n=0; Object.keys(SPINE).forEach(function(id){ n+=SPINE[id].variants.length; });
+  if(problems.length){
+    console.warn("Item check: "+problems.length+" problem(s) in "+n+" questions");
+    problems.forEach(function(p){ console.warn("  "+p); });
+  } else {
+    console.log("Item check: "+n+" questions, nothing to fix.");
+  }
+  return problems;
+}
+window.checkItems=checkItems;
+
+/* ============================================================
+   REFRESH
+   ============================================================ */
+function refresh(){
+  renderStrip();
+  renderRail();
+  for(var i=0;i<4;i++){
+    var sec=document.getElementById("tier"+i);
+    if(!sec) continue;
+    if(S.unlocked[i]){ sec.classList.remove("hidden"); renderCards(i); }
+    else sec.classList.add("hidden");
+  }
+  for(var g=1;g<=3;g++){
+    var w=document.getElementById("gate"+g+"wrap");
+    if(!w) continue;
+    if(S.unlocked[g]){
+      w.classList.remove("hidden");
+      w.innerHTML="";
+      var done=el("div","gate");
+      done.appendChild(el("h3",null,"Gate "+g+" is open"));
+      done.appendChild(el("div","meta","Tier "+g+" unlocked on attempt "+S.unlockedOnAttempt[g]+"."));
+      w.appendChild(done);
+    }
+    else if(S.unlocked[g-1]){ renderGate(g); }
+    else { w.classList.add("hidden"); }
+  }
+  var sem=document.getElementById("seminar");
+  if(S.unlocked[3]){ sem.classList.remove("hidden"); renderSeminar(); renderBranches(); }
+  else sem.classList.add("hidden");
+
+  // export code
+  var line=document.getElementById("exportline");
+  if(S.unlocked[3]){
+    var code="DM-"+S.unlockedOnAttempt.slice(1).join(".")+"-"+
+      (S.wrongs.reduce(function(a,b){return a+b;},0)).toString(36).toUpperCase();
+    line.innerHTML='Show this at the seminar: <span class="code">'+code+'</span>';
+  } else { line.textContent=""; }
+}
+
+document.getElementById("reset").onclick=function(){
+  if(!confirm("Clear everything and start from tier 0?")) return;
+  store.del(KEY);
+  S.unlocked=[true,false,false,false];
+  S.wrongs=[0,0,0,0];
+  S.unlockedOnAttempt=[1,null,null,null];
+  S.seenVariants={}; S.resurface=[]; S.seminar={};
+  save(); refresh();
+  window.scrollTo({top:0,behavior:"smooth"});
+};
+
+refresh();
+checkItems();
+</script>
+</body>
+</html>
